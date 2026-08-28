@@ -1,0 +1,1723 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admission Status · MM Technical University</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+
+    <style>
+
+        body {
+            background: #eef3fb;
+            font-family: "Inter", "Segoe UI", sans-serif;
+            color: #1c2430;
+            font-size: 12px;
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .page-header {
+
+            background: linear-gradient(
+                135deg,
+                #0b2c5c,
+                #16407e
+            );
+
+            color: white;
+
+            padding: 28px 0;
+
+            margin-bottom: 25px;
+        }
+
+
+        .page-header h2 {
+
+            font-family: Georgia, serif;
+
+            font-weight: 700;
+
+            margin-bottom: 4px;
+
+            font-size: 24px;
+        }
+
+
+        .page-header p {
+
+            color: #c9d7eb;
+
+            margin: 0;
+
+            font-size: 12px;
+        }
+
+
+        /* ==============================
+           CARD
+        ============================== */
+
+        .status-card {
+
+            background: white;
+
+            border: 1px solid #d9e3f2;
+
+            border-radius: 12px;
+
+            margin-bottom: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 6px 20px rgba(11,44,92,.07);
+        }
+
+
+        /* ==============================
+           APPLICATION HEADER
+        ============================== */
+
+        .application-header {
+
+            background: #f7faff;
+
+            border-bottom: 1px solid #d9e3f2;
+
+            padding: 13px 18px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .application-number {
+
+            color: #0b2c5c;
+
+            font-family: monospace;
+
+            font-weight: 700;
+
+            font-size: 12px;
+        }
+
+
+        .application-date {
+
+            color: #7a8797;
+
+            font-size: 10px;
+
+            margin-top: 2px;
+        }
+
+
+        /* ==============================
+           STATUS BADGE
+        ============================== */
+
+        .status-badge {
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        .status-pending {
+
+            background: #fff3cd;
+
+            color: #997404;
+        }
+
+
+        .status-college {
+
+            background: #e8f1ff;
+
+            color: #1557a6;
+        }
+
+
+        .status-university {
+
+            background: #eee8ff;
+
+            color: #6138a5;
+        }
+
+
+        .status-approved {
+
+            background: #dff5e9;
+
+            color: #177245;
+        }
+
+
+        .status-rejected {
+
+            background: #fde4e4;
+
+            color: #a52d2d;
+        }
+
+
+        .status-default {
+
+            background: #edf1f5;
+
+            color: #58677a;
+        }
+
+
+        /* ==============================
+           BODY
+        ============================== */
+
+        .application-body {
+
+            padding: 16px;
+        }
+
+
+        /* ==============================
+           INFO BOX
+        ============================== */
+
+        .info-box {
+
+            background: #f8faff;
+
+            border: 1px solid #e1e8f3;
+
+            border-radius: 7px;
+
+            padding: 9px 11px;
+
+            height: 100%;
+        }
+
+
+        .info-label {
+
+            color: #7b8797;
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .05em;
+
+            margin-bottom: 3px;
+        }
+
+
+        .info-value {
+
+            color: #0b2c5c;
+
+            font-weight: 700;
+
+            font-size: 11px;
+
+            line-height: 1.35;
+
+            word-break: break-word;
+        }
+
+
+        /* ==============================
+           VERIFICATION
+        ============================== */
+
+        .verification-section {
+
+            margin-top: 14px;
+
+            border: 1px solid #dfe6ef;
+
+            border-radius: 8px;
+
+            overflow: hidden;
+        }
+
+
+        .verification-title {
+
+            background: #f1f5fa;
+
+            color: #0b2c5c;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            padding: 8px 11px;
+
+            border-bottom: 1px solid #dfe6ef;
+        }
+
+
+        .verification-row {
+
+            display: grid;
+
+            grid-template-columns:
+                1.2fr
+                1fr
+                1fr
+                .8fr;
+
+            border-bottom: 1px solid #edf0f4;
+        }
+
+
+        .verification-row:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .verification-cell {
+
+            padding: 7px 10px;
+
+            font-size: 10px;
+
+            border-right: 1px solid #edf0f4;
+
+            word-break: break-word;
+        }
+
+
+        .verification-cell:last-child {
+
+            border-right: none;
+        }
+
+
+        .verification-label {
+
+            color: #6f7c8e;
+
+            display: block;
+
+            font-size: 9px;
+        }
+
+
+        .verification-value {
+
+            color: #182b44;
+
+            font-weight: 600;
+        }
+
+
+        .verified {
+
+            color: #16824f;
+
+            font-weight: 700;
+        }
+
+
+        .not-verified {
+
+            color: #c0392b;
+
+            font-weight: 700;
+        }
+
+
+        /* ==============================
+           VERIFICATION SUCCESS
+        ============================== */
+
+        .verification-success {
+
+            margin-top: 10px;
+
+            padding: 9px 11px;
+
+            background: #edf9f2;
+
+            border: 1px solid #ccebd8;
+
+            border-radius: 7px;
+
+            color: #197346;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+
+        /* ==============================
+           VERIFICATION ERROR
+        ============================== */
+
+        .verification-error {
+
+            margin-top: 10px;
+
+            padding: 9px 11px;
+
+            background: #fff1f1;
+
+            border: 1px solid #f0cccc;
+
+            border-left: 4px solid #c0392b;
+
+            border-radius: 7px;
+
+            color: #8e2d2d;
+
+            font-size: 10px;
+        }
+
+
+        .verification-error strong {
+
+            color: #a52d2d;
+        }
+
+
+        .error-item {
+
+            margin-top: 3px;
+
+            padding-left: 3px;
+        }
+
+
+        /* ==============================
+           ALLOTMENT
+        ============================== */
+
+        .allotment-box {
+
+            margin-top: 12px;
+
+            padding: 11px;
+
+            background: #f1f7ff;
+
+            border: 1px solid #cbdff7;
+
+            border-radius: 8px;
+        }
+
+
+        .allotment-title {
+
+            color: #0b2c5c;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+
+        .allotment-item {
+
+            display: inline-block;
+
+            margin-right: 25px;
+
+            font-size: 10px;
+        }
+
+
+        .allotment-item span {
+
+            color: #748196;
+
+            margin-right: 4px;
+        }
+
+
+        .allotment-item strong {
+
+            color: #173a65;
+        }
+
+
+        /* ==============================
+           REMARK
+        ============================== */
+
+        .remark {
+
+            margin-top: 12px;
+
+            padding: 10px 12px;
+
+            border-radius: 7px;
+
+            background: #fff8e8;
+
+            border: 1px solid #f0dfb0;
+
+            font-size: 10px;
+        }
+
+
+        .remark strong {
+
+            color: #8b641b;
+        }
+
+
+        /* ==============================
+           REJECTION
+        ============================== */
+
+        .rejection-box {
+
+            margin-top: 12px;
+
+            padding: 11px 13px;
+
+            background: #fff1f1;
+
+            border: 1px solid #efcaca;
+
+            border-left: 4px solid #c0392b;
+
+            border-radius: 7px;
+
+            color: #8e2d2d;
+
+            font-size: 10px;
+        }
+
+
+        .rejection-box strong {
+
+            color: #a52d2d;
+
+            font-size: 10px;
+        }
+
+
+        .rejection-reason {
+
+            margin-top: 5px;
+
+            padding: 6px 8px;
+
+            background: white;
+
+            border: 1px solid #f1d4d4;
+
+            border-radius: 5px;
+
+            color: #7d2929;
+        }
+
+
+        .apply-again-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            margin-top: 9px;
+
+            padding: 5px 11px;
+
+            border-radius: 5px;
+
+            background: #c0392b;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            border: none;
+        }
+
+
+        .apply-again-btn:hover {
+
+            background: #a52d2d;
+
+            color: white;
+        }
+
+
+        /* ==============================
+           BACK BUTTON
+        ============================== */
+
+        .back-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            background: #0b2c5c;
+
+            color: white;
+
+            padding: 7px 14px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            font-size: 11px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .back-btn:hover {
+
+            background: #16407e;
+
+            color: white;
+        }
+
+
+        /* ==============================
+           EMPTY
+        ============================== */
+
+        .empty-box {
+
+            background: white;
+
+            border: 1px solid #d9e3f2;
+
+            border-radius: 12px;
+
+            padding: 50px 20px;
+
+            text-align: center;
+        }
+
+
+        .empty-box i {
+
+            font-size: 42px;
+
+            color: #9aabc2;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media(max-width:768px) {
+
+            .application-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .verification-row {
+
+                grid-template-columns: 1fr 1fr;
+            }
+
+
+            .verification-cell {
+
+                border-bottom: 1px solid #edf0f4;
+            }
+
+
+            .allotment-item {
+
+                display: block;
+
+                margin-bottom: 5px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     PAGE HEADER
+====================================================== -->
+
+<div class="page-header">
+
+    <div class="container">
+
+        <h2>
+
+            <i class="fa-solid fa-circle-check me-2"></i>
+
+            Admission Status
+
+        </h2>
+
+        <p>
+
+            Track your admission application, verification,
+            approval and allotment status.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- =================================================
+         BACK
+    ================================================== -->
+
+    <a
+        href="{% url 's_dashboard' %}"
+        class="back-btn"
+    >
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Dashboard
+
+    </a>
+
+
+    {% if applications %}
+
+
+        {% for application in applications %}
+
+
+            <div class="status-card">
+
+
+                <!-- =====================================
+                     APPLICATION HEADER
+                ====================================== -->
+
+                <div class="application-header">
+
+
+                    <div>
+
+                        <div class="application-number">
+
+                            APP-{{ application.id|stringformat:"05d" }}
+
+                        </div>
+
+
+                        <div class="application-date">
+
+                            Applied:
+
+                            {{ application.applied_date|date:"d M Y, h:i A" }}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    {% if application.status == "Pending" %}
+
+                        <span class="status-badge status-pending">
+
+                            <i class="fa-solid fa-clock me-1"></i>
+
+                            Pending
+
+                        </span>
+
+
+                    {% elif application.status == "College Verified" %}
+
+                        <span class="status-badge status-college">
+
+                            <i class="fa-solid fa-building-columns me-1"></i>
+
+                            College Verified
+
+                        </span>
+
+
+                    {% elif application.status == "University Verified" %}
+
+                        <span class="status-badge status-university">
+
+                            <i class="fa-solid fa-university me-1"></i>
+
+                            University Verified / Allotted
+
+                        </span>
+
+
+                    {% elif application.status == "Approved" %}
+
+                        <span class="status-badge status-approved">
+
+                            <i class="fa-solid fa-circle-check me-1"></i>
+
+                            Approved
+
+                        </span>
+
+
+                    {% elif application.status == "Rejected" %}
+
+                        <span class="status-badge status-rejected">
+
+                            <i class="fa-solid fa-circle-xmark me-1"></i>
+
+                            Rejected
+
+                        </span>
+
+
+                    {% else %}
+
+                        <span class="status-badge status-default">
+
+                            {{ application.status }}
+
+                        </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <!-- =====================================
+                     APPLICATION BODY
+                ====================================== -->
+
+                <div class="application-body">
+
+
+                    <!-- BASIC APPLICATION DETAILS -->
+
+                    <div class="row g-2">
+
+
+                        <!-- COLLEGE -->
+
+                        <div class="col-md-3">
+
+                            <div class="info-box">
+
+                                <div class="info-label">
+
+                                    College
+
+                                </div>
+
+                                <div class="info-value">
+
+                                    {{ application.college.college_name }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DEPARTMENT -->
+
+                        <div class="col-md-3">
+
+                            <div class="info-box">
+
+                                <div class="info-label">
+
+                                    Department
+
+                                </div>
+
+                                <div class="info-value">
+
+                                    {{ application.department.department_name }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COURSE -->
+
+                        <div class="col-md-3">
+
+                            <div class="info-box">
+
+                                <div class="info-label">
+
+                                    Course
+
+                                </div>
+
+                                <div class="info-value">
+
+                                    {{ application.course.course_name }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PAYMENT -->
+
+                        <div class="col-md-3">
+
+                            <div class="info-box">
+
+                                <div class="info-label">
+
+                                    Payment
+
+                                </div>
+
+                                <div class="info-value">
+
+                                    {% if application.payment_status == "Paid" %}
+
+                                        <span class="verified">
+
+                                            <i class="fa-solid fa-circle-check"></i>
+
+                                            Paid
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span style="color:#a97900;">
+
+                                            <i class="fa-solid fa-clock"></i>
+
+                                            Pending
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- =================================
+                         VERIFICATION DETAILS
+                    ================================== -->
+
+                    {% with verification=application.percentage_verification %}
+
+
+                        {% if verification %}
+
+
+                            <div class="verification-section">
+
+
+                                <!-- TITLE -->
+
+                                <div class="verification-title">
+
+                                    <i class="fa-solid fa-file-circle-check me-1"></i>
+
+                                    Certificate Verification
+
+                                </div>
+
+
+                                <!-- TABLE HEADER -->
+
+                                <div class="verification-row">
+
+
+                                    <div class="verification-cell">
+
+                                        <span class="verification-label">
+
+                                            Verification Field
+
+                                        </span>
+
+                                        <span class="verification-value">
+
+                                            Field
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        <span class="verification-label">
+
+                                            Registered
+
+                                        </span>
+
+                                        <span class="verification-value">
+
+                                            Value
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        <span class="verification-label">
+
+                                            Certificate
+
+                                        </span>
+
+                                        <span class="verification-value">
+
+                                            Value
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        <span class="verification-label">
+
+                                            Status
+
+                                        </span>
+
+                                        <span class="verification-value">
+
+                                            Result
+
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- =================================
+                                     NAME
+                                ================================== -->
+
+                                <div class="verification-row">
+
+
+                                    <div class="verification-cell">
+
+                                        <span class="verification-label">
+
+                                            Name
+
+                                        </span>
+
+                                        <span class="verification-value">
+
+                                            Student Name
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {{ verification.registered_name|default:"—" }}
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {{ verification.certificate_name|default:"—" }}
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {% if verification.name_verified %}
+
+                                            <span class="verified">
+
+                                                ✓ MATCH
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="not-verified">
+
+                                                ✕ NOT MATCH
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- =================================
+                                     QUALIFICATION
+                                ================================== -->
+
+                                <div class="verification-row">
+
+
+                                    <div class="verification-cell">
+
+                                        <span class="verification-label">
+
+                                            Qualification
+
+                                        </span>
+
+                                        <span class="verification-value">
+
+                                            Qualification
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {{ verification.registered_qualification|default:"—" }}
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {{ verification.certificate_qualification|default:"—" }}
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {% if verification.qualification_verified %}
+
+                                            <span class="verified">
+
+                                                ✓ MATCH
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="not-verified">
+
+                                                ✕ NOT MATCH
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- =================================
+                                     PERCENTAGE
+                                ================================== -->
+
+                                <div class="verification-row">
+
+
+                                    <div class="verification-cell">
+
+                                        <span class="verification-label">
+
+                                            Percentage
+
+                                        </span>
+
+                                        <span class="verification-value">
+
+                                            Plus Two %
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {% if verification.registered_percentage %}
+
+                                            {{ verification.registered_percentage }}%
+
+                                        {% else %}
+
+                                            —
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {% if verification.certificate_percentage %}
+
+                                            {{ verification.certificate_percentage }}%
+
+                                        {% else %}
+
+                                            —
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    <div class="verification-cell">
+
+                                        {% if verification.percentage_verified %}
+
+                                            <span class="verified">
+
+                                                ✓ MATCH
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="not-verified">
+
+                                                ✕ NOT MATCH
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- =================================
+                                 OVERALL VERIFICATION
+                            ================================== -->
+
+                            {% if verification.is_verified %}
+
+
+                                <div class="verification-success">
+
+                                    <i class="fa-solid fa-circle-check me-1"></i>
+
+                                    <strong>
+
+                                        Overall Verification Passed.
+
+                                    </strong>
+
+                                    Name, qualification and percentage
+                                    successfully matched with the certificate.
+
+                                </div>
+
+
+                            {% else %}
+
+
+                                <div class="verification-error">
+
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>
+
+                                    <strong>
+
+                                        Verification Failed
+
+                                    </strong>
+
+
+                                    <!-- NAME ERROR -->
+
+                                    {% if not verification.name_verified %}
+
+                                        <div class="error-item">
+
+                                            • <strong>Name:</strong>
+
+                                            Registered name does not match
+                                            the certificate name.
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <!-- QUALIFICATION ERROR -->
+
+                                    {% if not verification.qualification_verified %}
+
+                                        <div class="error-item">
+
+                                            • <strong>Qualification:</strong>
+
+                                            Registered qualification does not
+                                            match the certificate qualification.
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <!-- PERCENTAGE ERROR -->
+
+                                    {% if not verification.percentage_verified %}
+
+                                        <div class="error-item">
+
+                                            • <strong>Percentage:</strong>
+
+                                            Registered percentage does not
+                                            match the certificate percentage.
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <!-- ALL CHECK FAILED -->
+
+                                    {% if not verification.name_verified and not verification.qualification_verified and not verification.percentage_verified %}
+
+                                        <div class="error-item">
+
+                                            • <strong>Overall:</strong>
+
+                                            Name, qualification and percentage
+                                            verification failed.
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            {% endif %}
+
+
+                        {% else %}
+
+
+                            <!-- NO VERIFICATION RECORD -->
+
+                            <div class="verification-error">
+
+                                <i class="fa-solid fa-triangle-exclamation me-1"></i>
+
+                                <strong>
+
+                                    Verification Not Available.
+
+                                </strong>
+
+                                <div class="error-item">
+
+                                    • Certificate verification has not been
+                                    completed by University Staff yet.
+
+                                </div>
+
+                            </div>
+
+
+                        {% endif %}
+
+
+                    {% endwith %}
+
+
+                    <!-- =================================
+                         ALLOTMENT DETAILS
+                    ================================== -->
+
+                    {% if application.student.allotted_college %}
+
+
+                        <div class="allotment-box">
+
+
+                            <div class="allotment-title">
+
+                                <i class="fa-solid fa-graduation-cap me-1"></i>
+
+                                College Allotment
+
+                            </div>
+
+
+                            <div class="allotment-item">
+
+                                <span>College:</span>
+
+                                <strong>
+
+                                    {{ application.student.allotted_college.college_name }}
+
+                                </strong>
+
+                            </div>
+
+
+                            {% if application.student.allotted_course %}
+
+                                <div class="allotment-item">
+
+                                    <span>Course:</span>
+
+                                    <strong>
+
+                                        {{ application.student.allotted_course.course_name }}
+
+                                    </strong>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            {% if application.student.allotted_date %}
+
+                                <div class="allotment-item">
+
+                                    <span>Allotted On:</span>
+
+                                    <strong>
+
+                                        {{ application.student.allotted_date|date:"d M Y, h:i A" }}
+
+                                    </strong>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <div style="margin-top:7px;">
+
+                                <span class="verified">
+
+                                    <i class="fa-solid fa-circle-check me-1"></i>
+
+                                    Student allotted to college by
+                                    University Staff.
+
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                    <!-- =================================
+                         COLLEGE REMARK
+                    ================================== -->
+
+                    {% if application.college_remark %}
+
+
+                        <div class="remark">
+
+                            <strong>
+
+                                <i class="fa-solid fa-building me-1"></i>
+
+                                College Remark:
+
+                            </strong>
+
+                            {{ application.college_remark }}
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                    <!-- =================================
+                         UNIVERSITY REMARK
+                    ================================== -->
+
+                    {% if application.staff_remark %}
+
+
+                        <div class="remark">
+
+                            <strong>
+
+                                <i class="fa-solid fa-user-tie me-1"></i>
+
+                                University Remark:
+
+                            </strong>
+
+                            {{ application.staff_remark }}
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                    <!-- =================================
+                         REJECTION DETAILS + APPLY AGAIN
+                    ================================== -->
+
+                    {% if application.status == "Rejected" %}
+
+
+                        <div class="rejection-box">
+
+
+                            <strong>
+
+                                <i class="fa-solid fa-circle-xmark me-1"></i>
+
+                                Application Rejected
+
+                            </strong>
+
+
+                            <div class="rejection-reason">
+
+
+                                {% if application.staff_remark %}
+
+                                    <strong>Reason:</strong>
+
+                                    {{ application.staff_remark }}
+
+
+                                {% elif application.college_remark %}
+
+                                    <strong>Reason:</strong>
+
+                                    {{ application.college_remark }}
+
+
+                                {% else %}
+
+                                    <strong>Reason:</strong>
+
+                                    The application was rejected by
+                                    the admission authority.
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                            <!-- APPLY AGAIN -->
+
+                            <a
+                                href="{% url 'admission_apply' %}"
+                                class="apply-again-btn"
+                            >
+
+                                <i class="fa-solid fa-rotate-right"></i>
+
+                                Apply Again
+
+                            </a>
+
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                    <!-- =================================
+                         APPROVED MESSAGE
+                    ================================== -->
+
+                    {% if application.status == "Approved" %}
+
+
+                        <div class="verification-success">
+
+                            <i class="fa-solid fa-circle-check me-1"></i>
+
+                            <strong>
+
+                                Admission Approved
+
+                            </strong>
+
+                            Your admission application has been
+                            approved by the University.
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <!-- =============================================
+             EMPTY STATE
+        ============================================== -->
+
+        <div class="empty-box">
+
+
+            <i class="fa-solid fa-folder-open"></i>
+
+
+            <h5>
+
+                No Applications Found
+
+            </h5>
+
+
+            <p class="text-muted">
+
+                You have not submitted any admission
+                applications yet.
+
+            </p>
+
+
+            <a
+                href="{% url 'admission_apply' %}"
+                class="btn btn-primary btn-sm"
+            >
+
+                <i class="fa-solid fa-plus me-1"></i>
+
+                Apply for Admission
+
+            </a>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>
+```

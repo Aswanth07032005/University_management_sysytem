@@ -1,0 +1,249 @@
+{% extends "staff/staff_dashboard.html" %}
+
+{% block content %}
+
+<style>
+    :root{
+        --navy-dark:#0B2C5C;
+        --navy:#16407E;
+        --navy-soft:#EAF0FA;
+        --blue-pale:#EEF3FB;
+        --blue-line:#D9E3F2;
+        --gold:#C9A227;
+        --ink:#1C2430;
+        --muted:#6B7383;
+        --error:#B23A48;
+    }
+
+    .edit-shell{
+        max-width:760px;
+        margin:0 auto;
+    }
+
+    .edit-card{
+        background:#fff;
+        border:1px solid var(--blue-line);
+        border-radius:14px;
+        overflow:hidden;
+        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+    }
+
+    .edit-header{
+        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
+        color:#fff;
+        padding:26px 32px;
+        display:flex;
+        align-items:center;
+        gap:14px;
+        position:relative;
+    }
+
+    .edit-header::after{
+        content:"";
+        position:absolute;
+        left:0; right:0; bottom:0;
+        height:3px;
+        background:var(--gold);
+    }
+
+    .edit-header .icon-wrap{
+        width:42px; height:42px;
+        border-radius:10px;
+        background:rgba(255,255,255,0.14);
+        border:1px solid rgba(244,197,66,0.5);
+        display:flex; align-items:center; justify-content:center;
+        font-size:17px;
+        color:var(--gold);
+        flex:none;
+    }
+
+    .edit-header h4{
+        margin:0;
+        font-family:"Georgia","Times New Roman",serif;
+        font-weight:700;
+        font-size:19px;
+    }
+
+    .edit-header p{
+        margin:2px 0 0;
+        font-size:12.5px;
+        color:#C7D6EE;
+    }
+
+    .edit-body{
+        padding:32px 32px 28px;
+    }
+
+    .field-group{
+        margin-bottom:18px;
+    }
+
+    .field-group label{
+        display:block;
+        font-size:13px;
+        font-weight:600;
+        color:var(--ink);
+        margin-bottom:6px;
+    }
+
+    /* Style the rendered Django widgets directly */
+    .edit-body input[type="text"],
+    .edit-body input[type="email"],
+    .edit-body input[type="tel"],
+    .edit-body input:not([type]),
+    .edit-body select,
+    .edit-body textarea{
+        font-family:inherit;
+        font-size:14.5px;
+        padding:10px 14px;
+        border:1px solid #C7D2E3;
+        border-radius:8px;
+        background:#FBFCFE;
+        color:var(--ink);
+        outline:none;
+        width:100%;
+        box-sizing:border-box;
+        transition:border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .edit-body input:focus,
+    .edit-body select:focus,
+    .edit-body textarea:focus{
+        border-color:var(--navy);
+        box-shadow:0 0 0 3px rgba(22,64,126,0.14);
+        background:#fff;
+    }
+
+    .edit-body .helptext{
+        font-size:12px;
+        color:var(--muted);
+        display:block;
+        margin-top:4px;
+    }
+
+    .edit-body ul.errorlist{
+        list-style:none;
+        margin:4px 0 0;
+        padding:0;
+        font-size:12.5px;
+        color:var(--error);
+    }
+
+    .edit-actions{
+        display:flex;
+        justify-content:flex-end;
+        gap:10px;
+        margin-top:10px;
+        padding-top:22px;
+        border-top:1px solid var(--blue-line);
+    }
+
+    .btn-save{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        background:var(--navy-dark);
+        color:#fff;
+        border:none;
+        font-size:13.5px;
+        font-weight:600;
+        padding:10px 20px;
+        border-radius:8px;
+        cursor:pointer;
+        text-decoration:none;
+        transition:background .15s ease, transform .1s ease;
+    }
+
+    .btn-save:hover{ background:var(--navy); color:#fff; }
+    .btn-save:active{ transform:translateY(1px); }
+
+    .btn-back{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        background:#fff;
+        color:var(--muted);
+        border:1px solid var(--blue-line);
+        font-size:13.5px;
+        font-weight:600;
+        padding:10px 20px;
+        border-radius:8px;
+        text-decoration:none;
+        transition:background .15s ease, color .15s ease;
+    }
+
+    .btn-back:hover{
+        background:var(--blue-pale);
+        color:var(--ink);
+    }
+
+    @media (max-width:576px){
+        .edit-body{ padding:26px 22px 22px; }
+        .edit-header{ padding:22px 22px; }
+        .edit-actions{ flex-direction:column-reverse; }
+        .btn-save, .btn-back{ justify-content:center; width:100%; }
+    }
+</style>
+
+<div class="edit-shell">
+
+    <div class="edit-card">
+
+        <div class="edit-header">
+            <div class="icon-wrap"><i class="fa-solid fa-user-pen"></i></div>
+            <div>
+                <h4>Edit Staff Profile</h4>
+                <p>Update your contact and qualification details</p>
+            </div>
+        </div>
+
+        <div class="edit-body">
+
+            <form method="POST" novalidate>
+
+                {% csrf_token %}
+
+                <div class="field-group">
+                    <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                    {{ form.full_name }}
+                    {{ form.full_name.errors }}
+                </div>
+
+                <div class="field-group">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+
+                <div class="field-group">
+                    <label for="{{ form.phone.id_for_label }}">Phone</label>
+                    {{ form.phone }}
+                    {{ form.phone.errors }}
+                </div>
+
+                <div class="field-group">
+                    <label for="{{ form.qualification.id_for_label }}">Qualification</label>
+                    {{ form.qualification }}
+                    {{ form.qualification.errors }}
+                </div>
+
+                <div class="edit-actions">
+                    <a href="{% url 'staff_profile' %}" class="btn-back">
+                        Back
+                    </a>
+
+                    <button type="submit" class="btn-save">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

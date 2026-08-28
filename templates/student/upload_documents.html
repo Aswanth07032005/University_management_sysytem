@@ -1,0 +1,55 @@
+
+{% extends "student/student_dashboard.html" %}
+
+{% block content %}
+
+
+<form method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>SSLC Certificate</label>
+        {{ form.sslc_certificate }}
+    </div>
+
+    <div class="mb-3">
+        <label>Plus Two Certificate</label>
+        {{ form.plus_two_certificate }}
+    </div>
+
+    <div class="mb-3">
+        <label>Transfer Certificate</label>
+        {{ form.transfer_certificate }}
+    </div>
+
+    <div class="mb-3">
+        <label>Conduct Certificate</label>
+        {{ form.conduct_certificate }}
+    </div>
+
+    <div class="mb-3">
+        <label>Income Certificate</label>
+        {{ form.income_certificate }}
+    </div>
+
+    <div class="mb-3">
+        <label>Caste Certificate</label>
+        {{ form.caste_certificate }}
+    </div>
+
+    <div class="mb-3">
+        <label>Passport Size Photo</label>
+        {{ form.passport_photo }}
+    </div>
+
+    <button class="btn btn-primary">
+        Upload Documents
+    </button>
+
+</form>
+
+
+
+
+{% endblock %}

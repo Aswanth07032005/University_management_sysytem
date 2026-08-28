@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Payment &middot; University of Calicut</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+            --navy:        #0a2f5c;
+            --navy-deep:   #061d3d;
+            --blue:        #1861a6;
+            --blue-soft:   #2f79c2;
+            --sky:         #d8e6f5;
+            --pale:        #eef4fb;
+            --white:       #ffffff;
+            --ink:         #12233a;
+            --ink-soft:    #52698a;
+            --beacon:      #f2a531;
+            --beacon-deep: #c97f14;
+            --success:     #1c7a4d;
+            --success-tint:#e5f4ec;
+            --danger:      #b23b3b;
+            --danger-tint: #fbeced;
+            --rule:        #d3e0f0;
+
+            --display: "Merriweather", Georgia, serif;
+            --body:    "Source Sans 3", -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono:    "IBM Plex Mono", monospace;
+        }
+
+        *{ box-sizing:border-box; }
+
+        body{
+            margin:0;
+            background:var(--pale);
+            font-family:var(--body);
+            color:var(--ink);
+            -webkit-font-smoothing:antialiased;
+        }
+
+        .wrap{
+            max-width:980px;
+            margin:0 auto;
+            padding:0 24px 80px;
+        }
+
+        /* ---------- masthead (matches admission application) ---------- */
+
+        .masthead{
+            background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+            color:var(--white);
+            position:relative;
+            overflow:hidden;
+        }
+
+        .beam-field{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+
+        .beam{
+            position:absolute;
+            top:-40%; left:50%;
+            width:5px; height:220%;
+            background:linear-gradient(180deg, rgba(242,165,49,.32), rgba(242,165,49,0) 70%);
+            transform-origin:top center;
+            animation:sweep 9s ease-in-out infinite;
+            filter:blur(1px);
+        }
+
+        @keyframes sweep{
+            0%   { transform:rotate(-38deg); opacity:.55; }
+            50%  { transform:rotate(38deg);  opacity:.85; }
+            100% { transform:rotate(-38deg); opacity:.55; }
+        }
+
+        .top-strip{
+            background:var(--navy-deep);
+            border-bottom:1px solid rgba(255,255,255,.08);
+            padding:8px 24px;
+            position:relative;
+            z-index:1;
+        }
+
+        .top-strip-inner{
+            max-width:980px;
+            margin:0 auto;
+            display:flex;
+            justify-content:space-between;
+            font-family:var(--mono);
+            font-size:11px;
+            letter-spacing:.06em;
+            color:#a9c2e0;
+        }
+
+        .masthead-inner{
+            max-width:980px;
+            margin:0 auto;
+            padding:32px 24px 28px;
+            display:flex;
+            align-items:center;
+            gap:20px;
+            position:relative;
+            z-index:1;
+        }
+
+        .seal{
+            width:60px; height:60px;
+            border-radius:50%;
+            border:2px solid var(--beacon);
+            box-shadow:0 0 0 4px rgba(242,165,49,.14);
+            display:flex; align-items:center; justify-content:center;
+            flex:none;
+            background:var(--navy-deep);
+        }
+
+        .seal svg{ width:32px; height:32px; }
+
+        .eyebrow{
+            font-family:var(--mono);
+            font-size:11px;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            color:var(--beacon);
+            margin:0 0 8px;
+        }
+
+        h1.title{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:clamp(24px,3.4vw,32px);
+            line-height:1.1;
+            margin:0;
+        }
+
+        .title-sub{
+            font-family:var(--body);
+            font-size:14px;
+            color:#c3d5ec;
+            margin:6px 0 0;
+        }
+
+        .tricolor-rule{
+            height:4px;
+            background:linear-gradient(90deg, var(--beacon) 0 33%, var(--white) 33% 66%, var(--blue-soft) 66% 100%);
+            opacity:.9;
+        }
+
+        /* ---------- stat cards ---------- */
+
+        .stat-row{
+            display:grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap:16px;
+            margin-top:32px;
+        }
+
+        @media (max-width:640px){ .stat-row{ grid-template-columns:1fr; } }
+
+        .stat-card{
+            background:var(--white);
+            border:1px solid var(--rule);
+            border-radius:12px;
+            padding:20px;
+            text-align:center;
+            box-shadow:0 1px 3px rgba(10,47,92,.06);
+        }
+
+        .stat-label{
+            font-family:var(--mono);
+            font-size:11px;
+            letter-spacing:.08em;
+            text-transform:uppercase;
+            color:var(--ink-soft);
+            margin:0 0 8px;
+        }
+
+        .stat-value{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:30px;
+            margin:0;
+            color:var(--navy);
+        }
+
+        .stat-value.accent{ color:var(--blue); }
+
+        .status-pill{
+            display:inline-block;
+            font-family:var(--mono);
+            font-weight:600;
+            font-size:13px;
+            letter-spacing:.04em;
+            text-transform:uppercase;
+            color:var(--beacon-deep);
+            background:#fdf1de;
+            border:1px solid #f0d49f;
+            border-radius:20px;
+            padding:6px 16px;
+        }
+
+        /* ---------- ledger table ---------- */
+
+        .section-head{
+            display:flex;
+            align-items:baseline;
+            justify-content:space-between;
+            gap:16px;
+            margin:40px 0 18px;
+            border-bottom:2px solid var(--navy);
+            padding-bottom:10px;
+        }
+
+        .section-head h2{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:20px;
+            margin:0;
+            color:var(--navy);
+        }
+
+        .section-sub{
+            font-family:var(--mono);
+            font-size:12px;
+            color:var(--ink-soft);
+        }
+
+        .ledger{
+            background:var(--white);
+            border:1px solid var(--rule);
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 1px 3px rgba(10,47,92,.06);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            font-family:var(--body);
+            font-size:14px;
+        }
+
+        thead th{
+            background:var(--navy);
+            color:var(--white);
+            font-family:var(--mono);
+            font-weight:600;
+            font-size:11.5px;
+            letter-spacing:.06em;
+            text-transform:uppercase;
+            text-align:left;
+            padding:14px 16px;
+        }
+
+        thead th.num{ text-align:right; }
+
+        tbody td{
+            padding:13px 16px;
+            border-bottom:1px solid var(--rule);
+            color:var(--ink);
+            vertical-align:middle;
+        }
+
+        tbody tr:last-child td{ border-bottom:none; }
+
+        tbody tr:hover{ background:var(--pale); }
+
+        td.idx{
+            font-family:var(--mono);
+            font-size:12px;
+            color:#9fb2cc;
+            width:36px;
+        }
+
+        td.fee{
+            font-family:var(--mono);
+            font-weight:600;
+            color:var(--blue);
+            text-align:right;
+            white-space:nowrap;
+        }
+
+        tfoot td{
+            background:var(--navy-deep);
+            color:var(--white);
+            font-family:var(--display);
+            font-weight:700;
+            font-size:15px;
+            padding:16px;
+        }
+
+        tfoot td.label{ text-align:right; }
+
+        tfoot td.fee{
+            color:var(--beacon);
+            text-align:right;
+            font-family:var(--mono);
+            white-space:nowrap;
+        }
+
+        /* ---------- info note ---------- */
+
+        .info-note{
+            display:flex;
+            gap:14px;
+            align-items:flex-start;
+            background:var(--pale);
+            border:1px solid var(--rule);
+            border-left:3px solid var(--blue);
+            border-radius:8px;
+            padding:16px 18px;
+            margin-top:28px;
+        }
+
+        .info-note svg{ flex:none; width:20px; height:20px; margin-top:2px; }
+
+        .info-note strong{
+            display:block;
+            font-family:var(--body);
+            font-weight:700;
+            font-size:14px;
+            color:var(--navy);
+            margin-bottom:2px;
+        }
+
+        .info-note p{
+            font-family:var(--body);
+            font-size:13.5px;
+            color:var(--ink-soft);
+            margin:0;
+        }
+
+        /* ---------- pay button ---------- */
+
+        .pay-btn{
+            width:100%;
+            margin-top:28px;
+            padding:18px;
+            font-family:var(--body);
+            font-weight:700;
+            font-size:17px;
+            letter-spacing:.02em;
+            background:var(--beacon);
+            color:var(--navy-deep);
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+            transition:background .15s ease, transform .1s ease;
+        }
+
+        .pay-btn:hover{ background:#ffb84d; }
+        .pay-btn:active{ transform:translateY(1px); }
+
+        .pay-btn svg{ width:20px; height:20px; }
+
+        .secure-note{
+            font-family:var(--mono);
+            font-size:11px;
+            color:var(--ink-soft);
+            text-align:center;
+            margin-top:12px;
+        }
+
+        a:focus-visible, button:focus-visible{
+            outline:2px solid var(--beacon);
+            outline-offset:2px;
+        }
+
+        @media (prefers-reduced-motion: reduce){
+            *{ transition:none !important; }
+            .beam{ animation:none; opacity:.4; transform:rotate(0deg); }
+        }
+
+    </style>
+
+</head>
+<body>
+
+<header class="masthead">
+
+    <div class="top-strip">
+        <div class="top-strip-inner">
+            <span>Government of Kerala &middot; State University</span>
+            <span>uoc.ac.in</span>
+        </div>
+    </div>
+
+    <div class="beam-field" aria-hidden="true"><div class="beam"></div></div>
+
+    <div class="masthead-inner">
+        <div class="seal" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 4 L28 12 L20 12 Z" fill="#f2a531"/>
+                <path d="M20 12 H28 L27 18 H21 Z" fill="#eef4fb"/>
+                <path d="M21 18 H27 L29.5 40 H18.5 Z" fill="#eef4fb"/>
+                <path d="M22 22 H26 M20.6 28 H27.4 M19.2 34 H28.8" stroke="#0a2f5c" stroke-width="1.3"/>
+                <path d="M14.5 42 H33.5 L31.5 40 H16.5 Z" fill="#f2a531"/>
+                <path d="M10 40 H38" stroke="#f2a531" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div>
+            <p class="eyebrow">Office of Admissions &middot; University of Calicut</p>
+            <h1 class="title">Admission Payment</h1>
+            <p class="title-sub">Review your selected courses and complete the payment.</p>
+        </div>
+    </div>
+
+    <div class="tricolor-rule"></div>
+</header>
+
+<div class="wrap">
+
+    <div class="stat-row">
+
+        <div class="stat-card">
+            <p class="stat-label">Total Courses</p>
+            <p class="stat-value">{{ courses|length }}</p>
+        </div>
+
+        <div class="stat-card">
+            <p class="stat-label">Total Amount</p>
+            <p class="stat-value accent">&#8377; {{ amount }}</p>
+        </div>
+
+        <div class="stat-card">
+            <p class="stat-label">Status</p>
+            <span class="status-pill">Pending</span>
+        </div>
+
+    </div>
+
+    <div class="section-head">
+        <h2>Selected Courses</h2>
+        <span class="section-sub">{{ courses|length }} item{{ courses|length|pluralize }}</span>
+    </div>
+
+    <div class="ledger">
+        <table>
+
+            <thead>
+                <tr>
+                    <th class="num">#</th>
+                    <th>College</th>
+                    <th>Department</th>
+                    <th>Course</th>
+                    <th class="num">Fee</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for app in applications %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ app.college.college_name }}</td>
+    <td>{{ app.department.department_name }}</td>
+    <td>{{ app.course.course_name }}</td>
+    <td>₹{{ app.course.course_fee }}</td>
+</tr>
+{% endfor %}
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td class="label" colspan="4">Grand Total</td>
+                    <td class="fee">&#8377; {{ amount }}</td>
+                </tr>
+            </tfoot>
+
+        </table>
+    </div>
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <button class="pay-btn" type="submit">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2.5" y="5.5" width="19" height="13" rx="2" stroke="#061d3d" stroke-width="1.6"/>
+                <path d="M2.5 9.5h19" stroke="#061d3d" stroke-width="1.6"/>
+                <path d="M6 14.5h4" stroke="#061d3d" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            Pay &#8377; {{ amount }}
+        </button>
+
+    </form>
+
+    <p class="secure-note">Secured by the University of Calicut Admissions Office</p>
+
+</div>
+
+</body>
+</html>

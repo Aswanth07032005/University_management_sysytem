@@ -1,0 +1,268 @@
+{% extends "staff/staff_dashboard.html" %}
+
+{% block content %}
+
+<style>
+    :root{
+        --navy-dark:#0B2C5C;
+        --navy:#16407E;
+        --navy-soft:#EAF0FA;
+        --blue-pale:#EEF3FB;
+        --blue-line:#D9E3F2;
+        --gold:#C9A227;
+        --ink:#1C2430;
+        --muted:#6B7383;
+        --error:#B23A48;
+    }
+
+    .edit-shell{
+        max-width:520px;
+        margin:0 auto;
+    }
+
+    .edit-card{
+        background:#fff;
+        border:1px solid var(--blue-line);
+        border-radius:14px;
+        overflow:hidden;
+        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+    }
+
+    .edit-header{
+        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
+        color:#fff;
+        padding:26px 32px;
+        display:flex;
+        align-items:center;
+        gap:14px;
+        position:relative;
+    }
+
+    .edit-header::after{
+        content:"";
+        position:absolute;
+        left:0; right:0; bottom:0;
+        height:3px;
+        background:var(--gold);
+    }
+
+    .edit-header .icon-wrap{
+        width:42px; height:42px;
+        border-radius:10px;
+        background:rgba(255,255,255,0.14);
+        border:1px solid rgba(244,197,66,0.5);
+        display:flex; align-items:center; justify-content:center;
+        font-size:17px;
+        color:var(--gold);
+        flex:none;
+    }
+
+    .edit-header h4{
+        margin:0;
+        font-family:"Georgia","Times New Roman",serif;
+        font-weight:700;
+        font-size:18px;
+    }
+
+    .edit-header p{
+        margin:2px 0 0;
+        font-size:12.5px;
+        color:#C7D6EE;
+    }
+
+    .edit-body{
+        padding:30px 32px 28px;
+    }
+
+    .field-group{
+        margin-bottom:18px;
+    }
+
+    .field-group label{
+        display:block;
+        font-size:13px;
+        font-weight:600;
+        color:var(--ink);
+        margin-bottom:6px;
+    }
+
+    .field-group .form-control{
+        font-family:inherit;
+        font-size:14.5px;
+        padding:10px 14px;
+        border:1px solid #C7D2E3;
+        border-radius:8px;
+        background:#FBFCFE;
+        color:var(--ink);
+        outline:none;
+        width:100%;
+        box-sizing:border-box;
+        transition:border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .field-group .form-control:focus{
+        border-color:var(--navy);
+        box-shadow:0 0 0 3px rgba(22,64,126,0.14);
+        background:#fff;
+    }
+
+    .field-group.has-error .form-control{
+        border-color:var(--error);
+    }
+
+    .field-group.has-error .form-control:focus{
+        box-shadow:0 0 0 3px rgba(178,58,72,0.14);
+    }
+
+    .helptext{
+        font-size:12px;
+        color:var(--muted);
+        display:block;
+        margin-top:4px;
+    }
+
+    ul.errorlist{
+        list-style:none;
+        margin:4px 0 0;
+        padding:0;
+        font-size:12.5px;
+        color:var(--error);
+    }
+
+    .form-errors{
+        background:#FCEEF0;
+        border:1px solid rgba(178,58,72,0.3);
+        color:var(--error);
+        font-size:13px;
+        padding:12px 14px;
+        border-radius:8px;
+        margin-bottom:18px;
+    }
+
+    .edit-actions{
+        display:flex;
+        justify-content:flex-end;
+        gap:10px;
+        margin-top:10px;
+        padding-top:22px;
+        border-top:1px solid var(--blue-line);
+    }
+
+    .btn-save{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        background:var(--navy-dark);
+        color:#fff;
+        border:none;
+        font-size:13.5px;
+        font-weight:600;
+        padding:10px 20px;
+        border-radius:8px;
+        cursor:pointer;
+        text-decoration:none;
+        transition:background .15s ease, transform .1s ease;
+    }
+
+    .btn-save:hover{ background:var(--navy); color:#fff; }
+    .btn-save:active{ transform:translateY(1px); }
+
+    .btn-back{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        background:#fff;
+        color:var(--muted);
+        border:1px solid var(--blue-line);
+        font-size:13.5px;
+        font-weight:600;
+        padding:10px 20px;
+        border-radius:8px;
+        text-decoration:none;
+        transition:background .15s ease, color .15s ease;
+    }
+
+    .btn-back:hover{
+        background:var(--blue-pale);
+        color:var(--ink);
+    }
+
+    @media (max-width:576px){
+        .edit-body{ padding:24px 22px 22px; }
+        .edit-header{ padding:22px 22px; }
+        .edit-actions{ flex-direction:column-reverse; }
+        .btn-save, .btn-back{ justify-content:center; width:100%; }
+    }
+</style>
+
+<div class="edit-shell">
+
+    <div class="edit-card">
+
+        <div class="edit-header">
+            <div class="icon-wrap"><i class="fa-solid fa-percent"></i></div>
+            <div>
+                <h4>{{ department.department_name }}</h4>
+                <p>Set the minimum eligibility percentage and course fee for this department</p>
+            </div>
+        </div>
+
+        <div class="edit-body">
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-errors">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="field-group{% if form.eligibility_percentage.errors %} has-error{% endif %}">
+                    <label for="{{ form.eligibility_percentage.id_for_label }}">Eligibility Percentage</label>
+                    {{ form.eligibility_percentage }}
+                    <span class="helptext">Enter a value between 0 and 100.</span>
+                    {% if form.eligibility_percentage.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.eligibility_percentage.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div class="field-group{% if form.course_fee.errors %} has-error{% endif %}">
+                    <label for="{{ form.course_fee.id_for_label }}">Course Fee (₹)</label>
+                    {{ form.course_fee }}
+                    <span class="helptext">Enter the course fee in Indian Rupees.</span>
+                    {% if form.course_fee.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.course_fee.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div class="edit-actions">
+                    <a href="{% url 'staff_course_list' %}" class="btn-back">
+                        Back
+                    </a>
+
+                    <button type="submit" class="btn-save">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

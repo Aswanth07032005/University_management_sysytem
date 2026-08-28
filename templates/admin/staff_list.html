@@ -1,0 +1,299 @@
+{% extends "admin/admin_dashboard.html" %}
+
+{% block content %}
+
+<style>
+    :root{
+        --navy-dark:#0B2C5C;
+        --navy:#16407E;
+        --navy-soft:#EAF0FA;
+        --blue-pale:#EEF3FB;
+        --blue-line:#D9E3F2;
+        --gold:#C9A227;
+        --ink:#1C2430;
+        --muted:#6B7383;
+        --green:#1F8A5F;
+        --green-soft:#E4F5EC;
+        --amber:#B8791F;
+        --amber-soft:#FBF2DC;
+        --red:#B23A48;
+        --red-soft:#FBEAEC;
+    }
+
+    .staff-panel{
+        max-width:1160px;
+        margin:24px auto 0;
+        background:#fff;
+        border:1px solid var(--blue-line);
+        border-radius:12px;
+        overflow:hidden;
+        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+    }
+
+    .staff-panel .panel-head{
+        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
+        color:#fff;
+        padding:20px 24px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        flex-wrap:wrap;
+        position:relative;
+    }
+
+    .staff-panel .panel-head::after{
+        content:"";
+        position:absolute;
+        left:0; right:0; bottom:0;
+        height:3px;
+        background:var(--gold);
+    }
+
+    .staff-panel .panel-head h4{
+        margin:0;
+        font-family:"Georgia","Times New Roman",serif;
+        font-weight:700;
+        font-size:19px;
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+
+    .staff-panel .panel-head h4 i{ color:var(--gold); }
+
+    .staff-count{
+        background:rgba(255,255,255,0.12);
+        border:1px solid rgba(244,197,66,0.4);
+        color:#fff;
+        font-size:12.5px;
+        font-weight:600;
+        padding:6px 14px;
+        border-radius:20px;
+    }
+
+    .staff-panel .panel-body{
+        padding:22px 24px 26px;
+    }
+
+    table.staff-table{
+        width:100%;
+        border-collapse:collapse;
+        font-size:13.5px;
+    }
+
+    table.staff-table thead th{
+        background:var(--navy-soft);
+        color:var(--navy-dark);
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        font-size:11px;
+        font-weight:700;
+        padding:12px 14px;
+        border-bottom:2px solid var(--blue-line);
+        text-align:left;
+        white-space:nowrap;
+    }
+
+    table.staff-table tbody td{
+        padding:13px 14px;
+        border-bottom:1px solid #F0F3F9;
+        vertical-align:middle;
+        color:var(--ink);
+    }
+
+    table.staff-table tbody tr:hover{
+        background:var(--blue-pale);
+    }
+
+    .staff-name{
+        font-weight:600;
+    }
+
+    .status-pill{
+        font-size:11.5px;
+        font-weight:700;
+        padding:5px 12px;
+        border-radius:20px;
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        white-space:nowrap;
+    }
+
+    .status-pill.approved{ background:var(--green-soft); color:var(--green); }
+    .status-pill.pending{ background:var(--amber-soft); color:var(--amber); }
+
+    .btn-approve,
+    .btn-reject{
+        font-size:12.5px;
+        font-weight:600;
+        padding:7px 14px;
+        border-radius:6px;
+        border:none;
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        text-decoration:none;
+        transition:background .15s ease, color .15s ease;
+    }
+
+    .btn-approve{
+        background:var(--navy-dark);
+        color:#fff;
+    }
+
+    .btn-approve:hover{ background:var(--navy); color:#fff; }
+
+    .btn-reject{
+        background:var(--red-soft);
+        color:var(--red);
+        border:1px solid #F3D3D7;
+    }
+
+    .btn-reject:hover{
+        background:var(--red);
+        color:#fff;
+        border-color:var(--red);
+    }
+
+    .empty-row td{
+        padding:36px 14px;
+        text-align:center;
+        color:var(--muted);
+        font-size:13.5px;
+    }
+
+    .empty-row i{
+        display:block;
+        font-size:26px;
+        color:var(--blue-line);
+        margin-bottom:10px;
+    }
+</style>
+
+<div class="staff-panel">
+
+    <div class="panel-head">
+        <h4>
+            <i class="fa-solid fa-users"></i>
+            University Staff List
+        </h4>
+
+        <span class="staff-count">
+            Total&nbsp;: {{ staffs|length }}
+        </span>
+    </div>
+
+    <div class="panel-body">
+
+        <div class="table-responsive">
+
+            <table class="staff-table">
+
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Qualification</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for staff in staffs %}
+
+                    <tr>
+
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+                            <div class="staff-name">
+                                {{ staff.full_name }}
+                            </div>
+                        </td>
+
+                        <td>{{ staff.email }}</td>
+
+                        <td>{{ staff.phone }}</td>
+
+                        <td>{{ staff.qualification }}</td>
+
+                        <td>
+
+                            {% if staff.is_approved %}
+
+                                <span class="status-pill approved">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Approved
+                                </span>
+
+                            {% else %}
+
+                                <span class="status-pill pending">
+                                    <i class="fa-solid fa-clock"></i>
+                                    Pending
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex gap-2">
+
+                                {% if not staff.is_approved %}
+
+                                    <a href="{% url 'approve_staff' staff.id %}"
+                                       class="btn-approve">
+
+                                        <i class="fa-solid fa-check"></i>
+                                        Approve
+
+                                    </a>
+
+                                {% endif %}
+
+                                <a href="{% url 'reject_staff' staff.id %}"
+                                   class="btn-reject">
+
+                                    <i class="fa-solid fa-ban"></i>
+                                    Reject
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr class="empty-row">
+
+                        <td colspan="7">
+                            <i class="fa-solid fa-user-slash"></i>
+                            No Staff Found
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

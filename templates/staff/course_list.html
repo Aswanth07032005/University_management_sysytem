@@ -1,0 +1,303 @@
+{% extends "staff/staff_dashboard.html" %}
+
+{% block content %}
+
+<style>
+    :root{
+        --navy-dark:#0B2C5C;
+        --navy:#16407E;
+        --navy-soft:#EAF0FA;
+        --blue-pale:#EEF3FB;
+        --blue-line:#D9E3F2;
+        --gold:#C9A227;
+        --ink:#1C2430;
+        --muted:#6B7383;
+        --green:#1F8A5F;
+        --green-soft:#E4F5EC;
+        --red:#B23A48;
+        --red-soft:#FBEAEC;
+    }
+
+    .mgmt-shell{
+        max-width:1160px;
+        margin:0 auto;
+    }
+
+    .dept-block{
+        background:#fff;
+        border:1px solid var(--blue-line);
+        border-radius:12px;
+        overflow:hidden;
+        margin-bottom:20px;
+        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+    }
+
+    .dept-block-head{
+        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
+        color:#fff;
+        padding:20px 24px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        flex-wrap:wrap;
+        position:relative;
+    }
+
+    .dept-block-head::after{
+        content:"";
+        position:absolute;
+        left:0; right:0; bottom:0;
+        height:3px;
+        background:var(--gold);
+    }
+
+    .dept-block-head h5{
+        margin:0 0 4px;
+        font-family:"Georgia","Times New Roman",serif;
+        font-weight:700;
+        font-size:17px;
+        display:flex;
+        align-items:center;
+        gap:8px;
+    }
+
+    .dept-block-head h5 i{ color:var(--gold); }
+
+    .dept-code-line{
+        margin:0;
+        font-size:12px;
+        color:#C7D6EE;
+    }
+
+    .dept-code-line b{
+        color:#fff;
+        font-weight:700;
+        letter-spacing:0.03em;
+    }
+
+    .course-count-pill{
+        background:rgba(255,255,255,0.12);
+        border:1px solid rgba(244,197,66,0.4);
+        color:#fff;
+        font-size:12px;
+        font-weight:600;
+        padding:7px 14px;
+        border-radius:20px;
+        white-space:nowrap;
+    }
+
+    .course-count-pill b{
+        color:var(--gold);
+    }
+
+    .dept-block-body{
+        padding:22px 24px 24px;
+    }
+
+    table.course-table{
+        width:100%;
+        border-collapse:collapse;
+        font-size:13.5px;
+    }
+
+    table.course-table thead th{
+        background:var(--navy-soft);
+        color:var(--navy-dark);
+        text-transform:uppercase;
+        letter-spacing:0.05em;
+        font-size:11px;
+        font-weight:700;
+        padding:12px 14px;
+        border-bottom:2px solid var(--blue-line);
+        text-align:left;
+        white-space:nowrap;
+    }
+
+    table.course-table tbody td{
+        padding:13px 14px;
+        border-bottom:1px solid #F0F3F9;
+        vertical-align:middle;
+        color:var(--ink);
+    }
+
+    table.course-table tbody tr:last-child td{
+        border-bottom:none;
+    }
+
+    table.course-table tbody tr:hover{
+        background:var(--blue-pale);
+    }
+
+    .college-cell{
+        color:var(--muted);
+        font-size:13px;
+    }
+
+    .course-cell{
+        font-weight:600;
+    }
+
+    .seats-pill{
+        display:inline-block;
+        background:var(--navy-soft);
+        color:var(--navy);
+        font-size:11.5px;
+        font-weight:700;
+        padding:4px 10px;
+        border-radius:20px;
+    }
+
+    .eligibility-pill{
+        display:inline-block;
+        font-size:11.5px;
+        font-weight:700;
+        padding:4px 10px;
+        border-radius:20px;
+    }
+
+    .eligibility-pill.set{ background:var(--green-soft); color:var(--green); }
+    .eligibility-pill.missing{ background:var(--red-soft); color:var(--red); }
+
+    .fee-pill{
+        display:inline-block;
+        font-size:11.5px;
+        font-weight:700;
+        padding:4px 10px;
+        border-radius:20px;
+    }
+
+    .fee-pill.set{ background:var(--navy-soft); color:var(--navy); }
+    .fee-pill.missing{ background:var(--red-soft); color:var(--red); }
+
+    .no-courses{
+        text-align:center;
+        padding:30px 20px;
+        color:var(--muted);
+        font-size:13.5px;
+    }
+
+    .btn-update-elig{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        background:var(--navy-dark);
+        color:#fff;
+        font-size:13px;
+        font-weight:600;
+        padding:9px 18px;
+        border-radius:8px;
+        text-decoration:none;
+        margin-top:18px;
+        transition:background .15s ease, transform .1s ease;
+    }
+
+    .btn-update-elig:hover{
+        background:var(--navy);
+        color:#fff;
+    }
+
+    .btn-update-elig:active{ transform:translateY(1px); }
+</style>
+
+<div class="mgmt-shell">
+
+    {% for department in departments %}
+
+        <div class="dept-block">
+
+            <div class="dept-block-head">
+                <div>
+                    <h5><i class="fa-solid fa-building-columns"></i> {{ department.department_name }}</h5>
+                    <p class="dept-code-line">Department Code: <b>{{ department.department_code }}</b></p>
+                </div>
+
+                <span class="course-count-pill">
+                    Total Courses: <b>{{ department.courses.count }}</b>
+                </span>
+            </div>
+
+            <div class="dept-block-body">
+
+                <div class="table-responsive">
+
+                    <table class="course-table">
+
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>College</th>
+                                <th>Course</th>
+                                <th>Duration</th>
+                                <th>Seats</th>
+                                <th>Eligibility</th>
+                                <th>Fee</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% for course in department.courses.all %}
+
+                            <tr>
+
+                                <td>{{ forloop.counter }}</td>
+
+                                <td class="college-cell">{{ course.college.college_name }}</td>
+
+                                <td class="course-cell">{{ course.course_name }}</td>
+
+                                <td>{{ course.duration }}</td>
+
+                                <td><span class="seats-pill">{{ course.total_seats }}</span></td>
+
+                                <td>
+                                    {% if course.eligibility_percentage %}
+                                        <span class="eligibility-pill set">{{ course.eligibility_percentage }}%</span>
+                                    {% else %}
+                                        <span class="eligibility-pill missing">Not Added</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if course.course_fee %}
+                                        <span class="fee-pill set">₹{{ course.course_fee }}</span>
+                                    {% else %}
+                                        <span class="fee-pill missing">Not Added</span>
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+                                <td colspan="7">
+                                    <div class="no-courses">
+                                        No Courses Available
+                                    </div>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <a href="{% url 'eligibility_update' department.id %}" class="btn-update-elig">
+                    <i class="fa-solid fa-pen"></i>
+                    Update Eligibility
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

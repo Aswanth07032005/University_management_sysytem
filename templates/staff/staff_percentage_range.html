@@ -1,0 +1,199 @@
+{% extends "staff/staff_dashboard.html" %}
+
+{% block content %}
+
+<style>
+
+    .range-wrapper {
+        max-width: 650px;
+        margin: 40px auto;
+    }
+
+    .range-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .range-title {
+        font-size: 25px;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 8px;
+    }
+
+    .range-description {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 28px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 9px;
+        font-size: 15px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .form-control:focus {
+        border-color: #2563eb;
+    }
+
+    .range-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .save-btn {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 9px;
+        background: #2563eb;
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .save-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .current-range {
+        margin-top: 25px;
+        padding: 15px;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 10px;
+        color: #166534;
+        font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+
+        .range-row {
+            grid-template-columns: 1fr;
+        }
+
+        .range-wrapper {
+            margin: 20px;
+        }
+
+    }
+
+</style>
+
+
+<div class="range-wrapper">
+
+    <div class="range-card">
+
+        <div class="range-title">
+            Eligibility Percentage
+        </div>
+
+        <div class="range-description">
+            Set the minimum and maximum percentage for
+            applications eligible for allotment.
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="range-row">
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Start Percentage
+                    </label>
+
+                    <input
+                        type="number"
+                        name="start_percentage"
+                        class="form-control"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        value="{{ staff.start_percentage|default:'' }}"
+                        placeholder="Example: 70"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        End Percentage
+                    </label>
+
+                    <input
+                        type="number"
+                        name="end_percentage"
+                        class="form-control"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        value="{{ staff.end_percentage|default:'' }}"
+                        placeholder="Example: 90"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-btn"
+            >
+                Save Eligibility Range
+            </button>
+
+        </form>
+
+
+        {% if staff.start_percentage != None and staff.end_percentage != None %}
+
+        <div class="current-range">
+
+            Current Eligibility Range:
+
+            <strong>
+                {{ staff.start_percentage }}%
+                -
+                {{ staff.end_percentage }}%
+            </strong>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

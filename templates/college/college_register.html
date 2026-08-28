@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>College Registration &mdash; MMT Technical University</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root{
+            --navy-dark:#0B2C5C;
+            --navy:#16407E;
+            --blue-pale:#EEF3FB;
+            --blue-line:#D3DFF0;
+            --gold:#C9A227;
+            --ink:#1C2430;
+            --muted:#5B6474;
+            --error:#B23A48;
+        }
+
+        body{
+            background:var(--blue-pale) !important;
+            font-family:"Inter","Segoe UI",system-ui,sans-serif;
+            color:var(--ink);
+        }
+
+        .reg-shell{
+            width:100%;
+            max-width:640px;
+            margin:0 auto;
+        }
+
+        .reg-card{
+            background:#fff;
+            border-radius:10px;
+            border:1px solid var(--blue-line);
+            overflow:hidden;
+            box-shadow:0 24px 50px -28px rgba(11,44,92,0.35);
+        }
+
+        /* ---- Letterhead header, replaces bg-primary card-header ---- */
+        .reg-header{
+            background:linear-gradient(120deg,var(--navy-dark) 0%,var(--navy) 100%);
+            color:#fff;
+            padding:30px 32px 26px;
+            text-align:center;
+            position:relative;
+        }
+
+        .reg-header::after{
+            content:"";
+            position:absolute;
+            left:0; right:0; bottom:0;
+            height:4px;
+            background:var(--gold);
+        }
+
+        .reg-crest{
+            margin:0 auto 12px;
+            width:48px;
+            height:48px;
+        }
+
+        .reg-eyebrow{
+            margin:0 0 4px;
+            font-size:11px;
+            text-transform:uppercase;
+            letter-spacing:0.14em;
+            color:#B9CBEA;
+            font-weight:600;
+        }
+
+        .reg-header h3{
+            margin:0;
+            font-family:"Georgia","Times New Roman",serif;
+            font-weight:600;
+            font-size:23px;
+            letter-spacing:0.01em;
+        }
+
+        /* ---- Body ---- */
+        .reg-body{
+            padding:36px 36px 32px;
+        }
+
+        .reg-section-title{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            font-family:"Georgia",serif;
+            font-size:15px;
+            font-weight:700;
+            color:var(--navy-dark);
+            border-bottom:2px solid var(--navy-dark);
+            padding-bottom:10px;
+            margin:0 0 18px;
+        }
+
+        .reg-section-title .num{
+            color:var(--gold);
+        }
+
+        .reg-body hr{
+            border:none;
+            border-top:1px solid var(--blue-line);
+            margin:8px 0 26px;
+        }
+
+        /* Django .as_p paragraphs */
+        .reg-body form p{
+            margin:0 0 16px;
+            display:flex;
+            flex-direction:column;
+            gap:6px;
+        }
+
+        .reg-body form label{
+            font-size:13px;
+            font-weight:600;
+            color:var(--ink);
+        }
+
+        .reg-body form input,
+        .reg-body form select,
+        .reg-body form textarea{
+            font-family:inherit;
+            font-size:14.5px;
+            padding:10px 14px;
+            border:1px solid #C7D2E3;
+            border-radius:6px;
+            background:#FBFCFE;
+            color:var(--ink);
+            outline:none;
+            width:100%;
+            box-sizing:border-box;
+            transition:border-color .15s ease, box-shadow .15s ease;
+        }
+
+        .reg-body form input:focus,
+        .reg-body form select:focus,
+        .reg-body form textarea:focus{
+            border-color:var(--navy);
+            box-shadow:0 0 0 3px rgba(22,64,126,0.14);
+            background:#fff;
+        }
+
+        .reg-body form input[type="checkbox"],
+        .reg-body form input[type="radio"]{
+            width:auto;
+            accent-color:var(--navy);
+        }
+
+        .reg-body .helptext{
+            font-size:12px;
+            color:var(--muted);
+        }
+
+        .reg-body ul.errorlist{
+            list-style:none;
+            margin:2px 0 0;
+            padding:0;
+            font-size:12.5px;
+            color:var(--error);
+        }
+
+        .reg-alert{
+            background:#FBEAEC;
+            border:1px solid var(--error);
+            color:var(--error);
+            font-size:13px;
+            padding:12px 14px;
+            border-radius:6px;
+            margin-bottom:22px;
+        }
+
+        .reg-submit{
+            background:var(--navy-dark);
+            border:none;
+            font-weight:700;
+            letter-spacing:0.02em;
+            padding:12px 20px;
+            border-radius:6px;
+            transition:background .15s ease, transform .1s ease;
+        }
+
+        .reg-submit:hover{ background:var(--navy); }
+        .reg-submit:active{ transform:translateY(1px); }
+
+        .reg-login-hint{
+            text-align:center;
+            margin-top:18px;
+            font-size:13.5px;
+            color:var(--muted);
+        }
+
+        .reg-login-hint a{
+            color:var(--navy);
+            font-weight:600;
+            text-decoration:none;
+        }
+
+        .reg-login-hint a:hover{ text-decoration:underline; }
+
+        @media (max-width:576px){
+            .reg-header{ padding:24px 22px 22px; }
+            .reg-body{ padding:28px 22px 26px; }
+        }
+    </style>
+
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="reg-shell">
+
+        <div class="reg-card">
+
+            <div class="reg-header">
+                <svg class="reg-crest" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="none" stroke="#F4C542" stroke-width="1.5"/>
+                    <circle cx="30" cy="30" r="23" fill="none" stroke="#F4C542" stroke-width="1"/>
+                    <rect x="26" y="16" width="8" height="28" rx="1.5" fill="#F4C542"/>
+                    <rect x="16" y="26" width="28" height="8" rx="1.5" fill="#F4C542"/>
+                </svg>
+                <p class="reg-eyebrow">MMT Medical College</p>
+                <h3>College Registration</h3>
+            </div>
+
+            <div class="reg-body">
+
+                {% if register_form.non_field_errors or college_form.non_field_errors %}
+                    <div class="reg-alert" role="alert">
+                        {{ register_form.non_field_errors }}
+                        {{ college_form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <form method="POST" novalidate>
+
+                    {% csrf_token %}
+
+                    <p class="reg-section-title"><span class="num">I.</span> Login Details</p>
+                    {{ register_form.as_p }}
+
+                    <hr>
+
+                    <p class="reg-section-title"><span class="num">II.</span> College Details</p>
+                    {{ college_form.as_p }}
+
+                    <button type="submit" class="btn reg-submit w-100 mt-3 text-white">
+                        Register College
+                    </button>
+
+                </form>
+
+                <div class="reg-login-hint">
+                    Already have an account?
+                    <a href="{% url 'login_p' %}">Login</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

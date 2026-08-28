@@ -1,0 +1,369 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="uadmit-page">
+  <div class="uadmit-sheet">
+
+    <header class="uadmit-letterhead">
+      <div class="uadmit-crest" aria-hidden="true">
+        <svg viewBox="0 0 60 60" width="52" height="52">
+          <circle cx="30" cy="30" r="28" fill="none" stroke="#F4C542" stroke-width="1.5"/>
+          <circle cx="30" cy="30" r="23" fill="none" stroke="#F4C542" stroke-width="1"/>
+          <rect x="26" y="16" width="8" height="28" rx="1.5" fill="#F4C542"/>
+          <rect x="16" y="26" width="28" height="8" rx="1.5" fill="#F4C542"/>
+        </svg>
+      </div>
+      <div class="uadmit-letterhead__text">
+        <p class="uadmit-eyebrow">MMT Medical College &middot; Office of Admissions</p>
+        <h1 class="uadmit-title">Application for Enrollment</h1>
+        <p class="uadmit-subtitle">Academic Year 2026&ndash;2027</p>
+      </div>
+    </header>
+
+    <div class="uadmit-body">
+      <aside class="uadmit-aside">
+        <p class="uadmit-aside__label">Sections</p>
+        <ol class="uadmit-aside__list">
+          <li><span>I.</span> Applicant details</li>
+          <li><span>II.</span> Account credentials</li>
+        </ol>
+        <div class="uadmit-aside__note">
+          <p class="uadmit-aside__note-title">Before you begin</p>
+          <p>Have your legal name, date of birth, a valid email address, and your prior academic records ready. Fields marked required must be completed before submitting.</p>
+        </div>
+      </aside>
+
+      <main class="uadmit-card">
+        <form method="post" enctype="multipart/form-data" class="uadmit-form" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors or register_form.non_field_errors %}
+            <div class="uadmit-alert" role="alert">
+              {{ form.non_field_errors }}
+              {{ register_form.non_field_errors }}
+            </div>
+          {% endif %}
+
+
+
+          <fieldset class="uadmit-fieldset">
+            <legend><span>II.</span> Account credentials</legend>
+            {{ register_form.as_p }}
+          </fieldset>
+
+            <fieldset class="uadmit-fieldset">
+            <legend><span>I.</span> Applicant details</legend>
+            {{ form.as_p }}
+          </fieldset>
+
+          <div class="uadmit-actions">
+            <p class="uadmit-actions__note">By submitting, you confirm the details above are accurate.</p>
+            <button type="submit" class="uadmit-submit">Submit application</button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  :root{
+    --navy-dark:#0B2C5C;
+    --navy:#16407E;
+    --navy-mid:#1B3A6B;
+    --blue-pale:#EEF3FB;
+    --blue-line:#D3DFF0;
+    --white:#FFFFFF;
+    --gold:#C9A227;
+    --ink:#1C2430;
+    --muted:#5B6474;
+    --error:#B23A48;
+  }
+
+  .uadmit-page{
+    min-height:100vh;
+    background:var(--blue-pale);
+    display:flex;
+    justify-content:center;
+    padding:48px 20px;
+    font-family:"Inter","Segoe UI",system-ui,sans-serif;
+    color:var(--ink);
+    box-sizing:border-box;
+  }
+
+  .uadmit-sheet{
+    width:100%;
+    max-width:980px;
+    background:var(--white);
+    border-radius:6px;
+    box-shadow:0 24px 50px -28px rgba(11,44,92,0.35);
+    overflow:hidden;
+    border:1px solid var(--blue-line);
+  }
+
+  /* ---- Letterhead ---- */
+  .uadmit-letterhead{
+    background:linear-gradient(120deg,var(--navy-dark) 0%,var(--navy) 100%);
+    color:var(--white);
+    padding:32px 40px;
+    display:flex;
+    align-items:center;
+    gap:22px;
+    position:relative;
+  }
+
+  .uadmit-letterhead::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:4px;
+    background:var(--gold);
+  }
+
+  .uadmit-crest{
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .uadmit-eyebrow{
+    margin:0 0 4px;
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:#B9CBEA;
+    font-weight:600;
+  }
+
+  .uadmit-title{
+    margin:0 0 4px;
+    font-family:"Georgia","Times New Roman",serif;
+    font-weight:600;
+    font-size:26px;
+    letter-spacing:0.01em;
+  }
+
+  .uadmit-subtitle{
+    margin:0;
+    font-size:13px;
+    color:#C7D6EE;
+  }
+
+  /* ---- Body layout ---- */
+  .uadmit-body{
+    display:grid;
+    grid-template-columns:240px 1fr;
+  }
+
+  .uadmit-aside{
+    background:var(--blue-pale);
+    border-right:1px solid var(--blue-line);
+    padding:36px 28px;
+  }
+
+  .uadmit-aside__label{
+    margin:0 0 14px;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--navy);
+    font-weight:700;
+  }
+
+  .uadmit-aside__list{
+    list-style:none;
+    margin:0 0 32px;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .uadmit-aside__list li{
+    font-size:13.5px;
+    color:var(--ink);
+    display:flex;
+    gap:8px;
+  }
+
+  .uadmit-aside__list span{
+    font-family:"Georgia",serif;
+    color:var(--gold);
+    font-weight:700;
+    min-width:16px;
+  }
+
+  .uadmit-aside__note{
+    background:var(--white);
+    border:1px solid var(--blue-line);
+    border-left:3px solid var(--navy);
+    border-radius:4px;
+    padding:16px 16px;
+  }
+
+  .uadmit-aside__note-title{
+    margin:0 0 6px;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--navy-dark);
+  }
+
+  .uadmit-aside__note p:last-child{
+    margin:0;
+    font-size:12.5px;
+    line-height:1.55;
+    color:var(--muted);
+  }
+
+  /* ---- Form card ---- */
+  .uadmit-card{
+    padding:36px 44px 40px;
+  }
+
+  .uadmit-fieldset{
+    border:none;
+    margin:0 0 32px;
+    padding:0;
+  }
+
+  .uadmit-fieldset legend{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    font-family:"Georgia",serif;
+    font-size:16px;
+    font-weight:700;
+    color:var(--navy-dark);
+    padding:0 0 12px;
+    width:100%;
+    border-bottom:2px solid var(--navy-dark);
+    margin-bottom:20px;
+  }
+
+  .uadmit-fieldset legend span{
+    color:var(--gold);
+  }
+
+  .uadmit-fieldset p{
+    margin:0 0 18px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .uadmit-fieldset label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink);
+  }
+
+  .uadmit-fieldset input,
+  .uadmit-fieldset select,
+  .uadmit-fieldset textarea{
+    font-family:inherit;
+    font-size:14.5px;
+    padding:11px 14px;
+    border:1px solid #C7D2E3;
+    border-radius:5px;
+    background:#FBFCFE;
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+    box-sizing:border-box;
+    width:100%;
+  }
+
+  .uadmit-fieldset input:focus,
+  .uadmit-fieldset select:focus,
+  .uadmit-fieldset textarea:focus{
+    border-color:var(--navy);
+    box-shadow:0 0 0 3px rgba(22,64,126,0.14);
+    background:var(--white);
+  }
+
+  .uadmit-fieldset input[type="checkbox"],
+  .uadmit-fieldset input[type="radio"]{
+    width:auto;
+    accent-color:var(--navy);
+  }
+
+  .uadmit-fieldset .helptext{
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  .uadmit-fieldset ul.errorlist{
+    list-style:none;
+    margin:2px 0 0;
+    padding:0;
+    font-size:12.5px;
+    color:var(--error);
+  }
+
+  .uadmit-alert{
+    background:#FBEAEC;
+    border:1px solid var(--error);
+    color:var(--error);
+    font-size:13px;
+    padding:12px 14px;
+    border-radius:5px;
+    margin-bottom:24px;
+  }
+
+  .uadmit-actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    border-top:1px solid var(--blue-line);
+    padding-top:24px;
+  }
+
+  .uadmit-actions__note{
+    margin:0;
+    font-size:12.5px;
+    color:var(--muted);
+    max-width:34ch;
+  }
+
+  .uadmit-submit{
+    flex:none;
+    padding:13px 28px;
+    background:var(--navy-dark);
+    color:var(--white);
+    border:none;
+    border-radius:5px;
+    font-size:14.5px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+
+  .uadmit-submit:hover{ background:var(--navy); }
+  .uadmit-submit:active{ transform:translateY(1px); }
+  .uadmit-submit:focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+  }
+
+  @media (max-width:760px){
+    .uadmit-body{ grid-template-columns:1fr; }
+    .uadmit-aside{
+      border-right:none;
+      border-bottom:1px solid var(--blue-line);
+      padding:24px 28px;
+    }
+    .uadmit-letterhead{ padding:26px 24px; }
+    .uadmit-title{ font-size:21px; }
+    .uadmit-card{ padding:28px 24px 32px; }
+    .uadmit-actions{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+    .uadmit-submit{ width:100%; }
+  }
+</style>
+{% endblock %}

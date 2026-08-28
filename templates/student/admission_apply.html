@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Application &middot; University of Calicut</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+            --navy:        #0a2f5c;
+            --navy-deep:   #061d3d;
+            --blue:        #1861a6;
+            --blue-soft:   #2f79c2;
+            --sky:         #d8e6f5;
+            --pale:        #eef4fb;
+            --white:       #ffffff;
+            --ink:         #12233a;
+            --ink-soft:    #52698a;
+            --beacon:      #f2a531;
+            --beacon-deep: #c97f14;
+            --success:     #1c7a4d;
+            --success-tint:#e5f4ec;
+            --danger:      #b23b3b;
+            --danger-tint: #fbeced;
+            --rule:        #d3e0f0;
+
+            --display: "Merriweather", Georgia, serif;
+            --body:    "Source Sans 3", -apple-system, BlinkMacSystemFont, sans-serif;
+            --mono:    "IBM Plex Mono", monospace;
+        }
+
+        *{ box-sizing:border-box; }
+
+        html{ scroll-behavior:smooth; }
+
+        body{
+            margin:0;
+            background:var(--pale);
+            font-family:var(--body);
+            color:var(--ink);
+            -webkit-font-smoothing:antialiased;
+        }
+
+        /* ---------- layout shell ---------- */
+
+        .wrap{
+            max-width:1180px;
+            margin:0 auto;
+            padding:0 24px 80px;
+        }
+
+        /* ---------- masthead ---------- */
+
+        .masthead{
+            background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+            color:var(--white);
+            padding:0;
+            position:relative;
+            overflow:hidden;
+        }
+
+        /* lighthouse beam sweep - the signature element */
+        .beam-field{
+            position:absolute;
+            inset:0;
+            overflow:hidden;
+            pointer-events:none;
+        }
+
+        .beam{
+            position:absolute;
+            top:-40%;
+            left:50%;
+            width:5px;
+            height:220%;
+            background:linear-gradient(180deg, rgba(242,165,49,.32), rgba(242,165,49,0) 70%);
+            transform-origin:top center;
+            animation:sweep 9s ease-in-out infinite;
+            filter:blur(1px);
+        }
+
+        @keyframes sweep{
+            0%   { transform:rotate(-38deg); opacity:.55; }
+            50%  { transform:rotate(38deg);  opacity:.85; }
+            100% { transform:rotate(-38deg); opacity:.55; }
+        }
+
+        .top-strip{
+            background:var(--navy-deep);
+            border-bottom:1px solid rgba(255,255,255,.08);
+            padding:8px 24px;
+            position:relative;
+            z-index:1;
+        }
+
+        .top-strip-inner{
+            max-width:1180px;
+            margin:0 auto;
+            display:flex;
+            justify-content:space-between;
+            font-family:var(--mono);
+            font-size:11px;
+            letter-spacing:.06em;
+            color:#a9c2e0;
+        }
+
+        .masthead-inner{
+            max-width:1180px;
+            margin:0 auto;
+            padding:36px 24px 32px;
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            gap:28px;
+            flex-wrap:wrap;
+            position:relative;
+            z-index:1;
+        }
+
+        .masthead-title-row{
+            display:flex;
+            align-items:center;
+            gap:20px;
+        }
+
+        .seal{
+            width:66px;
+            height:66px;
+            border-radius:50%;
+            border:2px solid var(--beacon);
+            box-shadow:0 0 0 4px rgba(242,165,49,.14);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex:none;
+            background:var(--navy-deep);
+        }
+
+        .seal svg{ width:36px; height:36px; }
+
+        .eyebrow{
+            font-family:var(--mono);
+            font-size:11px;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            color:var(--beacon);
+            margin:0 0 8px;
+        }
+
+        h1.title{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:clamp(26px,3.6vw,38px);
+            line-height:1.1;
+            margin:0;
+            letter-spacing:-.005em;
+        }
+
+        .title-sub{
+            font-family:var(--body);
+            font-size:14px;
+            color:#c3d5ec;
+            margin:6px 0 0;
+        }
+
+        .masthead-meta{
+            text-align:right;
+            font-family:var(--mono);
+            font-size:12.5px;
+            color:#a9c2e0;
+            line-height:1.7;
+        }
+
+        .masthead-meta strong{
+            color:var(--white);
+            font-weight:600;
+        }
+
+        .tricolor-rule{
+            height:4px;
+            background:linear-gradient(90deg, var(--beacon) 0 33%, var(--white) 33% 66%, var(--blue-soft) 66% 100%);
+            opacity:.9;
+        }
+
+        /* ---------- alerts ---------- */
+
+        .alerts{ margin-top:28px; }
+
+        .alert{
+            font-family:var(--body);
+            font-size:14.5px;
+            padding:14px 18px;
+            border-radius:4px;
+            border:1px solid var(--rule);
+            background:var(--white);
+            margin-bottom:10px;
+        }
+
+        .alert-error, .alert-danger{ border-color:#e3bcbc; background:var(--danger-tint); color:var(--danger); }
+        .alert-success{ border-color:#b7d9c4; background:var(--success-tint); color:var(--success); }
+        .alert-info{ border-color:var(--rule); background:var(--pale); color:var(--ink-soft); }
+
+        /* ---------- body grid ---------- */
+
+        .app-grid{
+            display:grid;
+            grid-template-columns:1fr 320px;
+            gap:36px;
+            margin-top:40px;
+            align-items:start;
+        }
+
+        @media (max-width:900px){
+            .app-grid{ grid-template-columns:1fr; }
+        }
+
+        /* ---------- section heading ---------- */
+
+        .section-head{
+            display:flex;
+            align-items:baseline;
+            justify-content:space-between;
+            gap:16px;
+            margin-bottom:18px;
+            border-bottom:2px solid var(--navy);
+            padding-bottom:10px;
+        }
+
+        .section-head h2{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:21px;
+            margin:0;
+            color:var(--navy);
+        }
+
+        .section-sub{
+            font-family:var(--mono);
+            font-size:12px;
+            color:var(--ink-soft);
+            letter-spacing:.03em;
+        }
+
+        /* ---------- search / filter ---------- */
+
+        .filter-row{
+            display:flex;
+            gap:10px;
+            margin-bottom:22px;
+            flex-wrap:wrap;
+        }
+
+        .filter-input,
+        .filter-select{
+            font-family:var(--body);
+            font-size:14.5px;
+            padding:11px 14px;
+            border:1px solid var(--rule);
+            border-radius:4px;
+            background:var(--white);
+            color:var(--ink);
+        }
+
+        .filter-input{ flex:1; min-width:200px; }
+
+        .filter-select{
+            flex:none;
+            width:230px;
+            cursor:pointer;
+        }
+
+        .filter-input:focus,
+        .filter-select:focus{
+            outline:none;
+            border-color:var(--blue);
+            box-shadow:0 0 0 3px rgba(24,97,166,.15);
+        }
+
+        .filter-input::placeholder{ color:#8ea8c7; }
+
+        .filter-input:disabled,
+        .filter-input:disabled::placeholder{
+            background:var(--pale);
+            color:#a9b9cf;
+            cursor:not-allowed;
+        }
+
+        @media (max-width:560px){
+            .filter-row{ flex-direction:column; }
+            .filter-select{ width:100%; }
+        }
+
+        /* ---------- college ledger ---------- */
+
+        .college{
+            background:var(--white);
+            border:1px solid var(--rule);
+            border-radius:12px;
+            margin-bottom:22px;
+            overflow:hidden;
+            box-shadow:0 1px 3px rgba(10,47,92,.06);
+        }
+
+        .college-head{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+            padding:16px 20px;
+            background:var(--navy);
+            color:var(--white);
+        }
+
+        .college-head h3{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:17px;
+            margin:0;
+        }
+
+        .college-count{
+            font-family:var(--mono);
+            font-size:11.5px;
+            color:#ffe3b0;
+            background:rgba(242,165,49,.22);
+            border:1px solid rgba(242,165,49,.5);
+            border-radius:20px;
+            padding:3px 10px;
+            white-space:nowrap;
+        }
+
+        .course-list{ padding:6px 6px; }
+
+        .course-row{
+            display:flex;
+            align-items:flex-start;
+            gap:14px;
+            padding:14px 14px 14px 11px;
+            border-bottom:1px solid var(--rule);
+            border-left:3px solid transparent;
+            transition:background .15s ease, border-color .15s ease;
+        }
+
+        .course-row:last-child{ border-bottom:none; }
+
+        .course-row:hover{ background:var(--pale); }
+
+        .course-row.is-checked{
+            background:var(--sky);
+            border-left-color:var(--blue);
+        }
+
+        .course-row.is-hidden{ display:none; }
+
+        .course-num{
+            font-family:var(--mono);
+            font-size:11px;
+            color:#9fb2cc;
+            padding-top:3px;
+            width:26px;
+            flex:none;
+        }
+
+        .course-row.is-checked .course-num{ color:var(--blue); }
+
+        .check-wrap{
+            flex:none;
+            padding-top:2px;
+        }
+
+        .check-wrap input[type="checkbox"]{
+            width:19px;
+            height:19px;
+            accent-color:var(--blue);
+            cursor:pointer;
+        }
+
+        .course-label{
+            flex:1;
+            cursor:pointer;
+        }
+
+        .course-name{
+            font-family:var(--body);
+            font-weight:600;
+            font-size:15px;
+            color:var(--ink);
+            display:block;
+        }
+
+        .course-meta{
+            font-family:var(--mono);
+            font-size:12px;
+            color:var(--ink-soft);
+            display:block;
+            margin-top:4px;
+            letter-spacing:.01em;
+        }
+
+        .course-fee{
+            font-family:var(--mono);
+            font-weight:600;
+            font-size:14px;
+            color:var(--blue);
+            flex:none;
+            padding-top:3px;
+            white-space:nowrap;
+        }
+
+        .empty-state{
+            font-family:var(--body);
+            font-size:14px;
+            color:var(--ink-soft);
+            padding:30px 20px;
+            text-align:center;
+            display:none;
+        }
+
+        .empty-state.is-visible{ display:block; }
+
+        .no-college-selected{
+            font-family:var(--body);
+            font-size:14.5px;
+            color:var(--ink-soft);
+            background:var(--white);
+            border:1px dashed var(--rule);
+            border-radius:8px;
+            padding:36px 24px;
+            text-align:center;
+            display:none;
+        }
+
+        .no-college-selected.is-visible{ display:block; }
+
+        .no-college-selected i{
+            display:block;
+            font-size:13px;
+            font-family:var(--mono);
+            color:var(--blue);
+            margin-bottom:8px;
+            letter-spacing:.05em;
+            text-transform:uppercase;
+            font-style:normal;
+        }
+
+        /* ================================================= */
+        /* REQUIRED DOCUMENTS — previously unstyled, now      */
+        /* matches the ledger/card language used above        */
+        /* ================================================= */
+
+        .documents-section{
+            margin-top:48px;
+        }
+
+        .document-card{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:24px;
+            background:var(--white);
+            border:1px solid var(--rule);
+            border-radius:12px;
+            padding:20px 22px;
+            margin-bottom:16px;
+            box-shadow:0 1px 3px rgba(10,47,92,.06);
+            transition:border-color .15s ease, box-shadow .15s ease;
+        }
+
+        .document-card.is-complete{
+            border-color:#b7d9c4;
+            box-shadow:0 1px 3px rgba(28,122,77,.08);
+        }
+
+        .document-icon{
+            flex:none;
+            width:44px;
+            height:44px;
+            border-radius:10px;
+            background:var(--pale);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .document-icon svg{ width:22px; height:22px; }
+
+        .document-card.is-complete .document-icon{ background:var(--success-tint); }
+
+        .document-main{
+            display:flex;
+            align-items:center;
+            gap:16px;
+            flex:1;
+            min-width:0;
+        }
+
+        .document-info{ min-width:0; }
+
+        .document-info h4{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:15.5px;
+            margin:0 0 4px;
+            color:var(--navy);
+            display:flex;
+            align-items:center;
+            gap:8px;
+            flex-wrap:wrap;
+        }
+
+        .req-tag{
+            font-family:var(--mono);
+            font-size:10px;
+            font-weight:600;
+            letter-spacing:.04em;
+            text-transform:uppercase;
+            color:var(--danger);
+            background:var(--danger-tint);
+            border:1px solid #e3bcbc;
+            border-radius:20px;
+            padding:2px 8px;
+        }
+
+        .document-info p{
+            font-family:var(--body);
+            font-size:13.5px;
+            color:var(--ink-soft);
+            margin:0;
+        }
+
+        .document-upload{
+            flex:none;
+            display:flex;
+            flex-direction:column;
+            align-items:flex-end;
+            gap:6px;
+        }
+
+        .file-input{
+            font-family:var(--body);
+            font-size:13px;
+            color:var(--ink-soft);
+            max-width:260px;
+        }
+
+        .file-input::file-selector-button{
+            font-family:var(--body);
+            font-weight:600;
+            font-size:13px;
+            padding:9px 16px;
+            margin-right:12px;
+            border:none;
+            border-radius:6px;
+            background:var(--navy);
+            color:var(--white);
+            cursor:pointer;
+            transition:background .15s ease;
+        }
+
+        .file-input::file-selector-button:hover{ background:var(--blue); }
+
+        .file-input:focus-visible{
+            outline:2px solid var(--beacon);
+            outline-offset:2px;
+        }
+
+        .document-upload small{
+            font-family:var(--mono);
+            font-size:11px;
+            color:#8ea8c7;
+        }
+
+        .document-upload small.is-complete{
+            color:var(--success);
+            font-weight:600;
+        }
+
+        @media (max-width:640px){
+            .document-card{ flex-direction:column; align-items:stretch; }
+            .document-main{ flex-direction:column; align-items:flex-start; text-align:left; }
+            .document-upload{ align-items:flex-start; width:100%; }
+            .file-input{ max-width:100%; width:100%; }
+        }
+
+        /* ---------- sidebar summary ---------- */
+
+        .summary{
+            position:sticky;
+            top:24px;
+            background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+            color:var(--white);
+            border-radius:14px;
+            padding:26px 24px;
+            box-shadow:0 8px 24px rgba(6,29,61,.24);
+        }
+
+        .summary h4{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:16px;
+            margin:0 0 4px;
+        }
+
+        .summary-sub{
+            font-family:var(--mono);
+            font-size:11.5px;
+            color:#a9c2e0;
+            margin-bottom:20px;
+        }
+
+        /* beacon-style progress: light fill that glows amber near the cap,
+           echoing a lighthouse warning light as the limit approaches */
+        .progress-track{
+            width:100%;
+            height:8px;
+            background:rgba(255,255,255,.12);
+            border-radius:6px;
+            overflow:hidden;
+            margin-bottom:10px;
+        }
+
+        .progress-fill{
+            height:100%;
+            width:0%;
+            background:linear-gradient(90deg, var(--blue-soft), #6fa8dc);
+            border-radius:6px;
+            transition:width .25s ease, background .25s ease, box-shadow .25s ease;
+        }
+
+        .progress-fill.is-full{
+            background:linear-gradient(90deg, var(--beacon), #ffcf7a);
+            box-shadow:0 0 10px rgba(242,165,49,.7);
+        }
+
+        .progress-label{
+            font-family:var(--mono);
+            font-size:13px;
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:22px;
+        }
+
+        .progress-label #count{ color:var(--white); font-weight:600; }
+        .progress-label .max{ color:#a9c2e0; }
+
+        .summary-line{
+            display:flex;
+            justify-content:space-between;
+            font-family:var(--mono);
+            font-size:13px;
+            padding:9px 0;
+            border-top:1px solid rgba(255,255,255,.1);
+        }
+
+        .summary-line.total{
+            border-top:1px solid rgba(255,255,255,.25);
+            margin-top:4px;
+            padding-top:14px;
+            font-size:15px;
+        }
+
+        .summary-line.total .val{ color:var(--beacon); font-weight:600; }
+
+        .summary-list{
+            max-height:190px;
+            overflow-y:auto;
+            margin:14px 0;
+            padding-right:4px;
+        }
+
+        .summary-list::-webkit-scrollbar{ width:5px; }
+        .summary-list::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.2); border-radius:4px; }
+
+        .summary-empty{
+            font-family:var(--body);
+            font-size:13px;
+            color:#a9c2e0;
+            font-style:italic;
+            padding:8px 0;
+        }
+
+        .summary-item{
+            font-family:var(--body);
+            font-size:13px;
+            color:#e6eef8;
+            padding:6px 0;
+            display:flex;
+            justify-content:space-between;
+            gap:10px;
+            border-bottom:1px dashed rgba(255,255,255,.1);
+        }
+
+        .summary-item .n{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .summary-item .f{ flex:none; color:#a9c2e0; }
+
+        /* checklist of required documents, mirrors course progress above */
+        .doc-checklist{
+            margin:16px 0 0;
+            padding-top:14px;
+            border-top:1px solid rgba(255,255,255,.1);
+        }
+
+        .doc-checklist-title{
+            font-family:var(--mono);
+            font-size:11px;
+            letter-spacing:.06em;
+            text-transform:uppercase;
+            color:#a9c2e0;
+            margin:0 0 10px;
+        }
+
+        .doc-check-item{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            font-family:var(--body);
+            font-size:13px;
+            color:#c3d5ec;
+            padding:4px 0;
+        }
+
+        .doc-check-item .dot{
+            flex:none;
+            width:8px;
+            height:8px;
+            border-radius:50%;
+            background:rgba(255,255,255,.2);
+            border:1px solid rgba(255,255,255,.3);
+        }
+
+        .doc-check-item.is-done{ color:var(--white); }
+        .doc-check-item.is-done .dot{
+            background:var(--beacon);
+            border-color:var(--beacon);
+            box-shadow:0 0 6px rgba(242,165,49,.6);
+        }
+
+        .submit-btn{
+            width:100%;
+            margin-top:18px;
+            padding:15px;
+            font-family:var(--body);
+            font-weight:700;
+            font-size:15.5px;
+            letter-spacing:.02em;
+            background:var(--beacon);
+            color:var(--navy-deep);
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+            transition:background .15s ease, transform .1s ease;
+        }
+
+        .submit-btn:hover{ background:#ffb84d; }
+        .submit-btn:active{ transform:translateY(1px); }
+
+        .submit-btn:disabled{
+            background:rgba(255,255,255,.12);
+            color:#7f92ab;
+            cursor:not-allowed;
+        }
+
+        .submit-hint{
+            font-family:var(--mono);
+            font-size:11px;
+            color:#8298b6;
+            text-align:center;
+            margin-top:10px;
+        }
+
+        /* focus visibility for keyboard nav */
+        a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible{
+            outline:2px solid var(--beacon);
+            outline-offset:2px;
+        }
+
+        @media (prefers-reduced-motion: reduce){
+            *{ transition:none !important; scroll-behavior:auto !important; }
+            .beam{ animation:none; opacity:.4; transform:rotate(0deg); }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header class="masthead">
+
+    <div class="top-strip">
+        <div class="top-strip-inner">
+            <span>Government of Kerala &middot; State University</span>
+            <span>uoc.ac.in</span>
+        </div>
+    </div>
+
+    <div class="beam-field" aria-hidden="true"><div class="beam"></div></div>
+
+    <div class="masthead-inner">
+        <div class="masthead-title-row">
+            <div class="seal" aria-hidden="true">
+                <!-- lighthouse mark: the university's coastal emblem -->
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 4 L28 12 L20 12 Z" fill="#f2a531"/>
+                    <path d="M20 12 H28 L27 18 H21 Z" fill="#eef4fb"/>
+                    <path d="M21 18 H27 L29.5 40 H18.5 Z" fill="#eef4fb"/>
+                    <path d="M22 22 H26 M20.6 28 H27.4 M19.2 34 H28.8" stroke="#0a2f5c" stroke-width="1.3"/>
+                    <path d="M14.5 42 H33.5 L31.5 40 H16.5 Z" fill="#f2a531"/>
+                    <path d="M10 40 H38" stroke="#f2a531" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div>
+                <p class="eyebrow">Office of Admissions &middot; University of Calicut</p>
+                <h1 class="title">Course Selection</h1>
+                <p class="title-sub">Admission Application &middot; Current Academic Cycle</p>
+            </div>
+        </div>
+        <div class="masthead-meta">
+            Applicant intake &middot; current cycle<br>
+            <strong>Maximum 15 course selections</strong>
+        </div>
+    </div>
+
+    <div class="tricolor-rule"></div>
+</header>
+
+<div class="wrap">
+
+    {% if messages %}
+        <div class="alerts">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST"
+      enctype="multipart/form-data"
+      id="applicationForm">
+
+    {% csrf_token %}
+
+    <!-- Django form errors -->
+    {% if form.errors %}
+        <div class="alerts">
+
+            <div class="alert alert-error">
+
+                <strong>Please correct the following errors:</strong>
+
+                <div style="margin-top:8px;">
+                    {{ form.errors }}
+                </div>
+
+            </div>
+
+        </div>
+    {% endif %}
+
+
+    <div class="app-grid">
+
+        <!-- ================================================= -->
+        <!-- COURSE LIST -->
+        <!-- ================================================= -->
+
+        <div>
+
+            <div class="section-head">
+
+                <h2>Available Courses</h2>
+
+                <span class="section-sub">
+                    select a college to begin
+                </span>
+
+            </div>
+
+
+            <!-- COLLEGE FILTER -->
+
+            <div class="filter-row">
+
+                <select
+                    class="filter-select"
+                    id="collegeFilter">
+
+                    <option value="">
+                        Select College
+                    </option>
+
+                    {% regroup form.courses.field.queryset by college as college_options %}
+
+                    {% for college in college_options %}
+
+                        <option value="college-{{ college.grouper.id }}">
+                            {{ college.grouper.college_name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <input
+                    type="text"
+                    class="filter-input"
+                    id="courseFilter"
+                    placeholder="Select a college first…"
+                    autocomplete="off"
+                    disabled>
+
+            </div>
+
+
+            <!-- COLLEGES -->
+
+            {% regroup form.courses.field.queryset by college as college_list %}
+
+            {% for college in college_list %}
+
+                <div
+                    class="college"
+                    id="college-{{ college.grouper.id }}"
+                    data-college-id="{{ college.grouper.id }}">
+
+                    <div class="college-head">
+
+                        <h3>
+                            {{ college.grouper.college_name }}
+                        </h3>
+
+                        <span class="college-count">
+
+                            {{ college.list|length }}
+
+                            course{{ college.list|length|pluralize }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="course-list">
+
+                        {% for course in college.list %}
+
+                            <div
+                                class="course-row"
+                                data-search="
+                                    {{ course.course_name|lower }}
+                                    {{ course.department.department_name|lower }}
+                                ">
+
+                                <span class="course-num">
+
+                                    {{ forloop.counter|stringformat:"02d" }}
+
+                                </span>
+
+
+                                <span class="check-wrap">
+
+                                    <input
+                                        class="form-check-input course-checkbox"
+                                        type="checkbox"
+                                        name="courses"
+                                        value="{{ course.id }}"
+                                        data-name="{{ course.course_name }}"
+                                        data-fee="{{ course.course_fee }}"
+                                        id="course{{ course.id }}">
+
+                                </span>
+
+
+                                <label
+                                    class="course-label"
+                                    for="course{{ course.id }}">
+
+                                    <span class="course-name">
+                                        {{ course.course_name }}
+                                    </span>
+
+                                    <span class="course-meta">
+                                        {{ course.department.department_name }}
+                                    </span>
+
+                                </label>
+
+
+                                <span class="course-fee">
+
+                                    &#8377; {{ course.course_fee }}
+
+                                </span>
+
+                            </div>
+
+                        {% endfor %}
+
+
+                        <div class="empty-state">
+
+                            No courses match your search.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- NO COLLEGE -->
+
+            <div
+                class="no-college-selected is-visible"
+                id="noCollegeSelected">
+
+                <i>Step 1</i>
+
+                Select a college above to view its available courses.
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- DOCUMENTS -->
+            <!-- ================================================= -->
+
+            <div class="documents-section">
+
+                <div class="section-head">
+
+                    <h2>Required Documents</h2>
+
+                    <span class="section-sub">
+                        Upload your documents
+                    </span>
+
+                </div>
+
+
+                <!-- PLUS TWO -->
+
+                <div
+                    class="document-card"
+                    data-doc-card>
+
+                    <div class="document-main">
+
+                        <span class="document-icon">
+
+                            📄
+
+                        </span>
+
+
+                        <div class="document-info">
+
+                            <h4>
+
+                                Plus Two Certificate
+
+                                <span class="req-tag">
+                                    Required
+                                </span>
+
+                            </h4>
+
+                            <p>
+                                Upload your Higher Secondary certificate.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="document-upload">
+
+                        <input
+                            type="file"
+                            name="plus_two_certificate"
+                            id="plus_two_certificate"
+                            class="form-control file-input"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            data-doc-input
+                            required>
+
+                        <small data-doc-status>
+                            PDF, JPG, JPEG or PNG
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AADHAAR -->
+
+                <div
+                    class="document-card"
+                    data-doc-card>
+
+                    <div class="document-main">
+
+                        <span class="document-icon">
+
+                            🪪
+
+                        </span>
+
+
+                        <div class="document-info">
+
+                            <h4>
+
+                                Aadhaar Card
+
+                                <span class="req-tag">
+                                    Required
+                                </span>
+
+                            </h4>
+
+                            <p>
+                                Upload a clear copy of your Aadhaar card.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="document-upload">
+
+                        <input
+                            type="file"
+                            name="aadhaar_document"
+                            id="aadhaar_document"
+                            class="form-control file-input"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            data-doc-input
+                            required>
+
+                        <small data-doc-status>
+                            PDF, JPG, JPEG or PNG
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- SUMMARY -->
+        <!-- ================================================= -->
+
+        <aside class="summary">
+
+            <h4>
+                Application Summary
+            </h4>
+
+            <p class="summary-sub">
+                Review your selection before submitting
+            </p>
+
+
+            <div class="progress-track">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
+
+            </div>
+
+
+            <div class="progress-label">
+
+                <span>
+                    <span id="count">0</span> selected
+                </span>
+
+                <span class="max">
+                    of 15 max
+                </span>
+
+            </div>
+
+
+            <div
+                class="summary-list"
+                id="summaryList">
+
+                <p
+                    class="summary-empty"
+                    id="summaryEmpty">
+
+                    No courses selected yet.
+
+                </p>
+
+            </div>
+
+
+            <div class="summary-line total">
+
+                <span>
+                    Estimated total
+                </span>
+
+                <span class="val">
+
+                    &#8377;
+
+                    <span id="totalFee">
+                        0
+                    </span>
+
+                </span>
+
+            </div>
+
+
+            <!-- DOCUMENT CHECK -->
+
+            <div class="doc-checklist">
+
+                <p class="doc-checklist-title">
+                    Documents
+                </p>
+
+                <div
+                    class="doc-check-item"
+                    data-doc-check="plus_two_certificate">
+
+                    <span class="dot"></span>
+
+                    Plus Two Certificate
+
+                </div>
+
+
+                <div
+                    class="doc-check-item"
+                    data-doc-check="aadhaar_document">
+
+                    <span class="dot"></span>
+
+                    Aadhaar Card
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- SUBMIT -->
+            <!-- ================================================= -->
+
+            <button
+                class="submit-btn"
+                type="submit"
+                id="submitBtn"
+                disabled>
+
+                Submit Application
+
+            </button>
+
+
+            <p
+                class="submit-hint"
+                id="submitHint">
+
+                Select at least one course and upload documents
+
+            </p>
+
+        </aside>
+
+    </div>
+
+</form>
+
+</div>
+
+<script>
+
+(function () {
+
+    const form = document.getElementById("applicationForm");
+
+    const checkboxes = Array.from(
+        document.querySelectorAll(".course-checkbox")
+    );
+
+    const counterEl =
+        document.getElementById("count");
+
+    const progressFill =
+        document.getElementById("progressFill");
+
+    const summaryList =
+        document.getElementById("summaryList");
+
+    const totalFeeEl =
+        document.getElementById("totalFee");
+
+    const submitBtn =
+        document.getElementById("submitBtn");
+
+    const submitHint =
+        document.getElementById("submitHint");
+
+    const filterInput =
+        document.getElementById("courseFilter");
+
+    const collegeFilter =
+        document.getElementById("collegeFilter");
+
+    const collegeBlocks =
+        Array.from(
+            document.querySelectorAll(".college")
+        );
+
+    const noCollegeSelected =
+        document.getElementById("noCollegeSelected");
+
+    const MAX_COURSES = 15;
+
+
+    // =====================================================
+    // FORMAT FEE
+    // =====================================================
+
+    function formatFee(number) {
+
+        return Number(number).toLocaleString("en-IN");
+
+    }
+
+
+    // =====================================================
+    // CHECK DOCUMENTS
+    // =====================================================
+
+    function documentsReady() {
+
+        const plusTwo =
+            document.getElementById(
+                "plus_two_certificate"
+            );
+
+        const aadhaar =
+            document.getElementById(
+                "aadhaar_document"
+            );
+
+        return (
+            plusTwo.files.length > 0 &&
+            aadhaar.files.length > 0
+        );
+
+    }
+
+
+    // =====================================================
+    // REFRESH SUBMIT BUTTON
+    // =====================================================
+
+    function refreshSubmitButton() {
+
+        const checked =
+            checkboxes.filter(
+                cb => cb.checked
+            );
+
+        const hasCourse =
+            checked.length > 0;
+
+        const hasDocuments =
+            documentsReady();
+
+
+        if (
+            hasCourse &&
+            hasDocuments &&
+            checked.length <= MAX_COURSES
+        ) {
+
+            submitBtn.disabled = false;
+
+            submitHint.textContent =
+                checked.length +
+                " course" +
+                (checked.length > 1 ? "s" : "") +
+                " ready to submit";
+
+        } else {
+
+            submitBtn.disabled = true;
+
+            if (!hasCourse) {
+
+                submitHint.textContent =
+                    "Select at least one course";
+
+            } else if (!hasDocuments) {
+
+                submitHint.textContent =
+                    "Upload both required documents";
+
+            }
+
+        }
+
+    }
+
+
+    // =====================================================
+    // REFRESH SUMMARY
+    // =====================================================
+
+    function refresh() {
+
+        const checked =
+            checkboxes.filter(
+                cb => cb.checked
+            );
+
+
+        // COUNT
+
+        counterEl.textContent =
+            checked.length;
+
+
+        // PROGRESS
+
+        const percentage =
+            Math.min(
+                (checked.length / MAX_COURSES) * 100,
+                100
+            );
+
+        progressFill.style.width =
+            percentage + "%";
+
+
+        progressFill.classList.toggle(
+            "is-full",
+            checked.length >= MAX_COURSES
+        );
+
+
+        // SUMMARY
+
+        summaryList.innerHTML = "";
+
+
+        let total = 0;
+
+
+        if (checked.length === 0) {
+
+            const empty =
+                document.createElement("p");
+
+            empty.className =
+                "summary-empty";
+
+            empty.textContent =
+                "No courses selected yet.";
+
+            summaryList.appendChild(empty);
+
+        } else {
+
+            checked.forEach(function (checkbox) {
+
+                const fee =
+                    parseFloat(
+                        checkbox.dataset.fee
+                    ) || 0;
+
+                total += fee;
+
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "summary-item";
+
+
+                row.innerHTML =
+                    '<span class="n">' +
+                    checkbox.dataset.name +
+                    '</span>' +
+
+                    '<span class="f">₹ ' +
+                    formatFee(fee) +
+                    '</span>';
+
+
+                summaryList.appendChild(row);
+
+            });
+
+        }
+
+
+        totalFeeEl.textContent =
+            formatFee(total);
+
+
+        // HIGHLIGHT SELECTED COURSE
+
+        checkboxes.forEach(function (checkbox) {
+
+            const row =
+                checkbox.closest(
+                    ".course-row"
+                );
+
+            if (row) {
+
+                row.classList.toggle(
+                    "is-checked",
+                    checkbox.checked
+                );
+
+            }
+
+        });
+
+
+        refreshSubmitButton();
+
+    }
+
+
+    // =====================================================
+    // COURSE CHECKBOX
+    // =====================================================
+
+    checkboxes.forEach(function (checkbox) {
+
+        checkbox.addEventListener(
+            "change",
+            function () {
+
+                const checked =
+                    checkboxes.filter(
+                        cb => cb.checked
+                    );
+
+
+                if (
+                    checked.length >
+                    MAX_COURSES
+                ) {
+
+                    this.checked = false;
+
+                    alert(
+                        "Maximum 15 courses are allowed."
+                    );
+
+                }
+
+
+                refresh();
+
+            }
+        );
+
+    });
+
+
+    // =====================================================
+    // COLLEGE FILTER
+    // =====================================================
+
+    function applyFilters() {
+
+        const search =
+            filterInput.value
+                .trim()
+                .toLowerCase();
+
+        const selectedCollege =
+            collegeFilter.value;
+
+
+        // NO COLLEGE
+
+        if (!selectedCollege) {
+
+            collegeBlocks.forEach(
+                college => {
+
+                    college.style.display =
+                        "none";
+
+                }
+            );
+
+
+            filterInput.disabled =
+                true;
+
+            filterInput.value = "";
+
+            filterInput.placeholder =
+                "Select a college first…";
+
+
+            noCollegeSelected.classList.add(
+                "is-visible"
+            );
+
+            return;
+
+        }
+
+
+        // COLLEGE SELECTED
+
+        filterInput.disabled =
+            false;
+
+        filterInput.placeholder =
+            "Search courses or departments…";
+
+
+        noCollegeSelected.classList.remove(
+            "is-visible"
+        );
+
+
+        collegeBlocks.forEach(
+            function (college) {
+
+                const selected =
+                    "college-" +
+                    college.dataset.collegeId ===
+                    selectedCollege;
+
+
+                if (!selected) {
+
+                    college.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+
+                college.style.display =
+                    "";
+
+
+                let visible = 0;
+
+
+                const rows =
+                    college.querySelectorAll(
+                        ".course-row"
+                    );
+
+
+                rows.forEach(
+                    function (row) {
+
+                        const text =
+                            row.dataset.search;
+
+
+                        const match =
+                            !search ||
+                            text.includes(search);
+
+
+                        row.classList.toggle(
+                            "is-hidden",
+                            !match
+                        );
+
+
+                        if (match) {
+
+                            visible++;
+
+                        }
+
+                    }
+                );
+
+
+                const emptyState =
+                    college.querySelector(
+                        ".empty-state"
+                    );
+
+
+                if (emptyState) {
+
+                    emptyState.classList.toggle(
+                        "is-visible",
+                        visible === 0
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    collegeFilter.addEventListener(
+        "change",
+        applyFilters
+    );
+
+
+    filterInput.addEventListener(
+        "input",
+        applyFilters
+    );
+
+
+    // =====================================================
+    // DOCUMENT UPLOAD
+    // =====================================================
+
+    const docInputs =
+        Array.from(
+            document.querySelectorAll(
+                "[data-doc-input]"
+            )
+        );
+
+
+    function refreshDocument(input) {
+
+        const card =
+            input.closest(
+                "[data-doc-card]"
+            );
+
+        const status =
+            card.querySelector(
+                "[data-doc-status]"
+            );
+
+
+        const checkItem =
+            document.querySelector(
+                '[data-doc-check="' +
+                input.name +
+                '"]'
+            );
+
+
+        const hasFile =
+            input.files &&
+            input.files.length > 0;
+
+
+        card.classList.toggle(
+            "is-complete",
+            hasFile
+        );
+
+
+        if (checkItem) {
+
+            checkItem.classList.toggle(
+                "is-done",
+                hasFile
+            );
+
+        }
+
+
+        if (hasFile) {
+
+            status.textContent =
+                "Selected: " +
+                input.files[0].name;
+
+            status.classList.add(
+                "is-complete"
+            );
+
+        } else {
+
+            status.textContent =
+                "PDF, JPG, JPEG or PNG";
+
+            status.classList.remove(
+                "is-complete"
+            );
+
+        }
+
+
+        refreshSubmitButton();
+
+    }
+
+
+    docInputs.forEach(
+        function (input) {
+
+            input.addEventListener(
+                "change",
+                function () {
+
+                    refreshDocument(this);
+
+                }
+            );
+
+
+            refreshDocument(input);
+
+        }
+    );
+
+
+    // =====================================================
+    // FORM SUBMIT
+    // =====================================================
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            const checked =
+                checkboxes.filter(
+                    cb => cb.checked
+                );
+
+
+            // NO COURSE
+
+            if (checked.length === 0) {
+
+                event.preventDefault();
+
+                alert(
+                    "Please select at least one course."
+                );
+
+                return;
+
+            }
+
+
+            // NO DOCUMENTS
+
+            if (!documentsReady()) {
+
+                event.preventDefault();
+
+                alert(
+                    "Please upload both Plus Two Certificate and Aadhaar Card."
+                );
+
+                return;
+
+            }
+
+
+            // MAX COURSES
+
+            if (
+                checked.length >
+                MAX_COURSES
+            ) {
+
+                event.preventDefault();
+
+                alert(
+                    "Maximum 15 courses are allowed."
+                );
+
+                return;
+
+            }
+
+
+            // PREVENT DOUBLE CLICK
+
+            submitBtn.disabled =
+                true;
+
+            submitBtn.textContent =
+                "Submitting...";
+
+            submitHint.textContent =
+                "Please wait while your application is being submitted.";
+
+        }
+    );
+
+
+    // =====================================================
+    // INITIAL
+    // =====================================================
+
+    applyFilters();
+
+    refresh();
+
+})();
+
+</script>
+
+</body>
+</html>

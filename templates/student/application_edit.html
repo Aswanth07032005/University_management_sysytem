@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Application · MM Technical University</title>
+
+
+    <!-- ================= BOOTSTRAP ================= -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- ================= GOOGLE FONTS ================= -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        :root{
+
+            --navy:#0a2f5c;
+
+            --navy-deep:#061d3d;
+
+            --blue:#1861a6;
+
+            --blue-soft:#2f79c2;
+
+            --sky:#d8e6f5;
+
+            --pale:#eef4fb;
+
+            --white:#ffffff;
+
+            --ink:#12233a;
+
+            --ink-soft:#52698a;
+
+            --beacon:#f2a531;
+
+            --beacon-deep:#c97f14;
+
+            --success:#1c7a4d;
+
+            --danger:#b23b3b;
+
+            --rule:#d3e0f0;
+
+            --display:"Merriweather",
+                      Georgia,
+                      serif;
+
+            --body:"Source Sans 3",
+                   sans-serif;
+
+            --mono:"IBM Plex Mono",
+                   monospace;
+        }
+
+
+        *{
+            box-sizing:border-box;
+        }
+
+
+        body{
+
+            margin:0;
+
+            background:var(--pale);
+
+            color:var(--ink);
+
+            font-family:var(--body);
+
+            -webkit-font-smoothing:antialiased;
+
+        }
+
+
+        /* ==================================================
+           TOP STRIP
+        ================================================== */
+
+        .top-strip{
+
+            background:var(--navy-deep);
+
+            color:#a9c2e0;
+
+            padding:7px 0;
+
+            border-bottom:
+                1px solid rgba(255,255,255,.08);
+
+            font-family:var(--mono);
+
+            font-size:11px;
+
+            letter-spacing:.06em;
+
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .top-bar{
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--navy) 0%,
+                    var(--navy-deep) 100%
+                );
+
+            color:white;
+
+            position:relative;
+
+            overflow:hidden;
+
+        }
+
+
+        .top-bar-inner{
+
+            padding:22px 0;
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:space-between;
+
+            gap:20px;
+
+            position:relative;
+
+            z-index:2;
+
+        }
+
+
+        .brand-row{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:14px;
+
+        }
+
+
+        .seal{
+
+            width:48px;
+
+            height:48px;
+
+            border-radius:50%;
+
+            border:
+                2px solid var(--beacon);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(242,165,49,.14);
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            background:var(--navy-deep);
+
+            flex:none;
+
+        }
+
+
+        .seal svg{
+
+            width:27px;
+
+            height:27px;
+
+        }
+
+
+        .eyebrow{
+
+            margin:0 0 3px;
+
+            color:var(--beacon);
+
+            font-family:var(--mono);
+
+            font-size:10px;
+
+            letter-spacing:.15em;
+
+            text-transform:uppercase;
+
+        }
+
+
+        .top-bar h2{
+
+            margin:0;
+
+            font-family:var(--display);
+
+            font-size:23px;
+
+            font-weight:700;
+
+        }
+
+
+        .sub{
+
+            margin:3px 0 0;
+
+            color:#c3d5ec;
+
+            font-size:13px;
+
+        }
+
+
+        .dashboard-btn{
+
+            border:
+                1px solid var(--beacon);
+
+            color:var(--beacon);
+
+            font-weight:600;
+
+            padding:9px 18px;
+
+            border-radius:7px;
+
+            text-decoration:none;
+
+            transition:.2s;
+
+        }
+
+
+        .dashboard-btn:hover{
+
+            background:var(--beacon);
+
+            color:var(--navy-deep);
+
+        }
+
+
+        .tricolor-rule{
+
+            height:4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--beacon) 0 33%,
+                    white 33% 66%,
+                    var(--blue-soft) 66% 100%
+                );
+
+        }
+
+
+        /* ==================================================
+           PAGE
+        ================================================== */
+
+        .page-body{
+
+            padding:38px 0 70px;
+
+        }
+
+
+        .container{
+
+            max-width:1050px;
+
+        }
+
+
+        /* ==================================================
+           CARD
+        ================================================== */
+
+        .edit-card{
+
+            background:white;
+
+            border:
+                1px solid var(--rule);
+
+            border-radius:16px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(10,47,92,.07);
+
+            overflow:hidden;
+
+        }
+
+
+        .card-header-custom{
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f7faff,
+                    #eef4fb
+                );
+
+            border-bottom:
+                1px solid var(--rule);
+
+            padding:25px 30px;
+
+        }
+
+
+        .card-header-custom h3{
+
+            margin:0;
+
+            color:var(--navy);
+
+            font-family:var(--display);
+
+            font-size:21px;
+
+            font-weight:700;
+
+        }
+
+
+        .card-header-custom p{
+
+            margin:6px 0 0;
+
+            color:var(--ink-soft);
+
+            font-size:14px;
+
+        }
+
+
+        .card-body-custom{
+
+            padding:30px;
+
+        }
+
+
+        /* ==================================================
+           APPLICATION INFO
+        ================================================== */
+
+        .application-info{
+
+            background:var(--navy);
+
+            color:white;
+
+            border-radius:10px;
+
+            padding:18px 20px;
+
+            margin-bottom:28px;
+
+        }
+
+
+        .application-info .label{
+
+            color:#a9c2e0;
+
+            font-family:var(--mono);
+
+            font-size:10px;
+
+            text-transform:uppercase;
+
+            letter-spacing:.08em;
+
+        }
+
+
+        .application-info .value{
+
+            margin-top:3px;
+
+            font-family:var(--mono);
+
+            font-size:15px;
+
+            font-weight:600;
+
+            color:var(--beacon);
+
+        }
+
+
+        .status-badge{
+
+            display:inline-block;
+
+            padding:6px 13px;
+
+            border-radius:20px;
+
+            background:#fdf1de;
+
+            color:var(--beacon-deep);
+
+            font-size:12px;
+
+            font-weight:700;
+
+        }
+
+
+        /* ==================================================
+           SECTION TITLE
+        ================================================== */
+
+        .section-title{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:10px;
+
+            margin:28px 0 18px;
+
+            padding-bottom:9px;
+
+            border-bottom:
+                2px solid var(--navy);
+
+        }
+
+
+        .section-title span{
+
+            width:28px;
+
+            height:28px;
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            border-radius:6px;
+
+            background:var(--navy);
+
+            color:white;
+
+            font-family:var(--mono);
+
+            font-size:12px;
+
+        }
+
+
+        .section-title h5{
+
+            margin:0;
+
+            color:var(--navy);
+
+            font-family:var(--display);
+
+            font-size:17px;
+
+            font-weight:700;
+
+        }
+
+
+        /* ==================================================
+           FORM
+        ================================================== */
+
+        .form-label{
+
+            font-weight:600;
+
+            color:var(--navy);
+
+            font-size:14px;
+
+            margin-bottom:7px;
+
+        }
+
+
+        .required{
+
+            color:#dc3545;
+
+        }
+
+
+        .form-control,
+        .form-select{
+
+            border:
+                1px solid #c8d6e8;
+
+            border-radius:8px;
+
+            padding:11px 13px;
+
+            color:var(--ink);
+
+            font-size:14px;
+
+            background:white;
+
+            transition:.2s;
+
+        }
+
+
+        .form-control:focus,
+        .form-select:focus{
+
+            border-color:var(--blue);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(24,97,166,.10);
+
+        }
+
+
+        /* ==================================================
+           COURSE LOADING
+        ================================================== */
+
+        .course-loading{
+
+            display:none;
+
+            font-size:12px;
+
+            color:var(--blue);
+
+            margin-top:7px;
+
+        }
+
+
+        .course-loading i{
+
+            margin-right:5px;
+
+        }
+
+
+        /* ==================================================
+           COURSE INFO
+        ================================================== */
+
+        .course-info{
+
+            background:#eef6ff;
+
+            border:
+                1px solid #c8def5;
+
+            color:#315b83;
+
+            border-radius:9px;
+
+            padding:13px 15px;
+
+            font-size:13px;
+
+            margin-top:18px;
+
+            display:none;
+
+        }
+
+
+        /* ==================================================
+           FILE INPUT
+        ================================================== */
+
+        .file-box{
+
+            border:
+                1px dashed #b9cce2;
+
+            border-radius:10px;
+
+            padding:16px;
+
+            background:#f9fbfe;
+
+        }
+
+
+        .current-file{
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:space-between;
+
+            gap:10px;
+
+            margin-bottom:12px;
+
+            padding:10px 12px;
+
+            background:white;
+
+            border:
+                1px solid var(--rule);
+
+            border-radius:7px;
+
+            font-size:13px;
+
+        }
+
+
+        .current-file-name{
+
+            color:var(--blue);
+
+            font-weight:600;
+
+            word-break:break-all;
+
+        }
+
+
+        .view-file{
+
+            color:var(--blue);
+
+            text-decoration:none;
+
+            font-size:12px;
+
+            font-weight:600;
+
+            white-space:nowrap;
+
+        }
+
+
+        .view-file:hover{
+
+            text-decoration:underline;
+
+        }
+
+
+        /* ==================================================
+           ALERTS
+        ================================================== */
+
+        .info-alert{
+
+            background:#eef6ff;
+
+            border:
+                1px solid #c8def5;
+
+            color:#315b83;
+
+            border-radius:9px;
+
+            padding:13px 15px;
+
+            font-size:13px;
+
+        }
+
+
+        .error-box{
+
+            background:#fff0f0;
+
+            border:
+                1px solid #efc4c4;
+
+            color:#9d3333;
+
+            border-radius:8px;
+
+            padding:12px 14px;
+
+            font-size:13px;
+
+            margin-bottom:20px;
+
+        }
+
+
+        .field-error{
+
+            color:#dc3545;
+
+            font-size:13px;
+
+            margin-top:6px;
+
+        }
+
+
+        /* ==================================================
+           BUTTONS
+        ================================================== */
+
+        .btn-update{
+
+            background:var(--beacon);
+
+            border:
+                1px solid var(--beacon);
+
+            color:var(--navy-deep);
+
+            font-weight:700;
+
+            padding:11px 25px;
+
+            border-radius:7px;
+
+            transition:.2s;
+
+        }
+
+
+        .btn-update:hover{
+
+            background:#ffb84d;
+
+            border-color:#ffb84d;
+
+            color:var(--navy-deep);
+
+        }
+
+
+        .btn-cancel{
+
+            background:white;
+
+            border:
+                1px solid #aebfd4;
+
+            color:var(--ink-soft);
+
+            font-weight:600;
+
+            padding:11px 23px;
+
+            border-radius:7px;
+
+            text-decoration:none;
+
+            display:inline-block;
+
+        }
+
+
+        .btn-cancel:hover{
+
+            background:#f1f5fa;
+
+            color:var(--navy);
+
+        }
+
+
+        .action-area{
+
+            border-top:
+                1px solid var(--rule);
+
+            margin-top:30px;
+
+            padding-top:22px;
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:flex-end;
+
+            gap:10px;
+
+            flex-wrap:wrap;
+
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media(max-width:768px){
+
+            .page-body{
+
+                padding:20px 0 50px;
+
+            }
+
+
+            .card-header-custom,
+            .card-body-custom{
+
+                padding:20px;
+
+            }
+
+
+            .top-bar-inner{
+
+                padding:18px 0;
+
+                align-items:stretch;
+
+                flex-direction:column;
+
+            }
+
+
+            .dashboard-btn{
+
+                width:100%;
+
+                text-align:center;
+
+            }
+
+
+            .application-info{
+
+                padding:15px;
+
+            }
+
+
+            .action-area{
+
+                justify-content:stretch;
+
+            }
+
+
+            .btn-update,
+            .btn-cancel{
+
+                width:100%;
+
+                text-align:center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     TOP STRIP
+================================================== -->
+
+<div class="top-strip">
+
+    <div class="container d-flex justify-content-between">
+
+        <span>
+            Government of Kerala · State University
+        </span>
+
+        <span>
+            MMT.IN
+        </span>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="top-bar">
+
+    <div class="container top-bar-inner">
+
+        <div class="brand-row">
+
+
+            <!-- SEAL -->
+
+            <div class="seal">
+
+                <svg
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+
+                    <path
+                        d="M24 4 L28 12 L20 12 Z"
+                        fill="#f2a531"
+                    />
+
+                    <path
+                        d="M20 12 H28 L27 18 H21 Z"
+                        fill="#eef4fb"
+                    />
+
+                    <path
+                        d="M21 18 H27 L29.5 40 H18.5 Z"
+                        fill="#eef4fb"
+                    />
+
+                    <path
+                        d="M22 22 H26 M20.6 28 H27.4 M19.2 34 H28.8"
+                        stroke="#0a2f5c"
+                        stroke-width="1.3"
+                    />
+
+                    <path
+                        d="M14.5 42 H33.5 L31.5 40 H16.5 Z"
+                        fill="#f2a531"
+                    />
+
+                    <path
+                        d="M10 40 H38"
+                        stroke="#f2a531"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <!-- BRAND -->
+
+            <div>
+
+                <p class="eyebrow">
+
+                    Directorate of Admissions ·
+                    MM Technical University
+
+                </p>
+
+
+                <h2>
+                    Edit Application
+                </h2>
+
+
+                <p class="sub">
+                    Update your admission application details
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MY APPLICATIONS -->
+
+        <a
+            href="{% url 'student_applications' %}"
+            class="dashboard-btn"
+        >
+
+            My Applications
+
+        </a>
+
+    </div>
+
+
+    <div class="tricolor-rule"></div>
+
+</header>
+
+
+
+<!-- ==================================================
+     PAGE
+================================================== -->
+
+<div class="container page-body">
+
+
+    <div class="edit-card">
+
+
+        <!-- ==================================================
+             CARD HEADER
+        ================================================== -->
+
+        <div class="card-header-custom">
+
+            <h3>
+                Edit Admission Application
+            </h3>
+
+
+            <p>
+
+                Review your information carefully
+                before updating.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             CARD BODY
+        ================================================== -->
+
+        <div class="card-body-custom">
+
+
+
+            <!-- ==================================================
+                 APPLICATION INFORMATION
+            ================================================== -->
+
+            <div class="application-info">
+
+                <div class="row align-items-center">
+
+
+                    <!-- APPLICATION NUMBER -->
+
+                    <div class="col-md-6">
+
+                        <div class="label">
+
+                            Application Number
+
+                        </div>
+
+
+                        <div class="value">
+
+                            APP-{{ application.id|stringformat:"05d" }}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STATUS -->
+
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+
+                        <div class="label mb-1">
+
+                            Current Status
+
+                        </div>
+
+
+                        <span class="status-badge">
+
+                            {{ application.status }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 DJANGO FORM NON FIELD ERRORS
+            ================================================== -->
+
+            {% if form.non_field_errors %}
+
+                <div class="error-box">
+
+                    {% for error in form.non_field_errors %}
+
+                        <div>
+
+                            {{ error }}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+
+            <!-- ==================================================
+                 FORM START
+            ================================================== -->
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+                id="applicationEditForm"
+            >
+
+                {% csrf_token %}
+
+
+
+                <!-- ==================================================
+                     COURSE INFORMATION
+                ================================================== -->
+
+                <div class="section-title">
+
+                    <span>
+                        01
+                    </span>
+
+
+                    <h5>
+                        Course Information
+                    </h5>
+
+                </div>
+
+
+
+                <div class="row g-4">
+
+
+
+                    <!-- ==================================================
+                         COLLEGE
+                    ================================================== -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="id_college"
+                            class="form-label"
+                        >
+
+                            College
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+
+                        {{ form.college }}
+
+
+
+                        {% if form.college.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.college.errors %}
+
+                                    <div>
+                                        {{ error }}
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+
+                    <!-- ==================================================
+                         COURSE
+                    ================================================== -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="id_course"
+                            class="form-label"
+                        >
+
+                            Course
+
+                            <span class="required">
+                                *
+                            </span>
+
+                        </label>
+
+
+
+                        <select
+                            name="course"
+                            id="id_course"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select Course
+                            </option>
+
+                        </select>
+
+
+
+                        <!-- Loading -->
+
+                        <div
+                            id="courseLoading"
+                            class="course-loading"
+                        >
+
+                            <span
+                                class="spinner-border spinner-border-sm"
+                                role="status"
+                                aria-hidden="true"
+                            ></span>
+
+                            Loading courses...
+
+                        </div>
+
+
+
+                        {% if form.course.errors %}
+
+                            <div class="field-error">
+
+                                {% for error in form.course.errors %}
+
+                                    <div>
+                                        {{ error }}
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==================================================
+                     COURSE INFORMATION
+                ================================================== -->
+
+                <div
+                    id="courseInfo"
+                    class="course-info"
+                >
+
+                    <strong>
+                        Selected Course:
+                    </strong>
+
+                    <span id="courseName">
+                    </span>
+
+
+                    <br>
+
+
+                    <strong>
+                        Department:
+                    </strong>
+
+                    <span id="courseDepartment">
+                    </span>
+
+
+                    <br>
+
+
+                    <strong>
+                        Course Code:
+                    </strong>
+
+                    <span id="courseCode">
+                    </span>
+
+                </div>
+
+
+
+                <!-- ==================================================
+                     DOCUMENTS
+                ================================================== -->
+
+                <div class="section-title">
+
+                    <span>
+                        02
+                    </span>
+
+
+                    <h5>
+                        Application Documents
+                    </h5>
+
+                </div>
+
+
+
+                <!-- INFO -->
+
+                <div class="info-alert mb-4">
+
+                    <strong>
+                        Note:
+                    </strong>
+
+                    If you do not select a new file,
+                    your existing document will remain unchanged.
+
+                </div>
+
+
+
+                <div class="row g-4">
+
+
+
+                    <!-- ==================================================
+                         PLUS TWO CERTIFICATE
+                    ================================================== -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="{{ form.plus_two_certificate.id_for_label }}"
+                            class="form-label"
+                        >
+
+                            Plus Two Certificate
+
+                        </label>
+
+
+
+                        <div class="file-box">
+
+
+
+                            {% if application.plus_two_certificate %}
+
+                                <div class="current-file">
+
+                                    <div>
+
+                                        <small
+                                            class="text-muted d-block"
+                                        >
+
+                                            Current File
+
+                                        </small>
+
+
+                                        <span
+                                            class="current-file-name"
+                                        >
+
+                                            {{
+                                                application.plus_two_certificate.name
+                                            }}
+
+                                        </span>
+
+                                    </div>
+
+
+
+                                    <a
+                                        href="{{ application.plus_two_certificate.url }}"
+                                        target="_blank"
+                                        class="view-file"
+                                    >
+
+                                        View
+
+                                    </a>
+
+                                </div>
+
+                            {% endif %}
+
+
+
+                            {{ form.plus_two_certificate }}
+
+
+
+                            {% if form.plus_two_certificate.errors %}
+
+                                <div class="field-error">
+
+                                    {% for error in form.plus_two_certificate.errors %}
+
+                                        <div>
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ==================================================
+                         AADHAAR DOCUMENT
+                    ================================================== -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="{{ form.aadhaar_document.id_for_label }}"
+                            class="form-label"
+                        >
+
+                            Aadhaar Document
+
+                        </label>
+
+
+
+                        <div class="file-box">
+
+
+
+                            {% if application.aadhaar_document %}
+
+                                <div class="current-file">
+
+                                    <div>
+
+                                        <small
+                                            class="text-muted d-block"
+                                        >
+
+                                            Current File
+
+                                        </small>
+
+
+                                        <span
+                                            class="current-file-name"
+                                        >
+
+                                            {{
+                                                application.aadhaar_document.name
+                                            }}
+
+                                        </span>
+
+                                    </div>
+
+
+
+                                    <a
+                                        href="{{ application.aadhaar_document.url }}"
+                                        target="_blank"
+                                        class="view-file"
+                                    >
+
+                                        View
+
+                                    </a>
+
+                                </div>
+
+                            {% endif %}
+
+
+
+                            {{ form.aadhaar_document }}
+
+
+
+                            {% if form.aadhaar_document.errors %}
+
+                                <div class="field-error">
+
+                                    {% for error in form.aadhaar_document.errors %}
+
+                                        <div>
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==================================================
+                     IMPORTANT NOTE
+                ================================================== -->
+
+                <div class="info-alert mt-4">
+
+                    <strong>
+                        Important:
+                    </strong>
+
+                    After your application is verified by
+                    the college or university, editing will
+                    no longer be allowed.
+
+                </div>
+
+
+
+                <!-- ==================================================
+                     ACTION BUTTONS
+                ================================================== -->
+
+                <div class="action-area">
+
+
+                    <!-- CANCEL -->
+
+                    <a
+                        href="{% url 'student_applications' %}"
+                        class="btn-cancel"
+                    >
+
+                        Cancel
+
+                    </a>
+
+
+
+                    <!-- UPDATE -->
+
+                    <button
+                        type="submit"
+                        class="btn-update"
+                        id="updateButton"
+                    >
+
+                        Update Application
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     BOOTSTRAP JS
+================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- ==================================================
+     COURSE FILTER JAVASCRIPT
+================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* ==================================================
+           ELEMENTS
+        ================================================== */
+
+        const collegeSelect =
+            document.getElementById(
+                "id_college"
+            );
+
+
+        const courseSelect =
+            document.getElementById(
+                "id_course"
+            );
+
+
+        const courseLoading =
+            document.getElementById(
+                "courseLoading"
+            );
+
+
+        const courseInfo =
+            document.getElementById(
+                "courseInfo"
+            );
+
+
+        const courseName =
+            document.getElementById(
+                "courseName"
+            );
+
+
+        const courseDepartment =
+            document.getElementById(
+                "courseDepartment"
+            );
+
+
+        const courseCode =
+            document.getElementById(
+                "courseCode"
+            );
+
+
+
+        /* ==================================================
+           CHECK ELEMENTS
+        ================================================== */
+
+        if (
+            !collegeSelect ||
+            !courseSelect
+        ) {
+
+            console.error(
+                "College or Course element not found."
+            );
+
+            return;
+
+        }
+
+
+
+        /* ==================================================
+           EXISTING COURSE
+        ================================================== */
+
+        const existingCourseId =
+            "{{ application.course_id|default:'' }}";
+
+
+
+        /* ==================================================
+           LOAD COURSES
+        ================================================== */
+
+        function loadCourses(
+            collegeId,
+            selectedCourseId = ""
+        ) {
+
+
+            /* Hide information */
+
+            courseInfo.style.display =
+                "none";
+
+
+            /* Clear courses */
+
+            courseSelect.innerHTML =
+                "";
+
+
+            /* No college */
+
+            if (!collegeId) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    "";
+
+                option.textContent =
+                    "Select College First";
+
+                courseSelect.appendChild(
+                    option
+                );
+
+                return;
+
+            }
+
+
+
+            /* Loading */
+
+            courseLoading.style.display =
+                "block";
+
+
+            const loadingOption =
+                document.createElement(
+                    "option"
+                );
+
+            loadingOption.value =
+                "";
+
+            loadingOption.textContent =
+                "Loading courses...";
+
+
+            courseSelect.appendChild(
+                loadingOption
+            );
+
+
+
+            /* ==================================================
+               AJAX REQUEST
+            ================================================== */
+
+            fetch(
+                "{% url 'courses_by_college' %}?college_id="
+                + encodeURIComponent(collegeId)
+            )
+
+            .then(
+                function(response){
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Failed to load courses"
+                        );
+
+                    }
+
+                    return response.json();
+
+                }
+            )
+
+            .then(
+                function(data){
+
+
+                    /* Hide loading */
+
+                    courseLoading.style.display =
+                        "none";
+
+
+                    /* Clear dropdown */
+
+                    courseSelect.innerHTML =
+                        "";
+
+
+                    /* Default option */
+
+                    const defaultOption =
+                        document.createElement(
+                            "option"
+                        );
+
+                    defaultOption.value =
+                        "";
+
+                    defaultOption.textContent =
+                        "Select Course";
+
+
+                    courseSelect.appendChild(
+                        defaultOption
+                    );
+
+
+
+                    /* ==================================================
+                       NO COURSES
+                    ================================================== */
+
+                    if (
+                        !data ||
+                        data.length === 0
+                    ) {
+
+                        const noCourseOption =
+                            document.createElement(
+                                "option"
+                            );
+
+                        noCourseOption.value =
+                            "";
+
+                        noCourseOption.textContent =
+                            "No courses available";
+
+
+                        courseSelect.appendChild(
+                            noCourseOption
+                        );
+
+
+                        return;
+
+                    }
+
+
+
+                    /* ==================================================
+                       ADD COURSES
+                    ================================================== */
+
+                    data.forEach(
+                        function(course){
+
+
+                            const option =
+                                document.createElement(
+                                    "option"
+                                );
+
+
+                            option.value =
+                                course.id;
+
+
+                            option.textContent =
+                                course.course_name;
+
+
+
+                            /* Existing course */
+
+                            if (
+                                String(course.id)
+                                ===
+                                String(selectedCourseId)
+                            ) {
+
+                                option.selected =
+                                    true;
+
+                            }
+
+
+                            courseSelect.appendChild(
+                                option
+                            );
+
+                        }
+                    );
+
+
+
+                    /* ==================================================
+                       SHOW EXISTING COURSE INFO
+                    ================================================== */
+
+                    if (
+                        selectedCourseId
+                    ) {
+
+
+                        const selectedCourse =
+                            data.find(
+                                function(course){
+
+                                    return (
+                                        String(
+                                            course.id
+                                        )
+                                        ===
+                                        String(
+                                            selectedCourseId
+                                        )
+                                    );
+
+                                }
+                            );
+
+
+
+                        if (
+                            selectedCourse
+                        ) {
+
+
+                            courseName.textContent =
+                                selectedCourse.course_name
+                                || "-";
+
+
+                            courseDepartment.textContent =
+                                selectedCourse.department_name
+                                || "-";
+
+
+                            courseCode.textContent =
+                                selectedCourse.course_code
+                                || "-";
+
+
+                            courseInfo.style.display =
+                                "block";
+
+                        }
+
+                    }
+
+                }
+            )
+
+            .catch(
+                function(error){
+
+
+                    console.error(
+                        "Course loading error:",
+                        error
+                    );
+
+
+                    courseLoading.style.display =
+                        "none";
+
+
+                    courseSelect.innerHTML =
+                        "";
+
+
+                    const errorOption =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    errorOption.value =
+                        "";
+
+
+                    errorOption.textContent =
+                        "Unable to load courses";
+
+
+                    courseSelect.appendChild(
+                        errorOption
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* ==================================================
+           COLLEGE CHANGE
+        ================================================== */
+
+        collegeSelect.addEventListener(
+            "change",
+            function(){
+
+
+                const collegeId =
+                    this.value;
+
+
+                /*
+                    IMPORTANT:
+
+                    College change ചെയ്താൽ
+                    existing course select ചെയ്യരുത്.
+
+                    പുതിയ college-ന്റെ courses
+                    മാത്രം കാണിക്കണം.
+                */
+
+                loadCourses(
+                    collegeId,
+                    ""
+                );
+
+            }
+        );
+
+
+
+        /* ==================================================
+           COURSE CHANGE
+        ================================================== */
+
+        courseSelect.addEventListener(
+            "change",
+            function(){
+
+
+                const selectedCourseId =
+                    this.value;
+
+
+                if (
+                    !selectedCourseId
+                ) {
+
+                    courseInfo.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+
+
+                /*
+                    Get selected option text
+                */
+
+                const selectedOption =
+                    courseSelect.options[
+                        courseSelect.selectedIndex
+                    ];
+
+
+                courseName.textContent =
+                    selectedOption.textContent;
+
+
+                /*
+                    Department information
+                    will be loaded again from API
+                */
+
+                const collegeId =
+                    collegeSelect.value;
+
+
+                if (!collegeId) {
+
+                    return;
+
+                }
+
+
+
+                fetch(
+                    "{% url 'courses_by_college' %}?college_id="
+                    + encodeURIComponent(collegeId)
+                )
+
+                .then(
+                    response =>
+                        response.json()
+                )
+
+                .then(
+                    function(data){
+
+                        const selectedCourse =
+                            data.find(
+                                function(course){
+
+                                    return (
+                                        String(
+                                            course.id
+                                        )
+                                        ===
+                                        String(
+                                            selectedCourseId
+                                        )
+                                    );
+
+                                }
+                            );
+
+
+                        if (
+                            selectedCourse
+                        ) {
+
+                            courseName.textContent =
+                                selectedCourse.course_name
+                                || "-";
+
+
+                            courseDepartment.textContent =
+                                selectedCourse.department_name
+                                || "-";
+
+
+                            courseCode.textContent =
+                                selectedCourse.course_code
+                                || "-";
+
+
+                            courseInfo.style.display =
+                                "block";
+
+                        }
+
+                    }
+                )
+
+                .catch(
+                    function(error){
+
+                        console.error(error);
+
+                    }
+                );
+
+            }
+        );
+
+
+
+        /* ==================================================
+           INITIAL LOAD
+        ================================================== */
+
+        if (
+            collegeSelect.value
+        ) {
+
+            loadCourses(
+                collegeSelect.value,
+                existingCourseId
+            );
+
+        }
+        else {
+
+            courseSelect.innerHTML =
+                "";
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                "";
+
+            option.textContent =
+                "Select College First";
+
+            courseSelect.appendChild(
+                option
+            );
+
+        }
+
+    });
+
+</script>
+
+
+
+<!-- ==================================================
+     FORM SUBMIT PROTECTION
+================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const form =
+            document.getElementById(
+                "applicationEditForm"
+            );
+
+
+        const button =
+            document.getElementById(
+                "updateButton"
+            );
+
+
+        if (
+            !form ||
+            !button
+        ) {
+
+            return;
+
+        }
+
+
+        form.addEventListener(
+            "submit",
+            function(event){
+
+
+                const college =
+                    document.getElementById(
+                        "id_college"
+                    );
+
+
+                const course =
+                    document.getElementById(
+                        "id_course"
+                    );
+
+
+                /* College validation */
+
+                if (
+                    !college.value
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select a college."
+                    );
+
+                    college.focus();
+
+                    return;
+
+                }
+
+
+                /* Course validation */
+
+                if (
+                    !course.value
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select a course."
+                    );
+
+                    course.focus();
+
+                    return;
+
+                }
+
+
+                /* Prevent double submit */
+
+                button.disabled =
+                    true;
+
+
+                button.innerHTML =
+
+                    `
+                    <span
+                        class="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true">
+                    </span>
+
+                    Updating...
+                    `;
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

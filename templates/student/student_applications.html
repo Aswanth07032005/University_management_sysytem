@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Applications · MM Technical University</title>
+
+    <!-- Bootstrap 5.3.3 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        :root{
+            --navy:        #0a2f5c;
+            --navy-deep:   #061d3d;
+            --blue:        #1861a6;
+            --blue-soft:   #2f79c2;
+            --sky:         #d8e6f5;
+            --pale:        #eef4fb;
+            --white:       #ffffff;
+            --ink:         #12233a;
+            --ink-soft:    #52698a;
+            --beacon:      #f2a531;
+            --beacon-deep: #c97f14;
+            --success:     #1c7a4d;
+            --success-tint:#e5f4ec;
+            --danger:      #b23b3b;
+            --danger-tint: #fbeced;
+            --info:        #1861a6;
+            --info-tint:   #d8e6f5;
+            --primary-tint:#e3ecf7;
+            --rule:        #d3e0f0;
+
+            --display: "Merriweather", Georgia, serif;
+            --body: "Source Sans 3", sans-serif;
+            --mono: "IBM Plex Mono", monospace;
+        }
+
+
+        body{
+            margin:0;
+            background:var(--pale);
+            font-family:var(--body);
+            color:var(--ink);
+            -webkit-font-smoothing:antialiased;
+        }
+
+
+        /* ================= TOP BAR ================= */
+
+        .top-bar{
+            background:linear-gradient(
+                180deg,
+                var(--navy) 0%,
+                var(--navy-deep) 100%
+            );
+
+            color:var(--white);
+            position:relative;
+            overflow:hidden;
+        }
+
+
+        .beam-field{
+            position:absolute;
+            inset:0;
+            overflow:hidden;
+            pointer-events:none;
+        }
+
+
+        .beam{
+            position:absolute;
+            top:-40%;
+            left:50%;
+            width:5px;
+            height:220%;
+
+            background:linear-gradient(
+                180deg,
+                rgba(242,165,49,.28),
+                rgba(242,165,49,0) 70%
+            );
+
+            transform-origin:top center;
+            animation:sweep 9s ease-in-out infinite;
+            filter:blur(1px);
+        }
+
+
+        @keyframes sweep{
+
+            0%{
+                transform:rotate(-38deg);
+                opacity:.5;
+            }
+
+            50%{
+                transform:rotate(38deg);
+                opacity:.8;
+            }
+
+            100%{
+                transform:rotate(-38deg);
+                opacity:.5;
+            }
+
+        }
+
+
+        .top-strip{
+            background:var(--navy-deep);
+            border-bottom:1px solid rgba(255,255,255,.08);
+
+            padding:7px 0;
+
+            font-family:var(--mono);
+            font-size:11px;
+            letter-spacing:.06em;
+            color:#a9c2e0;
+
+            position:relative;
+            z-index:1;
+        }
+
+
+        .top-bar-inner{
+            padding:22px 0;
+
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+
+            gap:20px;
+            flex-wrap:wrap;
+
+            position:relative;
+            z-index:1;
+        }
+
+
+        .brand-row{
+            display:flex;
+            align-items:center;
+            gap:14px;
+        }
+
+
+        .seal{
+            width:46px;
+            height:46px;
+
+            border-radius:50%;
+            border:2px solid var(--beacon);
+
+            box-shadow:
+                0 0 0 3px rgba(242,165,49,.14);
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            flex:none;
+            background:var(--navy-deep);
+        }
+
+
+        .seal svg{
+            width:26px;
+            height:26px;
+        }
+
+
+        .eyebrow{
+            font-family:var(--mono);
+            font-size:10.5px;
+            letter-spacing:.16em;
+            text-transform:uppercase;
+
+            color:var(--beacon);
+
+            margin:0 0 3px;
+        }
+
+
+        .top-bar h2{
+            font-family:var(--display);
+            font-weight:700;
+            font-size:23px;
+            margin:0;
+        }
+
+
+        .top-bar .sub{
+            font-size:13px;
+            color:#c3d5ec;
+            margin:2px 0 0;
+        }
+
+
+        .btn-outline-primary{
+            border-color:var(--beacon);
+            color:var(--beacon);
+
+            font-weight:600;
+            font-size:14px;
+
+            display:inline-flex;
+            align-items:center;
+            gap:7px;
+        }
+
+
+        .btn-outline-primary:hover{
+            background:var(--beacon);
+            border-color:var(--beacon);
+            color:var(--navy-deep);
+        }
+
+
+        .tricolor-rule{
+            height:4px;
+
+            background:linear-gradient(
+                90deg,
+                var(--beacon) 0 33%,
+                var(--white) 33% 66%,
+                var(--blue-soft) 66% 100%
+            );
+
+            opacity:.9;
+        }
+
+
+        /* ================= BODY ================= */
+
+        .container{
+            max-width:1180px;
+        }
+
+
+        .page-body{
+            padding:36px 0 70px;
+        }
+
+
+        /* ================= PROFILE CARD ================= */
+
+        .profile-card{
+            background:var(--white);
+
+            border:1px solid var(--rule);
+            border-radius:14px;
+
+            box-shadow:
+                0 1px 3px rgba(10,47,92,.06);
+
+            overflow:hidden;
+            margin-bottom:28px;
+            transition:box-shadow .2s ease;
+        }
+
+        .profile-card:hover{
+            box-shadow:0 4px 16px rgba(10,47,92,.1);
+        }
+
+
+        .profile-card .card-body{
+            padding:30px;
+        }
+
+
+        .profile-photo-frame img,
+        .profile-photo-frame .no-photo{
+
+            width:140px;
+            height:140px;
+
+            border:3px solid var(--sky);
+
+            box-shadow:
+                0 4px 14px rgba(10,47,92,.12);
+        }
+
+
+        .no-photo{
+            background:var(--pale);
+            color:#a9bad2;
+
+            flex-direction:column;
+            gap:6px;
+        }
+
+        .no-photo svg{ width:44px; height:44px; }
+
+        .no-photo span{
+            font-family:var(--mono);
+            font-size:10.5px;
+            letter-spacing:.04em;
+        }
+
+
+        .student-name{
+            font-family:var(--display);
+            font-weight:700;
+
+            color:var(--navy);
+
+            font-size:24px;
+        }
+
+
+        .detail-label{
+            font-family:var(--mono);
+            font-size:10.5px;
+
+            letter-spacing:.06em;
+            text-transform:uppercase;
+
+            color:var(--ink-soft);
+
+            display:block;
+            margin-bottom:2px;
+        }
+
+
+        .detail-value{
+            font-size:14.5px;
+            font-weight:500;
+            color:var(--ink);
+        }
+
+
+        .detail-item{
+            padding:9px 0;
+
+            border-bottom:1px dashed var(--rule);
+        }
+
+
+        /* ================= SECTION ================= */
+
+        .section-head{
+
+            display:flex;
+
+            align-items:baseline;
+            justify-content:space-between;
+
+            gap:16px;
+
+            margin-bottom:16px;
+
+            border-bottom:2px solid var(--navy);
+
+            padding-bottom:10px;
+        }
+
+
+        .section-head h4{
+
+            font-family:var(--display);
+
+            font-weight:700;
+            font-size:19px;
+
+            color:var(--navy);
+
+            margin:0;
+        }
+
+
+        .section-head .count{
+
+            font-family:var(--mono);
+            font-size:12px;
+
+            color:var(--ink-soft);
+        }
+
+
+        /* ================= TABLE ================= */
+
+        .table-card{
+
+            background:var(--white);
+
+            border:1px solid var(--rule);
+
+            border-radius:14px;
+
+            box-shadow:
+                0 1px 3px rgba(10,47,92,.06);
+
+            overflow:hidden;
+        }
+
+
+        table.table{
+            margin-bottom:0;
+            font-family:var(--body);
+        }
+
+
+        table.table thead th{
+
+            background:var(--navy);
+
+            color:var(--white);
+
+            font-family:var(--mono);
+
+            font-size:11px;
+
+            letter-spacing:.06em;
+
+            text-transform:uppercase;
+
+            font-weight:600;
+
+            border:none;
+
+            padding:14px 16px;
+
+            white-space:nowrap;
+        }
+
+
+        table.table tbody td{
+
+            padding:14px 16px;
+
+            font-size:14.5px;
+
+            color:var(--ink);
+
+            border-color:var(--rule);
+
+            vertical-align:middle;
+        }
+
+
+        table.table tbody tr{ transition:background .12s ease; }
+
+        table.table tbody tr:hover{
+            background:var(--pale);
+        }
+
+
+        .app-no{
+
+            font-family:var(--mono);
+
+            font-weight:600;
+
+            color:var(--blue);
+        }
+
+
+        /* ================= STATUS ================= */
+
+        .badge{
+
+            font-family:var(--body);
+
+            font-weight:600;
+
+            font-size:12px;
+
+            padding:6px 12px;
+
+            border-radius:20px;
+        }
+
+
+        .badge.bg-success{
+
+            background:var(--success-tint) !important;
+
+            color:var(--success) !important;
+        }
+
+
+        .badge.bg-danger{
+
+            background:var(--danger-tint) !important;
+
+            color:var(--danger) !important;
+        }
+
+
+        .badge.bg-warning{
+
+            background:#fdf1de !important;
+
+            color:var(--beacon-deep) !important;
+        }
+
+        /* previously left as raw Bootstrap defaults - now matched to the
+           navy/beacon palette instead of clashing cyan/blue */
+
+        .badge.bg-info{
+
+            background:var(--info-tint) !important;
+
+            color:var(--info) !important;
+        }
+
+        .badge.bg-primary{
+
+            background:var(--primary-tint) !important;
+
+            color:var(--navy) !important;
+        }
+
+
+        /* ================= ACTION BUTTONS ================= */
+
+        .row-action{
+
+            width:34px;
+            height:34px;
+
+            border-radius:7px;
+
+            border:1px solid var(--rule);
+
+            background:var(--white);
+
+            display:inline-flex;
+
+            align-items:center;
+            justify-content:center;
+
+            color:var(--ink-soft);
+
+            text-decoration:none;
+
+            transition:
+                background .15s ease,
+                color .15s ease,
+                border-color .15s ease;
+        }
+
+
+        .row-action:hover{
+            color:var(--white);
+        }
+
+
+        .row-action.edit:hover{
+
+            background:var(--blue);
+
+            border-color:var(--blue);
+        }
+
+
+        .row-action.delete:hover{
+
+            background:var(--danger);
+
+            border-color:var(--danger);
+        }
+
+
+        /* Disabled */
+
+        .row-action.disabled{
+
+            opacity:.35;
+
+            pointer-events:none;
+
+            cursor:not-allowed;
+
+            background:#f1f3f5;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .table-footer{
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:space-between;
+
+            gap:16px;
+
+            margin-top:18px;
+
+            flex-wrap:wrap;
+        }
+
+
+        .total-count{
+
+            font-family:var(--mono);
+
+            font-size:13px;
+
+            color:var(--ink-soft);
+        }
+
+
+        .total-count strong{
+            color:var(--navy);
+        }
+
+
+        .btn-print{
+
+            background:var(--white);
+
+            border:1px solid var(--navy);
+
+            color:var(--navy);
+
+            font-weight:600;
+
+            font-size:14px;
+
+            padding:9px 18px;
+
+            border-radius:6px;
+
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+
+            transition:
+                background .15s ease,
+                color .15s ease;
+        }
+
+
+        .btn-print svg{ width:15px; height:15px; }
+
+
+        .btn-print:hover{
+
+            background:var(--navy);
+
+            color:var(--white);
+        }
+
+
+        /* ================= EMPTY ================= */
+
+        .empty-card{
+
+            background:var(--white);
+
+            border:1px dashed var(--rule);
+
+            border-radius:14px;
+        }
+
+        .empty-icon{
+            width:56px;
+            height:56px;
+            border-radius:50%;
+            background:var(--pale);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:0 auto 16px;
+        }
+
+        .empty-icon svg{ width:26px; height:26px; }
+
+
+        .empty-card h4{
+
+            font-family:var(--display);
+
+            font-weight:700;
+
+            color:var(--navy);
+        }
+
+
+        .btn-primary{
+
+            background:var(--beacon);
+
+            border-color:var(--beacon);
+
+            color:var(--navy-deep);
+
+            font-weight:700;
+        }
+
+
+        .btn-primary:hover{
+
+            background:#ffb84d;
+
+            border-color:#ffb84d;
+
+            color:var(--navy-deep);
+        }
+
+
+        /* ================= DELETE MODAL ================= */
+
+        .modal-content{
+            border-radius:16px;
+        }
+
+        .modal-header{
+            padding:24px 28px 0;
+        }
+
+        .modal-body{
+            padding:8px 28px 28px !important;
+        }
+
+        .modal-footer{
+            padding:0 28px 28px !important;
+        }
+
+        .delete-modal-icon{
+
+            width:58px;
+            height:58px;
+
+            border-radius:50%;
+
+            background:var(--danger-tint);
+
+            color:var(--danger);
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            font-size:28px;
+
+            margin:0 auto 15px;
+        }
+
+
+        .modal-title{
+
+            font-family:var(--display);
+
+            color:var(--navy);
+
+            font-weight:700;
+        }
+
+
+        .delete-app-number{
+
+            font-family:var(--mono);
+
+            color:var(--danger);
+
+            font-weight:600;
+
+            background:var(--danger-tint);
+            display:inline-block;
+            padding:5px 14px;
+            border-radius:20px;
+        }
+
+        .modal-footer .btn-secondary{
+            background:var(--white);
+            border:1px solid var(--rule);
+            color:var(--ink-soft);
+            border-radius:6px;
+            font-weight:600;
+        }
+
+        .modal-footer .btn-secondary:hover{
+            background:var(--pale);
+            color:var(--ink);
+        }
+
+        .modal-footer .btn-danger{
+            background:var(--danger);
+            border-color:var(--danger);
+            border-radius:6px;
+            font-weight:600;
+        }
+
+        .modal-footer .btn-danger:hover{
+            background:#961f1f;
+            border-color:#961f1f;
+        }
+
+
+        /* ================= FOCUS / ACCESSIBILITY ================= */
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible{
+            outline:2px solid var(--beacon);
+            outline-offset:2px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:768px){
+
+            .page-body{
+                padding:20px 0 50px;
+            }
+
+            .profile-card .card-body{
+                padding:20px;
+            }
+
+            .student-name{
+                margin-top:20px;
+            }
+
+            .top-bar-inner{
+                padding:18px 0;
+            }
+
+        }
+
+
+        @media (prefers-reduced-motion: reduce){
+            .beam{ animation:none; opacity:.4; transform:rotate(0deg); }
+            *{ transition:none !important; }
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= TOP STRIP ================= -->
+
+<div class="top-strip">
+
+    <div class="container d-flex justify-content-between">
+
+        <span>
+            Directorate of Admissions &middot; Student Portal
+        </span>
+
+        <span>
+            MMT.IN
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="top-bar">
+
+    <div class="beam-field" aria-hidden="true">
+        <div class="beam"></div>
+    </div>
+
+
+    <div class="container top-bar-inner">
+
+
+        <div class="brand-row">
+
+
+            <div class="seal" aria-hidden="true">
+
+                <svg
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+
+                    <path
+                        d="M24 4 L28 12 L20 12 Z"
+                        fill="#f2a531"
+                    />
+
+                    <path
+                        d="M20 12 H28 L27 18 H21 Z"
+                        fill="#eef4fb"
+                    />
+
+                    <path
+                        d="M21 18 H27 L29.5 40 H18.5 Z"
+                        fill="#eef4fb"
+                    />
+
+                    <path
+                        d="M22 22 H26 M20.6 28 H27.4 M19.2 34 H28.8"
+                        stroke="#0a2f5c"
+                        stroke-width="1.3"
+                    />
+
+                    <path
+                        d="M14.5 42 H33.5 L31.5 40 H16.5 Z"
+                        fill="#f2a531"
+                    />
+
+                    <path
+                        d="M10 40 H38"
+                        stroke="#f2a531"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                    />
+
+                </svg>
+
+            </div>
+
+
+            <div>
+
+                <p class="eyebrow">
+                    Directorate of Admissions &middot; MM Technical University
+                </p>
+
+                <h2>
+                    My Applications
+                </h2>
+
+                <p class="sub">
+                    View your admission applications and status
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 's_dashboard' %}"
+            class="btn btn-outline-primary"
+        >
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 12h16M12 4l8 8-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Dashboard
+        </a>
+
+
+    </div>
+
+
+    <div class="tricolor-rule"></div>
+
+</header>
+
+
+
+<!-- ================= PAGE BODY ================= -->
+
+<div class="container page-body">
+
+
+    <!-- ================= STUDENT PROFILE ================= -->
+
+    <div class="profile-card">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+
+                <!-- IMAGE -->
+
+                <div class="col-md-3 text-center profile-photo-frame">
+
+                    {% if student.profile_photo %}
+
+                        <img
+                            src="{{ student.profile_photo.url }}"
+                            alt="{{ student.full_name }}"
+                            class="img-fluid rounded-circle"
+                            style="
+                                width:140px;
+                                height:140px;
+                                object-fit:cover;
+                            "
+                        >
+
+                    {% else %}
+
+                        <div
+                            class="no-photo rounded-circle d-flex align-items-center justify-content-center mx-auto"
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
+                                <path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            </svg>
+                            <span>No Photo</span>
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- DETAILS -->
+
+                <div class="col-md-9">
+
+                    <h3 class="student-name mb-3">
+                        {{ student.full_name }}
+                    </h3>
+
+
+                    <div class="row">
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Email
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.email }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Phone
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.phone }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Gender
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.gender }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Date of Birth
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.date_of_birth }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Nationality
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.nationality }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                State
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.state }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                District
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.district }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Pincode
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.pincode }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-12 detail-item">
+
+                            <span class="detail-label">
+                                Address
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.address }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Qualification
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.qualification }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Marks
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.marks }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Guardian Name
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.guardian_name }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="col-md-6 detail-item">
+
+                            <span class="detail-label">
+                                Guardian Phone
+                            </span>
+
+                            <span class="detail-value">
+                                {{ student.guardian_phone }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= APPLICATIONS ================= -->
+
+    {% if applications %}
+
+
+        <div class="section-head">
+
+            <h4>
+                Submitted Applications
+            </h4>
+
+            <span class="count">
+                {{ applications|length }} on record
+            </span>
+
+        </div>
+
+
+
+        <div class="table-card">
+
+            <div class="table-responsive">
+
+
+                <table class="table table-hover align-middle mb-0">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th class="px-4">
+                                Application No
+                            </th>
+
+                            <th>
+                                College
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Course
+                            </th>
+
+                            <th>
+                                Applied Date
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th class="text-center">
+                                Edit
+                            </th>
+
+                            <th class="text-center">
+                                Delete
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        {% for application in applications %}
+
+
+                        <tr>
+
+
+                            <!-- APPLICATION NUMBER -->
+
+                            <td class="px-4">
+
+                                <span class="app-no">
+
+                                    APP-{{ application.id|stringformat:"05d" }}
+
+                                </span>
+
+                            </td>
+
+
+
+                            <!-- COLLEGE -->
+
+                            <td>
+                                {{ application.college }}
+                            </td>
+
+
+
+                            <!-- DEPARTMENT -->
+
+                            <td>
+                                {{ application.department }}
+                            </td>
+
+
+
+                            <!-- COURSE -->
+
+                            <td>
+                                {{ application.course }}
+                            </td>
+
+
+
+                            <!-- DATE -->
+
+                            <td>
+
+                                {{ application.applied_date|date:"d M Y" }}
+
+                            </td>
+
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+
+                                {% if application.status == "Approved" %}
+
+                                    <span class="badge bg-success">
+                                        Approved
+                                    </span>
+
+
+                                {% elif application.status == "Rejected" %}
+
+                                    <span class="badge bg-danger">
+                                        Rejected
+                                    </span>
+
+
+                                {% elif application.status == "College Verified" %}
+
+                                    <span class="badge bg-info text-dark">
+                                        College Verified
+                                    </span>
+
+
+                                {% elif application.status == "University Verified" %}
+
+                                    <span class="badge bg-primary">
+                                        University Verified
+                                    </span>
+
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+
+                            <!-- EDIT -->
+
+                            <td class="text-center">
+
+
+                                {% if application.status == "Pending" %}
+
+
+                                    <a
+                                        href="{% url 'application_edit' application.id %}"
+                                        class="row-action edit"
+                                        title="Edit application"
+                                        aria-label="Edit application"
+                                    >
+                                        &#9998;
+                                    </a>
+
+
+                                {% else %}
+
+
+                                    <span
+                                        class="row-action disabled"
+                                        title="Editing is disabled after verification"
+                                    >
+                                        &#9998;
+                                    </span>
+
+
+                                {% endif %}
+
+
+                            </td>
+
+
+
+                            <!-- DELETE -->
+
+                            <td class="text-center">
+
+
+                                {% if application.status == "Pending" %}
+
+
+                                    <button
+                                        type="button"
+                                        class="row-action delete border-0"
+                                        title="Delete application"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-application-id="{{ application.id }}"
+                                        data-application-number="APP-{{ application.id|stringformat:'05d' }}"
+                                    >
+                                        &times;
+                                    </button>
+
+
+                                {% else %}
+
+
+                                    <span
+                                        class="row-action disabled"
+                                        title="Deleting is disabled after verification"
+                                    >
+                                        &times;
+                                    </span>
+
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= TABLE FOOTER ================= -->
+
+        <div class="table-footer">
+
+
+            <div class="total-count">
+
+                Total Applications:
+
+                <strong>
+                    {{ applications|length }}
+                </strong>
+
+            </div>
+
+
+
+            <a
+                href="{% url 'application_report' %}"
+                class="btn-print text-decoration-none"
+            >
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 17.5V19a2 2 0 002 2h12a2 2 0 002-2v-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                Download Slip
+            </a>
+
+
+        </div>
+
+
+
+    {% else %}
+
+
+        <!-- ================= EMPTY ================= -->
+
+        <div class="empty-card">
+
+            <div class="card-body text-center py-5">
+
+                <div class="empty-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1Z" stroke="#0a2f5c" stroke-width="1.4" stroke-linejoin="round"/>
+                        <path d="M14 3v5h5" stroke="#0a2f5c" stroke-width="1.4" stroke-linejoin="round"/>
+                        <path d="M9 13h6M9 16h6" stroke="#0a2f5c" stroke-width="1.3" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <h4 class="mb-2">
+                    No Applications Found
+                </h4>
+
+                <p class="text-muted">
+
+                    You haven't submitted any admission
+                    applications yet.
+
+                </p>
+
+
+                <a
+                    href="{% url 'admission_apply' %}"
+                    class="btn btn-primary mt-2"
+                >
+                    Apply Now
+                </a>
+
+            </div>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- DELETE CONFIRMATION MODAL -->
+<!-- ================================================= -->
+
+<div
+    class="modal fade"
+    id="deleteModal"
+    tabindex="-1"
+    aria-labelledby="deleteModalLabel"
+    aria-hidden="true"
+>
+
+
+    <div class="modal-dialog modal-dialog-centered">
+
+
+        <div class="modal-content border-0 shadow-lg">
+
+
+            <!-- HEADER -->
+
+            <div class="modal-header border-0">
+
+                <h5
+                    class="modal-title"
+                    id="deleteModalLabel"
+                >
+                    Delete Application
+                </h5>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+
+            </div>
+
+
+
+            <!-- BODY -->
+
+            <div class="modal-body text-center px-4 pb-4">
+
+
+                <div class="delete-modal-icon">
+
+                    &times;
+
+                </div>
+
+
+                <h5 class="mb-3">
+
+                    Are you sure?
+
+                </h5>
+
+
+                <p class="text-muted mb-2">
+
+                    You are about to delete application
+
+                </p>
+
+
+                <div
+                    class="delete-app-number mb-3"
+                    id="deleteApplicationNumber"
+                >
+                    APP-00000
+                </div>
+
+
+                <p class="small text-muted mb-0">
+
+                    This action cannot be undone.
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="modal-footer border-0 justify-content-center pb-4">
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary px-4"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+
+
+
+                <!-- DELETE FORM -->
+
+                <form
+                    method="post"
+                    id="deleteApplicationForm"
+                >
+
+                    {% csrf_token %}
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger px-4"
+                    >
+                        Yes, Delete
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- BOOTSTRAP JS -->
+<!-- ================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- ================================================= -->
+<!-- DELETE MODAL SCRIPT -->
+<!-- ================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    const deleteModal =
+        document.getElementById("deleteModal");
+
+
+    const deleteForm =
+        document.getElementById("deleteApplicationForm");
+
+
+    const applicationNumber =
+        document.getElementById("deleteApplicationNumber");
+
+
+
+    deleteModal.addEventListener(
+        "show.bs.modal",
+        function (event) {
+
+
+            const button =
+                event.relatedTarget;
+
+
+            const applicationId =
+                button.getAttribute(
+                    "data-application-id"
+                );
+
+
+            const applicationNo =
+                button.getAttribute(
+                    "data-application-number"
+                );
+
+
+            /*
+             * Display Application Number
+             */
+
+            applicationNumber.textContent =
+                applicationNo;
+
+
+
+            /*
+             * Set Delete URL
+             *
+             * Django URL:
+             *
+             * application/delete/<id>/
+             */
+
+            deleteForm.action =
+                "{% url 'application_delete' 0 %}"
+                .replace(
+                    "/0/",
+                    "/" + applicationId + "/"
+                );
+
+
+        }
+
+    );
+
+
+});
+
+</script>
+
+
+</body>
+
+</html>

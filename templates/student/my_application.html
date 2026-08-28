@@ -1,0 +1,95 @@
+{% extends "student/base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h3 class="mb-4">My Applications</h3>
+
+    {% if applications %}
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>College</th>
+                <th>Department</th>
+                <th>Course</th>
+                <th>Applied Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for application in applications %}
+
+            <tr>
+
+                <td>{{ forloop.counter }}</td>
+
+                <td>{{ application.college.college_name }}</td>
+
+                <td>{{ application.department.department_name }}</td>
+
+                <td>{{ application.course.course_name }}</td>
+
+                <td>{{ application.applied_date|date:"d-m-Y" }}</td>
+
+                <td>
+                    {% if application.status == "Approved" %}
+                        <span class="badge bg-success">
+                            {{ application.status }}
+                        </span>
+
+                    {% elif application.status == "Rejected" %}
+                        <span class="badge bg-danger">
+                            {{ application.status }}
+                        </span>
+
+                    {% elif application.status == "Verified" %}
+                        <span class="badge bg-primary">
+                            {{ application.status }}
+                        </span>
+
+                    {% else %}
+                        <span class="badge bg-warning text-dark">
+                            {{ application.status }}
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td>
+
+                    <a href="{% url 'application_details' application.id %}"
+                       class="btn btn-sm btn-primary">
+
+                        View Details
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+    <div class="alert alert-info">
+
+        You have not submitted any applications yet.
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

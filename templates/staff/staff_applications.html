@@ -1,0 +1,92 @@
+{% extends "staff/staff_dashboard.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">
+        All Admission Applications
+    </h2>
+
+    {% if applications %}
+
+        {% for application in applications %}
+
+            <div class="card mb-3">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ application.student.full_name }}
+                    </h5>
+
+                    <p>
+                        <strong>College:</strong>
+                        {{ application.college.college_name }}
+                    </p>
+
+                    <p>
+                        <strong>Department:</strong>
+                        {{ application.department.department_name }}
+                    </p>
+
+                    <p>
+                        <strong>Course:</strong>
+                        {{ application.course.course_name }}
+                    </p>
+
+                    <p>
+                        <strong>Qualification:</strong>
+                        {{ application.student.get_previous_qualification_display }}
+                    </p>
+
+                    <p>
+                        <strong>Percentage:</strong>
+                        {{ application.student.plus_two_percentage }}%
+                    </p>
+
+                    <p>
+                        <strong>Applied Date:</strong>
+                        {{ application.applied_date }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {{ application.status }}
+                    </p>
+
+                    {% if application.plus_two_certificate %}
+
+                        <a
+                            href="{{ application.plus_two_certificate.url }}"
+                            target="_blank"
+                            class="btn btn-primary"
+                        >
+                            View +2 Certificate
+                        </a>
+
+                    {% else %}
+
+                        <span class="text-danger">
+                            +2 Certificate not uploaded
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="alert alert-info">
+            No admission applications found.
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

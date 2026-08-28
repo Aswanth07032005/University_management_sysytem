@@ -1,0 +1,33 @@
+Student Registration
+│
+├── plus_two_percentage = 83.60%
+└── aadhaar_number = XXXXXXXXXXXX
+             │
+             ↓
+      Admission Application
+             │
+      ┌──────┴──────┐
+      ↓             ↓
+ Certificate       Aadhaar
+      ↓             ↓
+ 83.60%          XXXXXXXXXXXX
+      ↓             ↓
+      └──────┬──────┘
+             ↓
+       Compare with
+       Student data
+             ↓
+      Both Match?
+             ↓
+            YES
+             ↓
+    document_verified = True
+             ↓
+    Staff percentage range
+       75% ─── 90%
+             ↓
+        Eligible?
+             ↓
+           YES
+             ↓
+      Show Application

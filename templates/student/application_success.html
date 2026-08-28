@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful &middot; MMT-University</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+            --g-blue:      #1a73e8;
+            --g-blue-dark: #174ea6;
+            --g-blue-tint: #e8f0fe;
+            --g-green:     #188038;
+            --g-green-tint:#e6f4ea;
+            --g-red:       #d93025;
+            --g-yellow:    #f9ab00;
+            --ink:         #202124;
+            --ink-soft:    #5f6368;
+            --ink-faint:   #80868b;
+            --rule:        #e8eaed;
+            --bg:          #f1f3f4;
+            --white:       #ffffff;
+
+            --font: "Roboto", "Segoe UI", Arial, sans-serif;
+            --mono: "Roboto Mono", monospace;
+        }
+
+        *{ box-sizing:border-box; }
+
+        body{
+            margin:0;
+            min-height:100vh;
+            background:var(--bg);
+            font-family:var(--font);
+            color:var(--ink);
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            padding:24px;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        /* ---------- merchant identity ---------- */
+
+        .merchant-mark{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin-bottom:20px;
+        }
+
+        .merchant-badge{
+            width:32px; height:32px;
+            border-radius:50%;
+            background:var(--g-blue);
+            color:var(--white);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-family:var(--font);
+            font-weight:700;
+            font-size:12.5px;
+            letter-spacing:.01em;
+            flex:none;
+        }
+
+        .merchant-mark span{
+            font-family:var(--font);
+            font-weight:500;
+            font-size:14px;
+            color:var(--ink-soft);
+        }
+
+        /* ---------- card ---------- */
+
+        .success-card{
+            background:var(--white);
+            border-radius:28px;
+            padding:40px 32px 32px;
+            width:100%;
+            max-width:400px;
+            text-align:center;
+            box-shadow:0 1px 2px rgba(60,64,67,.15), 0 4px 24px rgba(60,64,67,.1);
+        }
+
+        /* ---------- checkmark + burst ---------- */
+
+        .success-animation{
+            position:relative;
+            margin:0 auto;
+            width:88px;
+            height:88px;
+        }
+
+        .pulse-ring{
+            position:absolute;
+            inset:0;
+            border-radius:50%;
+            border:2px solid var(--g-green);
+            opacity:0;
+            animation:pulse 1.3s ease-out .7s;
+        }
+
+        @keyframes pulse{
+            0%   { transform:scale(.85); opacity:.5; }
+            100% { transform:scale(1.6); opacity:0; }
+        }
+
+        .checkmark-wrap{
+            width:88px;
+            height:88px;
+            border-radius:50%;
+            position:relative;
+            z-index:1;
+            animation:pop .5s cubic-bezier(.34,1.56,.64,1) .55s both;
+        }
+
+        @keyframes pop{
+            0%   { transform:scale(.6); }
+            60%  { transform:scale(1.08); }
+            100% { transform:scale(1); }
+        }
+
+        .checkmark{ width:88px; height:88px; display:block; }
+
+        .checkmark-circle{
+            stroke-dasharray:166;
+            stroke-dashoffset:166;
+            stroke:var(--g-green);
+            stroke-width:3;
+            fill:var(--g-green);
+            fill-opacity:0;
+            animation:stroke .5s cubic-bezier(.65,0,.45,1) forwards,
+                      fillIn .3s ease-in .45s forwards;
+        }
+
+        .checkmark-check{
+            stroke:var(--white);
+            stroke-width:4;
+            stroke-linecap:round;
+            stroke-linejoin:round;
+            transform-origin:50% 50%;
+            stroke-dasharray:48;
+            stroke-dashoffset:48;
+            animation:stroke .25s cubic-bezier(.65,0,.45,1) .65s forwards;
+        }
+
+        @keyframes stroke{ 100%{ stroke-dashoffset:0; } }
+        @keyframes fillIn{ 100%{ fill-opacity:1; } }
+
+        .confetti{ position:absolute; inset:0; pointer-events:none; }
+
+        .confetti-piece{
+            position:absolute;
+            top:50%; left:50%;
+            width:6px; height:6px;
+            border-radius:50%;
+            opacity:0;
+            transform:rotate(var(--angle)) translate(0,0) scale(0);
+            animation:burst .65s cubic-bezier(.2,.7,.3,1) .85s forwards;
+        }
+
+        @keyframes burst{
+            0%   { opacity:1; transform:rotate(var(--angle)) translate(0,0) scale(0); }
+            65%  { opacity:1; }
+            100% { opacity:0; transform:rotate(var(--angle)) translate(var(--dist),0) scale(1); }
+        }
+
+        h2.headline{
+            font-family:var(--font);
+            font-weight:500;
+            font-size:22px;
+            color:var(--ink);
+            margin:22px 0 0;
+        }
+
+        .subtext{
+            font-family:var(--font);
+            font-size:14px;
+            color:var(--ink-soft);
+            margin:8px 0 0;
+            line-height:1.5;
+        }
+
+        /* ---------- amount block ---------- */
+
+        .amount-block{ margin:28px 0 4px; }
+
+        .paid-amount{
+            font-family:var(--font);
+            font-weight:700;
+            font-size:40px;
+            color:var(--ink);
+            margin:0;
+            letter-spacing:-.01em;
+        }
+
+        .paid-amount .cur{
+            font-weight:500;
+            font-size:24px;
+            color:var(--ink-soft);
+            vertical-align:4px;
+            margin-right:2px;
+        }
+
+        .paid-to{
+            font-family:var(--font);
+            font-size:13.5px;
+            color:var(--ink-soft);
+            margin:6px 0 0;
+        }
+
+        .paid-to strong{ color:var(--ink); font-weight:500; }
+
+        /* ---------- details row (Google Pay style receipt line) ---------- */
+
+        .detail-row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:12px 2px;
+            border-top:1px solid var(--rule);
+            font-size:13.5px;
+        }
+
+        .detail-row:first-of-type{ margin-top:24px; }
+
+        .detail-row .k{ color:var(--ink-soft); }
+        .detail-row .v{ color:var(--ink); font-weight:500; }
+
+        .status-chip{
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            background:var(--g-green-tint);
+            color:var(--g-green);
+            font-weight:500;
+            font-size:12.5px;
+            padding:3px 10px 3px 8px;
+            border-radius:20px;
+        }
+
+        .status-chip svg{ width:12px; height:12px; }
+
+        /* ---------- redirect ---------- */
+
+        .redirect-note{
+            font-family:var(--font);
+            font-size:12.5px;
+            color:var(--ink-faint);
+            margin:22px 0 0;
+        }
+
+        .redirect-note #count{ color:var(--g-blue); font-weight:500; }
+
+        .redirect-track{
+            width:100%;
+            height:3px;
+            background:var(--rule);
+            border-radius:3px;
+            overflow:hidden;
+            margin-top:8px;
+        }
+
+        .redirect-fill{
+            height:100%;
+            width:100%;
+            background:var(--g-blue);
+            border-radius:3px;
+            transform-origin:left center;
+            animation:countdown 5s linear forwards;
+        }
+
+        @keyframes countdown{ from{ transform:scaleX(1); } to{ transform:scaleX(0); } }
+
+        /* ---------- button ---------- */
+
+        .cta-btn{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            width:100%;
+            margin-top:22px;
+            padding:13px;
+            font-family:var(--font);
+            font-weight:500;
+            font-size:14.5px;
+            letter-spacing:.01em;
+            background:var(--g-blue);
+            color:var(--white);
+            border:none;
+            border-radius:24px;
+            text-decoration:none;
+            cursor:pointer;
+            transition:background .15s ease, box-shadow .15s ease;
+        }
+
+        .cta-btn:hover{ background:var(--g-blue-dark); box-shadow:0 1px 2px rgba(60,64,67,.3), 0 1px 3px rgba(60,64,67,.15); }
+        .cta-btn:active{ background:var(--g-blue-dark); }
+        .cta-btn svg{ width:16px; height:16px; }
+
+        a:focus-visible, button:focus-visible{
+            outline:2px solid var(--g-blue);
+            outline-offset:2px;
+        }
+
+        @media (max-width:440px){
+            .success-card{ padding:32px 22px 26px; border-radius:20px; }
+            .paid-amount{ font-size:34px; }
+        }
+
+        @media (prefers-reduced-motion: reduce){
+            *{ animation:none !important; transition:none !important; }
+            .checkmark-circle, .checkmark-check{ stroke-dashoffset:0; fill-opacity:1; }
+            .confetti-piece, .pulse-ring{ display:none; }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="merchant-mark">
+    <span class="merchant-badge" aria-hidden="true">MMT</span>
+    <span>MMT-University &middot; Admissions</span>
+</div>
+
+<div class="success-card">
+
+    <div class="success-animation">
+
+        <div class="pulse-ring"></div>
+
+        <div class="checkmark-wrap">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="24"/>
+                <path class="checkmark-check" fill="none" d="M14 27l7 7 17-17"/>
+            </svg>
+        </div>
+
+        <div class="confetti" aria-hidden="true">
+            <span class="confetti-piece" style="--angle:0deg;   --dist:46px; background:var(--g-blue);   animation-delay:.85s;"></span>
+            <span class="confetti-piece" style="--angle:32deg;  --dist:50px; background:var(--g-red);    animation-delay:.88s;"></span>
+            <span class="confetti-piece" style="--angle:64deg;  --dist:42px; background:var(--g-yellow); animation-delay:.82s;"></span>
+            <span class="confetti-piece" style="--angle:96deg;  --dist:52px; background:var(--g-green);  animation-delay:.9s;"></span>
+            <span class="confetti-piece" style="--angle:128deg; --dist:44px; background:var(--g-blue);   animation-delay:.84s;"></span>
+            <span class="confetti-piece" style="--angle:160deg; --dist:50px; background:var(--g-red);    animation-delay:.89s;"></span>
+            <span class="confetti-piece" style="--angle:192deg; --dist:46px; background:var(--g-yellow); animation-delay:.83s;"></span>
+            <span class="confetti-piece" style="--angle:224deg; --dist:52px; background:var(--g-green);  animation-delay:.87s;"></span>
+            <span class="confetti-piece" style="--angle:256deg; --dist:44px; background:var(--g-blue);   animation-delay:.86s;"></span>
+            <span class="confetti-piece" style="--angle:288deg; --dist:50px; background:var(--g-red);    animation-delay:.82s;"></span>
+            <span class="confetti-piece" style="--angle:320deg; --dist:46px; background:var(--g-yellow); animation-delay:.9s;"></span>
+            <span class="confetti-piece" style="--angle:352deg; --dist:48px; background:var(--g-green);  animation-delay:.85s;"></span>
+        </div>
+
+    </div>
+
+    <h2 class="headline">Payment successful</h2>
+    <p class="subtext">Your admission application payment has been completed.</p>
+
+    <div class="amount-block">
+        <p class="paid-amount"><span class="cur">&#8377;</span>{{ amount }}</p>
+        <p class="paid-to">Paid to <strong>MMT-University</strong></p>
+    </div>
+
+    <div class="detail-row">
+        <span class="k">Status</span>
+        <span class="status-chip">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Completed
+        </span>
+    </div>
+    <div class="detail-row">
+        <span class="k">Paid via</span>
+        <span class="v">Admissions Portal</span>
+    </div>
+
+
+    {% for number in application_numbers %}
+   <div class="detail-row">
+
+        <span class="k">Application Numbers</span>
+        <span class="v">{{ number }}</span>
+    </div>
+{% endfor %}
+
+    <p class="redirect-note">
+        Redirecting to Dashboard in <span id="count">5</span>s
+    </p>
+    <div class="redirect-track"><div class="redirect-fill" id="redirectFill"></div></div>
+
+    <a href="{% url 'student_applications' %}" class="cta-btn" id="ctaLink">
+        My Applications
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+
+
+</div>
+
+<script>
+(function(){
+    // Visual-only countdown: decrements the on-screen number and mirrors
+    // it with the progress bar animation above, then follows the same
+    // link the "My Applications" button already points to.
+    var countEl = document.getElementById("count");
+    var link = document.getElementById("ctaLink");
+    var seconds = 5;
+
+    var timer = setInterval(function(){
+        seconds -= 1;
+        if(seconds <= 0){
+            clearInterval(timer);
+            countEl.textContent = "0";
+            if(link.getAttribute("href")){
+                window.location.href = link.href;
+            }
+            return;
+        }
+        countEl.textContent = seconds;
+    }, 1000);
+})();
+</script>
+
+</body>
+</html>
