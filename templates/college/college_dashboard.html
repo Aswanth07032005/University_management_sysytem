@@ -445,15 +445,17 @@
 
             <div class="nav-section">People</div>
               <a href="{% url 'course_list' %}"><i class="fa-solid fa-book"></i></i><span>Course</span></a>
-            <a href="#"><i class="fa-solid fa-user-graduate"></i><span>Students</span></a>
+            <a href="{% url 'college_registered_students' %}"><i class="fa-solid fa-user-graduate"></i><span>College Students</span></a>
 
 
             <div class="nav-section">Admissions</div>
-            <a href="#"><i class="fa-solid fa-file-signature"></i><span>Applications</span></a>
-            <a href="#"><i class="fa-solid fa-clipboard-check"></i><span>Approvals</span></a>
+    <a href="{% url 'college_applications' %}"><i class="fa-solid fa-gear"></i><span>University Approved Applications</span></a>
+            <a href="{% url 'college_approved_applications' %}"><i class="fa-solid fa-clipboard-check"></i><span>Alloted Applications</span></a>
+
+
 
             <div class="nav-section">System</div>
-            <a href="{% url 'college_allotted_applications' %}"><i class="fa-solid fa-gear"></i><span>University Applic</span></a>
+
             <a href="{% url 'logout_b' %}"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
         </nav>
 

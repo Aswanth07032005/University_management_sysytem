@@ -1,367 +1,1816 @@
-{% extends 'base.html' %}
+{% load static %}
 
-{% block content %}
-<div class="uadmit-page">
-  <div class="uadmit-sheet">
+<!DOCTYPE html>
+<html lang="en">
 
-    <header class="uadmit-letterhead">
-      <div class="uadmit-crest" aria-hidden="true">
-        <svg viewBox="0 0 60 60" width="52" height="52">
-          <circle cx="30" cy="30" r="28" fill="none" stroke="#F4C542" stroke-width="1.5"/>
-          <circle cx="30" cy="30" r="23" fill="none" stroke="#F4C542" stroke-width="1"/>
-          <rect x="26" y="16" width="8" height="28" rx="1.5" fill="#F4C542"/>
-          <rect x="16" y="26" width="28" height="8" rx="1.5" fill="#F4C542"/>
-        </svg>
-      </div>
-      <div class="uadmit-letterhead__text">
-        <p class="uadmit-eyebrow">MMT Medical College &middot; Human Resources</p>
-        <h1 class="uadmit-title">Staff Registration</h1>
-        <p class="uadmit-subtitle">New Staff Onboarding</p>
-      </div>
-    </header>
+<head>
 
-    <div class="uadmit-body">
-      <aside class="uadmit-aside">
-        <p class="uadmit-aside__label">Sections</p>
-        <ol class="uadmit-aside__list">
-          <li><span>I.</span> Account details</li>
-          <li><span>II.</span> Staff details</li>
-        </ol>
-        <div class="uadmit-aside__note">
-          <p class="uadmit-aside__note-title">Before you begin</p>
-          <p>Have your official ID, department, designation, and a valid contact email ready. Fields marked required must be completed before submitting.</p>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Registration | MM-Technical University</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        /* =========================================================
+           ROOT
+        ========================================================= */
+
+        :root {
+
+            --navy: #002040;
+            --dark-navy: #022542;
+            --blue: #0b5ed7;
+            --blue-dark: #084298;
+
+            --blue-light: #edf5fb;
+            --blue-soft: #f5f9ff;
+            --blue-border: #c8dcf1;
+
+            --white: #ffffff;
+
+            --shadow:
+                0 20px 60px rgba(0, 32, 64, 0.14);
+
+        }
+
+
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family: "Poppins", sans-serif;
+
+            background:
+                var(--blue-soft);
+
+            color:
+                var(--navy);
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        .main-navbar {
+
+            background:
+                var(--white);
+
+            min-height:
+                88px;
+
+            border-bottom:
+                1px solid var(--blue-border);
+
+            box-shadow:
+                0 5px 25px rgba(0, 32, 64, 0.06);
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+        }
+
+
+        .brand-logo {
+
+            width: 48px;
+            height: 56px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color:
+                var(--navy);
+
+            font-family:
+                "Playfair Display", serif;
+
+            font-size:
+                45px;
+
+            font-weight:
+                800;
+
+            border-right:
+                1px solid var(--blue-border);
+
+            padding-right:
+                13px;
+
+        }
+
+
+        .brand-text {
+            line-height: 1.05;
+        }
+
+
+        .brand-name {
+
+            font-family:
+                "Playfair Display", serif;
+
+            color:
+                var(--navy);
+
+            font-size:
+                23px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .brand-sub {
+
+            font-size:
+                9px;
+
+            color:
+                var(--blue-dark);
+
+            letter-spacing:
+                2px;
+
+            text-transform:
+                uppercase;
+
+            margin-top:
+                6px;
+
+        }
+
+
+        .back-home {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                8px;
+
+            color:
+                var(--navy);
+
+            background:
+                var(--white);
+
+            border:
+                1px solid var(--navy);
+
+            padding:
+                10px 18px;
+
+            font-size:
+                11px;
+
+            font-weight:
+                600;
+
+            transition:
+                all 0.3s ease;
+
+        }
+
+
+        .back-home:hover {
+
+            background:
+                var(--navy);
+
+            color:
+                var(--white);
+
+        }
+
+
+
+        /* =========================================================
+           REGISTRATION SECTION
+        ========================================================= */
+
+        .register-section {
+
+            min-height:
+                calc(100vh - 88px);
+
+            padding:
+                55px 15px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+
+                radial-gradient(
+                    circle at top left,
+                    rgba(11, 94, 215, 0.08),
+                    transparent 34%
+                ),
+
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(0, 32, 64, 0.07),
+                    transparent 34%
+                ),
+
+                var(--blue-soft);
+
+        }
+
+
+
+        /* =========================================================
+           MAIN CARD
+        ========================================================= */
+
+        .register-card {
+
+            width:
+                100%;
+
+            max-width:
+                1080px;
+
+            background:
+                var(--white);
+
+            display:
+                grid;
+
+            grid-template-columns:
+                0.95fr 1.05fr;
+
+            border:
+                1px solid var(--blue-border);
+
+            border-radius:
+                8px;
+
+            overflow:
+                hidden;
+
+            box-shadow:
+                var(--shadow);
+
+            animation:
+                cardAppear 0.7s ease;
+
+        }
+
+
+
+        /* =========================================================
+           LEFT INFORMATION PANEL
+        ========================================================= */
+
+        .register-info {
+
+            position:
+                relative;
+
+            min-height:
+                700px;
+
+            padding:
+                55px 50px;
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            justify-content:
+                center;
+
+            color:
+                var(--white);
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    rgba(0, 32, 64, 0.97),
+                    rgba(4, 72, 120, 0.94)
+                ),
+
+                url(
+                    "https://images.unsplash.com/photo-1562774053-701939374585?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29sbGVnZXxlbnwwfHwwfHx8MA%3D%3D"
+                )
+
+                center / cover;
+
+        }
+
+
+        .register-info::after {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            width:
+                240px;
+
+            height:
+                240px;
+
+            border:
+                1px solid rgba(255,255,255,0.16);
+
+            border-radius:
+                50%;
+
+            right:
+                -100px;
+
+            top:
+                -80px;
+
+        }
+
+
+        .register-info::before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            width:
+                170px;
+
+            height:
+                170px;
+
+            border:
+                1px solid rgba(255,255,255,0.12);
+
+            border-radius:
+                50%;
+
+            left:
+                -80px;
+
+            bottom:
+                -60px;
+
+        }
+
+
+        .info-content {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+        }
+
+
+
+        /* =========================================================
+           UNIVERSITY MARK
+        ========================================================= */
+
+        .university-mark {
+
+            width:
+                68px;
+
+            height:
+                68px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border:
+                1px solid rgba(255,255,255,0.45);
+
+            color:
+                var(--white);
+
+            font-family:
+                "Playfair Display", serif;
+
+            font-size:
+                40px;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                30px;
+
+        }
+
+
+        .info-small {
+
+            font-size:
+                10px;
+
+            letter-spacing:
+                3px;
+
+            text-transform:
+                uppercase;
+
+            color:
+                var(--white);
+
+            opacity:
+                0.78;
+
+            margin-bottom:
+                15px;
+
+        }
+
+
+        .register-info h1 {
+
+            font-family:
+                "Playfair Display", serif;
+
+            font-size:
+                clamp(38px, 4vw, 54px);
+
+            line-height:
+                1.1;
+
+            color:
+                var(--white);
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .info-description {
+
+            max-width:
+                390px;
+
+            font-size:
+                13px;
+
+            line-height:
+                1.9;
+
+            color:
+                rgba(255,255,255,0.84);
+
+        }
+
+
+
+        /* =========================================================
+           INFORMATION POINTS
+        ========================================================= */
+
+        .info-points {
+
+            margin-top:
+                35px;
+
+        }
+
+
+        .info-point {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                12px;
+
+            margin-bottom:
+                17px;
+
+            font-size:
+                12px;
+
+            color:
+                rgba(255,255,255,0.90);
+
+        }
+
+
+        .info-point i {
+
+            width:
+                31px;
+
+            height:
+                31px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border:
+                1px solid rgba(255,255,255,0.25);
+
+            color:
+                var(--white);
+
+            font-size:
+                11px;
+
+        }
+
+
+
+        /* =========================================================
+           RIGHT FORM AREA
+        ========================================================= */
+
+        .register-form-area {
+
+            padding:
+                50px 58px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            background:
+                var(--white);
+
+        }
+
+
+        .register-form {
+
+            width:
+                100%;
+
+            max-width:
+                460px;
+
+            margin:
+                auto;
+
+        }
+
+
+
+        /* =========================================================
+           FORM HEADER
+        ========================================================= */
+
+        .form-header {
+
+            margin-bottom:
+                30px;
+
+        }
+
+
+        .form-label-small {
+
+            font-size:
+                10px;
+
+            color:
+                var(--blue);
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                2.5px;
+
+            font-weight:
+                600;
+
+            margin-bottom:
+                9px;
+
+        }
+
+
+        .form-header h2 {
+
+            font-family:
+                "Playfair Display", serif;
+
+            color:
+                var(--navy);
+
+            font-size:
+                40px;
+
+            font-weight:
+                700;
+
+            margin-bottom:
+                9px;
+
+        }
+
+
+        .form-header p {
+
+            color:
+                var(--blue-dark);
+
+            font-size:
+                12px;
+
+            line-height:
+                1.7;
+
+            margin:
+                0;
+
+        }
+
+
+
+        /* =========================================================
+           SECTION TITLE
+        ========================================================= */
+
+        .section-title {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            margin-top:
+                27px;
+
+            margin-bottom:
+                17px;
+
+            padding-bottom:
+                10px;
+
+            border-bottom:
+                1px solid var(--blue-border);
+
+        }
+
+
+        .section-number {
+
+            width:
+                29px;
+
+            height:
+                29px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+                var(--blue-light);
+
+            border:
+                1px solid var(--blue-border);
+
+            color:
+                var(--blue);
+
+            font-size:
+                10px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .section-title h5 {
+
+            margin:
+                0;
+
+            color:
+                var(--navy);
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.7px;
+
+        }
+
+
+
+        /* =========================================================
+           DJANGO FORM
+        ========================================================= */
+
+        .django-form p {
+
+            margin-bottom:
+                17px;
+
+        }
+
+
+        .django-form label {
+
+            display:
+                block;
+
+            color:
+                var(--navy);
+
+            font-size:
+                10px;
+
+            font-weight:
+                600;
+
+            margin-bottom:
+                7px;
+
+        }
+
+
+        .django-form input,
+        .django-form select,
+        .django-form textarea {
+
+            width:
+                100%;
+
+            min-height:
+                47px;
+
+            border:
+                1px solid var(--blue-border);
+
+            border-radius:
+                4px;
+
+            background:
+                var(--white);
+
+            padding:
+                10px 13px;
+
+            font-family:
+                "Poppins", sans-serif;
+
+            font-size:
+                11px;
+
+            color:
+                var(--navy);
+
+            outline:
+                none;
+
+            transition:
+                all 0.3s ease;
+
+        }
+
+
+        .django-form textarea {
+
+            min-height:
+                85px;
+
+            resize:
+                vertical;
+
+        }
+
+
+        .django-form input::placeholder,
+        .django-form textarea::placeholder {
+
+            color:
+                #6f9ac4;
+
+        }
+
+
+        .django-form input:hover,
+        .django-form select:hover,
+        .django-form textarea:hover {
+
+            border-color:
+                #7eaedc;
+
+        }
+
+
+        .django-form input:focus,
+        .django-form select:focus,
+        .django-form textarea:focus {
+
+            border-color:
+                var(--blue);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(11,94,215,0.10);
+
+        }
+
+
+
+        /* =========================================================
+           HELP TEXT
+        ========================================================= */
+
+        .django-form .helptext {
+
+            display:
+                block;
+
+            margin-top:
+                5px;
+
+            color:
+                var(--blue-dark);
+
+            font-size:
+                9px;
+
+            line-height:
+                1.5;
+
+        }
+
+
+
+        /* =========================================================
+           ERRORS
+        ========================================================= */
+
+        .django-form ul.errorlist {
+
+            list-style:
+                none;
+
+            padding:
+                0;
+
+            margin:
+                5px 0;
+
+            color:
+                var(--blue-dark);
+
+            font-size:
+                9px;
+
+        }
+
+
+
+        /* =========================================================
+           SUBMIT AREA
+        ========================================================= */
+
+        .form-actions {
+
+            margin-top:
+                25px;
+
+            padding-top:
+                22px;
+
+            border-top:
+                1px solid var(--blue-border);
+
+        }
+
+
+        /* =========================================================
+           OUTLINE BUTTON
+        ========================================================= */
+
+        .register-button {
+
+            width:
+                100%;
+
+            height:
+                51px;
+
+            border:
+                2px solid var(--blue);
+
+            background:
+                var(--white);
+
+            color:
+                var(--blue);
+
+            font-family:
+                "Poppins", sans-serif;
+
+            font-size:
+                11px;
+
+            font-weight:
+                600;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.7px;
+
+            cursor:
+                pointer;
+
+            transition:
+                all 0.3s ease;
+
+        }
+
+
+        .register-button:hover {
+
+            background:
+                var(--blue);
+
+            border-color:
+                var(--blue);
+
+            color:
+                var(--white);
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(11,94,215,0.18);
+
+        }
+
+
+        .register-button i {
+
+            margin-right:
+                8px;
+
+        }
+
+
+
+        /* =========================================================
+           LOGIN LINK
+        ========================================================= */
+
+        .login-area {
+
+            text-align:
+                center;
+
+            margin-top:
+                22px;
+
+            color:
+                var(--blue-dark);
+
+            font-size:
+                11px;
+
+        }
+
+
+        .login-area a {
+
+            color:
+                var(--blue);
+
+            font-weight:
+                600;
+
+            margin-left:
+                4px;
+
+            transition:
+                0.3s;
+
+        }
+
+
+        .login-area a:hover {
+
+            color:
+                var(--navy);
+
+        }
+
+
+
+        /* =========================================================
+           SECURITY NOTE
+        ========================================================= */
+
+        .security-note {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                7px;
+
+            margin-top:
+                18px;
+
+            color:
+                var(--blue-dark);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .security-note i {
+
+            color:
+                var(--blue);
+
+        }
+
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .register-footer {
+
+            text-align:
+                center;
+
+            padding:
+                20px;
+
+            background:
+                var(--white);
+
+            border-top:
+                1px solid var(--blue-border);
+
+            color:
+                var(--blue-dark);
+
+            font-size:
+                10px;
+
+        }
+
+
+
+        /* =========================================================
+           ANIMATION
+        ========================================================= */
+
+        @keyframes cardAppear {
+
+            from {
+
+                opacity:
+                    0;
+
+                transform:
+                    translateY(20px);
+
+            }
+
+            to {
+
+                opacity:
+                    1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @media (max-width: 991px) {
+
+            .main-navbar {
+
+                min-height:
+                    75px;
+
+            }
+
+
+            .register-section {
+
+                min-height:
+                    calc(100vh - 75px);
+
+                padding:
+                    40px 15px;
+
+            }
+
+
+            .register-card {
+
+                grid-template-columns:
+                    1fr;
+
+                max-width:
+                    650px;
+
+            }
+
+
+            .register-info {
+
+                min-height:
+                    auto;
+
+                padding:
+                    45px;
+
+            }
+
+
+            .register-info h1 {
+
+                font-size:
+                    43px;
+
+            }
+
+
+            .register-form-area {
+
+                padding:
+                    45px;
+
+            }
+
+        }
+
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 575px) {
+
+            .main-navbar {
+
+                min-height:
+                    70px;
+
+            }
+
+
+            .brand {
+
+                gap:
+                    9px;
+
+            }
+
+
+            .brand-logo {
+
+                width:
+                    38px;
+
+                height:
+                    45px;
+
+                font-size:
+                    34px;
+
+                padding-right:
+                    8px;
+
+            }
+
+
+            .brand-name {
+
+                font-size:
+                    17px;
+
+            }
+
+
+            .brand-sub {
+
+                font-size:
+                    6px;
+
+                letter-spacing:
+                    1.2px;
+
+            }
+
+
+            .back-home {
+
+                padding:
+                    8px 10px;
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .back-home span {
+
+                display:
+                    none;
+
+            }
+
+
+            .register-section {
+
+                padding:
+                    20px 10px;
+
+            }
+
+
+            .register-card {
+
+                border-radius:
+                    6px;
+
+            }
+
+
+            .register-info {
+
+                padding:
+                    35px 25px;
+
+            }
+
+
+            .university-mark {
+
+                width:
+                    56px;
+
+                height:
+                    56px;
+
+                font-size:
+                    32px;
+
+                margin-bottom:
+                    22px;
+
+            }
+
+
+            .info-small {
+
+                font-size:
+                    8px;
+
+                letter-spacing:
+                    2px;
+
+            }
+
+
+            .register-info h1 {
+
+                font-size:
+                    35px;
+
+            }
+
+
+            .info-description {
+
+                font-size:
+                    11px;
+
+                line-height:
+                    1.8;
+
+            }
+
+
+            .info-point {
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .register-form-area {
+
+                padding:
+                    35px 22px;
+
+            }
+
+
+            .form-header h2 {
+
+                font-size:
+                    34px;
+
+            }
+
+
+            .section-title {
+
+                margin-top:
+                    24px;
+
+            }
+
+
+            .django-form input,
+            .django-form select,
+            .django-form textarea {
+
+                min-height:
+                    45px;
+
+            }
+
+
+            .register-button {
+
+                height:
+                    50px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar main-navbar">
+
+    <div class="container">
+
+        <div
+            class="w-100 d-flex
+                   align-items-center
+                   justify-content-between"
+        >
+
+
+            <!-- BRAND -->
+
+            <a
+                href="{% url 'Home' %}"
+                class="brand"
+            >
+
+                <div class="brand-logo">
+                    M
+                </div>
+
+                <div class="brand-text">
+
+                    <div class="brand-name">
+                        MM-Technical University
+                    </div>
+
+                    <div class="brand-sub">
+                        Knowledge • Innovation • Excellence
+                    </div>
+
+                </div>
+
+            </a>
+
+
+            <!-- BACK HOME -->
+
+            <a
+                href="{% url 'Home' %}"
+                class="back-home"
+            >
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                <span>
+                    Back to Home
+                </span>
+
+            </a>
+
         </div>
-      </aside>
 
-      <main class="uadmit-card">
-        <form method="POST" class="uadmit-form" novalidate>
-          {% csrf_token %}
-
-          {% if register_form.non_field_errors or staff_form.non_field_errors %}
-            <div class="uadmit-alert" role="alert">
-              {{ register_form.non_field_errors }}
-              {{ staff_form.non_field_errors }}
-            </div>
-          {% endif %}
-
-          <fieldset class="uadmit-fieldset">
-            <legend><span>I.</span> Account details</legend>
-            {{ register_form.as_p }}
-          </fieldset>
-
-          <fieldset class="uadmit-fieldset">
-            <legend><span>II.</span> Staff details</legend>
-            {{ staff_form.as_p }}
-          </fieldset>
-
-          <div class="uadmit-actions">
-            <p class="uadmit-actions__note">By registering, you confirm the details above are accurate.</p>
-            <button type="submit" class="btn btn-primary uadmit-submit">Register</button>
-          </div>
-        </form>
-      </main>
     </div>
 
-  </div>
-</div>
+</nav>
 
-<style>
-  :root{
-    --navy-dark:#0B2C5C;
-    --navy:#16407E;
-    --navy-mid:#1B3A6B;
-    --blue-pale:#EEF3FB;
-    --blue-line:#D3DFF0;
-    --white:#FFFFFF;
-    --gold:#C9A227;
-    --ink:#1C2430;
-    --muted:#5B6474;
-    --error:#B23A48;
-  }
 
-  .uadmit-page{
-    min-height:100vh;
-    background:var(--blue-pale);
-    display:flex;
-    justify-content:center;
-    padding:48px 20px;
-    font-family:"Inter","Segoe UI",system-ui,sans-serif;
-    color:var(--ink);
-    box-sizing:border-box;
-  }
 
-  .uadmit-sheet{
-    width:100%;
-    max-width:980px;
-    background:var(--white);
-    border-radius:6px;
-    box-shadow:0 24px 50px -28px rgba(11,44,92,0.35);
-    overflow:hidden;
-    border:1px solid var(--blue-line);
-  }
+<!-- =========================================================
+     REGISTRATION SECTION
+========================================================= -->
 
-  /* ---- Letterhead ---- */
-  .uadmit-letterhead{
-    background:linear-gradient(120deg,var(--navy-dark) 0%,var(--navy) 100%);
-    color:var(--white);
-    padding:32px 40px;
-    display:flex;
-    align-items:center;
-    gap:22px;
-    position:relative;
-  }
+<section class="register-section">
 
-  .uadmit-letterhead::after{
-    content:"";
-    position:absolute;
-    left:0; right:0; bottom:0;
-    height:4px;
-    background:var(--gold);
-  }
+    <div class="register-card">
 
-  .uadmit-crest{
-    flex:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
 
-  .uadmit-eyebrow{
-    margin:0 0 4px;
-    font-size:11.5px;
-    text-transform:uppercase;
-    letter-spacing:0.14em;
-    color:#B9CBEA;
-    font-weight:600;
-  }
+        <!-- =====================================================
+             LEFT INFORMATION
+        ====================================================== -->
 
-  .uadmit-title{
-    margin:0 0 4px;
-    font-family:"Georgia","Times New Roman",serif;
-    font-weight:600;
-    font-size:26px;
-    letter-spacing:0.01em;
-  }
+        <div class="register-info">
 
-  .uadmit-subtitle{
-    margin:0;
-    font-size:13px;
-    color:#C7D6EE;
-  }
+            <div class="info-content">
 
-  /* ---- Body layout ---- */
-  .uadmit-body{
-    display:grid;
-    grid-template-columns:240px 1fr;
-  }
 
-  .uadmit-aside{
-    background:var(--blue-pale);
-    border-right:1px solid var(--blue-line);
-    padding:36px 28px;
-  }
+                <div class="university-mark">
+                    M
+                </div>
 
-  .uadmit-aside__label{
-    margin:0 0 14px;
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.1em;
-    color:var(--navy);
-    font-weight:700;
-  }
 
-  .uadmit-aside__list{
-    list-style:none;
-    margin:0 0 32px;
-    padding:0;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
+                <div class="info-small">
+                    MM-Technical University
+                </div>
 
-  .uadmit-aside__list li{
-    font-size:13.5px;
-    color:var(--ink);
-    display:flex;
-    gap:8px;
-  }
 
-  .uadmit-aside__list span{
-    font-family:"Georgia",serif;
-    color:var(--gold);
-    font-weight:700;
-    min-width:16px;
-  }
+                <h1>
+                    Join Our
+                    University
+                </h1>
 
-  .uadmit-aside__note{
-    background:var(--white);
-    border:1px solid var(--blue-line);
-    border-left:3px solid var(--navy);
-    border-radius:4px;
-    padding:16px 16px;
-  }
 
-  .uadmit-aside__note-title{
-    margin:0 0 6px;
-    font-size:12.5px;
-    font-weight:700;
-    color:var(--navy-dark);
-  }
+                <p class="info-description">
 
-  .uadmit-aside__note p:last-child{
-    margin:0;
-    font-size:12.5px;
-    line-height:1.55;
-    color:var(--muted);
-  }
+                    Create your official university staff account
+                    and access the administrative services
+                    provided by MM-Technical University.
 
-  /* ---- Form card ---- */
-  .uadmit-card{
-    padding:36px 44px 40px;
-  }
+                </p>
 
-  .uadmit-fieldset{
-    border:none;
-    margin:0 0 32px;
-    padding:0;
-  }
 
-  .uadmit-fieldset legend{
-    display:flex;
-    align-items:baseline;
-    gap:8px;
-    font-family:"Georgia",serif;
-    font-size:16px;
-    font-weight:700;
-    color:var(--navy-dark);
-    padding:0 0 12px;
-    width:100%;
-    border-bottom:2px solid var(--navy-dark);
-    margin-bottom:20px;
-  }
+                <div class="info-points">
 
-  .uadmit-fieldset legend span{
-    color:var(--gold);
-  }
 
-  .uadmit-fieldset p{
-    margin:0 0 18px;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-  }
+                    <div class="info-point">
 
-  .uadmit-fieldset label{
-    font-size:13px;
-    font-weight:600;
-    color:var(--ink);
-  }
+                        <i class="fa-solid fa-user-lock"></i>
 
-  .uadmit-fieldset input,
-  .uadmit-fieldset select,
-  .uadmit-fieldset textarea{
-    font-family:inherit;
-    font-size:14.5px;
-    padding:11px 14px;
-    border:1px solid #C7D2E3;
-    border-radius:5px;
-    background:#FBFCFE;
-    color:var(--ink);
-    outline:none;
-    transition:border-color .15s ease, box-shadow .15s ease;
-    box-sizing:border-box;
-    width:100%;
-  }
+                        <span>
+                            Secure staff account
+                        </span>
 
-  .uadmit-fieldset input:focus,
-  .uadmit-fieldset select:focus,
-  .uadmit-fieldset textarea:focus{
-    border-color:var(--navy);
-    box-shadow:0 0 0 3px rgba(22,64,126,0.14);
-    background:var(--white);
-  }
+                    </div>
 
-  .uadmit-fieldset input[type="checkbox"],
-  .uadmit-fieldset input[type="radio"]{
-    width:auto;
-    accent-color:var(--navy);
-  }
 
-  .uadmit-fieldset .helptext{
-    font-size:12px;
-    color:var(--muted);
-  }
+                    <div class="info-point">
 
-  .uadmit-fieldset ul.errorlist{
-    list-style:none;
-    margin:2px 0 0;
-    padding:0;
-    font-size:12.5px;
-    color:var(--error);
-  }
+                        <i class="fa-solid fa-id-card"></i>
 
-  .uadmit-alert{
-    background:#FBEAEC;
-    border:1px solid var(--error);
-    color:var(--error);
-    font-size:13px;
-    padding:12px 14px;
-    border-radius:5px;
-    margin-bottom:24px;
-  }
+                        <span>
+                            Official staff profile
+                        </span>
 
-  .uadmit-actions{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-    border-top:1px solid var(--blue-line);
-    padding-top:24px;
-  }
+                    </div>
 
-  .uadmit-actions__note{
-    margin:0;
-    font-size:12.5px;
-    color:var(--muted);
-    max-width:34ch;
-  }
 
-  .uadmit-submit{
-    flex:none;
-    padding:13px 28px;
-    background:var(--navy-dark);
-    color:var(--white);
-    border:none;
-    border-radius:5px;
-    font-size:14.5px;
-    font-weight:700;
-    letter-spacing:0.02em;
-    cursor:pointer;
-    transition:background .15s ease, transform .1s ease;
-  }
+                    <div class="info-point">
 
-  .uadmit-submit:hover{ background:var(--navy); }
-  .uadmit-submit:active{ transform:translateY(1px); }
-  .uadmit-submit:focus-visible{
-    outline:2px solid var(--gold);
-    outline-offset:2px;
-  }
+                        <i class="fa-solid fa-building-columns"></i>
 
-  @media (max-width:760px){
-    .uadmit-body{ grid-template-columns:1fr; }
-    .uadmit-aside{
-      border-right:none;
-      border-bottom:1px solid var(--blue-line);
-      padding:24px 28px;
-    }
-    .uadmit-letterhead{ padding:26px 24px; }
-    .uadmit-title{ font-size:21px; }
-    .uadmit-card{ padding:28px 24px 32px; }
-    .uadmit-actions{
-      flex-direction:column;
-      align-items:flex-start;
-    }
-    .uadmit-submit{ width:100%; }
-  }
-</style>
-{% endblock %}
+                        <span>
+                            University administration access
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-point">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        <span>
+                            Verified account access
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             RIGHT FORM
+        ====================================================== -->
+
+        <div class="register-form-area">
+
+            <div class="register-form">
+
+
+                <!-- FORM HEADER -->
+
+                <div class="form-header">
+
+                    <div class="form-label-small">
+                        Staff Portal
+                    </div>
+
+                    <h2>
+                        Registration
+                    </h2>
+
+                    <p>
+                        Enter your details to create a staff account.
+                    </p>
+
+                </div>
+
+
+
+                <!-- FORM -->
+
+                <form
+                    method="POST"
+                    action=""
+                >
+
+                    {% csrf_token %}
+
+
+
+                    <!-- ACCOUNT DETAILS -->
+
+                    <div class="section-title">
+
+                        <div class="section-number">
+                            01
+                        </div>
+
+                        <h5>
+                            Account Details
+                        </h5>
+
+                    </div>
+
+
+                    <div class="django-form">
+
+                        {{ register_form.as_p }}
+
+                    </div>
+
+
+
+                    <!-- STAFF DETAILS -->
+
+                    <div class="section-title">
+
+                        <div class="section-number">
+                            02
+                        </div>
+
+                        <h5>
+                            Staff Details
+                        </h5>
+
+                    </div>
+
+
+                    <div class="django-form">
+
+                        {{ staff_form.as_p }}
+
+                    </div>
+
+
+
+                    <!-- ACTIONS -->
+
+                    <div class="form-actions">
+
+
+                        <button
+                            type="submit"
+                            class="register-button"
+                        >
+
+                            <i class="fa-solid fa-user-plus"></i>
+
+                            Create Staff Account
+
+                        </button>
+
+
+                        <div class="login-area">
+
+                            Already have an account?
+
+                            <a href="{% url 'login_p' %}">
+                                Sign In
+                            </a>
+
+                        </div>
+
+
+                        <div class="security-note">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            Secure university registration portal
+
+                        </div>
+
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="register-footer">
+
+    © <span id="year"></span>
+    MM-Technical University.
+    All Rights Reserved.
+
+</footer>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+</script>
+
+
+</body>
+
+</html>

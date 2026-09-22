@@ -1,0 +1,944 @@
+
+{% extends "college/college_dashboard.html" %}
+
+{% block content %}
+
+<style>
+
+    .approved-page {
+        padding: 30px;
+        color: #12233a;
+    }
+
+    /* =====================================================
+       PAGE HEADER
+    ===================================================== */
+
+    .page-header {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #0a2f5c;
+    }
+
+    .page-header h2 {
+        margin: 0;
+        color: #0a2f5c;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        margin: 6px 0 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    /* =====================================================
+       COLLEGE INFO
+    ===================================================== */
+
+    .college-card {
+        background: #ffffff;
+        border: 1px solid #d9e2ec;
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .college-card h4 {
+        margin: 0;
+        color: #0a2f5c;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .college-card p {
+        margin: 5px 0 0;
+        color: #6c757d;
+        font-size: 13px;
+    }
+
+    .count-badge {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 6px 13px;
+        border-radius: 20px;
+        background: #e8f1fb;
+        color: #0a2f5c;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    /* =====================================================
+       SEARCH / FILTER CARD
+    ===================================================== */
+
+    .filter-card {
+        background: #ffffff;
+        border: 1px solid #d9e2ec;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 22px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .filter-title {
+        margin-bottom: 15px;
+        color: #0a2f5c;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .filter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr auto;
+        gap: 12px;
+        align-items: end;
+    }
+
+    .filter-group label {
+        display: block;
+        margin-bottom: 6px;
+        color: #344054;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .filter-input,
+    .filter-select {
+        width: 100%;
+        height: 42px;
+        padding: 0 12px;
+        border: 1px solid #d0d5dd;
+        border-radius: 7px;
+        outline: none;
+        background: #ffffff;
+        color: #344054;
+        font-size: 13px;
+        box-sizing: border-box;
+    }
+
+    .filter-input:focus,
+    .filter-select:focus {
+        border-color: #0a2f5c;
+        box-shadow: 0 0 0 2px rgba(10, 47, 92, 0.08);
+    }
+
+    .clear-btn {
+        height: 42px;
+        padding: 0 18px;
+        border: 1px solid #d0d5dd;
+        border-radius: 7px;
+        background: #ffffff;
+        color: #344054;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .clear-btn:hover {
+        background: #f5f7fa;
+        color: #12233a;
+    }
+
+    /* =====================================================
+       APPLICATION CARD
+    ===================================================== */
+
+    .application-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 18px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        border-left: 5px solid #198754;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .application-card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 16px rgba(0, 0, 0, 0.10);
+    }
+
+    .application-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 18px;
+    }
+
+    .student-name {
+        font-size: 19px;
+        font-weight: 700;
+        color: #12233a;
+        margin-bottom: 5px;
+    }
+
+    .application-id {
+        color: #7b8794;
+        font-size: 12px;
+    }
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 13px;
+        border-radius: 20px;
+        background: #d1e7dd;
+        color: #0f5132;
+        font-weight: 700;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .registered-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 13px;
+        border-radius: 20px;
+        background: #d1e7dd;
+        color: #0f5132;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       DETAILS
+    ===================================================== */
+
+    .details {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px 25px;
+        padding-top: 16px;
+        border-top: 1px solid #e9edf2;
+    }
+
+    .detail-item {
+        font-size: 13px;
+        color: #475467;
+    }
+
+    .detail-label {
+        display: block;
+        margin-bottom: 4px;
+        color: #98a2b3;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+    }
+
+    .detail-value {
+        color: #12233a;
+        font-weight: 600;
+    }
+
+    /* =====================================================
+       ACTION AREA
+    ===================================================== */
+
+    .action-area {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid #e9edf2;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .register-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 16px;
+        border: 1px solid #0a2f5c;
+        border-radius: 7px;
+        background: #0a2f5c;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: .15s ease;
+    }
+
+    .register-btn:hover {
+        background: #1861a6;
+        border-color: #1861a6;
+        transform: translateY(-1px);
+    }
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .empty-box {
+        text-align: center;
+        padding: 60px 20px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        color: #6c757d;
+    }
+
+    .empty-box h5 {
+        margin-bottom: 7px;
+        color: #0a2f5c;
+        font-size: 17px;
+    }
+
+    .empty-box p {
+        margin: 0;
+        font-size: 13px;
+    }
+
+    /* =====================================================
+       NO SEARCH RESULT
+    ===================================================== */
+
+    .no-results {
+        display: none;
+        text-align: center;
+        padding: 45px 20px;
+        background: #ffffff;
+        border-radius: 12px;
+        border: 1px solid #d9e2ec;
+    }
+
+    .no-results h5 {
+        margin: 0 0 6px;
+        color: #0a2f5c;
+    }
+
+    .no-results p {
+        margin: 0;
+        color: #7b8794;
+        font-size: 13px;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 1000px) {
+
+        .filter-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .details {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        .approved-page {
+            padding: 15px;
+        }
+
+        .filter-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .details {
+            grid-template-columns: 1fr;
+        }
+
+        .application-top {
+            flex-direction: column;
+        }
+
+        .action-area {
+            justify-content: stretch;
+        }
+
+        .register-btn {
+            width: 100%;
+        }
+    }
+
+</style>
+
+
+<div class="approved-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ===================================================== -->
+
+    <div class="page-header">
+
+        <h2>
+            Approved Applications
+        </h2>
+
+        <p>
+            Applications approved by {{ college.college_name }}
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         COLLEGE INFO
+    ===================================================== -->
+
+    <div class="college-card">
+
+        <h4>
+            {{ college.college_name }}
+        </h4>
+
+        <p>
+            {{ college.district }}, {{ college.state }}
+        </p>
+
+        <span class="count-badge" id="applicationCount">
+
+            {{ applications|length }}
+            Application{{ applications|length|pluralize }}
+
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         SEARCH & FILTER
+    ===================================================== -->
+
+    <div class="filter-card">
+
+        <div class="filter-title">
+            Search & Filter Applications
+        </div>
+
+        <div class="filter-grid">
+
+            <!-- STUDENT NAME -->
+
+            <div class="filter-group">
+
+                <label>
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentSearch"
+                    class="filter-input"
+                    placeholder="Search student name..."
+                >
+
+            </div>
+
+
+            <!-- APPLICATION ID -->
+
+            <div class="filter-group">
+
+                <label>
+                    Application ID
+                </label>
+
+                <input
+                    type="text"
+                    id="applicationSearch"
+                    class="filter-input"
+                    placeholder="APP-00001"
+                >
+
+            </div>
+
+
+            <!-- COURSE -->
+
+            <div class="filter-group">
+
+                <label>
+                    Course
+                </label>
+
+                <select
+                    id="courseFilter"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Courses
+                    </option>
+
+                    {% for course in courses %}
+
+                        <option value="{{ course.id }}">
+                            {{ course.course_name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- CLEAR -->
+
+            <div class="filter-group">
+
+                <label>
+                    &nbsp;
+                </label>
+
+                <button
+                    type="button"
+                    class="clear-btn"
+                    onclick="clearFilters()"
+                >
+                    Clear
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         APPLICATION LIST
+    ===================================================== -->
+
+    {% if applications %}
+
+        <div id="applicationsContainer">
+
+            {% for application in applications %}
+
+                <div
+                    class="application-card application-item"
+                    data-name="{{ application.student.full_name|lower }}"
+                    data-id="APP-{{ application.id|stringformat:'05d'|lower }}"
+                    data-course="{{ application.course.id }}"
+                >
+
+                    <!-- =================================================
+                         TOP
+                    ================================================= -->
+
+                    <div class="application-top">
+
+                        <div>
+
+                            <div class="student-name">
+
+                                {{ application.student.full_name }}
+
+                            </div>
+
+                            <div class="application-id">
+
+                                Application ID:
+                                APP-{{ application.id|stringformat:"05d" }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="status">
+
+                                ✓ Approved
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         DETAILS
+                    ================================================= -->
+
+                    <div class="details">
+
+
+                        <!-- COURSE -->
+
+                        <div class="detail-item">
+
+                            <span class="detail-label">
+                                Course
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ application.course.course_name }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- COURSE CODE -->
+
+                        <div class="detail-item">
+
+                            <span class="detail-label">
+                                Course Code
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ application.course.course_code }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- DEPARTMENT -->
+
+                        <div class="detail-item">
+
+                            <span class="detail-label">
+                                Department
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ application.department.department_name }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+
+                        <div class="detail-item">
+
+                            <span class="detail-label">
+                                Student Email
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ application.student.email }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- PERCENTAGE -->
+
+                        <div class="detail-item">
+
+                            <span class="detail-label">
+                                Plus Two Percentage
+                            </span>
+
+                            <span class="detail-value">
+
+                                {% if application.student.plus_two_percentage %}
+
+                                    {{ application.student.plus_two_percentage }}%
+
+                                {% else %}
+
+                                    —
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- APPLIED DATE -->
+
+                        <div class="detail-item">
+
+                            <span class="detail-label">
+                                Applied Date
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ application.applied_date|date:"d M Y, h:i A" }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- ADMISSION STATUS -->
+
+                        <div class="detail-item">
+
+                            <span class="detail-label">
+                                Admission Status
+                            </span>
+
+                            <span class="detail-value">
+
+                                {% if application.student.admission_status == "Admission Registered" %}
+
+                                    <span class="registered-badge">
+
+                                        ✓ Registered
+
+                                    </span>
+
+                                {% else %}
+
+                                    Not Registered
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         ACTION
+                    ================================================= -->
+
+                    <div class="action-area">
+
+                        {% if application.student.admission_status == "Admission Registered" %}
+
+                            <span class="registered-badge">
+
+                                ✓ Admission Registered
+
+                            </span>
+
+                        {% else %}
+
+                            <form
+                                method="POST"
+                                action="{% url 'admission_register' application.id %}"
+                                onsubmit="return confirm('Register this student for admission?');"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="register-btn"
+                                >
+
+                                    🎓 Admission Registered
+
+                                </button>
+
+                            </form>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- =====================================================
+             NO SEARCH RESULT
+        ===================================================== -->
+
+        <div
+            class="no-results"
+            id="noResults"
+        >
+
+            <h5>
+                No Applications Found
+            </h5>
+
+            <p>
+                No approved application matches your search or filter.
+            </p>
+
+        </div>
+
+    {% else %}
+
+        <!-- =====================================================
+             EMPTY
+        ===================================================== -->
+
+        <div class="empty-box">
+
+            <h5>
+                No Approved Applications
+            </h5>
+
+            <p>
+                You have not approved any applications yet.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =========================================================
+     SEARCH / FILTER JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    const studentSearch =
+        document.getElementById("studentSearch");
+
+    const applicationSearch =
+        document.getElementById("applicationSearch");
+
+    const courseFilter =
+        document.getElementById("courseFilter");
+
+    const applicationItems =
+        document.querySelectorAll(".application-item");
+
+    const noResults =
+        document.getElementById("noResults");
+
+
+    function filterApplications() {
+
+        const nameValue =
+            studentSearch.value
+            .toLowerCase()
+            .trim();
+
+        const idValue =
+            applicationSearch.value
+            .toLowerCase()
+            .trim();
+
+        const courseValue =
+            courseFilter.value;
+
+
+        let visibleCount = 0;
+
+
+        applicationItems.forEach(function(item) {
+
+            const studentName =
+                item.dataset.name;
+
+            const applicationId =
+                item.dataset.id;
+
+            const courseId =
+                item.dataset.course;
+
+
+            const nameMatch =
+                studentName.includes(nameValue);
+
+            const idMatch =
+                applicationId.includes(idValue);
+
+            const courseMatch =
+                !courseValue ||
+                courseId === courseValue;
+
+
+            if (
+                nameMatch &&
+                idMatch &&
+                courseMatch
+            ) {
+
+                item.style.display = "";
+
+                visibleCount++;
+
+            } else {
+
+                item.style.display = "none";
+
+            }
+
+        });
+
+
+        if (noResults) {
+
+            if (visibleCount === 0) {
+
+                noResults.style.display = "block";
+
+            } else {
+
+                noResults.style.display = "none";
+
+            }
+
+        }
+
+    }
+
+
+    function clearFilters() {
+
+        studentSearch.value = "";
+
+        applicationSearch.value = "";
+
+        courseFilter.value = "";
+
+        filterApplications();
+
+    }
+
+
+    studentSearch.addEventListener(
+        "input",
+        filterApplications
+    );
+
+
+    applicationSearch.addEventListener(
+        "input",
+        filterApplications
+    );
+
+
+    courseFilter.addEventListener(
+        "change",
+        filterApplications
+    );
+
+</script>
+
+{% endblock %}
+

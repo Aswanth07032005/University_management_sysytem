@@ -139,3 +139,13 @@ EMAIL_HOST_PASSWORD = 'xxfgcgdgfsjtspgi'
 
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")

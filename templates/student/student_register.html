@@ -1,369 +1,1725 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<div class="uadmit-page">
-  <div class="uadmit-sheet">
-
-    <header class="uadmit-letterhead">
-      <div class="uadmit-crest" aria-hidden="true">
-        <svg viewBox="0 0 60 60" width="52" height="52">
-          <circle cx="30" cy="30" r="28" fill="none" stroke="#F4C542" stroke-width="1.5"/>
-          <circle cx="30" cy="30" r="23" fill="none" stroke="#F4C542" stroke-width="1"/>
-          <rect x="26" y="16" width="8" height="28" rx="1.5" fill="#F4C542"/>
-          <rect x="16" y="26" width="28" height="8" rx="1.5" fill="#F4C542"/>
-        </svg>
-      </div>
-      <div class="uadmit-letterhead__text">
-        <p class="uadmit-eyebrow">MMT Medical College &middot; Office of Admissions</p>
-        <h1 class="uadmit-title">Application for Enrollment</h1>
-        <p class="uadmit-subtitle">Academic Year 2026&ndash;2027</p>
-      </div>
-    </header>
-
-    <div class="uadmit-body">
-      <aside class="uadmit-aside">
-        <p class="uadmit-aside__label">Sections</p>
-        <ol class="uadmit-aside__list">
-          <li><span>I.</span> Applicant details</li>
-          <li><span>II.</span> Account credentials</li>
-        </ol>
-        <div class="uadmit-aside__note">
-          <p class="uadmit-aside__note-title">Before you begin</p>
-          <p>Have your legal name, date of birth, a valid email address, and your prior academic records ready. Fields marked required must be completed before submitting.</p>
-        </div>
-      </aside>
-
-      <main class="uadmit-card">
-        <form method="post" enctype="multipart/form-data" class="uadmit-form" novalidate>
-          {% csrf_token %}
-
-          {% if form.non_field_errors or register_form.non_field_errors %}
-            <div class="uadmit-alert" role="alert">
-              {{ form.non_field_errors }}
-              {{ register_form.non_field_errors }}
-            </div>
-          {% endif %}
+{% block title %}
+    Student Registration | MM-Technical University
+{% endblock %}
 
 
-
-          <fieldset class="uadmit-fieldset">
-            <legend><span>II.</span> Account credentials</legend>
-            {{ register_form.as_p }}
-          </fieldset>
-
-            <fieldset class="uadmit-fieldset">
-            <legend><span>I.</span> Applicant details</legend>
-            {{ form.as_p }}
-          </fieldset>
-
-          <div class="uadmit-actions">
-            <p class="uadmit-actions__note">By submitting, you confirm the details above are accurate.</p>
-            <button type="submit" class="uadmit-submit">Submit application</button>
-          </div>
-        </form>
-      </main>
-    </div>
-
-  </div>
-</div>
+{% block extra_css %}
 
 <style>
-  :root{
-    --navy-dark:#0B2C5C;
-    --navy:#16407E;
-    --navy-mid:#1B3A6B;
-    --blue-pale:#EEF3FB;
-    --blue-line:#D3DFF0;
-    --white:#FFFFFF;
-    --gold:#C9A227;
-    --ink:#1C2430;
-    --muted:#5B6474;
-    --error:#B23A48;
-  }
 
-  .uadmit-page{
-    min-height:100vh;
-    background:var(--blue-pale);
-    display:flex;
-    justify-content:center;
-    padding:48px 20px;
-    font-family:"Inter","Segoe UI",system-ui,sans-serif;
-    color:var(--ink);
-    box-sizing:border-box;
-  }
+    /* =====================================================
+       STUDENT REGISTRATION PAGE
+    ====================================================== */
 
-  .uadmit-sheet{
-    width:100%;
-    max-width:980px;
-    background:var(--white);
-    border-radius:6px;
-    box-shadow:0 24px 50px -28px rgba(11,44,92,0.35);
-    overflow:hidden;
-    border:1px solid var(--blue-line);
-  }
+    .student-register-page {
 
-  /* ---- Letterhead ---- */
-  .uadmit-letterhead{
-    background:linear-gradient(120deg,var(--navy-dark) 0%,var(--navy) 100%);
-    color:var(--white);
-    padding:32px 40px;
-    display:flex;
-    align-items:center;
-    gap:22px;
-    position:relative;
-  }
+        min-height: calc(100vh - 76px);
 
-  .uadmit-letterhead::after{
-    content:"";
-    position:absolute;
-    left:0; right:0; bottom:0;
-    height:4px;
-    background:var(--gold);
-  }
+        padding: 55px 24px;
 
-  .uadmit-crest{
-    flex:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
+        display: flex;
 
-  .uadmit-eyebrow{
-    margin:0 0 4px;
-    font-size:11.5px;
-    text-transform:uppercase;
-    letter-spacing:0.14em;
-    color:#B9CBEA;
-    font-weight:600;
-  }
+        align-items: center;
 
-  .uadmit-title{
-    margin:0 0 4px;
-    font-family:"Georgia","Times New Roman",serif;
-    font-weight:600;
-    font-size:26px;
-    letter-spacing:0.01em;
-  }
+        justify-content: center;
 
-  .uadmit-subtitle{
-    margin:0;
-    font-size:13px;
-    color:#C7D6EE;
-  }
+        background:
+            radial-gradient(
+                circle at 8% 10%,
+                rgba(11, 94, 215, 0.07),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 92% 90%,
+                rgba(6, 52, 95, 0.06),
+                transparent 30%
+            ),
+            var(--very-light-blue);
 
-  /* ---- Body layout ---- */
-  .uadmit-body{
-    display:grid;
-    grid-template-columns:240px 1fr;
-  }
-
-  .uadmit-aside{
-    background:var(--blue-pale);
-    border-right:1px solid var(--blue-line);
-    padding:36px 28px;
-  }
-
-  .uadmit-aside__label{
-    margin:0 0 14px;
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.1em;
-    color:var(--navy);
-    font-weight:700;
-  }
-
-  .uadmit-aside__list{
-    list-style:none;
-    margin:0 0 32px;
-    padding:0;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-
-  .uadmit-aside__list li{
-    font-size:13.5px;
-    color:var(--ink);
-    display:flex;
-    gap:8px;
-  }
-
-  .uadmit-aside__list span{
-    font-family:"Georgia",serif;
-    color:var(--gold);
-    font-weight:700;
-    min-width:16px;
-  }
-
-  .uadmit-aside__note{
-    background:var(--white);
-    border:1px solid var(--blue-line);
-    border-left:3px solid var(--navy);
-    border-radius:4px;
-    padding:16px 16px;
-  }
-
-  .uadmit-aside__note-title{
-    margin:0 0 6px;
-    font-size:12.5px;
-    font-weight:700;
-    color:var(--navy-dark);
-  }
-
-  .uadmit-aside__note p:last-child{
-    margin:0;
-    font-size:12.5px;
-    line-height:1.55;
-    color:var(--muted);
-  }
-
-  /* ---- Form card ---- */
-  .uadmit-card{
-    padding:36px 44px 40px;
-  }
-
-  .uadmit-fieldset{
-    border:none;
-    margin:0 0 32px;
-    padding:0;
-  }
-
-  .uadmit-fieldset legend{
-    display:flex;
-    align-items:baseline;
-    gap:8px;
-    font-family:"Georgia",serif;
-    font-size:16px;
-    font-weight:700;
-    color:var(--navy-dark);
-    padding:0 0 12px;
-    width:100%;
-    border-bottom:2px solid var(--navy-dark);
-    margin-bottom:20px;
-  }
-
-  .uadmit-fieldset legend span{
-    color:var(--gold);
-  }
-
-  .uadmit-fieldset p{
-    margin:0 0 18px;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-  }
-
-  .uadmit-fieldset label{
-    font-size:13px;
-    font-weight:600;
-    color:var(--ink);
-  }
-
-  .uadmit-fieldset input,
-  .uadmit-fieldset select,
-  .uadmit-fieldset textarea{
-    font-family:inherit;
-    font-size:14.5px;
-    padding:11px 14px;
-    border:1px solid #C7D2E3;
-    border-radius:5px;
-    background:#FBFCFE;
-    color:var(--ink);
-    outline:none;
-    transition:border-color .15s ease, box-shadow .15s ease;
-    box-sizing:border-box;
-    width:100%;
-  }
-
-  .uadmit-fieldset input:focus,
-  .uadmit-fieldset select:focus,
-  .uadmit-fieldset textarea:focus{
-    border-color:var(--navy);
-    box-shadow:0 0 0 3px rgba(22,64,126,0.14);
-    background:var(--white);
-  }
-
-  .uadmit-fieldset input[type="checkbox"],
-  .uadmit-fieldset input[type="radio"]{
-    width:auto;
-    accent-color:var(--navy);
-  }
-
-  .uadmit-fieldset .helptext{
-    font-size:12px;
-    color:var(--muted);
-  }
-
-  .uadmit-fieldset ul.errorlist{
-    list-style:none;
-    margin:2px 0 0;
-    padding:0;
-    font-size:12.5px;
-    color:var(--error);
-  }
-
-  .uadmit-alert{
-    background:#FBEAEC;
-    border:1px solid var(--error);
-    color:var(--error);
-    font-size:13px;
-    padding:12px 14px;
-    border-radius:5px;
-    margin-bottom:24px;
-  }
-
-  .uadmit-actions{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-    border-top:1px solid var(--blue-line);
-    padding-top:24px;
-  }
-
-  .uadmit-actions__note{
-    margin:0;
-    font-size:12.5px;
-    color:var(--muted);
-    max-width:34ch;
-  }
-
-  .uadmit-submit{
-    flex:none;
-    padding:13px 28px;
-    background:var(--navy-dark);
-    color:var(--white);
-    border:none;
-    border-radius:5px;
-    font-size:14.5px;
-    font-weight:700;
-    letter-spacing:0.02em;
-    cursor:pointer;
-    transition:background .15s ease, transform .1s ease;
-  }
-
-  .uadmit-submit:hover{ background:var(--navy); }
-  .uadmit-submit:active{ transform:translateY(1px); }
-  .uadmit-submit:focus-visible{
-    outline:2px solid var(--gold);
-    outline-offset:2px;
-  }
-
-  @media (max-width:760px){
-    .uadmit-body{ grid-template-columns:1fr; }
-    .uadmit-aside{
-      border-right:none;
-      border-bottom:1px solid var(--blue-line);
-      padding:24px 28px;
     }
-    .uadmit-letterhead{ padding:26px 24px; }
-    .uadmit-title{ font-size:21px; }
-    .uadmit-card{ padding:28px 24px 32px; }
-    .uadmit-actions{
-      flex-direction:column;
-      align-items:flex-start;
+
+
+    /* =====================================================
+       MAIN CARD
+    ====================================================== */
+
+    .student-register-card {
+
+        width: 100%;
+
+        max-width: 1120px;
+
+        display: grid;
+
+        grid-template-columns: 360px minmax(0, 1fr);
+
+        background: var(--white);
+
+        border: 1px solid var(--border);
+
+        border-radius: 10px;
+
+        overflow: hidden;
+
+        box-shadow:
+            0 15px 45px rgba(3, 40, 70, 0.12);
+
     }
-    .uadmit-submit{ width:100%; }
-  }
+
+
+    /* =====================================================
+       LEFT PANEL
+    ====================================================== */
+
+    .register-info {
+
+        position: relative;
+
+        min-height: 760px;
+
+        padding: 48px 38px;
+
+        display: flex;
+
+        align-items: center;
+
+        color: var(--white);
+
+        overflow: hidden;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(2, 37, 66, 0.98),
+                rgba(6, 52, 95, 0.96)
+            );
+
+    }
+
+
+    .register-info::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 300px;
+
+        height: 300px;
+
+        top: -150px;
+
+        right: -140px;
+
+        border-radius: 50%;
+
+        border: 1px solid rgba(255,255,255,0.06);
+
+        box-shadow:
+            0 0 0 35px rgba(255,255,255,0.02),
+            0 0 0 70px rgba(255,255,255,0.015);
+
+    }
+
+
+    .register-info::after {
+
+        content: "";
+
+        position: absolute;
+
+        width: 230px;
+
+        height: 230px;
+
+        bottom: -120px;
+
+        left: -110px;
+
+        border-radius: 50%;
+
+        background: rgba(11,94,215,0.12);
+
+    }
+
+
+    .register-info-content {
+
+        position: relative;
+
+        z-index: 2;
+
+        width: 100%;
+
+    }
+
+
+    /* =====================================================
+       UNIVERSITY MARK
+    ====================================================== */
+
+    .university-mark {
+
+        width: 60px;
+
+        height: 60px;
+
+        margin-bottom: 24px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border: 1px solid rgba(255,255,255,0.20);
+
+        border-radius: 10px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(255,255,255,0.12),
+                rgba(255,255,255,0.04)
+            );
+
+        color: var(--white);
+
+        font-family: "Playfair Display", serif;
+
+        font-size: 29px;
+
+        font-weight: 700;
+
+        box-shadow:
+            0 8px 22px rgba(0,0,0,0.12);
+
+    }
+
+
+    /* =====================================================
+       SMALL TITLE
+    ====================================================== */
+
+    .register-small-title {
+
+        margin-bottom: 10px;
+
+        color: #c7d8e9;
+
+        font-size: 10px;
+
+        font-weight: 600;
+
+        letter-spacing: 1.8px;
+
+        text-transform: uppercase;
+
+    }
+
+
+    /* =====================================================
+       LEFT HEADING
+    ====================================================== */
+
+    .register-info h1 {
+
+        margin-bottom: 18px;
+
+        color: var(--white);
+
+        font-family: "Playfair Display", serif;
+
+        font-size: 40px;
+
+        font-weight: 700;
+
+        line-height: 1.15;
+
+    }
+
+
+    .register-info h1::after {
+
+        content: "";
+
+        display: block;
+
+        width: 48px;
+
+        height: 3px;
+
+        margin-top: 16px;
+
+        background: var(--gold);
+
+    }
+
+
+    /* =====================================================
+       DESCRIPTION
+    ====================================================== */
+
+    .register-description {
+
+        max-width: 285px;
+
+        margin-bottom: 34px;
+
+        color: #c3d3e3;
+
+        font-size: 12px;
+
+        line-height: 1.8;
+
+    }
+
+
+    /* =====================================================
+       INFORMATION POINTS
+    ====================================================== */
+
+    .register-points {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 19px;
+
+        margin-bottom: 35px;
+
+    }
+
+
+    .register-point {
+
+        display: flex;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+    }
+
+
+    .register-point-icon {
+
+        width: 34px;
+
+        height: 34px;
+
+        flex: 0 0 34px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border: 1px solid rgba(255,255,255,0.10);
+
+        border-radius: 7px;
+
+        background: rgba(255,255,255,0.07);
+
+        color: #d9e9fa;
+
+        font-size: 12px;
+
+    }
+
+
+    .register-point strong {
+
+        display: block;
+
+        margin-bottom: 3px;
+
+        color: var(--white);
+
+        font-size: 11px;
+
+        font-weight: 600;
+
+    }
+
+
+    .register-point span {
+
+        display: block;
+
+        color: #adc2d6;
+
+        font-size: 9px;
+
+        line-height: 1.6;
+
+    }
+
+
+    /* =====================================================
+       LOGIN LINK
+    ====================================================== */
+
+    .back-login {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 9px 14px;
+
+        border: 1px solid rgba(255,255,255,0.18);
+
+        border-radius: 6px;
+
+        background: rgba(255,255,255,0.05);
+
+        color: var(--white);
+
+        font-size: 10px;
+
+        font-weight: 500;
+
+        transition: all 0.25s ease;
+
+    }
+
+
+    .back-login:hover {
+
+        border-color: rgba(255,255,255,0.30);
+
+        background: rgba(255,255,255,0.10);
+
+        color: var(--white);
+
+        transform: translateX(-2px);
+
+    }
+
+
+    /* =====================================================
+       FORM AREA
+    ====================================================== */
+
+    .register-form-area {
+
+        padding: 48px 50px;
+
+        display: flex;
+
+        align-items: center;
+
+        background: var(--white);
+
+    }
+
+
+    .register-form {
+
+        width: 100%;
+
+        max-width: 650px;
+
+        margin: 0 auto;
+
+    }
+
+
+    /* =====================================================
+       FORM HEADER
+    ====================================================== */
+
+    .register-form-header {
+
+        margin-bottom: 27px;
+
+    }
+
+
+    .register-form-header .eyebrow {
+
+        margin-bottom: 6px;
+
+        color: var(--blue);
+
+        font-size: 9px;
+
+        font-weight: 700;
+
+        letter-spacing: 1.7px;
+
+        text-transform: uppercase;
+
+    }
+
+
+    .register-form-header h2 {
+
+        margin-bottom: 9px;
+
+        color: var(--navy);
+
+        font-family: "Playfair Display", serif;
+
+        font-size: 32px;
+
+        font-weight: 700;
+
+    }
+
+
+    .register-form-header p {
+
+        max-width: 560px;
+
+        color: var(--muted);
+
+        font-size: 11px;
+
+        line-height: 1.8;
+
+    }
+
+
+    /* =====================================================
+       ERROR ALERT
+    ====================================================== */
+
+    .register-alert {
+
+        margin-bottom: 20px;
+
+        padding: 11px 13px;
+
+        border-left: 3px solid var(--danger);
+
+        border-top: 1px solid rgba(220,53,69,0.15);
+
+        border-right: 1px solid rgba(220,53,69,0.15);
+
+        border-bottom: 1px solid rgba(220,53,69,0.15);
+
+        border-radius: 6px;
+
+        background: #fff7f7;
+
+        color: var(--danger);
+
+        font-size: 10px;
+
+    }
+
+
+    .register-alert ul {
+
+        margin: 0;
+
+        padding-left: 18px;
+
+    }
+
+
+    /* =====================================================
+       FORM SECTION
+    ====================================================== */
+
+    .register-section {
+
+        margin: 0 0 18px;
+
+        padding: 20px 20px 17px;
+
+        border: 1px solid var(--border);
+
+        border-radius: 8px;
+
+        background: #ffffff;
+
+        transition: all 0.25s ease;
+
+    }
+
+
+    .register-section:hover {
+
+        border-color: #cbdbea;
+
+        box-shadow:
+            0 5px 18px rgba(3,40,70,0.04);
+
+    }
+
+
+    .register-section legend {
+
+        float: none;
+
+        width: auto;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        margin: 0 0 18px;
+
+        padding: 0 5px;
+
+        color: var(--navy);
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+    }
+
+
+    /* =====================================================
+       SECTION NUMBER
+    ====================================================== */
+
+    .section-number {
+
+        width: 23px;
+
+        height: 23px;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: var(--light-blue);
+
+        color: var(--blue);
+
+        font-size: 9px;
+
+        font-weight: 700;
+
+    }
+
+
+    /* =====================================================
+       DJANGO FORM
+    ====================================================== */
+
+    .register-section p {
+
+        margin-bottom: 14px;
+
+    }
+
+
+    .register-section p:last-child {
+
+        margin-bottom: 0;
+
+    }
+
+
+    .register-section label {
+
+        display: block;
+
+        margin-bottom: 6px;
+
+        color: #344054;
+
+        font-size: 10px;
+
+        font-weight: 600;
+
+    }
+
+
+    /* =====================================================
+       INPUTS
+    ====================================================== */
+
+    .register-section input:not(
+        [type="checkbox"]
+    ):not(
+        [type="radio"]
+    ),
+    .register-section select,
+    .register-section textarea {
+
+        width: 100%;
+
+        min-height: 42px;
+
+        padding: 9px 11px;
+
+        border: 1px solid var(--border);
+
+        border-radius: 6px;
+
+        outline: none;
+
+        background: var(--white);
+
+        color: var(--text);
+
+        font-family: "Poppins", sans-serif;
+
+        font-size: 11px;
+
+        transition: all 0.2s ease;
+
+    }
+
+
+    .register-section textarea {
+
+        min-height: 85px;
+
+        resize: vertical;
+
+    }
+
+
+    .register-section input:not(
+        [type="checkbox"]
+    ):not(
+        [type="radio"]
+    ):focus,
+    .register-section select:focus,
+    .register-section textarea:focus {
+
+        border-color: var(--blue);
+
+        box-shadow:
+            0 0 0 3px rgba(11,94,215,0.08);
+
+    }
+
+
+    /* =====================================================
+       FILE INPUT
+    ====================================================== */
+
+    .register-section input[type="file"] {
+
+        padding: 7px;
+
+        background: #fafcff;
+
+        cursor: pointer;
+
+    }
+
+
+    /* =====================================================
+       CHECKBOX / RADIO
+    ====================================================== */
+
+    .register-section input[type="checkbox"],
+    .register-section input[type="radio"] {
+
+        width: auto;
+
+        min-height: auto;
+
+        margin-right: 5px;
+
+        accent-color: var(--blue);
+
+    }
+
+
+    /* =====================================================
+       HELP TEXT
+    ====================================================== */
+
+    .register-section .helptext {
+
+        display: block;
+
+        margin-top: 5px;
+
+        color: #8a96a6;
+
+        font-size: 8px;
+
+        line-height: 1.6;
+
+    }
+
+
+    /* =====================================================
+       ERROR LIST
+    ====================================================== */
+
+    .register-section .errorlist {
+
+        margin: 4px 0 5px;
+
+        padding: 0;
+
+        list-style: none;
+
+        color: var(--danger);
+
+        font-size: 9px;
+
+    }
+
+
+    /* =====================================================
+       REQUIRED FIELD
+    ====================================================== */
+
+    .register-section label.required::after {
+
+        content: " *";
+
+        color: var(--danger);
+
+    }
+
+
+    /* =====================================================
+       ACTION AREA
+    ====================================================== */
+
+    .register-actions {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 20px;
+
+        margin-top: 7px;
+
+    }
+
+
+    .form-note {
+
+        display: flex;
+
+        align-items: flex-start;
+
+        gap: 7px;
+
+        max-width: 280px;
+
+        color: #7c8796;
+
+        font-size: 8.5px;
+
+        line-height: 1.6;
+
+    }
+
+
+    .form-note i {
+
+        margin-top: 2px;
+
+        color: var(--success);
+
+    }
+
+
+    /* =====================================================
+       CREATE ACCOUNT BUTTON
+    ====================================================== */
+
+    .create-account-btn {
+
+        min-width: 175px;
+
+        min-height: 43px;
+
+        padding: 10px 18px;
+
+        border: none;
+
+        border-radius: 6px;
+
+        background: var(--navy);
+
+        color: var(--white);
+
+        font-family: "Poppins", sans-serif;
+
+        font-size: 11px;
+
+        font-weight: 600;
+
+        box-shadow:
+            0 6px 16px rgba(6,52,95,0.15);
+
+        transition: all 0.25s ease;
+
+    }
+
+
+    .create-account-btn:hover {
+
+        background: var(--blue);
+
+        color: var(--white);
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 9px 20px rgba(11,94,215,0.20);
+
+    }
+
+
+    .create-account-btn i {
+
+        margin-left: 7px;
+
+    }
+
+
+    /* =====================================================
+       LOGIN TEXT
+    ====================================================== */
+
+    .already-account {
+
+        margin-top: 20px;
+
+        text-align: center;
+
+        color: #7b8794;
+
+        font-size: 9px;
+
+    }
+
+
+    .already-account a {
+
+        color: var(--blue);
+
+        font-weight: 600;
+
+    }
+
+
+    .already-account a:hover {
+
+        text-decoration: underline;
+
+    }
+
+
+    /* =====================================================
+       SECURITY NOTE
+    ====================================================== */
+
+    .security-note {
+
+        margin-top: 14px;
+
+        padding: 10px 12px;
+
+        display: flex;
+
+        align-items: flex-start;
+
+        gap: 8px;
+
+        border: 1px solid #e5ebf2;
+
+        border-radius: 6px;
+
+        background: #f8fafc;
+
+        color: #778394;
+
+        font-size: 8px;
+
+        line-height: 1.6;
+
+    }
+
+
+    .security-note i {
+
+        margin-top: 2px;
+
+        color: var(--success);
+
+    }
+
+
+    /* =====================================================
+       TABLET
+    ====================================================== */
+
+    @media (max-width: 950px) {
+
+        .student-register-card {
+
+            max-width: 760px;
+
+            grid-template-columns: 1fr;
+
+        }
+
+
+        .register-info {
+
+            min-height: auto;
+
+            padding: 38px 40px;
+
+        }
+
+
+        .register-description {
+
+            max-width: 600px;
+
+        }
+
+
+        .register-points {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 16px;
+
+        }
+
+
+        .register-form-area {
+
+            padding: 40px;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ====================================================== */
+
+    @media (max-width: 700px) {
+
+        .student-register-page {
+
+            min-height: calc(100vh - 68px);
+
+            padding: 15px 10px;
+
+            align-items: flex-start;
+
+        }
+
+
+        .student-register-card {
+
+            border-radius: 8px;
+
+        }
+
+
+        .register-info {
+
+            padding: 30px 22px;
+
+        }
+
+
+        .university-mark {
+
+            width: 50px;
+
+            height: 50px;
+
+            margin-bottom: 18px;
+
+            font-size: 24px;
+
+        }
+
+
+        .register-small-title {
+
+            font-size: 8px;
+
+            letter-spacing: 1.4px;
+
+        }
+
+
+        .register-info h1 {
+
+            font-size: 29px;
+
+        }
+
+
+        .register-description {
+
+            margin-bottom: 25px;
+
+            font-size: 10px;
+
+        }
+
+
+        .register-points {
+
+            display: flex;
+
+            gap: 13px;
+
+            margin-bottom: 27px;
+
+        }
+
+
+        .register-point-icon {
+
+            width: 30px;
+
+            height: 30px;
+
+            flex-basis: 30px;
+
+            font-size: 10px;
+
+        }
+
+
+        .register-point strong {
+
+            font-size: 10px;
+
+        }
+
+
+        .register-point span {
+
+            font-size: 8px;
+
+        }
+
+
+        .back-login {
+
+            font-size: 9px;
+
+        }
+
+
+        /* FORM */
+
+        .register-form-area {
+
+            padding: 30px 15px;
+
+        }
+
+
+        .register-form-header {
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .register-form-header h2 {
+
+            font-size: 27px;
+
+        }
+
+
+        .register-form-header p {
+
+            font-size: 9px;
+
+        }
+
+
+        .register-section {
+
+            padding: 17px 12px 14px;
+
+        }
+
+
+        .register-section legend {
+
+            font-size: 10px;
+
+        }
+
+
+        .register-section input:not(
+            [type="checkbox"]
+        ):not(
+            [type="radio"]
+        ),
+        .register-section select,
+        .register-section textarea {
+
+            min-height: 40px;
+
+            font-size: 10px;
+
+        }
+
+
+        .register-actions {
+
+            flex-direction: column;
+
+            align-items: stretch;
+
+        }
+
+
+        .form-note {
+
+            max-width: none;
+
+            justify-content: center;
+
+            text-align: center;
+
+        }
+
+
+        .create-account-btn {
+
+            width: 100%;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SMALL MOBILE
+    ====================================================== */
+
+    @media (max-width: 430px) {
+
+        .student-register-page {
+
+            padding: 8px;
+
+        }
+
+
+        .register-info {
+
+            padding: 25px 18px;
+
+        }
+
+
+        .register-info h1 {
+
+            font-size: 26px;
+
+        }
+
+
+        .register-form-area {
+
+            padding: 25px 11px;
+
+        }
+
+
+        .register-form-header h2 {
+
+            font-size: 24px;
+
+        }
+
+
+        .register-section {
+
+            padding: 15px 10px 12px;
+
+        }
+
+
+        .security-note {
+
+            font-size: 7.5px;
+
+        }
+
+    }
+
+
 </style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<!-- =====================================================
+     STUDENT REGISTRATION PAGE
+====================================================== -->
+
+<div class="student-register-page">
+
+    <div
+        class="student-register-card"
+        data-aos="fade-up"
+        data-aos-duration="800"
+    >
+
+
+        <!-- =================================================
+             LEFT INFORMATION PANEL
+        ================================================== -->
+
+        <aside class="register-info">
+
+            <div class="register-info-content">
+
+
+                <!-- UNIVERSITY MARK -->
+
+                <div
+                    class="university-mark"
+                    data-aos="fade-right"
+                    data-aos-delay="100"
+                >
+                    M
+                </div>
+
+
+                <!-- UNIVERSITY -->
+
+                <div
+                    class="register-small-title"
+                    data-aos="fade-right"
+                    data-aos-delay="150"
+                >
+                    MM-Technical University
+                </div>
+
+
+                <!-- TITLE -->
+
+                <h1
+                    data-aos="fade-right"
+                    data-aos-delay="200"
+                >
+                    Start Your Journey
+                </h1>
+
+
+                <!-- DESCRIPTION -->
+
+                <p
+                    class="register-description"
+                    data-aos="fade-right"
+                    data-aos-delay="250"
+                >
+                    Create your student account and begin your
+                    admission journey with MM-Technical University.
+                </p>
+
+
+                <!-- =================================================
+                     INFORMATION POINTS
+                ================================================== -->
+
+                <div class="register-points">
+
+
+                    <!-- POINT 1 -->
+
+                    <div
+                        class="register-point"
+                        data-aos="fade-right"
+                        data-aos-delay="300"
+                    >
+
+                        <div class="register-point-icon">
+
+                            <i class="fa-solid fa-user-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Secure Registration
+                            </strong>
+
+                            <span>
+                                Your account information is protected.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- POINT 2 -->
+
+                    <div
+                        class="register-point"
+                        data-aos="fade-right"
+                        data-aos-delay="350"
+                    >
+
+                        <div class="register-point-icon">
+
+                            <i class="fa-solid fa-graduation-cap"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Explore Courses
+                            </strong>
+
+                            <span>
+                                Discover courses and admission opportunities.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- POINT 3 -->
+
+                    <div
+                        class="register-point"
+                        data-aos="fade-right"
+                        data-aos-delay="400"
+                    >
+
+                        <div class="register-point-icon">
+
+                            <i class="fa-solid fa-file-circle-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Easy Application
+                            </strong>
+
+                            <span>
+                                Manage your admission application online.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- POINT 4 -->
+
+                    <div
+                        class="register-point"
+                        data-aos="fade-right"
+                        data-aos-delay="450"
+                    >
+
+                        <div class="register-point-icon">
+
+                            <i class="fa-solid fa-headset"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Admission Support
+                            </strong>
+
+                            <span>
+                                Get assistance throughout the admission process.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- BACK TO LOGIN -->
+
+                <a
+                    href="{% url 'login_p' %}"
+                    class="back-login"
+                    data-aos="fade-up"
+                    data-aos-delay="500"
+                >
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Back to Login
+
+                </a>
+
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =================================================
+             REGISTRATION FORM AREA
+        ================================================== -->
+
+        <section class="register-form-area">
+
+            <div class="register-form">
+
+
+                <!-- =================================================
+                     FORM HEADER
+                ================================================== -->
+
+                <div
+                    class="register-form-header"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                >
+
+                    <div class="eyebrow">
+                        Student Portal
+                    </div>
+
+                    <h2>
+                        Create Account
+                    </h2>
+
+                    <p>
+                        Enter your details carefully to create your
+                        student account and continue with the admission process.
+                    </p>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     FORM ERRORS
+                ================================================== -->
+
+                {% if register_form.non_field_errors %}
+
+                    <div
+                        class="register-alert"
+                        data-aos="fade-down"
+                    >
+
+                        {{ register_form.non_field_errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if form.non_field_errors %}
+
+                    <div
+                        class="register-alert"
+                        data-aos="fade-down"
+                    >
+
+                        {{ form.non_field_errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+
+                <!-- =================================================
+                     REGISTRATION FORM
+                ================================================== -->
+
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+                    {% csrf_token %}
+
+
+
+                    <!-- =================================================
+                         ACCOUNT DETAILS
+                    ================================================== -->
+
+                    <fieldset
+                        class="register-section"
+                        data-aos="fade-up"
+                        data-aos-delay="150"
+                    >
+
+                        <legend>
+
+                            <span class="section-number">
+                                01
+                            </span>
+
+                            Account Credentials
+
+                        </legend>
+
+
+                        {{ register_form.as_p }}
+
+
+                    </fieldset>
+
+
+
+                    <!-- =================================================
+                         APPLICANT DETAILS
+                    ================================================== -->
+
+                    <fieldset
+                        class="register-section"
+                        data-aos="fade-up"
+                        data-aos-delay="200"
+                    >
+
+                        <legend>
+
+                            <span class="section-number">
+                                02
+                            </span>
+
+                            Applicant Details
+
+                        </legend>
+
+
+                        {{ form.as_p }}
+
+
+                    </fieldset>
+
+
+
+                    <!-- =================================================
+                         ACTION AREA
+                    ================================================== -->
+
+                    <div
+                        class="register-actions"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+
+
+                        <!-- NOTE -->
+
+                        <div class="form-note">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            <span>
+                                Please make sure all information is
+                                accurate before submitting.
+                            </span>
+
+                        </div>
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                            type="submit"
+                            class="create-account-btn"
+                        >
+
+                            Create Account
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+
+                <!-- =================================================
+                     LOGIN LINK
+                ================================================== -->
+
+                <div class="already-account">
+
+                    Already have an account?
+
+                    <a href="{% url 'login_p' %}">
+                        Sign In
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SECURITY NOTE
+                ================================================== -->
+
+                <div class="security-note">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <span>
+                        Your registration information is handled securely
+                        and is used only for university admission purposes.
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</div>
+
 {% endblock %}

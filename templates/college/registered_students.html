@@ -1,0 +1,898 @@
+
+{% extends "college/college_dashboard.html" %}
+
+{% block content %}
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .registered-page {
+        padding: 28px;
+        color: #12233a;
+    }
+
+    /* =====================================================
+       PAGE HEADER
+    ===================================================== */
+
+    .page-header {
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid #0a2f5c;
+    }
+
+    .page-header h2 {
+        margin: 0 0 6px;
+        color: #0a2f5c;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        margin: 0;
+        color: #667085;
+        font-size: 13px;
+    }
+
+    /* =====================================================
+       COLLEGE INFO
+    ===================================================== */
+
+    .college-card {
+        background: #ffffff;
+        border: 1px solid #d9e2ec;
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 20px;
+
+        box-shadow: 0 3px 10px rgba(0,0,0,.05);
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .college-name {
+        color: #0a2f5c;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .college-location {
+        margin-top: 4px;
+        color: #7a8797;
+        font-size: 12px;
+    }
+
+    .student-count {
+        padding: 8px 14px;
+        border-radius: 20px;
+
+        background: #e5f4ec;
+        color: #1c7a4d;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    .search-card {
+        background: #ffffff;
+        border: 1px solid #d9e2ec;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 18px;
+
+        box-shadow: 0 2px 7px rgba(0,0,0,.04);
+    }
+
+    .search-form {
+        display: flex;
+        gap: 8px;
+    }
+
+    .search-input {
+        flex: 1;
+
+        border: 1px solid #ccd6e2;
+        border-radius: 7px;
+
+        padding: 10px 13px;
+
+        font-size: 12px;
+        outline: none;
+    }
+
+    .search-input:focus {
+        border-color: #0a2f5c;
+        box-shadow: 0 0 0 2px rgba(10,47,92,.08);
+    }
+
+    .search-btn {
+        border: none;
+        border-radius: 7px;
+
+        padding: 9px 17px;
+
+        background: #0a2f5c;
+        color: #ffffff;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .search-btn:hover {
+        background: #164b85;
+    }
+
+    .clear-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        padding: 9px 13px;
+
+        background: #eef2f6;
+        color: #475467;
+
+        border-radius: 7px;
+
+        text-decoration: none;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .clear-btn:hover {
+        background: #e2e7ed;
+        color: #12233a;
+    }
+
+    /* =====================================================
+       TABLE CARD
+    ===================================================== */
+
+    .students-card {
+        background: #ffffff;
+
+        border: 1px solid #d9e2ec;
+
+        border-radius: 12px;
+
+        overflow: hidden;
+
+        box-shadow: 0 3px 12px rgba(0,0,0,.05);
+    }
+
+    .table {
+        margin: 0;
+    }
+
+    .table thead th {
+        background: #0a2f5c;
+        color: #ffffff;
+
+        border: none;
+
+        padding: 13px 14px;
+
+        font-size: 10px;
+
+        text-transform: uppercase;
+
+        letter-spacing: .04em;
+
+        white-space: nowrap;
+    }
+
+    .table tbody td {
+        padding: 14px;
+
+        vertical-align: middle;
+
+        border-color: #e5eaf0;
+
+        font-size: 12px;
+    }
+
+    .table tbody tr:hover {
+        background: #f7faff;
+    }
+
+    /* =====================================================
+       STUDENT
+    ===================================================== */
+
+    .student-name {
+        display: block;
+
+        color: #12233a;
+
+        font-size: 13px;
+
+        font-weight: 700;
+    }
+
+    .student-id {
+        display: block;
+
+        margin-top: 3px;
+
+        color: #8a99ab;
+
+        font-size: 10px;
+    }
+
+    /* =====================================================
+       EMAIL
+    ===================================================== */
+
+    .email {
+        color: #475467;
+
+        font-size: 11px;
+
+        word-break: break-word;
+    }
+
+    /* =====================================================
+       PHONE
+    ===================================================== */
+
+    .phone {
+        color: #475467;
+
+        font-size: 11px;
+
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       COURSE
+    ===================================================== */
+
+    .course-name {
+        display: block;
+
+        color: #12233a;
+
+        font-weight: 600;
+
+        font-size: 12px;
+    }
+
+    .course-code {
+        display: block;
+
+        margin-top: 3px;
+
+        color: #8a99ab;
+
+        font-size: 10px;
+    }
+
+    /* =====================================================
+       DEPARTMENT
+    ===================================================== */
+
+    .department {
+        color: #475467;
+
+        font-size: 11px;
+    }
+
+    /* =====================================================
+       PERCENTAGE
+    ===================================================== */
+
+    .percentage {
+        display: inline-block;
+
+        padding: 5px 9px;
+
+        background: #eef4fb;
+
+        color: #0a2f5c;
+
+        border-radius: 6px;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       REGISTERED DATE
+    ===================================================== */
+
+    .date {
+        color: #667085;
+
+        font-size: 11px;
+
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .registered-badge {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        padding: 6px 11px;
+
+        border-radius: 20px;
+
+        background: #e5f4ec;
+
+        color: #1c7a4d;
+
+        font-size: 10px;
+
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .empty-state {
+        text-align: center;
+
+        padding: 65px 20px;
+    }
+
+    .empty-icon {
+        width: 60px;
+        height: 60px;
+
+        margin: 0 auto 15px;
+
+        border-radius: 50%;
+
+        background: #eef4fb;
+
+        color: #0a2f5c;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+    }
+
+    .empty-icon i {
+        font-size: 24px;
+    }
+
+    .empty-state h4 {
+        margin: 0 0 6px;
+
+        color: #0a2f5c;
+
+        font-size: 17px;
+
+        font-weight: 700;
+    }
+
+    .empty-state p {
+        margin: 0;
+
+        color: #7b8794;
+
+        font-size: 12px;
+    }
+
+    /* =====================================================
+       SEARCH RESULT
+    ===================================================== */
+
+    .search-result {
+        margin-top: 9px;
+
+        color: #7a8797;
+
+        font-size: 11px;
+    }
+
+    .search-result strong {
+        color: #0a2f5c;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .registered-page {
+            padding: 15px;
+        }
+
+        .page-header h2 {
+            font-size: 20px;
+        }
+
+        .college-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .search-form {
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            width: 100%;
+            flex-basis: 100%;
+        }
+
+        .students-card {
+            overflow-x: auto;
+        }
+
+        .table {
+            min-width: 1200px;
+        }
+
+    }
+
+</style>
+
+
+<div class="registered-page">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+    ===================================================== -->
+
+    <div class="page-header">
+
+        <h2>
+
+            <i class="fa-solid fa-user-graduate me-2"></i>
+
+            Admission Registered Students
+
+        </h2>
+
+        <p>
+
+            Students whose admission has been officially
+            registered by {{ college.college_name }}.
+
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         COLLEGE INFO
+    ===================================================== -->
+
+    <div class="college-card">
+
+        <div>
+
+            <div class="college-name">
+
+                {{ college.college_name }}
+
+            </div>
+
+            <div class="college-location">
+
+                <i class="fa-solid fa-location-dot me-1"></i>
+
+                {{ college.district }}, {{ college.state }}
+
+            </div>
+
+        </div>
+
+
+        <div class="student-count">
+
+            <i class="fa-solid fa-users me-1"></i>
+
+            {{ students|length }}
+
+            Registered Student{{ students|length|pluralize }}
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SEARCH
+    ===================================================== -->
+
+    <div class="search-card">
+
+        <form
+            method="GET"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                class="search-input"
+                placeholder="Search by student name or Student ID..."
+                autocomplete="off"
+            >
+
+            <button
+                type="submit"
+                class="search-btn"
+            >
+
+                <i class="fa-solid fa-magnifying-glass me-1"></i>
+
+                Search
+
+            </button>
+
+
+            {% if search %}
+
+                <a
+                    href="{% url 'college_registered_students' %}"
+                    class="clear-btn"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                    Clear
+
+                </a>
+
+            {% endif %}
+
+        </form>
+
+
+        {% if search %}
+
+            <div class="search-result">
+
+                Search result for:
+
+                <strong>"{{ search }}"</strong>
+
+                — {{ students|length }}
+                student{{ students|length|pluralize }} found.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         STUDENTS TABLE
+    ===================================================== -->
+
+    <div class="students-card">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Student</th>
+
+                        <th>Email</th>
+
+                        <th>Phone</th>
+
+                        <th>Course</th>
+
+                        <th>Department</th>
+
+                        <th>Percentage</th>
+
+                        <th>Registered Date</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for student in students %}
+
+                    <tr>
+
+
+                        <!-- =================================================
+                             NUMBER
+                        ================================================= -->
+
+                        <td>
+
+                            {{ forloop.counter|stringformat:"02d" }}
+
+                        </td>
+
+
+                        <!-- =================================================
+                             STUDENT
+                        ================================================= -->
+
+                        <td>
+
+                            <span class="student-name">
+
+                                {{ student.full_name }}
+
+                            </span>
+
+                            <span class="student-id">
+
+                                Student ID:
+                                {{ student.id }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- =================================================
+                             EMAIL
+                        ================================================= -->
+
+                        <td>
+
+                            <span class="email">
+
+                                {{ student.email }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- =================================================
+                             PHONE
+                        ================================================= -->
+
+                        <td>
+
+                            <span class="phone">
+
+                                {{ student.phone }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- =================================================
+                             COURSE
+                        ================================================= -->
+
+                        <td>
+
+                            {% if student.allotted_course %}
+
+                                <span class="course-name">
+
+                                    {{ student.allotted_course.course_name }}
+
+                                </span>
+
+
+                                <span class="course-code">
+
+                                    {{ student.allotted_course.course_code }}
+
+                                </span>
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- =================================================
+                             DEPARTMENT
+                        ================================================= -->
+
+                        <td>
+
+                            {% if student.allotted_course.department %}
+
+                                <span class="department">
+
+                                    {{ student.allotted_course.department.department_name }}
+
+                                </span>
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- =================================================
+                             PERCENTAGE
+                        ================================================= -->
+
+                        <td>
+
+                            {% if student.plus_two_percentage %}
+
+                                <span class="percentage">
+
+                                    {{ student.plus_two_percentage }}%
+
+                                </span>
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- =================================================
+                             REGISTERED DATE
+                        ================================================= -->
+
+                        <td>
+
+                            {% if student.admission_registered_date %}
+
+                                <span class="date">
+
+                                    <i class="fa-regular fa-calendar-check me-1"></i>
+
+                                    {{ student.admission_registered_date|date:"d M Y, h:i A" }}
+
+                                </span>
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- =================================================
+                             STATUS
+                        ================================================= -->
+
+                        <td>
+
+                            {% if student.admission_status == "Admission Registered" %}
+
+                                <span class="registered-badge">
+
+                                    <i class="fa-solid fa-circle-check"></i>
+
+                                    Admission Registered
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="registered-badge">
+
+                                    {{ student.admission_status }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                    </tr>
+
+                    {% empty %}
+
+
+                    <!-- =================================================
+                         EMPTY STATE
+                    ================================================= -->
+
+                    <tr>
+
+                        <td colspan="9">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+
+                                    <i class="fa-solid fa-user-graduate"></i>
+
+                                </div>
+
+
+                                <h4>
+
+                                    No Registered Students
+
+                                </h4>
+
+
+                                <p>
+
+                                    {% if search %}
+
+                                        No registered student found
+                                        for "{{ search }}".
+
+                                    {% else %}
+
+                                        No students have completed
+                                        admission registration yet.
+
+                                    {% endif %}
+
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+

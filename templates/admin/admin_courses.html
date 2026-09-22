@@ -1,0 +1,1376 @@
+{% extends "admin/admin_dashboard.html" %}
+
+{% block title %}Courses | MM-Technical University{% endblock %}
+
+{% block content %}
+
+<style>
+
+    :root {
+        --table-blue-1: #042B55;
+        --table-blue-2: #042B55;
+        --table-blue-3: #1f3652;
+        --table-border: rgba(255, 255, 255, 0.14);
+        --page-bg: #F2F7FD;
+    }
+
+
+    /* ================================
+       PAGE
+    ================================= */
+
+    .courses-page {
+        min-height: calc(100vh - 70px);
+        padding: 28px;
+        background: var(--page-bg);
+    }
+
+
+    /* ================================
+       PAGE TITLE
+    ================================= */
+
+    .courses-page-title {
+        margin-bottom: 18px;
+    }
+
+    .courses-page-title h1 {
+        margin: 0;
+        color: #17324d;
+        font-size: 23px;
+        font-weight: 700;
+    }
+
+    .courses-page-title p {
+        margin: 5px 0 0;
+        color: #8190a3;
+        font-size: 11px;
+    }
+
+
+    /* ================================
+       MAIN CARD
+    ================================= */
+
+    .course-data-card {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 16px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #042B55 0%,
+                #042B55 45%,
+                #1f3652 100%
+            );
+
+        box-shadow:
+            0 14px 36px rgba(25, 55, 82, 0.18);
+    }
+
+
+    /* ================================
+       TOOLBAR
+    ================================= */
+
+    .course-table-toolbar {
+        min-height: 74px;
+        padding: 0 16px 0 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .course-table-title {
+        color: #ffffff;
+        font-size: 27px;
+        font-weight: 500;
+        letter-spacing: 0.1px;
+    }
+
+    .course-toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+
+    /* ================================
+       SEARCH
+    ================================= */
+
+    .course-search-box {
+        position: relative;
+        width: 190px;
+    }
+
+    .course-search-box input {
+        width: 100%;
+        height: 35px;
+
+        padding: 6px 15px;
+
+        border-radius: 18px;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+
+        outline: none;
+
+        background: rgba(255, 255, 255, 0.04);
+        color: #ffffff;
+
+        font-size: 11px;
+        box-sizing: border-box;
+    }
+
+    .course-search-box input::placeholder {
+        color: rgba(255, 255, 255, 0.62);
+    }
+
+    .course-search-box input:focus {
+        background: rgba(255, 255, 255, 0.09);
+
+        box-shadow:
+            0 0 0 2px rgba(255, 255, 255, 0.08);
+    }
+
+
+    /* ================================
+       TOOL BUTTONS
+    ================================= */
+
+    .course-tool-btn {
+        width: 35px;
+        height: 35px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        border: 2px solid rgba(255, 255, 255, 0.88);
+
+        background: transparent;
+        color: #ffffff;
+
+        text-decoration: none;
+        cursor: pointer;
+
+        font-size: 11px;
+
+        transition: 0.2s ease;
+    }
+
+    .course-tool-btn:hover {
+        background: rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+        transform: translateY(-1px);
+    }
+
+
+    /* ================================
+       TABLE WRAPPER
+    ================================= */
+
+    .courses-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+
+    /* ================================
+       TABLE
+       CONTENT FIT
+    ================================= */
+
+    .courses-table {
+        width: 100%;
+        table-layout: auto;
+        border-collapse: collapse;
+        color: #ffffff;
+    }
+
+
+    /* ================================
+       TABLE HEADER
+    ================================= */
+
+    .courses-table thead {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.22),
+                rgba(255, 255, 255, 0.13)
+            );
+    }
+
+    .courses-table thead th {
+        height: 42px;
+
+        padding: 8px 14px;
+
+        border-right:
+            1px solid rgba(255, 255, 255, 0.08);
+
+        color: rgba(255, 255, 255, 0.92);
+
+        font-size: 10.5px;
+        font-weight: 600;
+
+        text-align: left;
+        text-transform: uppercase;
+
+        white-space: nowrap;
+    }
+
+    .courses-table thead th:last-child {
+        border-right: 0;
+    }
+
+
+    /* ================================
+       TABLE BODY
+    ================================= */
+
+    .courses-table tbody tr {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(32, 126, 174, 0.24),
+                rgba(29, 78, 108, 0.30)
+            );
+
+        transition: 0.18s ease;
+    }
+
+    .courses-table tbody tr:nth-child(even) {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(38, 132, 180, 0.14),
+                rgba(31, 83, 113, 0.22)
+            );
+    }
+
+    .courses-table tbody tr:hover {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.16),
+                rgba(255, 255, 255, 0.06)
+            );
+    }
+
+    .courses-table tbody td {
+        height: 48px;
+
+        padding: 10px 14px;
+
+        border-bottom:
+            1px solid var(--table-border);
+
+        color: rgba(255, 255, 255, 0.93);
+
+        font-size: 10.5px;
+
+        vertical-align: middle;
+
+        white-space: nowrap;
+    }
+
+    .courses-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+
+    /* ================================
+       NUMBER
+    ================================= */
+
+    .course-number {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 10px;
+    }
+
+
+    /* ================================
+       COURSE
+    ================================= */
+
+    .course-info {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+
+        width: max-content;
+        max-width: 250px;
+    }
+
+    .course-icon {
+        width: 29px;
+        height: 29px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 7px;
+
+        background: rgba(255, 255, 255, 0.15);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.18);
+
+        color: #ffffff;
+
+        font-size: 10px;
+    }
+
+    .course-details {
+        display: flex;
+        flex-direction: column;
+
+        min-width: 0;
+    }
+
+    .course-title {
+        max-width: 190px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        color: #ffffff;
+
+        font-size: 10.5px;
+        font-weight: 600;
+    }
+
+    .course-code {
+        margin-top: 2px;
+
+        color: rgba(255, 255, 255, 0.58);
+
+        font-size: 8px;
+
+        white-space: nowrap;
+    }
+
+
+    /* ================================
+       COLLEGE
+    ================================= */
+
+    .college-name {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        color: rgba(255, 255, 255, 0.90);
+
+        font-size: 10px;
+        font-weight: 500;
+
+        white-space: nowrap;
+    }
+
+    .college-name i {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 9px;
+    }
+
+
+    /* ================================
+       DEPARTMENT
+    ================================= */
+
+    .department-name {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        color: rgba(255, 255, 255, 0.90);
+
+        font-size: 10px;
+        font-weight: 500;
+
+        white-space: nowrap;
+    }
+
+    .department-name i {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 9px;
+    }
+
+
+    /* ================================
+       DURATION
+    ================================= */
+
+    .duration-info {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        color: rgba(255, 255, 255, 0.88);
+
+        font-size: 10px;
+
+        white-space: nowrap;
+    }
+
+    .duration-info i {
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 9px;
+    }
+
+
+    /* ================================
+       FEE
+    ================================= */
+
+    .course-fee {
+        color: #ffffff;
+
+        font-size: 10px;
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+
+    /* ================================
+       SEATS
+    ================================= */
+
+    .seat-info {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        color: rgba(255, 255, 255, 0.90);
+
+        font-size: 10px;
+        font-weight: 500;
+
+        white-space: nowrap;
+    }
+
+    .seat-info i {
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 9px;
+    }
+
+
+    /* ================================
+       ELIGIBILITY
+    ================================= */
+
+    .eligibility-badge {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 4px 8px;
+
+        border-radius: 12px;
+
+        background: rgba(255, 255, 255, 0.13);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.15);
+
+        color: #ffffff;
+
+        font-size: 8px;
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+
+    /* ================================
+       STATUS
+    ================================= */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        padding: 4px 8px;
+
+        border-radius: 12px;
+
+        background: rgba(255, 255, 255, 0.13);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.15);
+
+        color: #ffffff;
+
+        font-size: 8px;
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+    .status-badge::before {
+        content: "";
+
+        width: 5px;
+        height: 5px;
+
+        border-radius: 50%;
+
+        background: #70e09d;
+    }
+
+
+    /* ================================
+       VIEW BUTTON
+    ================================= */
+
+    .view-course-btn {
+        width: 28px;
+        height: 28px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 7px;
+
+        background: rgba(255, 255, 255, 0.13);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.15);
+
+        color: #ffffff;
+
+        text-decoration: none;
+
+        transition: 0.2s ease;
+    }
+
+    .view-course-btn:hover {
+        background: rgba(255, 255, 255, 0.28);
+
+        color: #ffffff;
+
+        transform: scale(1.05);
+    }
+
+
+    /* ================================
+       FOOTER
+    ================================= */
+
+    .course-table-footer {
+        min-height: 50px;
+
+        padding: 12px 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        color: rgba(255, 255, 255, 0.90);
+
+        font-size: 10px;
+    }
+
+    .entries-info {
+        color: rgba(255, 255, 255, 0.90);
+        font-size: 10px;
+    }
+
+    .entries-info strong {
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+
+    /* ================================
+       EMPTY STATE
+    ================================= */
+
+    .empty-state {
+        padding: 65px 20px;
+
+        text-align: center;
+
+        color: #ffffff;
+    }
+
+    .empty-icon {
+        width: 60px;
+        height: 60px;
+
+        margin: 0 auto 13px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.10);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.16);
+
+        font-size: 22px;
+    }
+
+    .empty-state h4 {
+        margin: 0;
+
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .empty-state p {
+        margin: 5px 0 0;
+
+        color: rgba(255, 255, 255, 0.65);
+
+        font-size: 10px;
+    }
+
+
+    /* ================================
+       INFORMATION NOTE
+    ================================= */
+
+    .university-note {
+        margin-top: 15px;
+
+        padding: 11px 14px;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        border-radius: 8px;
+
+        background: #eef5fb;
+
+        border:
+            1px solid #dce7f1;
+
+        color: #68798d;
+
+        font-size: 9.5px;
+    }
+
+    .university-note-icon {
+        width: 30px;
+        height: 30px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #1769a8;
+
+        font-size: 11px;
+    }
+
+
+    /* ================================
+       ANIMATION
+    ================================= */
+
+    .fade-up {
+        animation: fadeUp 0.4s ease both;
+    }
+
+    @keyframes fadeUp {
+
+        from {
+            opacity: 0;
+            transform: translateY(7px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+
+    /* ================================
+       RESPONSIVE
+    ================================= */
+
+    @media (max-width: 1100px) {
+
+        .courses-table {
+            width: max-content;
+            min-width: 100%;
+        }
+
+    }
+
+
+    @media (max-width: 850px) {
+
+        .courses-page {
+            padding: 18px;
+        }
+
+        .course-table-toolbar {
+            min-height: auto;
+
+            padding: 16px;
+
+            flex-direction: column;
+
+            align-items: stretch;
+
+            gap: 12px;
+        }
+
+        .course-toolbar-right {
+            width: 100%;
+        }
+
+        .course-search-box {
+            flex: 1;
+            width: auto;
+        }
+
+        .course-table-footer {
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 8px;
+
+            padding: 14px 16px;
+        }
+
+    }
+
+
+    @media (max-width: 500px) {
+
+        .courses-page {
+            padding: 10px;
+        }
+
+        .course-table-title {
+            font-size: 20px;
+        }
+
+        .course-tool-btn {
+            width: 31px;
+            height: 31px;
+        }
+
+    }
+
+
+    /* ================================
+       PRINT
+    ================================= */
+
+    @media print {
+
+        .course-table-toolbar,
+        .course-table-footer,
+        .university-note,
+        .courses-page-title {
+            display: none !important;
+        }
+
+        .courses-page {
+            padding: 0;
+            background: #ffffff;
+        }
+
+        .course-data-card {
+            box-shadow: none;
+            border-radius: 0;
+        }
+
+    }
+
+</style>
+
+
+<div class="courses-page">
+
+    <!-- PAGE TITLE -->
+
+    <div class="courses-page-title fade-up">
+
+        <h1>
+            University Courses
+        </h1>
+
+        <p>
+            Manage and monitor all courses offered by MM-Technical University
+        </p>
+
+    </div>
+
+
+    <!-- MAIN CARD -->
+
+    <div class="course-data-card fade-up">
+
+
+        <!-- TOOLBAR -->
+
+        <div class="course-table-toolbar">
+
+            <div class="course-table-title">
+                Course List
+            </div>
+
+
+            <div class="course-toolbar-right">
+
+
+                <!-- SEARCH -->
+
+                <div class="course-search-box">
+
+                    <input
+                        type="text"
+                        id="courseSearch"
+                        placeholder="Search"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- REFRESH -->
+
+                <button
+                    type="button"
+                    class="course-tool-btn"
+                    onclick="location.reload()"
+                    title="Refresh"
+                >
+
+                    <i class="fas fa-sync-alt"></i>
+
+                </button>
+
+
+                <!-- PDF -->
+
+                <button
+                    type="button"
+                    class="course-tool-btn"
+                    onclick="window.print()"
+                    title="Print / PDF"
+                >
+
+                    <i class="fas fa-file-pdf"></i>
+
+                </button>
+
+
+                <!-- EXCEL -->
+
+                <button
+                    type="button"
+                    class="course-tool-btn"
+                    onclick="exportCourses()"
+                    title="Export"
+                >
+
+                    <i class="fas fa-file-excel"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        {% if courses %}
+
+
+        <!-- TABLE -->
+
+        <div class="courses-table-wrapper">
+
+            <table class="courses-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Course</th>
+
+                        <th>College</th>
+
+                        <th>Department</th>
+
+                        <th>Duration</th>
+
+                        <th>Fee</th>
+
+                        <th>Total Seats</th>
+
+                        <th>Eligibility</th>
+
+                        <th>Status</th>
+
+
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="courseTable">
+
+
+                    {% for course in courses %}
+
+                    <tr>
+
+
+                        <!-- NUMBER -->
+
+                        <td>
+
+                            <span class="course-number">
+                                {{ forloop.counter }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- COURSE -->
+
+                        <td>
+
+                            <div class="course-info">
+
+                                <div class="course-icon">
+
+                                    <i class="fas fa-book-open"></i>
+
+                                </div>
+
+
+                                <div class="course-details">
+
+                                    <div
+                                        class="course-title"
+                                        title="{{ course.course_name }}"
+                                    >
+
+                                        {{ course.course_name }}
+
+                                    </div>
+
+
+                                    <div class="course-code">
+
+                                        {{ course.course_code }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- COLLEGE -->
+
+                        <td>
+
+                            <span class="college-name">
+
+                                <i class="fas fa-building"></i>
+
+                                {{ course.college }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- DEPARTMENT -->
+
+                        <td>
+
+                            <span class="department-name">
+
+                                <i class="fas fa-sitemap"></i>
+
+                                {{ course.department }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- DURATION -->
+
+                        <td>
+
+                            <span class="duration-info">
+
+                                <i class="fas fa-clock"></i>
+
+                                {{ course.duration }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- FEE -->
+
+                        <td>
+
+                            <span class="course-fee">
+
+                                ₹{{ course.course_fee }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- TOTAL SEATS -->
+
+                        <td>
+
+                            <span class="seat-info">
+
+                                <i class="fas fa-chair"></i>
+
+                                {{ course.total_seats }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- ELIGIBILITY -->
+
+                        <td>
+
+                            {% if course.eligibility_percentage %}
+
+                                <span class="eligibility-badge">
+
+                                    {{ course.eligibility_percentage }}%
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="eligibility-badge">
+
+                                    Not Specified
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            <span class="status-badge">
+
+                                Active
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+
+
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="course-table-footer">
+
+            <div class="entries-info">
+
+                Showing
+
+                <strong id="visibleEntries">
+                    {{ courses|length }}
+                </strong>
+
+                out of
+
+                <strong>
+                    {{ courses|length }}
+                </strong>
+
+                courses
+
+            </div>
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- EMPTY STATE -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+
+                <i class="fas fa-book-open"></i>
+
+            </div>
+
+
+            <h4>
+                No Courses Found
+            </h4>
+
+
+            <p>
+                There are currently no courses available
+                in the university system.
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- INFORMATION NOTE -->
+
+    <div class="university-note">
+
+        <div class="university-note-icon">
+
+            <i class="fas fa-circle-info"></i>
+
+        </div>
+
+
+        <div>
+
+            Courses displayed here represent the academic
+            programs available through the registered colleges
+            and departments of MM-Technical University.
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* ================================
+   COURSE SEARCH
+================================ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.getElementById("courseSearch");
+
+    const table =
+        document.getElementById("courseTable");
+
+    const visibleEntries =
+        document.getElementById("visibleEntries");
+
+
+    if (!searchInput || !table) {
+        return;
+    }
+
+
+    searchInput.addEventListener("input", function () {
+
+        const searchValue =
+            this.value.toLowerCase().trim();
+
+
+        const rows =
+            table.querySelectorAll("tr");
+
+
+        let visibleCount = 0;
+
+
+        rows.forEach(function (row) {
+
+            const rowText =
+                row.textContent.toLowerCase();
+
+
+            if (rowText.includes(searchValue)) {
+
+                row.style.display = "";
+
+                visibleCount++;
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        if (visibleEntries) {
+
+            visibleEntries.textContent =
+                visibleCount;
+
+        }
+
+    });
+
+});
+
+
+/* ================================
+   CSV EXPORT
+================================ */
+
+function exportCourses() {
+
+    const table =
+        document.querySelector(".courses-table");
+
+
+    if (!table) {
+        return;
+    }
+
+
+    let csv = [];
+
+
+    const rows =
+        table.querySelectorAll("tr");
+
+
+    rows.forEach(function (row) {
+
+        const cols =
+            row.querySelectorAll("th, td");
+
+
+        const rowData = [];
+
+
+        cols.forEach(function (col) {
+
+            let text =
+                col.innerText
+                    .replace(/"/g, '""')
+                    .trim();
+
+
+            rowData.push(
+                '"' + text + '"'
+            );
+
+        });
+
+
+        csv.push(
+            rowData.join(",")
+        );
+
+    });
+
+
+    const blob =
+        new Blob(
+            [csv.join("\n")],
+            {
+                type: "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+
+    link.download =
+        "MMT_University_Courses.csv";
+
+
+    document.body.appendChild(link);
+
+
+    link.click();
+
+
+    document.body.removeChild(link);
+
+
+    URL.revokeObjectURL(url);
+
+}
+
+</script>
+
+{% endblock %}

@@ -4,303 +4,1460 @@
 
 <style>
     :root{
-        --navy-dark:#0B2C5C;
-        --navy:#16407E;
-        --navy-soft:#EAF0FA;
-        --blue-pale:#EEF3FB;
-        --blue-line:#D9E3F2;
-        --gold:#C9A227;
-        --ink:#1C2430;
-        --muted:#6B7383;
-        --green:#1F8A5F;
-        --green-soft:#E4F5EC;
-        --amber:#B8791F;
-        --amber-soft:#FBF2DC;
-        --red:#B23A48;
-        --red-soft:#FBEAEC;
+        --navy-dark:#062B5C;
+        --navy:#0B3D7A;
+        --blue:#1769D1;
+        --blue-soft:#EEF5FF;
+        --blue-line:#DBE7F5;
+        --ink:#172033;
+        --muted:#6B7688;
+
+        --green:#198754;
+        --green-soft:#E8F7EF;
+
+        --amber:#B7791F;
+        --amber-soft:#FFF7E6;
+
+        --red:#C0394B;
+        --red-soft:#FCECEF;
     }
 
-    .staff-panel{
-        max-width:1160px;
-        margin:24px auto 0;
-        background:#fff;
+    *{
+        box-sizing:border-box;
+    }
+
+    /* =========================
+       MAIN PANEL
+    ========================== */
+
+    .college-panel{
+        width:100%;
+        max-width:1180px;
+        margin:22px auto 0;
+        background:#ffffff;
         border:1px solid var(--blue-line);
-        border-radius:12px;
+        border-radius:14px;
         overflow:hidden;
-        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+        box-shadow:0 12px 35px rgba(6,43,92,0.08);
+        font-family:"Poppins",sans-serif;
+        animation:fadeUp .35s ease;
     }
 
-    .staff-panel .panel-head{
-        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .college-panel .panel-head{
+        background:linear-gradient(135deg,#062B5C,#0B3D7A);
         color:#fff;
-        padding:20px 24px;
+        padding:18px 22px;
+
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap:16px;
+
+        gap:15px;
         flex-wrap:wrap;
+
         position:relative;
     }
 
-    .staff-panel .panel-head::after{
+    .college-panel .panel-head::after{
         content:"";
         position:absolute;
-        left:0; right:0; bottom:0;
+        left:0;
+        right:0;
+        bottom:0;
         height:3px;
-        background:var(--gold);
+        background:#1769D1;
     }
 
-    .staff-panel .panel-head h4{
-        margin:0;
-        font-family:"Georgia","Times New Roman",serif;
-        font-weight:700;
-        font-size:19px;
+    .panel-title{
         display:flex;
         align-items:center;
-        gap:10px;
+        gap:11px;
+        min-width:0;
     }
 
-    .staff-panel .panel-head h4 i{ color:var(--gold); }
+    .panel-title-icon{
+        width:38px;
+        height:38px;
+        flex:0 0 38px;
 
-    .staff-count{
+        border-radius:9px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
         background:rgba(255,255,255,0.12);
-        border:1px solid rgba(244,197,66,0.4);
-        color:#fff;
-        font-size:12.5px;
-        font-weight:600;
-        padding:6px 14px;
-        border-radius:20px;
+        border:1px solid rgba(255,255,255,0.16);
+
+        font-size:16px;
     }
 
-    .staff-panel .panel-body{
-        padding:22px 24px 26px;
+    .college-panel .panel-head h4{
+        margin:0;
+
+        font-family:"Poppins",sans-serif;
+
+        font-size:18px;
+        font-weight:700;
+
+        letter-spacing:.1px;
     }
 
-    table.staff-table{
-        width:100%;
-        border-collapse:collapse;
-        font-size:13.5px;
-    }
+    .panel-subtitle{
+        margin:3px 0 0;
 
-    table.staff-table thead th{
-        background:var(--navy-soft);
-        color:var(--navy-dark);
-        text-transform:uppercase;
-        letter-spacing:0.05em;
         font-size:11px;
-        font-weight:700;
-        padding:12px 14px;
-        border-bottom:2px solid var(--blue-line);
-        text-align:left;
-        white-space:nowrap;
+
+        color:rgba(255,255,255,.72);
+
+        font-weight:400;
     }
 
-    table.staff-table tbody td{
-        padding:13px 14px;
-        border-bottom:1px solid #F0F3F9;
-        vertical-align:middle;
-        color:var(--ink);
-    }
 
-    table.staff-table tbody tr:hover{
-        background:var(--blue-pale);
-    }
+    /* =========================
+       COUNT BADGE
+    ========================== */
 
-    .staff-name{
-        font-weight:600;
-        display:flex;
-        align-items:center;
-    }
-
-    .staff-name i{
-        color:var(--navy) !important;
-    }
-
-    .status-pill{
-        font-size:11.5px;
-        font-weight:700;
-        padding:5px 12px;
-        border-radius:20px;
+    .college-count{
         display:inline-flex;
         align-items:center;
-        gap:6px;
+        gap:7px;
+
+        background:rgba(255,255,255,.10);
+        border:1px solid rgba(255,255,255,.18);
+
+        color:#fff;
+
+        font-size:11.5px;
+        font-weight:600;
+
+        padding:7px 13px;
+
+        border-radius:20px;
+
         white-space:nowrap;
     }
 
-    .status-pill.approved{ background:var(--green-soft); color:var(--green); }
-    .status-pill.pending{ background:var(--amber-soft); color:var(--amber); }
+    .college-count i{
+        color:#8FC2FF;
+        font-size:11px;
+    }
+
+
+    /* =========================
+       BODY
+    ========================== */
+
+    .college-panel .panel-body{
+        padding:18px 20px 20px;
+    }
+
+
+    /* =========================
+       SEARCH TOOLBAR
+    ========================== */
+
+    .college-toolbar{
+        width:100%;
+
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        gap:15px;
+
+        margin-bottom:14px;
+    }
+
+
+    /* =========================
+       SEARCH BOX
+    ========================== */
+
+    .college-search{
+        position:relative;
+
+        width:320px;
+        max-width:100%;
+    }
+
+    .college-search-icon{
+        position:absolute;
+
+        left:13px;
+        top:50%;
+
+        transform:translateY(-50%);
+
+        color:#8491A3;
+
+        font-size:11px;
+
+        pointer-events:none;
+
+        z-index:2;
+    }
+
+    .college-search input{
+        width:100%;
+        height:38px;
+
+        padding:0 38px 0 34px;
+
+        border:1px solid var(--blue-line);
+
+        border-radius:8px;
+
+        background:#ffffff;
+
+        color:var(--ink);
+
+        font-family:"Poppins",sans-serif;
+
+        font-size:10.5px;
+
+        outline:none;
+
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease,
+            background .2s ease;
+    }
+
+    .college-search input::placeholder{
+        color:#9AA4B2;
+    }
+
+    .college-search input:hover{
+        border-color:#C7D8EC;
+    }
+
+    .college-search input:focus{
+        border-color:var(--blue);
+
+        background:#ffffff;
+
+        box-shadow:
+            0 0 0 3px rgba(23,105,209,.08);
+    }
+
+
+    /* =========================
+       CLEAR SEARCH
+    ========================== */
+
+    .clear-college-search{
+        position:absolute;
+
+        right:9px;
+        top:50%;
+
+        transform:translateY(-50%);
+
+        width:22px;
+        height:22px;
+
+        padding:0;
+
+        display:none;
+
+        align-items:center;
+        justify-content:center;
+
+        border:none;
+
+        border-radius:50%;
+
+        background:#F1F4F8;
+
+        color:#7B8796;
+
+        font-size:9px;
+
+        cursor:pointer;
+
+        transition:all .18s ease;
+    }
+
+    .clear-college-search:hover{
+        background:#E6EDF6;
+        color:#17365F;
+    }
+
+
+    /* =========================
+       SEARCH RESULT
+    ========================== */
+
+    .college-search-result{
+        display:flex;
+
+        align-items:center;
+
+        gap:4px;
+
+        color:#7B8492;
+
+        font-size:10px;
+
+        white-space:nowrap;
+    }
+
+    .college-search-result strong{
+        color:var(--navy);
+
+        font-weight:600;
+    }
+
+
+    /* =========================
+       TABLE WRAPPER
+    ========================== */
+
+    .college-table-wrapper{
+        width:100%;
+
+        overflow-x:auto;
+        overflow-y:hidden;
+
+        border:1px solid var(--blue-line);
+
+        border-radius:10px;
+    }
+
+    .college-table-wrapper::-webkit-scrollbar{
+        height:6px;
+    }
+
+    .college-table-wrapper::-webkit-scrollbar-track{
+        background:#F1F5FA;
+    }
+
+    .college-table-wrapper::-webkit-scrollbar-thumb{
+        background:#B7CBE4;
+        border-radius:10px;
+    }
+
+
+    /* =========================
+       TABLE
+    ========================== */
+
+    table.college-table{
+        width:100%;
+
+        min-width:850px;
+
+        table-layout:fixed;
+
+        border-collapse:collapse;
+
+        font-family:"Poppins",sans-serif;
+
+        font-size:11.5px;
+    }
+
+
+    /* =========================
+       COLUMN WIDTHS
+    ========================== */
+
+    table.college-table th:nth-child(1){
+        width:6%;
+    }
+
+    table.college-table th:nth-child(2){
+        width:23%;
+    }
+
+    table.college-table th:nth-child(3){
+        width:23%;
+    }
+
+    table.college-table th:nth-child(4){
+        width:13%;
+    }
+
+    table.college-table th:nth-child(5){
+        width:17%;
+    }
+
+    table.college-table th:nth-child(6){
+        width:9%;
+    }
+
+    table.college-table th:nth-child(7){
+        width:9%;
+    }
+
+
+    /* =========================
+       TABLE HEADER
+    ========================== */
+
+    table.college-table thead th{
+        background:#F2F7FD;
+
+        color:#123E73;
+
+        text-transform:uppercase;
+
+        letter-spacing:.045em;
+
+        font-size:10px;
+
+        font-weight:700;
+
+        padding:11px 10px;
+
+        border-bottom:1px solid var(--blue-line);
+
+        text-align:left;
+
+        white-space:nowrap;
+    }
+
+
+    /* =========================
+       TABLE BODY
+    ========================== */
+
+    table.college-table tbody td{
+        padding:11px 10px;
+
+        height:54px;
+
+        border-bottom:1px solid #EDF2F7;
+
+        vertical-align:middle;
+
+        color:var(--ink);
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+    }
+
+    table.college-table tbody tr:last-child td{
+        border-bottom:none;
+    }
+
+    table.college-table tbody tr.college-row{
+        transition:
+            background .18s ease,
+            transform .18s ease;
+    }
+
+    table.college-table tbody tr.college-row:hover{
+        background:#F7FAFE;
+    }
+
+
+    /* =========================
+       COLLEGE NAME
+    ========================== */
+
+    .college-name{
+        display:flex;
+
+        align-items:center;
+
+        min-width:0;
+
+        font-size:11.5px;
+
+        font-weight:600;
+
+        color:#102F57;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+        white-space:nowrap;
+    }
+
+    .college-name i{
+        flex:0 0 auto;
+
+        width:26px;
+        height:26px;
+
+        margin-right:8px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        border-radius:7px;
+
+        background:var(--blue-soft);
+
+        color:var(--blue);
+
+        font-size:11px;
+    }
+
+
+    /* =========================
+       STATUS
+    ========================== */
+
+    .status-pill{
+        display:inline-flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        gap:5px;
+
+        min-width:78px;
+
+        font-size:10px;
+
+        font-weight:700;
+
+        padding:5px 9px;
+
+        border-radius:20px;
+
+        white-space:nowrap;
+    }
+
+    .status-pill.approved{
+        background:var(--green-soft);
+
+        color:var(--green);
+    }
+
+    .status-pill.pending{
+        background:var(--amber-soft);
+
+        color:var(--amber);
+    }
+
+    .status-pill i{
+        font-size:9px;
+    }
+
+
+    /* =========================
+       ACTION BUTTONS
+    ========================== */
+
+    .action-buttons{
+        display:flex;
+
+        align-items:center;
+
+        gap:5px;
+
+        white-space:nowrap;
+    }
 
     .btn-approve,
     .btn-reject{
-        font-size:12.5px;
-        font-weight:600;
-        padding:7px 14px;
+        min-height:29px;
+
+        padding:5px 9px;
+
         border-radius:6px;
-        border:none;
+
+        font-family:"Poppins",sans-serif;
+
+        font-size:10px;
+
+        font-weight:600;
+
         display:inline-flex;
+
         align-items:center;
-        gap:6px;
+
+        justify-content:center;
+
+        gap:5px;
+
         text-decoration:none;
-        transition:background .15s ease, color .15s ease;
+
+        white-space:nowrap;
+
+        transition:
+            background .18s ease,
+            color .18s ease,
+            border-color .18s ease,
+            transform .18s ease;
     }
 
     .btn-approve{
-        background:var(--navy-dark);
+        background:#0B3D7A;
+
         color:#fff;
+
+        border:1px solid #0B3D7A;
     }
 
-    .btn-approve:hover{ background:var(--navy); color:#fff; }
+    .btn-approve:hover{
+        background:#1769D1;
+
+        color:#fff;
+
+        border-color:#1769D1;
+
+        transform:translateY(-1px);
+    }
 
     .btn-reject{
         background:var(--red-soft);
+
         color:var(--red);
-        border:1px solid #F3D3D7;
+
+        border:1px solid #F3D5DA;
     }
 
     .btn-reject:hover{
         background:var(--red);
+
         color:#fff;
+
         border-color:var(--red);
+
+        transform:translateY(-1px);
     }
 
+
+    /* =========================
+       NO SEARCH RESULT
+    ========================== */
+
+    .no-search-row{
+        display:none;
+    }
+
+    .no-search-row td{
+        padding:42px 15px !important;
+
+        text-align:center !important;
+
+        border-bottom:none !important;
+
+        white-space:normal !important;
+    }
+
+    .no-search-icon{
+        width:46px;
+        height:46px;
+
+        margin:0 auto 10px;
+
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        border-radius:50%;
+
+        background:#F2F6FB;
+
+        color:#8A98AA;
+
+        font-size:17px;
+    }
+
+    .no-search-title{
+        display:block;
+
+        color:#344054;
+
+        font-size:12px;
+
+        font-weight:600;
+    }
+
+    .no-search-text{
+        display:block;
+
+        margin-top:3px;
+
+        color:#8A94A3;
+
+        font-size:10px;
+    }
+
+
+    /* =========================
+       EMPTY STATE
+    ========================== */
+
     .empty-row td{
-        padding:36px 14px;
-        text-align:center;
-        color:var(--muted);
-        font-size:13.5px;
+        padding:45px 15px !important;
+
+        text-align:center !important;
+
+        color:var(--muted) !important;
+
+        font-size:12px !important;
+
+        white-space:normal !important;
     }
 
     .empty-row i{
         display:block;
-        font-size:26px;
-        color:var(--blue-line);
-        margin-bottom:10px;
+
+        width:46px;
+        height:46px;
+
+        margin:0 auto 10px;
+
+        border-radius:50%;
+
+        background:var(--blue-soft);
+
+        color:#9BB6D5;
+
+        font-size:19px;
+
+        line-height:46px;
     }
+
+
+    /* =========================
+       ANIMATION
+    ========================== */
+
+    @keyframes fadeUp{
+
+        from{
+            opacity:0;
+            transform:translateY(8px);
+        }
+
+        to{
+            opacity:1;
+            transform:translateY(0);
+        }
+
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width:900px){
+
+        .college-panel{
+            margin-top:16px;
+
+            border-radius:11px;
+        }
+
+        .college-panel .panel-head{
+            padding:16px;
+        }
+
+        .college-panel .panel-body{
+            padding:14px;
+        }
+
+        .college-panel .panel-head h4{
+            font-size:16px;
+        }
+
+        .panel-subtitle{
+            font-size:10px;
+        }
+
+        .college-count{
+            font-size:10.5px;
+
+            padding:6px 11px;
+        }
+
+        .college-search{
+            width:280px;
+        }
+
+    }
+
+
+    @media (max-width:600px){
+
+        .college-panel .panel-head{
+            align-items:flex-start;
+        }
+
+        .panel-title-icon{
+            width:34px;
+            height:34px;
+        }
+
+        .college-panel .panel-head h4{
+            font-size:15px;
+        }
+
+        .college-panel .panel-body{
+            padding:10px;
+        }
+
+        .college-toolbar{
+            flex-direction:column;
+
+            align-items:stretch;
+
+            gap:9px;
+        }
+
+        .college-search{
+            width:100%;
+        }
+
+        .college-search-result{
+            justify-content:flex-end;
+        }
+
+        table.college-table{
+            min-width:850px;
+        }
+    }
+
 </style>
 
-<div class="staff-panel">
+
+<div class="college-panel">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
 
     <div class="panel-head">
-        <h4>
-            <i class="fa-solid fa-building-columns"></i>
-            College List
-        </h4>
 
-        <span class="staff-count">
-            Total&nbsp;: {{ colleges|length }}
+
+        <div class="panel-title">
+
+
+            <div class="panel-title-icon">
+
+                <i class="fa-solid fa-building-columns"></i>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    College Management
+                </h4>
+
+                <p class="panel-subtitle">
+                    View and manage college registrations
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <span class="college-count">
+
+            <i class="fa-solid fa-building"></i>
+
+            Total :
+
+            <strong id="totalCollegeCount">
+                {{ colleges|length }}
+            </strong>
+
         </span>
+
+
     </div>
+
+
+    <!-- =================================================
+         BODY
+    ================================================== -->
 
     <div class="panel-body">
 
-        <div class="table-responsive">
 
-            <table class="staff-table">
+        <!-- =================================================
+             SEARCH TOOLBAR
+        ================================================== -->
+
+        <div class="college-toolbar">
+
+
+            <!-- SEARCH -->
+
+            <div class="college-search">
+
+
+                <i
+                    class="fa-solid fa-magnifying-glass college-search-icon"
+                ></i>
+
+
+                <input
+                    type="text"
+                    id="collegeSearch"
+                    placeholder="Search colleges by name, email, phone..."
+                    autocomplete="off"
+                    aria-label="Search colleges"
+                >
+
+
+                <button
+                    type="button"
+                    class="clear-college-search"
+                    id="clearCollegeSearch"
+                    title="Clear Search"
+                    aria-label="Clear Search"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div class="college-search-result">
+
+                <span>
+                    Showing
+                </span>
+
+                <strong id="visibleColleges">
+                    {{ colleges|length }}
+                </strong>
+
+                <span>
+                    of {{ colleges|length }} colleges
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             TABLE
+        ================================================== -->
+
+        <div class="college-table-wrapper">
+
+
+            <table
+                class="college-table"
+                id="collegeTable"
+            >
+
 
                 <thead>
+
                     <tr>
-                        <th>No</th>
-                        <th>College Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Principal</th>
-                        <th>Status</th>
-                        <th>Action</th>
+
+                        <th>
+                            No
+                        </th>
+
+                        <th>
+                            College Name
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Principal
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
                     </tr>
+
                 </thead>
+
 
                 <tbody>
 
+
                 {% for college in colleges %}
 
-                    <tr>
 
-                        <td>{{ forloop.counter }}</td>
+                    <tr class="college-row">
+
+
+                        <!-- NUMBER -->
 
                         <td>
-                            <div class="staff-name">
-                                <i class="fa-solid fa-building-columns me-2"></i>
-                                {{ college.college_name }}
-                            </div>
+
+                            <span>
+                                {{ forloop.counter }}
+                            </span>
+
                         </td>
 
-                        <td>{{ college.email }}</td>
 
-                        <td>{{ college.phone }}</td>
+                        <!-- COLLEGE NAME -->
 
-                        <td>{{ college.principal_name }}</td>
+                        <td
+                            title="{{ college.college_name }}"
+                        >
+
+                            <div class="college-name">
+
+
+                                <i class="fa-solid fa-building-columns"></i>
+
+
+                                <span>
+                                    {{ college.college_name }}
+                                </span>
+
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- EMAIL -->
+
+                        <td
+                            title="{{ college.email }}"
+                        >
+
+                            {{ college.email }}
+
+                        </td>
+
+
+                        <!-- PHONE -->
+
+                        <td
+                            title="{{ college.phone }}"
+                        >
+
+                            {{ college.phone }}
+
+                        </td>
+
+
+                        <!-- PRINCIPAL -->
+
+                        <td
+                            title="{{ college.principal_name }}"
+                        >
+
+                            {{ college.principal_name }}
+
+                        </td>
+
+
+                        <!-- STATUS -->
 
                         <td>
+
 
                             {% if college.is_approved %}
 
+
                                 <span class="status-pill approved">
+
                                     <i class="fa-solid fa-circle-check"></i>
+
                                     Approved
+
                                 </span>
+
 
                             {% else %}
 
+
                                 <span class="status-pill pending">
+
                                     <i class="fa-solid fa-clock"></i>
+
                                     Pending
+
                                 </span>
+
 
                             {% endif %}
 
+
                         </td>
+
+
+                        <!-- ACTION -->
 
                         <td>
 
-                            <div class="d-flex gap-2">
+
+                            <div class="action-buttons">
+
 
                                 {% if not college.is_approved %}
 
-                                <a href="{% url 'approve_college' college.id %}"
-                                   class="btn-approve">
 
-                                    <i class="fa-solid fa-check"></i>
-                                    Approve
+                                    <a
+                                        href="{% url 'approve_college' college.id %}"
+                                        class="btn-approve"
+                                        title="Approve College"
+                                    >
 
-                                </a>
+                                        <i class="fa-solid fa-check"></i>
+
+                                        Approve
+
+                                    </a>
+
 
                                 {% endif %}
 
-                                <a href="{% url 'reject_college' college.id %}"
-                                   class="btn-reject">
+
+                                <a
+                                    href="{% url 'reject_college' college.id %}"
+                                    class="btn-reject"
+                                    title="Reject College"
+                                >
 
                                     <i class="fa-solid fa-ban"></i>
+
                                     Reject
 
                                 </a>
 
+
                             </div>
+
 
                         </td>
 
+
                     </tr>
 
+
                 {% empty %}
+
+
+                    <!-- EMPTY DATABASE -->
 
                     <tr class="empty-row">
 
                         <td colspan="7">
+
+
                             <i class="fa-solid fa-building-circle-xmark"></i>
+
+
                             No Colleges Found
+
+
                         </td>
 
                     </tr>
 
+
                 {% endfor %}
+
+
+                {% if colleges %}
+
+
+                    <!-- NO SEARCH RESULT -->
+
+                    <tr
+                        class="no-search-row"
+                        id="noCollegeSearchResult"
+                    >
+
+                        <td colspan="7">
+
+
+                            <div class="no-search-icon">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                            </div>
+
+
+                            <span class="no-search-title">
+
+                                No Matching Colleges Found
+
+                            </span>
+
+
+                            <span class="no-search-text">
+
+                                No colleges match your search.
+                                Try another name, email, phone or principal name.
+
+                            </span>
+
+
+                        </td>
+
+                    </tr>
+
+
+                {% endif %}
+
 
                 </tbody>
 
             </table>
 
+
         </div>
+
 
     </div>
 
 </div>
+
+
+<!-- =========================================================
+     COLLEGE SEARCH SCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    const searchInput =
+        document.getElementById("collegeSearch");
+
+
+    const clearSearch =
+        document.getElementById("clearCollegeSearch");
+
+
+    const table =
+        document.getElementById("collegeTable");
+
+
+    const visibleColleges =
+        document.getElementById("visibleColleges");
+
+
+    const noSearchResult =
+        document.getElementById("noCollegeSearchResult");
+
+
+    if (!searchInput || !table) {
+        return;
+    }
+
+
+    /* =====================================================
+       GET ONLY REAL COLLEGE ROWS
+    ===================================================== */
+
+    const collegeRows =
+        table.querySelectorAll(
+            "tbody tr.college-row"
+        );
+
+
+    /* =====================================================
+       SEARCH FUNCTION
+    ===================================================== */
+
+    function performSearch() {
+
+
+        const searchValue =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        let visibleCount = 0;
+
+
+        collegeRows.forEach(function (row) {
+
+
+            const rowText =
+                row.textContent
+                    .toLowerCase()
+                    .trim();
+
+
+            const isMatch =
+                searchValue === "" ||
+                rowText.includes(searchValue);
+
+
+            if (isMatch) {
+
+                row.style.display = "";
+
+                visibleCount++;
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        /* =================================================
+           UPDATE RESULT COUNT
+        ================================================== */
+
+        if (visibleColleges) {
+
+            visibleColleges.textContent =
+                visibleCount;
+
+        }
+
+
+        /* =================================================
+           SHOW / HIDE CLEAR BUTTON
+        ================================================== */
+
+        if (clearSearch) {
+
+            if (searchValue !== "") {
+
+                clearSearch.style.display =
+                    "flex";
+
+            } else {
+
+                clearSearch.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =================================================
+           NO SEARCH RESULT
+        ================================================== */
+
+        if (noSearchResult) {
+
+            if (
+                searchValue !== "" &&
+                visibleCount === 0
+            ) {
+
+                noSearchResult.style.display =
+                    "table-row";
+
+            } else {
+
+                noSearchResult.style.display =
+                    "none";
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LIVE SEARCH
+    ===================================================== */
+
+    searchInput.addEventListener(
+        "input",
+        performSearch
+    );
+
+
+    /* =====================================================
+       CLEAR SEARCH
+    ===================================================== */
+
+    if (clearSearch) {
+
+        clearSearch.addEventListener(
+            "click",
+            function () {
+
+
+                searchInput.value = "";
+
+
+                performSearch();
+
+
+                searchInput.focus();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       ESCAPE KEY
+    ===================================================== */
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+
+            if (event.key === "Escape") {
+
+
+                searchInput.value = "";
+
+
+                performSearch();
+
+
+                searchInput.focus();
+
+
+            }
+
+        }
+    );
+
+
+});
+
+</script>
+
 
 {% endblock %}

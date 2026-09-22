@@ -1,8 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
-
-
+from xhtml2pdf import default
 
 
 class Register(AbstractUser):
@@ -118,16 +116,21 @@ class Student(models.Model):
         blank=True
     )
 
+    # =====================================================
+    # ADMISSION STATUS
+    # =====================================================
+
+    admission_status = models.CharField(
+        max_length=30,
+        default="Not Registered"
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
 
     def __str__(self):
         return self.full_name
-
-
-
-
 
 
 
@@ -430,6 +433,10 @@ class AdmissionApplication(models.Model):
 
     document_verified = models.BooleanField(
         default=False
+    )
+
+    university_application_verification = models.IntegerField(
+        default=0
     )
 
 

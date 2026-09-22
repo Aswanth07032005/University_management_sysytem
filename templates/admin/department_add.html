@@ -4,229 +4,415 @@
 
 <style>
     :root{
-        --navy-dark:#0B2C5C;
-        --navy:#16407E;
-        --navy-soft:#EAF0FA;
-        --blue-pale:#EEF3FB;
-        --blue-line:#D9E3F2;
-        --gold:#C9A227;
-        --ink:#1C2430;
-        --muted:#6B7383;
-        --error:#B23A48;
+        --navy:#063B73;
+        --navy-dark:#042B55;
+        --blue:#1769D1;
+        --blue-soft:#F2F7FD;
+        --line:#DCE7F3;
+        --text:#182536;
+        --muted:#718096;
+        --danger:#C23B4A;
     }
 
+    /* ==============================
+       MAIN CONTAINER
+    ============================== */
+
     .edit-shell{
-        max-width:720px;
-        margin:0 auto;
+        width:100%;
+        max-width:680px;
+        margin:24px auto;
+        font-family:"Poppins",sans-serif;
     }
 
     .edit-card{
         background:#fff;
-        border:1px solid var(--blue-line);
-        border-radius:14px;
+        border:1px solid var(--line);
+        border-radius:16px;
         overflow:hidden;
-        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+        box-shadow:0 10px 30px rgba(4,43,85,.08);
     }
 
+
+    /* ==============================
+       HEADER
+    ============================== */
+
     .edit-header{
-        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
-        color:#fff;
-        padding:26px 32px;
+        position:relative;
         display:flex;
         align-items:center;
         gap:14px;
-        position:relative;
+        padding:20px 24px;
+        background:linear-gradient(135deg,#042B55,#0A4A8A);
+        color:#fff;
     }
 
     .edit-header::after{
         content:"";
         position:absolute;
-        left:0; right:0; bottom:0;
+        left:0;
+        right:0;
+        bottom:0;
         height:3px;
-        background:var(--gold);
+        background:#2D7DD2;
     }
 
-    .edit-header .icon-wrap{
-        width:42px; height:42px;
+    .icon-wrap{
+        width:42px;
+        height:42px;
+        flex:0 0 42px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
         border-radius:10px;
-        background:rgba(255,255,255,0.14);
-        border:1px solid rgba(244,197,66,0.5);
-        display:flex; align-items:center; justify-content:center;
-        font-size:17px;
-        color:var(--gold);
-        flex:none;
+        background:rgba(255,255,255,.12);
+        border:1px solid rgba(255,255,255,.16);
+        color:#fff;
+        font-size:16px;
     }
 
     .edit-header h4{
         margin:0;
-        font-family:"Georgia","Times New Roman",serif;
+        font-family:"Poppins",sans-serif;
+        font-size:18px;
         font-weight:700;
-        font-size:19px;
+        letter-spacing:.1px;
     }
 
     .edit-header p{
-        margin:2px 0 0;
-        font-size:12.5px;
-        color:#C7D6EE;
+        margin:3px 0 0;
+        color:rgba(255,255,255,.72);
+        font-size:10.5px;
+        font-weight:400;
     }
 
+
+    /* ==============================
+       FORM BODY
+    ============================== */
+
     .edit-body{
-        padding:32px 32px 28px;
+        padding:25px 28px 24px;
     }
 
     .field-group{
-        margin-bottom:18px;
+        margin-bottom:17px;
     }
 
     .field-group label{
         display:block;
-        font-size:13px;
-        font-weight:600;
-        color:var(--ink);
         margin-bottom:6px;
+        color:var(--text);
+        font-size:11.5px;
+        font-weight:600;
     }
 
-    /* Style the rendered Django widgets directly */
+
+    /* ==============================
+       DJANGO FORM INPUTS
+    ============================== */
+
     .edit-body input[type="text"],
     .edit-body input[type="email"],
     .edit-body input:not([type]),
     .edit-body select,
     .edit-body textarea{
-        font-family:inherit;
-        font-size:14.5px;
-        padding:10px 14px;
-        border:1px solid #C7D2E3;
-        border-radius:8px;
-        background:#FBFCFE;
-        color:var(--ink);
-        outline:none;
+        display:block;
         width:100%;
         box-sizing:border-box;
-        transition:border-color .15s ease, box-shadow .15s ease;
+
+        padding:10px 12px;
+
+        background:#FBFCFE;
+        border:1px solid #CAD7E6;
+        border-radius:8px;
+
+        color:var(--text);
+        font-family:"Poppins",sans-serif;
+        font-size:12px;
+
+        outline:none;
+
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease,
+            background .2s ease;
+    }
+
+    .edit-body input[type="text"],
+    .edit-body input[type="email"],
+    .edit-body input:not([type]),
+    .edit-body select{
+        height:39px;
     }
 
     .edit-body textarea{
         min-height:100px;
+        line-height:1.6;
         resize:vertical;
+    }
+
+    .edit-body input:hover,
+    .edit-body select:hover,
+    .edit-body textarea:hover{
+        border-color:#A9BED7;
     }
 
     .edit-body input:focus,
     .edit-body select:focus,
     .edit-body textarea:focus{
-        border-color:var(--navy);
-        box-shadow:0 0 0 3px rgba(22,64,126,0.14);
         background:#fff;
+        border-color:var(--blue);
+        box-shadow:0 0 0 3px rgba(23,105,209,.10);
     }
 
+
+    /* ==============================
+       HELP TEXT
+    ============================== */
+
     .edit-body .helptext{
-        font-size:12px;
-        color:var(--muted);
         display:block;
-        margin-top:4px;
+        margin-top:5px;
+        color:var(--muted);
+        font-size:10px;
+        line-height:1.5;
     }
+
+
+    /* ==============================
+       ERROR
+    ============================== */
 
     .edit-body ul.errorlist{
         list-style:none;
-        margin:4px 0 0;
+        margin:5px 0 0;
         padding:0;
-        font-size:12.5px;
-        color:var(--error);
+        color:var(--danger);
+        font-size:10px;
     }
+
+    .edit-body ul.errorlist li{
+        padding:5px 8px;
+        background:#FDEEEF;
+        border-radius:5px;
+    }
+
+
+    /* ==============================
+       ACTION AREA
+    ============================== */
 
     .edit-actions{
         display:flex;
-        justify-content:flex-end;
-        gap:10px;
-        margin-top:10px;
-        padding-top:22px;
-        border-top:1px solid var(--blue-line);
-    }
-
-    .btn-save{
-        display:inline-flex;
         align-items:center;
+        justify-content:flex-end;
         gap:8px;
-        background:var(--navy-dark);
-        color:#fff;
-        border:none;
-        font-size:13.5px;
-        font-weight:600;
-        padding:10px 20px;
-        border-radius:8px;
-        cursor:pointer;
-        text-decoration:none;
-        transition:background .15s ease, transform .1s ease;
+
+        margin-top:21px;
+        padding-top:18px;
+
+        border-top:1px solid var(--line);
     }
 
-    .btn-save:hover{ background:var(--navy); color:#fff; }
-    .btn-save:active{ transform:translateY(1px); }
+
+    /* ==============================
+       BACK BUTTON
+    ============================== */
 
     .btn-back{
         display:inline-flex;
         align-items:center;
-        gap:8px;
+        justify-content:center;
+        gap:6px;
+
+        min-height:36px;
+        padding:7px 14px;
+
         background:#fff;
-        color:var(--muted);
-        border:1px solid var(--blue-line);
-        font-size:13.5px;
+        color:#64748B;
+
+        border:1px solid var(--line);
+        border-radius:7px;
+
+        font-family:"Poppins",sans-serif;
+        font-size:11px;
         font-weight:600;
-        padding:10px 20px;
-        border-radius:8px;
+
         text-decoration:none;
-        transition:background .15s ease, color .15s ease;
+
+        transition:.18s ease;
     }
 
     .btn-back:hover{
-        background:var(--blue-pale);
-        color:var(--ink);
+        background:var(--blue-soft);
+        color:var(--navy);
+        border-color:#C8DAEE;
     }
 
-    @media (max-width:576px){
-        .edit-body{ padding:26px 22px 22px; }
-        .edit-header{ padding:22px 22px; }
-        .edit-actions{ flex-direction:column-reverse; }
-        .btn-save, .btn-back{ justify-content:center; width:100%; }
+
+    /* ==============================
+       SAVE BUTTON
+    ============================== */
+
+    .btn-save{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:6px;
+
+        min-height:36px;
+        padding:7px 15px;
+
+        background:var(--navy);
+        color:#fff;
+
+        border:1px solid var(--navy);
+        border-radius:7px;
+
+        font-family:"Poppins",sans-serif;
+        font-size:11px;
+        font-weight:600;
+
+        cursor:pointer;
+
+        transition:.18s ease;
+    }
+
+    .btn-save:hover{
+        background:var(--blue);
+        border-color:var(--blue);
+        color:#fff;
+        transform:translateY(-1px);
+    }
+
+    .btn-save:active{
+        transform:translateY(0);
+    }
+
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    @media (max-width:700px){
+
+        .edit-shell{
+            max-width:100%;
+            margin:16px auto;
+        }
+
+        .edit-header{
+            padding:18px;
+        }
+
+        .edit-body{
+            padding:21px 18px;
+        }
+
+    }
+
+
+    @media (max-width:480px){
+
+        .edit-header h4{
+            font-size:16px;
+        }
+
+        .edit-header p{
+            font-size:10px;
+        }
+
+        .icon-wrap{
+            width:38px;
+            height:38px;
+            flex-basis:38px;
+        }
+
+        .edit-actions{
+            flex-direction:column-reverse;
+            align-items:stretch;
+        }
+
+        .btn-back,
+        .btn-save{
+            width:100%;
+        }
+
     }
 </style>
+
 
 <div class="edit-shell">
 
     <div class="edit-card">
 
+        <!-- HEADER -->
         <div class="edit-header">
-            <div class="icon-wrap"><i class="fa-solid fa-building"></i></div>
+
+            <div class="icon-wrap">
+                <i class="fa-solid fa-building"></i>
+            </div>
+
             <div>
                 <h4>Add Department</h4>
                 <p>Create a new department under your college</p>
             </div>
+
         </div>
 
+
+        <!-- FORM -->
         <div class="edit-body">
 
             <form method="POST" novalidate>
 
                 {% csrf_token %}
 
+
                 <div class="field-group">
-                    <label for="{{ form.department_name.id_for_label }}">Department Name</label>
+
+                    <label for="{{ form.department_name.id_for_label }}">
+                        Department Name
+                    </label>
+
                     {{ form.department_name }}
+
                     {{ form.department_name.errors }}
+
                 </div>
 
+
                 <div class="field-group">
-                    <label for="{{ form.department_code.id_for_label }}">Department Code</label>
+
+                    <label for="{{ form.department_code.id_for_label }}">
+                        Department Code
+                    </label>
+
                     {{ form.department_code }}
+
                     {{ form.department_code.errors }}
+
                 </div>
 
+
                 <div class="field-group">
-                    <label for="{{ form.description.id_for_label }}">Description</label>
+
+                    <label for="{{ form.description.id_for_label }}">
+                        Description
+                    </label>
+
                     {{ form.description }}
+
                     {{ form.description.errors }}
+
                 </div>
+
 
                 <div class="edit-actions">
-                    <a href="" class="btn-back">
+
+                    <a href="{% url 'department_list' %}" class="btn-back">
                         <i class="fa-solid fa-arrow-left"></i>
                         Back
                     </a>
@@ -235,6 +421,7 @@
                         <i class="fa-solid fa-floppy-disk"></i>
                         Save Department
                     </button>
+
                 </div>
 
             </form>

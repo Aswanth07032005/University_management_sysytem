@@ -1,0 +1,1275 @@
+
+{% extends "admin/admin_dashboard.html" %}
+
+{% block title %}Applications | MM-Technical University{% endblock %}
+
+{% block content %}
+
+<style>
+    :root {
+
+
+        --table-blue-1:#042B55;
+        --table-blue-2:#042B55;
+        --table-blue-3:#042B55;
+        --table-border: rgba(255, 255, 255, 0.14);
+        --page-bg: #F2F7FD;
+    }
+
+    /* ================================
+       PAGE
+    ================================= */
+
+    .applications-page {
+        min-height: calc(100vh - 70px);
+        padding: 28px;
+        background: var(--page-bg);
+    }
+
+    /* ================================
+       PAGE TITLE
+    ================================= */
+
+    .applications-page-title {
+        margin-bottom: 18px;
+    }
+
+    .applications-page-title h1 {
+        margin: 0;
+        color: #17324d;
+        font-size: 23px;
+        font-weight: 700;
+    }
+
+    .applications-page-title p {
+        margin: 5px 0 0;
+        color: #8190a3;
+        font-size: 11px;
+    }
+
+    /* ================================
+       MAIN CARD
+    ================================= */
+
+    .application-data-card {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 16px;
+
+        background:
+            linear-gradient(
+                135deg,
+               #042B55 0%,
+               #042B55 45%,
+                #1f3652 100%
+            );
+
+        box-shadow:
+            0 14px 36px rgba(25, 55, 82, 0.18);
+    }
+
+    /* ================================
+       TOOLBAR
+    ================================= */
+
+    .application-table-toolbar {
+        min-height: 74px;
+        padding: 0 16px 0 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .application-table-title {
+        color: #ffffff;
+        font-size: 27px;
+        font-weight: 500;
+        letter-spacing: 0.1px;
+    }
+
+    .application-toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    /* ================================
+       SEARCH
+    ================================= */
+
+    .application-search-box {
+        position: relative;
+        width: 190px;
+    }
+
+    .application-search-box input {
+        width: 100%;
+        height: 35px;
+
+        padding: 6px 15px;
+
+        border-radius: 18px;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+
+        outline: none;
+
+        background: rgba(255, 255, 255, 0.04);
+        color: #ffffff;
+
+        font-size: 11px;
+        box-sizing: border-box;
+    }
+
+    .application-search-box input::placeholder {
+        color: rgba(255, 255, 255, 0.62);
+    }
+
+    .application-search-box input:focus {
+        background: rgba(255, 255, 255, 0.09);
+
+        box-shadow:
+            0 0 0 2px rgba(255, 255, 255, 0.08);
+    }
+
+    /* ================================
+       TOOL BUTTONS
+    ================================= */
+
+    .table-tool-btn {
+        width: 35px;
+        height: 35px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.88);
+
+        background: transparent;
+        color: #ffffff;
+
+        text-decoration: none;
+        cursor: pointer;
+
+        font-size: 11px;
+
+        transition: 0.2s ease;
+    }
+
+    .table-tool-btn:hover {
+        background: rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+        transform: translateY(-1px);
+    }
+
+    /* ================================
+       TABLE WRAPPER
+    ================================= */
+
+    .applications-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    /* ================================
+       TABLE
+    ================================= */
+
+    .applications-table {
+        width: 100%;
+        min-width: 950px;
+
+        border-collapse: collapse;
+
+        color: #ffffff;
+    }
+
+    .applications-table thead {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.22),
+                rgba(255, 255, 255, 0.13)
+            );
+    }
+
+    .applications-table thead th {
+        height: 42px;
+
+        padding: 8px 14px;
+
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+
+        color: rgba(255, 255, 255, 0.92);
+
+        font-size: 10.5px;
+        font-weight: 600;
+
+        text-align: left;
+        text-transform: uppercase;
+
+        white-space: nowrap;
+    }
+
+    .applications-table thead th:last-child {
+        border-right: 0;
+    }
+
+    /* ================================
+       TABLE BODY
+    ================================= */
+
+    .applications-table tbody tr {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(32, 126, 174, 0.24),
+                rgba(29, 78, 108, 0.30)
+            );
+
+        transition: 0.18s ease;
+    }
+
+    .applications-table tbody tr:nth-child(even) {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(38, 132, 180, 0.14),
+                rgba(31, 83, 113, 0.22)
+            );
+    }
+
+    .applications-table tbody tr:hover {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.16),
+                rgba(255, 255, 255, 0.06)
+            );
+    }
+
+    .applications-table tbody td {
+        height: 45px;
+
+        padding: 10px 14px;
+
+        border-bottom: 1px solid var(--table-border);
+
+        color: rgba(255, 255, 255, 0.93);
+
+        font-size: 10.5px;
+
+        vertical-align: middle;
+
+        white-space: nowrap;
+    }
+
+    .applications-table tbody tr:last-child td {
+        border-bottom: 0;
+    }
+
+    /* ================================
+       APPLICATION NUMBER
+    ================================= */
+
+    .application-number {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 10px;
+    }
+
+    /* ================================
+       STUDENT
+    ================================= */
+
+    .student-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .student-avatar {
+        width: 28px;
+        height: 28px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.20);
+
+        color: #ffffff;
+
+        font-size: 10px;
+    }
+
+    .student-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .student-name {
+        color: #ffffff;
+        font-size: 10.5px;
+        font-weight: 600;
+    }
+
+    .student-email {
+        margin-top: 1px;
+
+        color: rgba(255, 255, 255, 0.60);
+
+        font-size: 8px;
+    }
+
+    /* ================================
+       COLLEGE
+    ================================= */
+
+    .college-name {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        color: rgba(255, 255, 255, 0.90);
+
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .college-name i {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 9px;
+    }
+
+    /* ================================
+       COURSE
+    ================================= */
+
+    .course-name {
+        color: rgba(255, 255, 255, 0.90);
+
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    /* ================================
+       STATUS
+    ================================= */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        padding: 4px 8px;
+
+        border-radius: 12px;
+
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+
+        color: #ffffff;
+
+        font-size: 8px;
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+    .status-badge::before {
+        content: "";
+
+        width: 5px;
+        height: 5px;
+
+        border-radius: 50%;
+
+        background: #ffffff;
+    }
+
+    .status-pending::before {
+        background: #ffd166;
+    }
+
+    .status-college::before {
+        background: #8fd3ff;
+    }
+
+    .status-university::before {
+        background: #a9bfff;
+    }
+
+    .status-approved::before {
+        background: #70e09d;
+    }
+
+    .status-rejected::before {
+        background: #ff8d98;
+    }
+
+    /* ================================
+       PAYMENT
+    ================================= */
+
+    .payment-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        font-size: 9px;
+        font-weight: 600;
+    }
+
+    .payment-paid {
+        color: #9af0ba;
+    }
+
+    .payment-pending {
+        color: #ffd783;
+    }
+
+    /* ================================
+       VIEW BUTTON
+    ================================= */
+
+    .view-btn {
+        width: 28px;
+        height: 28px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 7px;
+
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+
+        color: #ffffff;
+
+        text-decoration: none;
+
+        transition: 0.2s ease;
+    }
+
+    .view-btn:hover {
+        background: rgba(255, 255, 255, 0.28);
+        color: #ffffff;
+
+        transform: scale(1.05);
+    }
+
+    /* ================================
+       FOOTER
+    ================================= */
+
+    .application-table-footer {
+        min-height: 50px;
+
+        padding: 12px 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        color: rgba(255, 255, 255, 0.90);
+
+        font-size: 10px;
+    }
+
+    .entries-info {
+        color: rgba(255, 255, 255, 0.90);
+        font-size: 10px;
+    }
+
+    .entries-info strong {
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    /* ================================
+       PAGINATION
+    ================================= */
+
+    .application-pagination {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .pagination-btn {
+        min-width: 26px;
+        height: 27px;
+
+        padding: 0 6px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 0;
+
+        background: transparent;
+        color: rgba(255, 255, 255, 0.88);
+
+        border-radius: 50%;
+
+        font-size: 10px;
+
+        cursor: pointer;
+
+        transition: 0.2s ease;
+    }
+
+    .pagination-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+    }
+
+    .pagination-btn.active {
+        width: 29px;
+        height: 29px;
+
+        border: 2px solid rgba(255, 255, 255, 0.92);
+
+        background: transparent;
+        color: #ffffff;
+
+        font-weight: 600;
+    }
+
+    .pagination-btn:disabled {
+        opacity: 0.45;
+        cursor: default;
+    }
+
+    /* ================================
+       EMPTY STATE
+    ================================= */
+
+    .empty-state {
+        padding: 65px 20px;
+
+        text-align: center;
+
+        color: #ffffff;
+    }
+
+    .empty-icon {
+        width: 60px;
+        height: 60px;
+
+        margin: 0 auto 13px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.10);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+
+        font-size: 22px;
+    }
+
+    .empty-state h4 {
+        margin: 0;
+
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .empty-state p {
+        margin: 5px 0 0;
+
+        color: rgba(255, 255, 255, 0.65);
+
+        font-size: 10px;
+    }
+
+    /* ================================
+       INFORMATION NOTE
+    ================================= */
+
+    .university-note {
+        margin-top: 15px;
+
+        padding: 11px 14px;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        border-radius: 8px;
+
+        background: #eef5fb;
+        border: 1px solid #dce7f1;
+
+        color: #68798d;
+
+        font-size: 9.5px;
+    }
+
+    .university-note-icon {
+        width: 30px;
+        height: 30px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        color: #1769a8;
+
+        font-size: 11px;
+    }
+
+    /* ================================
+       ANIMATION
+    ================================= */
+
+    .fade-up {
+        animation: fadeUp 0.4s ease both;
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(7px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ================================
+       RESPONSIVE
+    ================================= */
+
+    @media (max-width: 850px) {
+
+        .applications-page {
+            padding: 18px;
+        }
+
+        .application-table-toolbar {
+            min-height: auto;
+
+            padding: 16px;
+
+            flex-direction: column;
+            align-items: stretch;
+
+            gap: 12px;
+        }
+
+        .application-toolbar-right {
+            width: 100%;
+        }
+
+        .application-search-box {
+            flex: 1;
+            width: auto;
+        }
+
+        .application-table-footer {
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 8px;
+
+            padding: 14px 16px;
+        }
+
+        .application-pagination {
+            align-self: flex-end;
+        }
+    }
+
+    @media (max-width: 500px) {
+
+        .applications-page {
+            padding: 10px;
+        }
+
+        .application-table-title {
+            font-size: 20px;
+        }
+
+        .table-tool-btn {
+            width: 31px;
+            height: 31px;
+        }
+    }
+
+    @media print {
+
+        .application-table-toolbar,
+        .application-table-footer,
+        .university-note,
+        .applications-page-title {
+            display: none !important;
+        }
+
+        .applications-page {
+            padding: 0;
+            background: #ffffff;
+        }
+
+        .application-data-card {
+            box-shadow: none;
+            border-radius: 0;
+        }
+    }
+</style>
+
+
+<div class="applications-page">
+
+    <!-- PAGE TITLE -->
+
+    <div class="applications-page-title fade-up">
+
+        <h1>
+            Admission Applications
+        </h1>
+
+        <p>
+            Manage and monitor student admission applications
+        </p>
+
+    </div>
+
+
+    <!-- DATA CARD -->
+
+    <div class="application-data-card fade-up">
+
+        <!-- TOOLBAR -->
+
+        <div class="application-table-toolbar">
+
+            <div class="application-table-title">
+                Data List
+            </div>
+
+            <div class="application-toolbar-right">
+
+                <!-- SEARCH -->
+
+                <div class="application-search-box">
+
+                    <input
+                        type="text"
+                        id="applicationSearch"
+                        placeholder="Search"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- REFRESH -->
+
+                <button
+                    type="button"
+                    class="table-tool-btn"
+                    onclick="location.reload()"
+                    title="Refresh"
+                >
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+
+
+                <!-- PDF -->
+
+                <button
+                    type="button"
+                    class="table-tool-btn"
+                    onclick="window.print()"
+                    title="Print / PDF"
+                >
+                    <i class="fas fa-file-pdf"></i>
+                </button>
+
+
+                <!-- EXCEL -->
+
+                <button
+                    type="button"
+                    class="table-tool-btn"
+                    onclick="exportApplications()"
+                    title="Export"
+                >
+                    <i class="fas fa-file-excel"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        {% if applications %}
+
+        <!-- TABLE -->
+
+        <div class="applications-table-wrapper">
+
+            <table class="applications-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Application</th>
+
+                        <th>Student</th>
+
+                        <th>College</th>
+
+                        <th>Course</th>
+
+                        <th>Status</th>
+
+                        <th>Payment</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="applicationTable">
+
+                    {% for application in applications %}
+
+                    <tr>
+
+                        <!-- NUMBER -->
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+
+                        <!-- APPLICATION -->
+
+                        <td>
+
+                            <span class="application-number">
+                                #APP{{ application.id|stringformat:"04d" }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- STUDENT -->
+
+                        <td>
+
+                            <div class="student-info">
+
+                                <div class="student-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+
+                                <div class="student-details">
+
+                                    <div class="student-name">
+
+                                        {% if application.student.full_name %}
+                                            {{ application.student.full_name }}
+                                        {% else %}
+                                            {{ application.student.username }}
+                                        {% endif %}
+
+                                    </div>
+
+                                    <div class="student-email">
+                                        {{ application.student.email }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- COLLEGE -->
+
+                        <td>
+
+                            <span class="college-name">
+
+                                <i class="fas fa-building"></i>
+
+                                {{ application.college }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- COURSE -->
+
+                        <td>
+
+                            <span class="course-name">
+
+                                {% if application.course %}
+                                    {{ application.course }}
+                                {% else %}
+                                    —
+                                {% endif %}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            {% if application.status == "Pending" %}
+
+                                <span class="status-badge status-pending">
+                                    Pending
+                                </span>
+
+                            {% elif application.status == "College Verified" %}
+
+                                <span class="status-badge status-college">
+                                    College Verified
+                                </span>
+
+                            {% elif application.status == "University Verified" %}
+
+                                <span class="status-badge status-university">
+                                    University Verified
+                                </span>
+
+                            {% elif application.status == "Approved" %}
+
+                                <span class="status-badge status-approved">
+                                    Approved
+                                </span>
+
+                            {% elif application.status == "Rejected" %}
+
+                                <span class="status-badge status-rejected">
+                                    Rejected
+                                </span>
+
+                            {% else %}
+
+                                <span class="status-badge status-pending">
+                                    {{ application.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- PAYMENT -->
+
+                        <td>
+
+                            {% if application.payment_status %}
+
+                                {% if application.payment_status == "Paid" %}
+
+                                    <span class="payment-status payment-paid">
+
+                                        <i class="fas fa-circle-check"></i>
+
+                                        Paid
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="payment-status payment-pending">
+
+                                        <i class="fas fa-clock"></i>
+
+                                        {{ application.payment_status }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            {% else %}
+
+                                <span class="payment-status payment-pending">
+                                    —
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+                            <a
+                                href="#"
+                                class="view-btn"
+                                title="View Application"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="application-table-footer">
+
+            <div class="entries-info">
+
+                Showing
+
+                <strong id="visibleEntries">
+                    {{ applications|length }}
+                </strong>
+
+                out of
+
+                <strong>
+                    {{ applications|length }}
+                </strong>
+
+                entries
+
+            </div>
+
+
+          
+        </div>
+
+
+        {% else %}
+
+        <!-- EMPTY STATE -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                <i class="fas fa-folder-open"></i>
+            </div>
+
+            <h4>
+                No Applications Found
+            </h4>
+
+            <p>
+                There are currently no admission applications
+                available in the system.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- INFORMATION -->
+
+    <div class="university-note">
+
+        <div class="university-note-icon">
+            <i class="fas fa-circle-info"></i>
+        </div>
+
+        <div>
+            Applications can be reviewed and monitored according
+            to their current verification, admission and payment status.
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.getElementById("applicationSearch");
+
+    const table =
+        document.getElementById("applicationTable");
+
+    const visibleEntries =
+        document.getElementById("visibleEntries");
+
+
+    if (!searchInput || !table) {
+        return;
+    }
+
+
+    searchInput.addEventListener("input", function () {
+
+        const searchValue =
+            this.value.toLowerCase().trim();
+
+        const rows =
+            table.querySelectorAll("tr");
+
+        let visibleCount = 0;
+
+
+        rows.forEach(function (row) {
+
+            const rowText =
+                row.textContent.toLowerCase();
+
+            if (rowText.includes(searchValue)) {
+
+                row.style.display = "";
+
+                visibleCount++;
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        if (visibleEntries) {
+
+            visibleEntries.textContent =
+                visibleCount;
+
+        }
+
+    });
+
+});
+
+
+/* ================================
+   CSV EXPORT
+================================ */
+
+function exportApplications() {
+
+    const table =
+        document.querySelector(".applications-table");
+
+    if (!table) {
+        return;
+    }
+
+
+    let csv = [];
+
+
+    const rows =
+        table.querySelectorAll("tr");
+
+
+    rows.forEach(function (row) {
+
+        const cols =
+            row.querySelectorAll("th, td");
+
+        const rowData = [];
+
+
+        cols.forEach(function (col) {
+
+            let text =
+                col.innerText
+                    .replace(/"/g, '""')
+                    .trim();
+
+            rowData.push('"' + text + '"');
+
+        });
+
+
+        csv.push(rowData.join(","));
+
+    });
+
+
+    const blob =
+        new Blob(
+            [csv.join("\n")],
+            {
+                type: "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+        "MMT_University_Applications.csv";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+}
+
+</script>
+
+{% endblock %}
+

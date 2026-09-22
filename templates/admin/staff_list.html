@@ -3,297 +3,1481 @@
 {% block content %}
 
 <style>
-    :root{
-        --navy-dark:#0B2C5C;
-        --navy:#16407E;
-        --navy-soft:#EAF0FA;
-        --blue-pale:#EEF3FB;
-        --blue-line:#D9E3F2;
-        --gold:#C9A227;
-        --ink:#1C2430;
-        --muted:#6B7383;
-        --green:#1F8A5F;
-        --green-soft:#E4F5EC;
-        --amber:#B8791F;
-        --amber-soft:#FBF2DC;
-        --red:#B23A48;
-        --red-soft:#FBEAEC;
+    :root {
+        --navy-dark: #062b5c;
+        --navy: #0b3d7a;
+        --blue: #1769d1;
+        --blue-soft: #eef5ff;
+        --blue-border: #dbe7f5;
+
+        --text: #172033;
+        --muted: #6b7280;
+
+        --green: #15803d;
+        --green-soft: #eaf7ef;
+
+        --red: #c0394b;
+        --red-soft: #fff0f2;
+        --red-border: #f4d3d8;
+
+        --amber: #a66a00;
+        --amber-soft: #fff7e6;
+        --amber-border: #f4e0b4;
     }
 
-    .staff-panel{
-        max-width:1160px;
-        margin:24px auto 0;
-        background:#fff;
-        border:1px solid var(--blue-line);
-        border-radius:12px;
-        overflow:hidden;
-        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+    * {
+        box-sizing: border-box;
     }
 
-    .staff-panel .panel-head{
-        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
-        color:#fff;
-        padding:20px 24px;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:16px;
-        flex-wrap:wrap;
-        position:relative;
+    /* =========================
+       PAGE
+    ========================= */
+
+    .staff-page {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 4px 0 20px;
+        font-family: "Poppins", sans-serif;
     }
 
-    .staff-panel .panel-head::after{
-        content:"";
-        position:absolute;
-        left:0; right:0; bottom:0;
-        height:3px;
-        background:var(--gold);
+    /* =========================
+       CARD
+    ========================= */
+
+    .staff-card {
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid var(--blue-border);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 8px 28px rgba(6, 43, 92, 0.07);
+        animation: fadeUp 0.35s ease;
     }
 
-    .staff-panel .panel-head h4{
-        margin:0;
-        font-family:"Georgia","Times New Roman",serif;
-        font-weight:700;
-        font-size:19px;
-        display:flex;
-        align-items:center;
-        gap:10px;
+    /* =========================
+       HEADER
+    ========================= */
+
+    .staff-header {
+        background: linear-gradient(
+            135deg,
+            var(--navy-dark),
+            var(--navy)
+        );
+
+        padding: 17px 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 15px;
+        flex-wrap: wrap;
     }
 
-    .staff-panel .panel-head h4 i{ color:var(--gold); }
-
-    .staff-count{
-        background:rgba(255,255,255,0.12);
-        border:1px solid rgba(244,197,66,0.4);
-        color:#fff;
-        font-size:12.5px;
-        font-weight:600;
-        padding:6px 14px;
-        border-radius:20px;
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 0;
     }
 
-    .staff-panel .panel-body{
-        padding:22px 24px 26px;
+    .header-icon {
+        width: 40px;
+        height: 40px;
+
+        flex: 0 0 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+
+        border-radius: 10px;
+
+        color: #ffffff;
+        font-size: 17px;
     }
 
-    table.staff-table{
-        width:100%;
-        border-collapse:collapse;
-        font-size:13.5px;
+    .header-title h4 {
+        margin: 0;
+
+        color: #ffffff;
+
+        font-size: 17px;
+        font-weight: 600;
+
+        letter-spacing: -0.2px;
     }
 
-    table.staff-table thead th{
-        background:var(--navy-soft);
-        color:var(--navy-dark);
-        text-transform:uppercase;
-        letter-spacing:0.05em;
-        font-size:11px;
-        font-weight:700;
-        padding:12px 14px;
-        border-bottom:2px solid var(--blue-line);
-        text-align:left;
-        white-space:nowrap;
+    .header-title p {
+        margin: 2px 0 0;
+
+        color: rgba(255, 255, 255, 0.68);
+
+        font-size: 10.5px;
     }
 
-    table.staff-table tbody td{
-        padding:13px 14px;
-        border-bottom:1px solid #F0F3F9;
-        vertical-align:middle;
-        color:var(--ink);
+    /* =========================
+       COUNT
+    ========================= */
+
+    .staff-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+
+        padding: 7px 12px;
+
+        background: rgba(255, 255, 255, 0.10);
+        border: 1px solid rgba(255, 255, 255, 0.17);
+
+        border-radius: 20px;
+
+        color: #ffffff;
+
+        font-size: 10.5px;
+        font-weight: 500;
+
+        white-space: nowrap;
     }
 
-    table.staff-table tbody tr:hover{
-        background:var(--blue-pale);
+    .staff-count i {
+        font-size: 11px;
+        opacity: 0.8;
     }
 
-    .staff-name{
-        font-weight:600;
+    .staff-count strong {
+        font-weight: 600;
     }
 
-    .status-pill{
-        font-size:11.5px;
-        font-weight:700;
-        padding:5px 12px;
-        border-radius:20px;
-        display:inline-flex;
-        align-items:center;
-        gap:6px;
-        white-space:nowrap;
+    /* =========================
+       BODY
+    ========================= */
+
+    .staff-body {
+        padding: 18px 20px 20px;
     }
 
-    .status-pill.approved{ background:var(--green-soft); color:var(--green); }
-    .status-pill.pending{ background:var(--amber-soft); color:var(--amber); }
+    /* =========================
+       SEARCH TOOLBAR
+    ========================= */
 
-    .btn-approve,
-    .btn-reject{
-        font-size:12.5px;
-        font-weight:600;
-        padding:7px 14px;
-        border-radius:6px;
-        border:none;
-        display:inline-flex;
-        align-items:center;
-        gap:6px;
-        text-decoration:none;
-        transition:background .15s ease, color .15s ease;
+    .staff-toolbar {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 15px;
+
+        margin-bottom: 14px;
     }
 
-    .btn-approve{
-        background:var(--navy-dark);
-        color:#fff;
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .staff-search {
+        position: relative;
+
+        width: 320px;
+        max-width: 100%;
     }
 
-    .btn-approve:hover{ background:var(--navy); color:#fff; }
+    .staff-search-icon {
+        position: absolute;
 
-    .btn-reject{
-        background:var(--red-soft);
-        color:var(--red);
-        border:1px solid #F3D3D7;
+        left: 13px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #8491a3;
+
+        font-size: 11px;
+
+        pointer-events: none;
+
+        z-index: 2;
     }
 
-    .btn-reject:hover{
-        background:var(--red);
-        color:#fff;
-        border-color:var(--red);
+    .staff-search input {
+        width: 100%;
+        height: 38px;
+
+        padding: 0 38px 0 34px;
+
+        border: 1px solid var(--blue-border);
+
+        border-radius: 8px;
+
+        background: #ffffff;
+
+        color: var(--text);
+
+        font-family: "Poppins", sans-serif;
+
+        font-size: 10.5px;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
     }
 
-    .empty-row td{
-        padding:36px 14px;
-        text-align:center;
-        color:var(--muted);
-        font-size:13.5px;
+    .staff-search input::placeholder {
+        color: #9aa4b2;
     }
 
-    .empty-row i{
-        display:block;
-        font-size:26px;
-        color:var(--blue-line);
-        margin-bottom:10px;
+    .staff-search input:hover {
+        border-color: #c7d8ec;
     }
+
+    .staff-search input:focus {
+        border-color: var(--blue);
+
+        background: #ffffff;
+
+        box-shadow:
+            0 0 0 3px rgba(23, 105, 209, 0.08);
+    }
+
+    /* =========================
+       CLEAR BUTTON
+    ========================= */
+
+    .clear-staff-search {
+        position: absolute;
+
+        right: 9px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        width: 22px;
+        height: 22px;
+
+        padding: 0;
+
+        display: none;
+
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+
+        border-radius: 50%;
+
+        background: #f1f4f8;
+
+        color: #7b8796;
+
+        font-size: 9px;
+
+        cursor: pointer;
+
+        transition: all 0.18s ease;
+    }
+
+    .clear-staff-search:hover {
+        background: #e6edf6;
+        color: #17365f;
+    }
+
+    /* =========================
+       RESULT COUNT
+    ========================= */
+
+    .staff-search-result {
+        display: flex;
+
+        align-items: center;
+
+        gap: 4px;
+
+        color: #7b8492;
+
+        font-size: 10px;
+
+        white-space: nowrap;
+    }
+
+    .staff-search-result strong {
+        color: var(--navy);
+
+        font-weight: 600;
+    }
+
+    /* =========================
+       TABLE WRAPPER
+    ========================= */
+
+    .staff-table-wrapper {
+        width: 100%;
+
+        overflow: hidden;
+
+        border: 1px solid var(--blue-border);
+
+        border-radius: 10px;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .staff-table {
+        width: 100%;
+
+        table-layout: fixed;
+
+        border-collapse: collapse;
+
+        font-family: "Poppins", sans-serif;
+
+        font-size: 11px;
+    }
+
+    /* =========================
+       COLUMN WIDTHS
+    ========================= */
+
+    .staff-table th:nth-child(1) {
+        width: 6%;
+    }
+
+    .staff-table th:nth-child(2) {
+        width: 19%;
+    }
+
+    .staff-table th:nth-child(3) {
+        width: 25%;
+    }
+
+    .staff-table th:nth-child(4) {
+        width: 14%;
+    }
+
+    .staff-table th:nth-child(5) {
+        width: 16%;
+    }
+
+    .staff-table th:nth-child(6) {
+        width: 10%;
+    }
+
+    .staff-table th:nth-child(7) {
+        width: 10%;
+    }
+
+    /* =========================
+       TABLE HEADER
+    ========================= */
+
+    .staff-table thead th {
+        background: #f4f7fb;
+
+        color: #526071;
+
+        padding: 10px 9px;
+
+        border-bottom: 1px solid var(--blue-border);
+
+        font-size: 9px;
+        font-weight: 600;
+
+        text-transform: uppercase;
+        letter-spacing: 0.035em;
+
+        text-align: left;
+
+        white-space: nowrap;
+    }
+
+    /* =========================
+       TABLE BODY
+    ========================= */
+
+    .staff-table tbody td {
+        padding: 10px 9px;
+
+        color: var(--text);
+
+        border-bottom: 1px solid #edf1f6;
+
+        vertical-align: middle;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .staff-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .staff-table tbody tr.staff-row {
+        transition: background 0.18s ease;
+    }
+
+    .staff-table tbody tr.staff-row:hover {
+        background: #f8fbff;
+    }
+
+    /* =========================
+       NUMBER
+    ========================= */
+
+    .staff-number {
+        color: #7b8492;
+
+        font-size: 10px;
+
+        font-weight: 500;
+    }
+
+    /* =========================
+       STAFF NAME
+    ========================= */
+
+    .staff-name {
+        color: #172033;
+
+        font-size: 11px;
+
+        font-weight: 600;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* =========================
+       STAFF INFO
+    ========================= */
+
+    .staff-info {
+        color: #667085;
+
+        font-size: 10.5px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* =========================
+       STATUS
+    ========================= */
+
+    .status-pill {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 5px;
+
+        padding: 4px 8px;
+
+        border-radius: 6px;
+
+        font-size: 9.5px;
+
+        font-weight: 600;
+
+        white-space: nowrap;
+    }
+
+    .status-pill i {
+        font-size: 9px;
+    }
+
+    .status-pill.approved {
+        background: var(--green-soft);
+
+        color: var(--green);
+
+        border: 1px solid #d8efdf;
+    }
+
+    .status-pill.pending {
+        background: var(--amber-soft);
+
+        color: var(--amber);
+
+        border: 1px solid var(--amber-border);
+    }
+
+    /* =========================
+       ACTION BUTTONS
+    ========================= */
+
+    .staff-actions {
+        display: flex;
+
+        align-items: center;
+
+        gap: 5px;
+    }
+
+    .action-btn {
+        height: 29px;
+
+        padding: 0 9px;
+
+        border-radius: 6px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 5px;
+
+        font-family: "Poppins", sans-serif;
+
+        font-size: 9.5px;
+
+        font-weight: 600;
+
+        text-decoration: none;
+
+        white-space: nowrap;
+
+        transition:
+            background 0.18s ease,
+            color 0.18s ease,
+            border-color 0.18s ease;
+    }
+
+    /* APPROVE */
+
+    .btn-approve {
+        background: var(--navy);
+
+        color: #ffffff;
+
+        border: 1px solid var(--navy);
+    }
+
+    .btn-approve:hover {
+        background: var(--blue);
+
+        color: #ffffff;
+
+        border-color: var(--blue);
+    }
+
+    /* REJECT */
+
+    .btn-reject {
+        background: var(--red-soft);
+
+        color: var(--red);
+
+        border: 1px solid var(--red-border);
+    }
+
+    .btn-reject:hover {
+        background: var(--red);
+
+        color: #ffffff;
+
+        border-color: var(--red);
+    }
+
+    /* =========================
+       NO SEARCH RESULT
+    ========================= */
+
+    .no-search-row {
+        display: none;
+    }
+
+    .no-search-row td {
+        padding: 42px 15px !important;
+
+        text-align: center;
+
+        border-bottom: none !important;
+    }
+
+    .no-search-icon {
+        width: 46px;
+        height: 46px;
+
+        margin: 0 auto 10px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #f2f6fb;
+
+        color: #8a98aa;
+
+        font-size: 17px;
+    }
+
+    .no-search-title {
+        display: block;
+
+        color: #344054;
+
+        font-size: 12px;
+
+        font-weight: 600;
+    }
+
+    .no-search-text {
+        display: block;
+
+        margin-top: 3px;
+
+        color: #8a94a3;
+
+        font-size: 10px;
+    }
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    .empty-row td {
+        padding: 45px 15px !important;
+
+        text-align: center;
+
+        color: var(--muted);
+    }
+
+    .empty-icon {
+        width: 48px;
+        height: 48px;
+
+        margin: 0 auto 10px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #f2f6fb;
+
+        color: #8a98aa;
+
+        font-size: 18px;
+    }
+
+    .empty-title {
+        display: block;
+
+        color: #344054;
+
+        font-size: 12px;
+
+        font-weight: 600;
+    }
+
+    .empty-text {
+        display: block;
+
+        margin-top: 2px;
+
+        color: #8a94a3;
+
+        font-size: 10px;
+    }
+
+    /* =========================
+       ANIMATION
+    ========================= */
+
+    @keyframes fadeUp {
+
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+    /* =========================
+       LAPTOP
+    ========================= */
+
+    @media (max-width: 1200px) {
+
+        .staff-body {
+            padding: 15px;
+        }
+
+        .staff-table {
+            font-size: 10px;
+        }
+
+        .staff-table thead th {
+            padding: 9px 6px;
+            font-size: 8px;
+        }
+
+        .staff-table tbody td {
+            padding: 8px 6px;
+        }
+
+        .staff-name {
+            font-size: 10px;
+        }
+
+        .staff-info {
+            font-size: 9.5px;
+        }
+
+        .action-btn {
+            height: 27px;
+            padding: 0 7px;
+            font-size: 8.5px;
+        }
+
+        .status-pill {
+            font-size: 8.5px;
+            padding: 4px 6px;
+        }
+
+        .staff-search {
+            width: 290px;
+        }
+    }
+
+    /* =========================
+       TABLET
+    ========================= */
+
+    @media (max-width: 992px) {
+
+        .staff-header {
+            padding: 15px;
+        }
+
+        .staff-body {
+            padding: 12px;
+        }
+
+        .header-title h4 {
+            font-size: 15px;
+        }
+
+        .header-title p {
+            font-size: 9px;
+        }
+
+        .staff-count {
+            font-size: 9.5px;
+        }
+
+        .staff-table {
+            font-size: 9px;
+        }
+
+        .staff-table thead th {
+            font-size: 7.5px;
+            padding: 8px 5px;
+        }
+
+        .staff-table tbody td {
+            padding: 7px 5px;
+        }
+
+        .staff-search {
+            width: 270px;
+        }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 768px) {
+
+        .staff-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .staff-count {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .staff-toolbar {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 9px;
+        }
+
+        .staff-search {
+            width: 100%;
+        }
+
+        .staff-search-result {
+            justify-content: flex-end;
+        }
+
+        .staff-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .staff-table {
+            min-width: 850px;
+        }
+    }
+
 </style>
 
-<div class="staff-panel">
 
-    <div class="panel-head">
-        <h4>
-            <i class="fa-solid fa-users"></i>
-            University Staff List
-        </h4>
+<div class="staff-page">
 
-        <span class="staff-count">
-            Total&nbsp;: {{ staffs|length }}
-        </span>
-    </div>
+    <div class="staff-card">
 
-    <div class="panel-body">
 
-        <div class="table-responsive">
+        <!-- =================================================
+             HEADER
+        ================================================== -->
 
-            <table class="staff-table">
+        <div class="staff-header">
 
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Qualification</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
 
-                <tbody>
+            <div class="header-left">
 
-                {% for staff in staffs %}
+                <div class="header-icon">
 
-                    <tr>
+                    <i class="fa-solid fa-users"></i>
 
-                        <td>{{ forloop.counter }}</td>
+                </div>
 
-                        <td>
-                            <div class="staff-name">
-                                {{ staff.full_name }}
-                            </div>
-                        </td>
 
-                        <td>{{ staff.email }}</td>
+                <div class="header-title">
 
-                        <td>{{ staff.phone }}</td>
+                    <h4>
+                        University Staff Management
+                    </h4>
 
-                        <td>{{ staff.qualification }}</td>
+                    <p>
+                        View and manage university staff registrations
+                    </p>
 
-                        <td>
+                </div>
 
-                            {% if staff.is_approved %}
+            </div>
 
-                                <span class="status-pill approved">
-                                    <i class="fa-solid fa-circle-check"></i>
-                                    Approved
+
+            <div class="staff-count">
+
+                <i class="fa-solid fa-user-group"></i>
+
+                <span>
+
+                    Total Staff:
+
+                    <strong>
+                        {{ staffs|length }}
+                    </strong>
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             BODY
+        ================================================== -->
+
+        <div class="staff-body">
+
+
+            <!-- =================================================
+                 SEARCH TOOLBAR
+            ================================================== -->
+
+            <div class="staff-toolbar">
+
+
+                <!-- SEARCH -->
+
+                <div class="staff-search">
+
+                    <i
+                        class="fa-solid fa-magnifying-glass staff-search-icon"
+                    ></i>
+
+
+                    <input
+                        type="text"
+                        id="staffSearch"
+                        placeholder="Search staff by name, email, phone..."
+                        autocomplete="off"
+                        aria-label="Search university staff"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="clear-staff-search"
+                        id="clearStaffSearch"
+                        title="Clear Search"
+                        aria-label="Clear Search"
+                    >
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- RESULT COUNT -->
+
+                <div class="staff-search-result">
+
+                    <span>
+                        Showing
+                    </span>
+
+                    <strong id="visibleStaff">
+                        {{ staffs|length }}
+                    </strong>
+
+                    <span>
+                        of {{ staffs|length }} staff
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 TABLE
+            ================================================== -->
+
+            <div class="staff-table-wrapper">
+
+
+                <table
+                    class="staff-table"
+                    id="staffTable"
+                >
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                No
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Qualification
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for staff in staffs %}
+
+
+                        <tr class="staff-row">
+
+
+                            <!-- NUMBER -->
+
+                            <td>
+
+                                <span class="staff-number">
+
+                                    {{ forloop.counter }}
+
                                 </span>
 
-                            {% else %}
+                            </td>
 
-                                <span class="status-pill pending">
-                                    <i class="fa-solid fa-clock"></i>
-                                    Pending
+
+                            <!-- NAME -->
+
+                            <td
+                                title="{{ staff.full_name }}"
+                            >
+
+                                <div class="staff-name">
+
+                                    {{ staff.full_name }}
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- EMAIL -->
+
+                            <td
+                                title="{{ staff.email }}"
+                            >
+
+                                <span class="staff-info">
+
+                                    {{ staff.email }}
+
                                 </span>
 
-                            {% endif %}
+                            </td>
 
-                        </td>
 
-                        <td>
+                            <!-- PHONE -->
 
-                            <div class="d-flex gap-2">
+                            <td
+                                title="{{ staff.phone }}"
+                            >
 
-                                {% if not staff.is_approved %}
+                                <span class="staff-info">
 
-                                    <a href="{% url 'approve_staff' staff.id %}"
-                                       class="btn-approve">
+                                    {{ staff.phone }}
 
-                                        <i class="fa-solid fa-check"></i>
-                                        Approve
+                                </span>
 
-                                    </a>
+                            </td>
+
+
+                            <!-- QUALIFICATION -->
+
+                            <td
+                                title="{{ staff.qualification }}"
+                            >
+
+                                <span class="staff-info">
+
+                                    {{ staff.qualification }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+
+                                {% if staff.is_approved %}
+
+                                    <span class="status-pill approved">
+
+                                        <i class="fa-solid fa-circle-check"></i>
+
+                                        Approved
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-pill pending">
+
+                                        <i class="fa-solid fa-clock"></i>
+
+                                        Pending
+
+                                    </span>
 
                                 {% endif %}
 
-                                <a href="{% url 'reject_staff' staff.id %}"
-                                   class="btn-reject">
 
-                                    <i class="fa-solid fa-ban"></i>
-                                    Reject
+                            </td>
 
-                                </a>
 
-                            </div>
+                            <!-- ACTION -->
 
-                        </td>
+                            <td>
 
-                    </tr>
+                                <div class="staff-actions">
 
-                {% empty %}
 
-                    <tr class="empty-row">
+                                    {% if not staff.is_approved %}
 
-                        <td colspan="7">
-                            <i class="fa-solid fa-user-slash"></i>
-                            No Staff Found
-                        </td>
+                                        <a
+                                            href="{% url 'approve_staff' staff.id %}"
+                                            class="action-btn btn-approve"
+                                        >
 
-                    </tr>
+                                            <i class="fa-solid fa-check"></i>
 
-                {% endfor %}
+                                            Approve
 
-                </tbody>
+                                        </a>
 
-            </table>
+                                    {% endif %}
+
+
+                                    <a
+                                        href="{% url 'reject_staff' staff.id %}"
+                                        class="action-btn btn-reject"
+                                    >
+
+                                        <i class="fa-solid fa-ban"></i>
+
+                                        Reject
+
+                                    </a>
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+                    {% empty %}
+
+
+                        <!-- EMPTY DATABASE -->
+
+                        <tr class="empty-row">
+
+                            <td colspan="7">
+
+
+                                <div class="empty-icon">
+
+                                    <i class="fa-solid fa-user-slash"></i>
+
+                                </div>
+
+
+                                <span class="empty-title">
+
+                                    No Staff Found
+
+                                </span>
+
+
+                                <span class="empty-text">
+
+                                    There are currently no registered university staff.
+
+                                </span>
+
+
+                            </td>
+
+                        </tr>
+
+
+                    {% endfor %}
+
+
+                    {% if staffs %}
+
+                        <!-- NO SEARCH RESULT -->
+
+                        <tr
+                            class="no-search-row"
+                            id="noStaffSearchResult"
+                        >
+
+                            <td colspan="7">
+
+
+                                <div class="no-search-icon">
+
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                                </div>
+
+
+                                <span class="no-search-title">
+
+                                    No Matching Staff Found
+
+                                </span>
+
+
+                                <span class="no-search-text">
+
+                                    No staff members match your search.
+                                    Try another name, email, phone or qualification.
+
+                                </span>
+
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+
+                    </tbody>
+
+                </table>
+
+
+            </div>
+
 
         </div>
 
     </div>
 
 </div>
+
+
+<!-- =========================================================
+     STAFF SEARCH SCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    const searchInput =
+        document.getElementById("staffSearch");
+
+
+    const clearSearch =
+        document.getElementById("clearStaffSearch");
+
+
+    const table =
+        document.getElementById("staffTable");
+
+
+    const visibleStaff =
+        document.getElementById("visibleStaff");
+
+
+    const noSearchResult =
+        document.getElementById("noStaffSearchResult");
+
+
+    if (!searchInput || !table) {
+        return;
+    }
+
+
+    const staffRows =
+        table.querySelectorAll(
+            "tbody tr.staff-row"
+        );
+
+
+    /* =====================================================
+       SEARCH FUNCTION
+    ===================================================== */
+
+    function performSearch() {
+
+
+        const searchValue =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        let visibleCount = 0;
+
+
+        staffRows.forEach(function (row) {
+
+
+            const rowText =
+                row.textContent
+                    .toLowerCase()
+                    .trim();
+
+
+            if (
+                searchValue === "" ||
+                rowText.includes(searchValue)
+            ) {
+
+                row.style.display = "";
+
+                visibleCount++;
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        /* =================================================
+           UPDATE COUNT
+        ================================================= */
+
+        if (visibleStaff) {
+
+            visibleStaff.textContent =
+                visibleCount;
+
+        }
+
+
+        /* =================================================
+           CLEAR BUTTON
+        ================================================= */
+
+        if (clearSearch) {
+
+            if (searchValue !== "") {
+
+                clearSearch.style.display =
+                    "flex";
+
+            } else {
+
+                clearSearch.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =================================================
+           NO RESULT
+        ================================================= */
+
+        if (noSearchResult) {
+
+            if (
+                searchValue !== "" &&
+                visibleCount === 0
+            ) {
+
+                noSearchResult.style.display =
+                    "table-row";
+
+            } else {
+
+                noSearchResult.style.display =
+                    "none";
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LIVE SEARCH
+    ===================================================== */
+
+    searchInput.addEventListener(
+        "input",
+        performSearch
+    );
+
+
+    /* =====================================================
+       CLEAR SEARCH
+    ===================================================== */
+
+    if (clearSearch) {
+
+        clearSearch.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value = "";
+
+                performSearch();
+
+                searchInput.focus();
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       ESC KEY
+    ===================================================== */
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                searchInput.value = "";
+
+                performSearch();
+
+                searchInput.focus();
+
+            }
+
+        }
+    );
+
+
+});
+
+</script>
+
 
 {% endblock %}

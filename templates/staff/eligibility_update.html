@@ -1,260 +1,790 @@
 {% extends "staff/staff_dashboard.html" %}
 
+{% block title %}Update Eligibility | MM-Technical University{% endblock %}
+
 {% block content %}
 
 <style>
     :root{
-        --navy-dark:#0B2C5C;
-        --navy:#16407E;
-        --navy-soft:#EAF0FA;
-        --blue-pale:#EEF3FB;
-        --blue-line:#D9E3F2;
-        --gold:#C9A227;
-        --ink:#1C2430;
-        --muted:#6B7383;
-        --error:#B23A48;
+        --navy-dark:#062B5C;
+        --navy:#0B3D7A;
+        --blue:#1769D1;
+        --blue-hover:#0F5DBE;
+        --blue-soft:#F4F8FD;
+        --blue-pale:#EAF3FF;
+        --blue-line:#D9E6F5;
+        --white:#FFFFFF;
+        --ink:#172033;
+        --muted:#6B7688;
+        --error:#C0394B;
+        --success:#198754;
     }
 
-    .edit-shell{
-        max-width:520px;
+    /* =========================
+       PAGE
+    ========================== */
+
+    .eligibility-page{
+        max-width:760px;
         margin:0 auto;
+        padding:8px 0 35px;
     }
 
-    .edit-card{
-        background:#fff;
-        border:1px solid var(--blue-line);
-        border-radius:14px;
-        overflow:hidden;
-        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
-    }
-
-    .edit-header{
-        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
-        color:#fff;
-        padding:26px 32px;
-        display:flex;
-        align-items:center;
-        gap:14px;
-        position:relative;
-    }
-
-    .edit-header::after{
-        content:"";
-        position:absolute;
-        left:0; right:0; bottom:0;
-        height:3px;
-        background:var(--gold);
-    }
-
-    .edit-header .icon-wrap{
-        width:42px; height:42px;
-        border-radius:10px;
-        background:rgba(255,255,255,0.14);
-        border:1px solid rgba(244,197,66,0.5);
-        display:flex; align-items:center; justify-content:center;
-        font-size:17px;
-        color:var(--gold);
-        flex:none;
-    }
-
-    .edit-header h4{
-        margin:0;
-        font-family:"Georgia","Times New Roman",serif;
-        font-weight:700;
-        font-size:18px;
-    }
-
-    .edit-header p{
-        margin:2px 0 0;
-        font-size:12.5px;
-        color:#C7D6EE;
-    }
-
-    .edit-body{
-        padding:30px 32px 28px;
-    }
-
-    .field-group{
+    .page-top{
         margin-bottom:18px;
     }
 
-    .field-group label{
-        display:block;
-        font-size:13px;
-        font-weight:600;
-        color:var(--ink);
-        margin-bottom:6px;
+    .page-breadcrumb{
+        display:flex;
+        align-items:center;
+        gap:7px;
+        color:var(--muted);
+        font-size:12px;
+        font-weight:500;
+        margin-bottom:7px;
     }
 
-    .field-group .form-control{
-        font-family:inherit;
-        font-size:14.5px;
-        padding:10px 14px;
-        border:1px solid #C7D2E3;
+    .page-breadcrumb i{
+        color:var(--blue);
+        font-size:11px;
+    }
+
+    .page-heading{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:15px;
+    }
+
+    .page-heading h3{
+        margin:0;
+        color:var(--ink);
+        font-size:22px;
+        font-weight:700;
+        letter-spacing:-.3px;
+    }
+
+    .page-heading p{
+        margin:4px 0 0;
+        color:var(--muted);
+        font-size:13px;
+    }
+
+    .department-code{
+        display:inline-flex;
+        align-items:center;
+        gap:7px;
+        padding:7px 11px;
+        border:1px solid var(--blue-line);
+        background:var(--blue-soft);
+        color:var(--navy);
         border-radius:8px;
+        font-size:11.5px;
+        font-weight:700;
+        white-space:nowrap;
+    }
+
+    .department-code i{
+        color:var(--blue);
+    }
+
+    /* =========================
+       MAIN CARD
+    ========================== */
+
+    .settings-card{
+        background:var(--white);
+        border:1px solid var(--blue-line);
+        border-radius:16px;
+        overflow:hidden;
+        box-shadow:
+            0 12px 35px rgba(6,43,92,.08),
+            0 2px 8px rgba(6,43,92,.03);
+    }
+
+    /* =========================
+       CARD HEADER
+    ========================== */
+
+    .card-header-custom{
+        position:relative;
+        padding:24px 28px;
+        background:linear-gradient(
+            135deg,
+            var(--navy-dark) 0%,
+            var(--navy) 60%,
+            #1556A5 100%
+        );
+        color:#fff;
+        overflow:hidden;
+    }
+
+    .card-header-custom::before{
+        content:"";
+        position:absolute;
+        width:170px;
+        height:170px;
+        border-radius:50%;
+        right:-55px;
+        top:-95px;
+        background:rgba(255,255,255,.07);
+    }
+
+    .card-header-custom::after{
+        content:"";
+        position:absolute;
+        width:110px;
+        height:110px;
+        border-radius:50%;
+        right:70px;
+        bottom:-85px;
+        background:rgba(255,255,255,.04);
+    }
+
+    .header-content{
+        position:relative;
+        z-index:2;
+        display:flex;
+        align-items:center;
+        gap:15px;
+    }
+
+    .header-icon{
+        width:48px;
+        height:48px;
+        flex:0 0 48px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:12px;
+        background:rgba(255,255,255,.12);
+        border:1px solid rgba(255,255,255,.16);
+        color:#fff;
+        font-size:19px;
+    }
+
+    .header-text{
+        min-width:0;
+    }
+
+    .header-text h4{
+        margin:0;
+        font-size:17px;
+        font-weight:700;
+        color:#fff;
+        letter-spacing:-.1px;
+    }
+
+    .header-text p{
+        margin:4px 0 0;
+        color:#C9D9EE;
+        font-size:12.5px;
+        line-height:1.5;
+    }
+
+    /* =========================
+       CARD BODY
+    ========================== */
+
+    .card-body-custom{
+        padding:28px;
+    }
+
+    .section-title{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-bottom:20px;
+    }
+
+    .section-icon{
+        width:34px;
+        height:34px;
+        border-radius:9px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:var(--blue-pale);
+        color:var(--blue);
+        font-size:13px;
+    }
+
+    .section-title h5{
+        margin:0;
+        color:var(--ink);
+        font-size:14px;
+        font-weight:700;
+    }
+
+    .section-title p{
+        margin:2px 0 0;
+        color:var(--muted);
+        font-size:11.5px;
+    }
+
+    /* =========================
+       FORM
+    ========================== */
+
+    .form-grid{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:20px;
+    }
+
+    .field-group{
+        margin:0;
+    }
+
+    .field-label{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        margin-bottom:7px;
+    }
+
+    .field-label label{
+        margin:0;
+        color:var(--ink);
+        font-size:13px;
+        font-weight:650;
+    }
+
+    .required-mark{
+        color:var(--error);
+        font-weight:700;
+    }
+
+    .field-icon{
+        color:#8A96A8;
+        font-size:11px;
+    }
+
+    .input-wrap{
+        position:relative;
+    }
+
+    .input-wrap .form-control{
+        width:100%;
+        min-height:46px;
+        padding:11px 14px;
+        border:1px solid #C9D5E5;
+        border-radius:9px;
         background:#FBFCFE;
         color:var(--ink);
+        font-family:inherit;
+        font-size:14px;
+        font-weight:500;
         outline:none;
-        width:100%;
         box-sizing:border-box;
-        transition:border-color .15s ease, box-shadow .15s ease;
+        transition:
+            border-color .18s ease,
+            box-shadow .18s ease,
+            background .18s ease;
     }
 
-    .field-group .form-control:focus{
-        border-color:var(--navy);
-        box-shadow:0 0 0 3px rgba(22,64,126,0.14);
+    .input-wrap .form-control:hover{
+        border-color:#AEBED3;
         background:#fff;
     }
 
-    .field-group.has-error .form-control{
-        border-color:var(--error);
+    .input-wrap .form-control:focus{
+        border-color:var(--blue);
+        background:#fff;
+        box-shadow:0 0 0 3px rgba(23,105,209,.11);
     }
 
-    .field-group.has-error .form-control:focus{
-        box-shadow:0 0 0 3px rgba(178,58,72,0.14);
+    .input-wrap .form-control::placeholder{
+        color:#A1ABBA;
+        font-weight:400;
+    }
+
+    .input-suffix{
+        position:absolute;
+        right:13px;
+        top:50%;
+        transform:translateY(-50%);
+        color:var(--muted);
+        font-size:12px;
+        font-weight:700;
+        pointer-events:none;
+    }
+
+    .has-suffix .form-control{
+        padding-right:45px;
     }
 
     .helptext{
-        font-size:12px;
+        display:flex;
+        align-items:center;
+        gap:5px;
+        margin-top:7px;
         color:var(--muted);
-        display:block;
-        margin-top:4px;
+        font-size:11.5px;
+        line-height:1.4;
+    }
+
+    .helptext i{
+        color:#7890AC;
+        font-size:10px;
+    }
+
+    /* =========================
+       ERRORS
+    ========================== */
+
+    .field-group.has-error .form-control{
+        border-color:var(--error);
+        background:#FFF9FA;
+    }
+
+    .field-group.has-error .form-control:focus{
+        border-color:var(--error);
+        box-shadow:0 0 0 3px rgba(192,57,75,.10);
     }
 
     ul.errorlist{
         list-style:none;
-        margin:4px 0 0;
         padding:0;
-        font-size:12.5px;
+        margin:7px 0 0;
         color:var(--error);
+        font-size:11.5px;
+    }
+
+    ul.errorlist li{
+        display:flex;
+        align-items:flex-start;
+        gap:5px;
+    }
+
+    ul.errorlist li::before{
+        content:"\f06a";
+        font-family:"Font Awesome 6 Free";
+        font-weight:900;
+        margin-top:2px;
     }
 
     .form-errors{
-        background:#FCEEF0;
-        border:1px solid rgba(178,58,72,0.3);
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+        padding:13px 15px;
+        margin-bottom:20px;
+        border:1px solid #F1C4CB;
+        border-radius:9px;
+        background:#FFF5F6;
         color:var(--error);
-        font-size:13px;
-        padding:12px 14px;
-        border-radius:8px;
-        margin-bottom:18px;
+        font-size:12.5px;
     }
 
-    .edit-actions{
+    .form-errors i{
+        margin-top:2px;
+    }
+
+    /* =========================
+       INFO BOX
+    ========================== */
+
+    .info-box{
         display:flex;
-        justify-content:flex-end;
-        gap:10px;
-        margin-top:10px;
-        padding-top:22px;
+        align-items:flex-start;
+        gap:11px;
+        margin-top:23px;
+        padding:13px 15px;
+        border:1px solid var(--blue-line);
+        border-radius:9px;
+        background:var(--blue-soft);
+    }
+
+    .info-box-icon{
+        width:28px;
+        height:28px;
+        flex:0 0 28px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:7px;
+        background:#fff;
+        color:var(--blue);
+        border:1px solid var(--blue-line);
+        font-size:11px;
+    }
+
+    .info-box-content strong{
+        display:block;
+        color:var(--ink);
+        font-size:12px;
+        font-weight:700;
+        margin-bottom:2px;
+    }
+
+    .info-box-content span{
+        color:var(--muted);
+        font-size:11.5px;
+        line-height:1.5;
+    }
+
+    /* =========================
+       ACTIONS
+    ========================== */
+
+    .form-actions{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:12px;
+        margin-top:26px;
+        padding-top:21px;
         border-top:1px solid var(--blue-line);
     }
 
-    .btn-save{
+    .btn-common{
         display:inline-flex;
         align-items:center;
+        justify-content:center;
         gap:8px;
-        background:var(--navy-dark);
-        color:#fff;
-        border:none;
-        font-size:13.5px;
-        font-weight:600;
-        padding:10px 20px;
-        border-radius:8px;
-        cursor:pointer;
+        min-height:42px;
+        padding:10px 18px;
+        border-radius:9px;
+        font-size:13px;
+        font-weight:650;
         text-decoration:none;
-        transition:background .15s ease, transform .1s ease;
+        cursor:pointer;
+        transition:
+            transform .15s ease,
+            box-shadow .15s ease,
+            background .15s ease,
+            border-color .15s ease;
     }
 
-    .btn-save:hover{ background:var(--navy); color:#fff; }
-    .btn-save:active{ transform:translateY(1px); }
-
     .btn-back{
-        display:inline-flex;
-        align-items:center;
-        gap:8px;
+        color:#526174;
         background:#fff;
-        color:var(--muted);
-        border:1px solid var(--blue-line);
-        font-size:13.5px;
-        font-weight:600;
-        padding:10px 20px;
-        border-radius:8px;
-        text-decoration:none;
-        transition:background .15s ease, color .15s ease;
+        border:1px solid #D4DFEC;
     }
 
     .btn-back:hover{
-        background:var(--blue-pale);
-        color:var(--ink);
+        color:var(--navy);
+        background:var(--blue-soft);
+        border-color:#C2D4EA;
     }
 
-    @media (max-width:576px){
-        .edit-body{ padding:24px 22px 22px; }
-        .edit-header{ padding:22px 22px; }
-        .edit-actions{ flex-direction:column-reverse; }
-        .btn-save, .btn-back{ justify-content:center; width:100%; }
+    .btn-save{
+        color:#fff;
+        background:linear-gradient(
+            135deg,
+            var(--blue),
+            var(--navy)
+        );
+        border:1px solid transparent;
+        box-shadow:0 5px 13px rgba(23,105,209,.20);
+    }
+
+    .btn-save:hover{
+        color:#fff;
+        background:linear-gradient(
+            135deg,
+            var(--blue-hover),
+            var(--navy-dark)
+        );
+        box-shadow:0 7px 18px rgba(23,105,209,.25);
+        transform:translateY(-1px);
+    }
+
+    .btn-save:active,
+    .btn-back:active{
+        transform:translateY(0);
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width:767px){
+
+        .eligibility-page{
+            padding:5px 0 25px;
+        }
+
+        .page-heading{
+            align-items:flex-start;
+            flex-direction:column;
+        }
+
+        .department-code{
+            align-self:flex-start;
+        }
+
+        .card-header-custom{
+            padding:21px;
+        }
+
+        .card-body-custom{
+            padding:22px 20px;
+        }
+
+        .form-grid{
+            grid-template-columns:1fr;
+            gap:18px;
+        }
+
+        .form-actions{
+            flex-direction:column-reverse;
+            align-items:stretch;
+        }
+
+        .btn-common{
+            width:100%;
+        }
+    }
+
+    @media (max-width:480px){
+
+        .page-heading h3{
+            font-size:20px;
+        }
+
+        .header-content{
+            align-items:flex-start;
+        }
+
+        .header-icon{
+            width:43px;
+            height:43px;
+            flex-basis:43px;
+        }
+
+        .header-text h4{
+            font-size:15px;
+        }
+
+        .header-text p{
+            font-size:11.5px;
+        }
+
+        .card-body-custom{
+            padding:20px 16px;
+        }
     }
 </style>
 
-<div class="edit-shell">
 
-    <div class="edit-card">
+<div class="eligibility-page">
 
-        <div class="edit-header">
-            <div class="icon-wrap"><i class="fa-solid fa-percent"></i></div>
-            <div>
-                <h4>{{ department.department_name }}</h4>
-                <p>Set the minimum eligibility percentage and course fee for this department</p>
-            </div>
+    <!-- PAGE HEADING -->
+    <div class="page-top">
+
+        <div class="page-breadcrumb">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Departments & Courses</span>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>Update</span>
         </div>
 
-        <div class="edit-body">
+        <div class="page-heading">
+
+            <div>
+                <h3>Department Settings</h3>
+                <p>Manage eligibility criteria and course fee information.</p>
+            </div>
+
+            <div class="department-code">
+                <i class="fa-solid fa-building-columns"></i>
+                {{ department.department_code }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN CARD -->
+    <div class="settings-card">
+
+        <!-- HEADER -->
+        <div class="card-header-custom">
+
+            <div class="header-content">
+
+                <div class="header-icon">
+                    <i class="fa-solid fa-sliders"></i>
+                </div>
+
+                <div class="header-text">
+                    <h4>{{ department.department_name }}</h4>
+                    <p>
+                        Update the admission eligibility percentage and course fee
+                        for this department.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BODY -->
+        <div class="card-body-custom">
+
+            <div class="section-title">
+
+                <div class="section-icon">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+
+                <div>
+                    <h5>Admission Criteria</h5>
+                    <p>Enter the required values below.</p>
+                </div>
+
+            </div>
+
 
             <form method="POST" novalidate>
+
                 {% csrf_token %}
 
+
+                <!-- NON FIELD ERRORS -->
                 {% if form.non_field_errors %}
+
                     <div class="form-errors">
-                        {% for error in form.non_field_errors %}
-                            {{ error }}
-                        {% endfor %}
+
+                        <i class="fa-solid fa-circle-exclamation"></i>
+
+                        <div>
+                            {% for error in form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
                     </div>
+
                 {% endif %}
 
-                <div class="field-group{% if form.eligibility_percentage.errors %} has-error{% endif %}">
-                    <label for="{{ form.eligibility_percentage.id_for_label }}">Eligibility Percentage</label>
-                    {{ form.eligibility_percentage }}
-                    <span class="helptext">Enter a value between 0 and 100.</span>
-                    {% if form.eligibility_percentage.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.eligibility_percentage.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+
+                <!-- FORM FIELDS -->
+                <div class="form-grid">
+
+
+                    <!-- ELIGIBILITY -->
+                    <div class="field-group{% if form.eligibility_percentage.errors %} has-error{% endif %}">
+
+                        <div class="field-label">
+
+                            <label for="{{ form.eligibility_percentage.id_for_label }}">
+                                Eligibility Percentage
+                                <span class="required-mark">*</span>
+                            </label>
+
+                            <i class="fa-solid fa-percent field-icon"></i>
+
+                        </div>
+
+                        <div class="input-wrap has-suffix">
+
+                            {{ form.eligibility_percentage }}
+
+                            <span class="input-suffix">%</span>
+
+                        </div>
+
+                        <span class="helptext">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Enter a value between 0 and 100.
+                        </span>
+
+                        {% if form.eligibility_percentage.errors %}
+
+                            <ul class="errorlist">
+
+                                {% for error in form.eligibility_percentage.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+
+                            </ul>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- COURSE FEE -->
+                    <div class="field-group{% if form.course_fee.errors %} has-error{% endif %}">
+
+                        <div class="field-label">
+
+                            <label for="{{ form.course_fee.id_for_label }}">
+                                Course Fee
+                                <span class="required-mark">*</span>
+                            </label>
+
+                            <i class="fa-solid fa-indian-rupee-sign field-icon"></i>
+
+                        </div>
+
+                        <div class="input-wrap has-suffix">
+
+                            {{ form.course_fee }}
+
+                            <span class="input-suffix">INR</span>
+
+                        </div>
+
+                        <span class="helptext">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Enter the course fee in Indian Rupees.
+                        </span>
+
+                        {% if form.course_fee.errors %}
+
+                            <ul class="errorlist">
+
+                                {% for error in form.course_fee.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+
+                            </ul>
+
+                        {% endif %}
+
+                    </div>
+
                 </div>
 
-                <div class="field-group{% if form.course_fee.errors %} has-error{% endif %}">
-                    <label for="{{ form.course_fee.id_for_label }}">Course Fee (₹)</label>
-                    {{ form.course_fee }}
-                    <span class="helptext">Enter the course fee in Indian Rupees.</span>
-                    {% if form.course_fee.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.course_fee.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+
+                <!-- INFORMATION -->
+                <div class="info-box">
+
+                    <div class="info-box-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+
+                    <div class="info-box-content">
+                        <strong>Staff Information</strong>
+                        <span>
+                            These values are used for the department's admission
+                            eligibility and course fee information.
+                        </span>
+                    </div>
+
                 </div>
 
-                <div class="edit-actions">
-                    <a href="{% url 'staff_course_list' %}" class="btn-back">
-                        Back
+
+                <!-- ACTIONS -->
+                <div class="form-actions">
+
+                    <a href="{% url 'staff_course_list' %}" class="btn-common btn-back">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back to Departments
                     </a>
 
-                    <button type="submit" class="btn-save">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        Save
+                    <button type="submit" class="btn-common btn-save">
+                        <i class="fa-solid fa-check"></i>
+                        Save Changes
                     </button>
+
                 </div>
 
             </form>

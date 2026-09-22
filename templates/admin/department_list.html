@@ -4,226 +4,714 @@
 
 <style>
     :root{
-        --navy-dark:#0B2C5C;
-        --navy:#16407E;
-        --navy-soft:#EAF0FA;
-        --blue-pale:#EEF3FB;
-        --blue-line:#D9E3F2;
-        --gold:#C9A227;
-        --ink:#1C2430;
-        --muted:#6B7383;
-        --amber:#B8791F;
-        --amber-soft:#FBF2DC;
-        --red:#B23A48;
-        --red-soft:#FBEAEC;
+        --navy-dark:#062B5C;
+        --navy:#0B3D7A;
+        --blue:#1769D1;
+        --blue-soft:#EEF5FF;
+        --blue-line:#DBE7F5;
+        --ink:#172033;
+        --muted:#6B7688;
+
+        --amber:#B7791F;
+        --amber-soft:#FFF7E6;
+
+        --red:#C0394B;
+        --red-soft:#FCECEF;
     }
 
-    .staff-panel{
-        max-width:1160px;
-        margin:0 auto;
+    /* =========================
+       MAIN PANEL
+    ========================== */
+
+    .department-panel{
+        width:100%;
+        max-width:1180px;
+        margin:22px auto 0;
         background:#fff;
         border:1px solid var(--blue-line);
-        border-radius:12px;
+        border-radius:14px;
         overflow:hidden;
-        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+        box-shadow:0 12px 35px rgba(6,43,92,0.08);
+        font-family:"Poppins",sans-serif;
     }
 
-    .staff-panel .panel-head{
-        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .department-panel .panel-head{
+        background:linear-gradient(135deg,#062B5C,#0B3D7A);
         color:#fff;
-        padding:20px 24px;
+        padding:18px 22px;
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap:16px;
+        gap:15px;
         flex-wrap:wrap;
         position:relative;
     }
 
-    .staff-panel .panel-head::after{
+    .department-panel .panel-head::after{
         content:"";
         position:absolute;
-        left:0; right:0; bottom:0;
+        left:0;
+        right:0;
+        bottom:0;
         height:3px;
-        background:var(--gold);
+        background:#1769D1;
     }
 
-    .staff-panel .panel-head h4{
-        margin:0;
-        font-family:"Georgia","Times New Roman",serif;
-        font-weight:700;
-        font-size:19px;
+    .panel-title{
         display:flex;
         align-items:center;
-        gap:10px;
+        gap:11px;
     }
 
-    .staff-panel .panel-head h4 i{ color:var(--gold); }
+    .panel-title-icon{
+        width:38px;
+        height:38px;
+        border-radius:9px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:rgba(255,255,255,.12);
+        border:1px solid rgba(255,255,255,.16);
+        font-size:16px;
+    }
+
+    .panel-title h4{
+        margin:0;
+        font-family:"Poppins",sans-serif;
+        font-size:18px;
+        font-weight:700;
+    }
+
+    .panel-subtitle{
+        margin:3px 0 0;
+        font-size:11px;
+        color:rgba(255,255,255,.72);
+    }
+
+
+    /* =========================
+       ADD BUTTON
+    ========================== */
 
     .btn-add-dept{
         display:inline-flex;
         align-items:center;
-        gap:8px;
-        background:var(--gold);
+        justify-content:center;
+        gap:7px;
+        background:#fff;
         color:var(--navy-dark);
-        font-size:13px;
+        border:1px solid rgba(255,255,255,.35);
+        font-size:11.5px;
         font-weight:700;
-        padding:9px 16px;
-        border-radius:8px;
+        padding:8px 13px;
+        min-height:34px;
+        border-radius:7px;
         text-decoration:none;
-        transition:background .15s ease, transform .1s ease;
+        white-space:nowrap;
+        transition:.18s ease;
     }
 
     .btn-add-dept:hover{
-        background:#DDB438;
+        background:#EAF3FF;
         color:var(--navy-dark);
+        transform:translateY(-1px);
     }
 
-    .btn-add-dept:active{ transform:translateY(1px); }
 
-    .staff-panel .panel-body{
-        padding:22px 24px 26px;
+    /* =========================
+       BODY
+    ========================== */
+
+    .department-panel .panel-body{
+        padding:18px 20px 20px;
     }
 
-    table.staff-table{
+
+    /* =========================
+       SEARCH TOOLBAR
+    ========================== */
+
+    .department-toolbar{
         width:100%;
-        border-collapse:collapse;
-        font-size:13.5px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        margin-bottom:13px;
+        flex-wrap:wrap;
     }
 
-    table.staff-table thead th{
-        background:var(--navy-soft);
-        color:var(--navy-dark);
-        text-transform:uppercase;
-        letter-spacing:0.05em;
+    .department-search{
+        position:relative;
+        width:100%;
+        max-width:390px;
+    }
+
+    .department-search-icon{
+        position:absolute;
+        left:12px;
+        top:50%;
+        transform:translateY(-50%);
+        color:#7B8DA6;
+        font-size:12px;
+        pointer-events:none;
+        z-index:2;
+    }
+
+    .department-search input{
+        width:100%;
+        height:36px;
+        padding:0 38px 0 34px;
+        border:1px solid var(--blue-line);
+        border-radius:8px;
+        background:#F8FBFF;
+        color:var(--ink);
+        font-family:"Poppins",sans-serif;
         font-size:11px;
+        outline:none;
+        transition:.18s ease;
+    }
+
+    .department-search input::placeholder{
+        color:#98A5B7;
+    }
+
+    .department-search input:focus{
+        background:#fff;
+        border-color:#8FB6E8;
+        box-shadow:0 0 0 3px rgba(23,105,209,.08);
+    }
+
+    .clear-department-search{
+        position:absolute;
+        right:9px;
+        top:50%;
+        transform:translateY(-50%);
+        width:23px;
+        height:23px;
+        display:none;
+        align-items:center;
+        justify-content:center;
+        border:none;
+        border-radius:5px;
+        background:#EAF2FC;
+        color:#5D7190;
+        cursor:pointer;
+        font-size:10px;
+        transition:.15s ease;
+    }
+
+    .clear-department-search:hover{
+        background:#DCE9F8;
+        color:var(--navy);
+    }
+
+    .department-search-result{
+        color:#7A8799;
+        font-size:10.5px;
+        font-weight:500;
+        white-space:nowrap;
+    }
+
+    .department-search-result strong{
+        color:var(--navy);
         font-weight:700;
-        padding:12px 14px;
-        border-bottom:2px solid var(--blue-line);
+    }
+
+
+    /* =========================
+       TABLE WRAPPER
+    ========================== */
+
+    .department-table-wrapper{
+        width:100%;
+        overflow-x:auto;
+        overflow-y:hidden;
+        border:1px solid var(--blue-line);
+        border-radius:10px;
+    }
+
+    .department-table-wrapper::-webkit-scrollbar{
+        height:6px;
+    }
+
+    .department-table-wrapper::-webkit-scrollbar-track{
+        background:#F1F5FA;
+    }
+
+    .department-table-wrapper::-webkit-scrollbar-thumb{
+        background:#B7CBE4;
+        border-radius:10px;
+    }
+
+
+    /* =========================
+       TABLE
+    ========================== */
+
+    table.department-table{
+        width:100%;
+        min-width:850px;
+        table-layout:fixed;
+        border-collapse:collapse;
+        font-family:"Poppins",sans-serif;
+        font-size:11.5px;
+    }
+
+
+    /* COLUMN WIDTHS */
+
+    table.department-table th:nth-child(1){
+        width:6%;
+    }
+
+    table.department-table th:nth-child(2){
+        width:23%;
+    }
+
+    table.department-table th:nth-child(3){
+        width:13%;
+    }
+
+    table.department-table th:nth-child(4){
+        width:28%;
+    }
+
+    table.department-table th:nth-child(5){
+        width:15%;
+    }
+
+    table.department-table th:nth-child(6){
+        width:15%;
+    }
+
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    table.department-table thead th{
+        background:#F2F7FD;
+        color:#123E73;
+        text-transform:uppercase;
+        letter-spacing:.045em;
+        font-size:10px;
+        font-weight:700;
+        padding:11px 10px;
+        border-bottom:1px solid var(--blue-line);
         text-align:left;
         white-space:nowrap;
     }
 
-    table.staff-table tbody td{
-        padding:13px 14px;
-        border-bottom:1px solid #F0F3F9;
+
+    /* =========================
+       BODY
+    ========================== */
+
+    table.department-table tbody td{
+        padding:11px 10px;
+        height:54px;
+        border-bottom:1px solid #EDF2F7;
         vertical-align:middle;
         color:var(--ink);
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
     }
 
-    table.staff-table tbody tr:hover{
-        background:var(--blue-pale);
+    table.department-table tbody tr:last-child td{
+        border-bottom:none;
     }
+
+    table.department-table tbody tr{
+        transition:background .18s ease;
+    }
+
+    table.department-table tbody tr:hover{
+        background:#F7FAFE;
+    }
+
+
+    /* =========================
+       DEPARTMENT NAME
+    ========================== */
 
     .dept-name{
-        font-weight:600;
         display:flex;
         align-items:center;
+        min-width:0;
+        color:#102F57;
+        font-size:11.5px;
+        font-weight:600;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
     }
 
     .dept-name i{
-        color:var(--navy) !important;
+        flex:0 0 auto;
+        width:27px;
+        height:27px;
+        margin-right:8px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:7px;
+        background:var(--blue-soft);
+        color:var(--blue) !important;
+        font-size:11px;
     }
+
+    .dept-name span{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+
+
+    /* =========================
+       DEPARTMENT CODE
+    ========================== */
 
     .dept-code{
-        display:inline-block;
-        background:var(--navy-soft);
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        max-width:100%;
+        background:var(--blue-soft);
         color:var(--navy);
-        font-size:11.5px;
+        border:1px solid #DCEAFF;
+        font-size:10px;
         font-weight:700;
-        letter-spacing:0.03em;
-        padding:4px 10px;
+        letter-spacing:.04em;
+        padding:5px 9px;
         border-radius:6px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
     }
 
+
+    /* =========================
+       DESCRIPTION
+    ========================== */
+
     .dept-desc{
-        color:var(--muted);
-        max-width:280px;
+        color:var(--muted) !important;
+        font-size:11px;
     }
+
+
+    /* =========================
+       DATE
+    ========================== */
+
+    .created-date{
+        color:#4E5D72;
+        font-size:10.8px;
+        font-weight:500;
+        white-space:nowrap;
+    }
+
+
+    /* =========================
+       ACTIONS
+    ========================== */
 
     .row-actions{
         display:flex;
+        align-items:center;
         gap:6px;
     }
 
     .btn-icon{
-        width:32px; height:32px;
+        width:30px;
+        height:30px;
         display:inline-flex;
         align-items:center;
         justify-content:center;
         border-radius:6px;
         text-decoration:none;
-        font-size:12.5px;
-        transition:background .15s ease, color .15s ease;
+        font-size:11.5px;
+        transition:.18s ease;
     }
 
     .btn-icon.edit{
         background:var(--amber-soft);
         color:var(--amber);
+        border:1px solid #F3E2B9;
     }
 
     .btn-icon.edit:hover{
         background:var(--amber);
         color:#fff;
+        border-color:var(--amber);
+        transform:translateY(-1px);
     }
 
     .btn-icon.delete{
         background:var(--red-soft);
         color:var(--red);
+        border:1px solid #F3D5DA;
     }
 
     .btn-icon.delete:hover{
         background:var(--red);
         color:#fff;
+        border-color:var(--red);
+        transform:translateY(-1px);
     }
+
+
+    /* =========================
+       SEARCH EMPTY STATE
+    ========================== */
+
+    .search-empty-state{
+        text-align:center;
+        padding:38px 20px !important;
+        white-space:normal !important;
+    }
+
+    .search-empty-icon{
+        width:46px;
+        height:46px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        margin:0 auto 10px;
+        border-radius:50%;
+        background:var(--blue-soft);
+        color:#7FA5D1;
+        font-size:17px;
+    }
+
+    .search-empty-state h5{
+        margin:0 0 5px;
+        font-size:13px;
+        font-weight:700;
+        color:var(--navy-dark);
+    }
+
+    .search-empty-state p{
+        margin:0;
+        color:var(--muted);
+        font-size:10.5px;
+    }
+
+
+    /* =========================
+       EMPTY STATE
+    ========================== */
 
     .empty-state{
         text-align:center;
-        padding:48px 20px;
+        padding:42px 20px;
+        white-space:normal;
     }
 
     .empty-state i{
-        font-size:44px;
-        color:var(--blue-line);
-        margin-bottom:14px;
+        width:48px;
+        height:48px;
+        line-height:48px;
         display:block;
+        margin:0 auto 11px;
+        border-radius:50%;
+        background:var(--blue-soft);
+        color:#9BB6D5;
+        font-size:19px;
     }
 
     .empty-state h5{
-        font-family:"Georgia",serif;
+        font-family:"Poppins",sans-serif;
+        font-size:14px;
         font-weight:700;
         color:var(--navy-dark);
-        margin-bottom:6px;
+        margin-bottom:5px;
     }
 
     .empty-state p{
         color:var(--muted);
-        font-size:13.5px;
-        margin-bottom:18px;
+        font-size:11px;
+        margin-bottom:16px;
+    }
+
+    .empty-state .btn-add-dept{
+        background:var(--navy);
+        color:#fff;
+        border-color:var(--navy);
+    }
+
+    .empty-state .btn-add-dept:hover{
+        background:var(--blue);
+        color:#fff;
+        border-color:var(--blue);
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width:900px){
+
+        .department-panel{
+            margin-top:16px;
+            border-radius:11px;
+        }
+
+        .department-panel .panel-head{
+            padding:16px;
+        }
+
+        .department-panel .panel-body{
+            padding:14px;
+        }
+
+        .panel-title h4{
+            font-size:16px;
+        }
+
+        .panel-subtitle{
+            font-size:10px;
+        }
+    }
+
+
+    @media (max-width:600px){
+
+        .department-panel .panel-head{
+            align-items:flex-start;
+        }
+
+        .panel-title-icon{
+            width:34px;
+            height:34px;
+        }
+
+        .panel-title h4{
+            font-size:15px;
+        }
+
+        .department-panel .panel-body{
+            padding:10px;
+        }
+
+        .department-toolbar{
+            align-items:stretch;
+            flex-direction:column;
+        }
+
+        .department-search{
+            max-width:none;
+        }
+
+        .department-search-result{
+            font-size:10px;
+        }
+
+        table.department-table{
+            min-width:850px;
+        }
     }
 </style>
 
-<div class="staff-panel">
 
+<div class="department-panel">
+
+    <!-- HEADER -->
     <div class="panel-head">
-        <h4>
-            <i class="fa-solid fa-building-columns"></i>
-            Department List
-        </h4>
+
+        <div class="panel-title">
+
+            <div class="panel-title-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </div>
+
+            <div>
+                <h4>Department Management</h4>
+
+                <p class="panel-subtitle">
+                    View and manage university departments
+                </p>
+            </div>
+
+        </div>
+
 
         <a href="{% url 'department_add' %}" class="btn-add-dept">
+
             <i class="fa-solid fa-plus"></i>
+
             Add Department
+
         </a>
+
     </div>
 
+
+    <!-- BODY -->
     <div class="panel-body">
 
-        <div class="table-responsive">
 
-            <table class="staff-table">
+        <!-- SEARCH TOOLBAR -->
+        <div class="department-toolbar">
+
+            <div class="department-search">
+
+                <i class="fa-solid fa-magnifying-glass department-search-icon"></i>
+
+                <input
+                    type="text"
+                    id="departmentSearch"
+                    placeholder="Search departments by name, code, description..."
+                    autocomplete="off"
+                >
+
+                <button
+                    type="button"
+                    id="clearDepartmentSearch"
+                    class="clear-department-search"
+                    title="Clear Search"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <div class="department-search-result">
+
+                Showing
+                <strong id="visibleDepartments">
+                    {{ departments|length }}
+                </strong>
+                of
+                <strong>
+                    {{ departments|length }}
+                </strong>
+                departments
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="department-table-wrapper">
+
+            <table
+                class="department-table"
+                id="departmentTable"
+            >
 
                 <thead>
+
                     <tr>
                         <th>#</th>
                         <th>Department Name</th>
@@ -232,65 +720,170 @@
                         <th>Created</th>
                         <th>Action</th>
                     </tr>
+
                 </thead>
+
 
                 <tbody>
 
                 {% for department in departments %}
 
-                    <tr>
+                    <tr class="department-row">
 
-                        <td>{{ forloop.counter }}</td>
-
+                        <!-- NUMBER -->
                         <td>
+                            {{ forloop.counter }}
+                        </td>
+
+
+                        <!-- DEPARTMENT NAME -->
+                        <td title="{{ department.department_name }}">
+
                             <div class="dept-name">
-                                <i class="fa-solid fa-building-columns me-2"></i>
-                                {{ department.department_name }}
+
+                                <i class="fa-solid fa-building-columns"></i>
+
+                                <span>
+                                    {{ department.department_name }}
+                                </span>
+
                             </div>
+
                         </td>
 
-                        <td>
-                            <span class="dept-code">{{ department.department_code }}</span>
+
+                        <!-- CODE -->
+                        <td title="{{ department.department_code }}">
+
+                            <span class="dept-code">
+                                {{ department.department_code }}
+                            </span>
+
                         </td>
 
-                        <td class="dept-desc">
+
+                        <!-- DESCRIPTION -->
+                        <td
+                            class="dept-desc"
+                            title="{{ department.description|default:'—' }}"
+                        >
                             {{ department.description|default:"—" }}
                         </td>
 
+
+                        <!-- CREATED DATE -->
                         <td>
-                            {{ department.created_at|date:"d M Y" }}
+
+                            <span class="created-date">
+
+                                <i class="fa-regular fa-calendar me-1"></i>
+
+                                {{ department.created_at|date:"d M Y" }}
+
+                            </span>
+
                         </td>
 
+
+                        <!-- ACTION -->
                         <td>
+
                             <div class="row-actions">
-                                <a href="{% url 'department_edit' department.id %}" class="btn-icon edit" title="Edit">
+
+                                <a
+                                    href="{% url 'department_edit' department.id %}"
+                                    class="btn-icon edit"
+                                    title="Edit Department"
+                                >
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{% url 'department_delete' department.id %}" class="btn-icon delete" title="Delete">
+
+
+                                <a
+                                    href="{% url 'department_delete' department.id %}"
+                                    class="btn-icon delete"
+                                    title="Delete Department"
+                                >
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
+
                             </div>
+
                         </td>
 
                     </tr>
+
 
                 {% empty %}
 
-                    <tr>
+                    <tr id="noDepartmentsAvailable">
+
                         <td colspan="6">
+
                             <div class="empty-state">
+
                                 <i class="fa-solid fa-building-columns"></i>
+
                                 <h5>No Departments Found</h5>
-                                <p>Click <b>Add Department</b> to create your first department.</p>
-                                <a href="{% url 'department_add' %}" class="btn-add-dept">
+
+                                <p>
+                                    Click <b>Add Department</b>
+                                    to create your first department.
+                                </p>
+
+                                <a
+                                    href="{% url 'department_add' %}"
+                                    class="btn-add-dept"
+                                >
+
                                     <i class="fa-solid fa-plus"></i>
+
                                     Add Department
+
                                 </a>
+
                             </div>
+
                         </td>
+
                     </tr>
 
                 {% endfor %}
+
+
+                <!-- SEARCH NO RESULT -->
+                {% if departments %}
+
+                    <tr
+                        id="noDepartmentSearchResult"
+                        style="display:none;"
+                    >
+
+                        <td
+                            colspan="6"
+                            class="search-empty-state"
+                        >
+
+                            <div class="search-empty-icon">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                            </div>
+
+                            <h5>
+                                No Matching Departments Found
+                            </h5>
+
+                            <p>
+                                Try searching with another department
+                                name, code, or description.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
 
                 </tbody>
 
@@ -301,5 +894,161 @@
     </div>
 
 </div>
+
+
+<!-- =========================
+     DEPARTMENT SEARCH SCRIPT
+========================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.getElementById("departmentSearch");
+
+    const clearSearch =
+        document.getElementById("clearDepartmentSearch");
+
+    const table =
+        document.getElementById("departmentTable");
+
+    const visibleDepartments =
+        document.getElementById("visibleDepartments");
+
+    const noSearchResult =
+        document.getElementById("noDepartmentSearchResult");
+
+
+    if (!searchInput || !table) {
+        return;
+    }
+
+
+    const departmentRows =
+        table.querySelectorAll(
+            "tbody tr.department-row"
+        );
+
+
+    function performSearch() {
+
+        const searchValue =
+            searchInput.value.toLowerCase().trim();
+
+        let visibleCount = 0;
+
+
+        departmentRows.forEach(function (row) {
+
+            const rowText =
+                row.textContent.toLowerCase().trim();
+
+
+            const isMatch =
+                searchValue === "" ||
+                rowText.includes(searchValue);
+
+
+            if (isMatch) {
+
+                row.style.display = "";
+
+                visibleCount++;
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+
+        /* UPDATE RESULT COUNT */
+
+        if (visibleDepartments) {
+
+            visibleDepartments.textContent =
+                visibleCount;
+
+        }
+
+
+        /* SHOW / HIDE CLEAR BUTTON */
+
+        if (clearSearch) {
+
+            clearSearch.style.display =
+                searchValue !== ""
+                    ? "flex"
+                    : "none";
+
+        }
+
+
+        /* SHOW / HIDE NO RESULT */
+
+        if (noSearchResult) {
+
+            noSearchResult.style.display =
+                searchValue !== "" &&
+                visibleCount === 0
+                    ? "table-row"
+                    : "none";
+
+        }
+
+    }
+
+
+    /* LIVE SEARCH */
+
+    searchInput.addEventListener(
+        "input",
+        performSearch
+    );
+
+
+    /* CLEAR BUTTON */
+
+    if (clearSearch) {
+
+        clearSearch.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value = "";
+
+                performSearch();
+
+                searchInput.focus();
+
+            }
+        );
+
+    }
+
+
+    /* ESCAPE TO CLEAR */
+
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                searchInput.value = "";
+
+                performSearch();
+
+                searchInput.focus();
+
+            }
+
+        }
+    );
+
+});
+</script>
 
 {% endblock %}

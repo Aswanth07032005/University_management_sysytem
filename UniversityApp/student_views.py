@@ -1,9 +1,4 @@
-from django.core.mail import send_mail
-from django.utils import timezone
-
-import render
-
-
+from django.contrib.auth.decorators import login_required
 from UniversityApp.forms import StudentForm, RegisterForm, StudentProfileForm, AdmissionApplicationForm
 from UniversityProject import settings
 
@@ -45,6 +40,9 @@ def StudentRegisterView(request):
     )
 
 
+
+
+
 def student_dashboard(request):
     return render(request,'student/student_dashboard.html')
 
@@ -52,8 +50,10 @@ def student_dashboard(request):
 
 
 
-
+@login_required(login_url="login_p")
 def StudentProfileView(request):
+    if not request.user.is_student:
+        return redirect("login_p")
 
     student = Student.objects.get(
         user=request.user
@@ -69,10 +69,10 @@ def StudentProfileView(request):
 
 
 
-
-
+@login_required(login_url="login_p")
 def StudentProfileEditView(request):
-
+    if not request.user.is_student:
+        return redirect("login_p")
     student = Student.objects.get(
         user=request.user
     )
@@ -116,9 +116,12 @@ from .models import (
 
 from django.shortcuts import render
 
+@login_required(login_url="login_p")
 
 def AdmissionView(request):
 
+    if not request.user.is_student:
+        return redirect("login_p")
     return render(
         request,
         "student/admission.html"
@@ -132,9 +135,13 @@ def AdmissionView(request):
 
 
 from .forms import AdmissionApplicationForm
+@login_required(login_url="login_p")
 
 def admission_apply(request):
 
+
+    if not request.user.is_student:
+        return redirect("login_p")
     # =====================================================
     # GET CURRENT STUDENT
     # =====================================================
@@ -295,9 +302,13 @@ from django.core.mail import send_mail
 
 
 
+@login_required(login_url="login_p")
 
 def payment(request):
 
+
+    if not request.user.is_student:
+        return redirect("login_p")
     student = Student.objects.get(
         user=request.user
     )
@@ -397,9 +408,13 @@ University Admission Office
         }
     )
 
+@login_required(login_url="login_p")
 
 def Application_success(request):
 
+
+    if not request.user.is_student:
+        return redirect("login_p")
     amount = request.session.get(
         "success_payment_amount",
         0
@@ -428,9 +443,12 @@ from django.shortcuts import render
 from UniversityApp.models import Student, AdmissionApplication
 
 
-@login_required(login_url="StudentLogin")
+@login_required(login_url="login_p")
+
 def StudentApplicationsView(request):
 
+    if not request.user.is_student:
+        return redirect("login_p")
     student = Student.objects.get(
         user=request.user
     )
@@ -993,9 +1011,13 @@ def build_declaration_section(styles):
 # VIEW
 # ============================================================
 
-@login_required(login_url="StudentLogin")
+@login_required(login_url="login_p")
+
 def ApplicationReportView(request):
 
+
+    if not request.user.is_student:
+        return redirect("login_p")
     student = get_object_or_404(
         Student.objects.select_related("user"),
         user=request.user,
@@ -1091,10 +1113,13 @@ from .models import (
 
 from .forms import AdmissionApplicationEditForm
 
+@login_required(login_url="login_p")
 
-@login_required(login_url="StudentLogin")
 def ApplicationEditView(request, pk):
 
+
+    if not request.user.is_student:
+        return redirect("login_p")
     student = get_object_or_404(
         Student,
         user=request.user
@@ -1172,7 +1197,7 @@ def ApplicationEditView(request, pk):
 
 
 
-@login_required(login_url="StudentLogin")
+
 def ApplicationDeleteView(request, pk):
 
     student = get_object_or_404(
@@ -1221,7 +1246,7 @@ def ApplicationDeleteView(request, pk):
 
 
 # AJAX - Load courses according to college
-@login_required(login_url="StudentLogin")
+
 def LoadCollegeCourses(request):
 
     college_id = request.GET.get("college_id")
@@ -1338,6 +1363,7 @@ def CoursesByCollegeView(request):
 
 
 
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 
@@ -1345,6 +1371,7 @@ from .models import (
     Student,
     AdmissionApplication,
 )
+
 
 @login_required(login_url="StudentLogin")
 def AdmissionStatusView(request):
@@ -1383,13 +1410,22 @@ def AdmissionStatusView(request):
 
     context = {
 
-        "student": student,
+        "student":
+            student,
 
-        "applications": applications,
+        "applications":
+            applications,
 
-        # ---------------------------------------------
+        # =================================================
+        # ADMISSION STATUS
+        # =================================================
+
+        "admission_status":
+            student.admission_status,
+
+        # =================================================
         # ALLOTMENT DETAILS
-        # ---------------------------------------------
+        # =================================================
 
         "allotted_college":
             student.allotted_college,
@@ -1399,6 +1435,7 @@ def AdmissionStatusView(request):
 
         "allotted_date":
             student.allotted_date,
+
     }
 
     # =====================================================
@@ -1410,3 +1447,385 @@ def AdmissionStatusView(request):
         "student/admission_status.html",
         context
     )
+
+
+
+
+
+
+
+
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import mm
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Paragraph,
+    Spacer,
+    Table,
+    TableStyle
+)
+
+from .models import Student, AdmissionApplication
+
+
+
+
+
+
+
+
+
+
+
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import mm
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
+)
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+
+
+# =========================================================
+# COLOR PALETTE  (blue & white theme)
+# =========================================================
+NAVY = colors.HexColor("#0F2E5C")     # primary deep blue
+BLUE = colors.HexColor("#1C5FA8")     # accent blue
+LIGHT_BLUE = colors.HexColor("#EAF2FB")   # panel background
+LINE_BLUE = colors.HexColor("#C7D9EF")    # borders / grid
+SLATE = colors.HexColor("#33475B")    # body text
+MUTED = colors.HexColor("#6E809A")    # muted / captions
+WHITE = colors.white
+
+
+@login_required(login_url="StudentLogin")
+def AdmissionSlipDownloadView(request, application_id):
+
+    student = get_object_or_404(Student, user=request.user)
+
+    application = get_object_or_404(
+        AdmissionApplication.objects.select_related(
+            "student", "college", "department", "course"
+        ),
+        id=application_id,
+        student=student,
+    )
+
+    if application.status != "Approved":
+        return HttpResponse(
+            "Admission slip is available only for approved applications.",
+            status=403,
+        )
+
+    # -----------------------------------------------------
+    # PDF response
+    # -----------------------------------------------------
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = (
+        f'attachment; filename="MMTU_Admission_Slip_APP-{application.id:05d}.pdf"'
+    )
+
+    doc = SimpleDocTemplate(
+        response,
+        pagesize=A4,
+        rightMargin=16 * mm,
+        leftMargin=16 * mm,
+        topMargin=12 * mm,
+        bottomMargin=12 * mm,
+    )
+
+    # -----------------------------------------------------
+    # Styles
+    # -----------------------------------------------------
+    base = getSampleStyleSheet()
+
+    university_style = ParagraphStyle(
+        "University", parent=base["Normal"], fontName="Helvetica-Bold",
+        fontSize=19, leading=22, alignment=TA_CENTER, textColor=WHITE,
+    )
+    university_sub = ParagraphStyle(
+        "UniversitySub", parent=base["Normal"], fontName="Helvetica",
+        fontSize=8, leading=11, alignment=TA_CENTER,
+        textColor=colors.HexColor("#CFE0F5"),
+    )
+    doc_title = ParagraphStyle(
+        "DocTitle", parent=base["Normal"], fontName="Helvetica-Bold",
+        fontSize=14, leading=17, alignment=TA_CENTER, textColor=NAVY,
+        spaceBefore=10, spaceAfter=2,
+    )
+    doc_sub = ParagraphStyle(
+        "DocSub", parent=base["Normal"], fontName="Helvetica",
+        fontSize=8, leading=11, alignment=TA_CENTER, textColor=MUTED,
+        spaceAfter=10,
+    )
+    section_style = ParagraphStyle(
+        "Section", parent=base["Normal"], fontName="Helvetica-Bold",
+        fontSize=8.5, leading=11, textColor=NAVY, spaceAfter=5,
+    )
+    normal_style = ParagraphStyle(
+        "Normal2", parent=base["Normal"], fontName="Helvetica",
+        fontSize=8.3, leading=11.5, textColor=SLATE,
+    )
+    small_style = ParagraphStyle(
+        "Small", parent=base["Normal"], fontName="Helvetica",
+        fontSize=7.3, leading=10, textColor=MUTED,
+    )
+    center_small = ParagraphStyle(
+        "CenterSmall", parent=small_style, alignment=TA_CENTER,
+    )
+    footer_style = ParagraphStyle(
+        "Footer", parent=base["Normal"], fontName="Helvetica",
+        fontSize=6.8, leading=9, alignment=TA_CENTER, textColor=MUTED,
+    )
+    label_cell = ParagraphStyle(
+        "LabelCell", parent=normal_style, fontName="Helvetica-Bold",
+        fontSize=8, textColor=NAVY,
+    )
+    value_cell = ParagraphStyle(
+        "ValueCell", parent=normal_style, fontSize=8.3, textColor=SLATE,
+    )
+
+    story = []
+    FULL_W = 178 * mm
+
+    # =====================================================
+    # HEADER BANNER (navy block)
+    # =====================================================
+    header_content = [[
+        Paragraph("MM TECHNICAL UNIVERSITY", university_style),
+    ], [
+        Paragraph(
+            "OFFICE OF THE UNIVERSITY ADMISSIONS &nbsp;•&nbsp; "
+            "Academic Affairs &nbsp;•&nbsp; Student Services",
+            university_sub,
+        ),
+    ]]
+
+    header_table = Table(header_content, colWidths=[FULL_W])
+    header_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), NAVY),
+        ("TOPPADDING", (0, 0), (0, 0), 12),
+        ("BOTTOMPADDING", (0, 0), (0, 0), 2),
+        ("TOPPADDING", (0, 1), (0, 1), 0),
+        ("BOTTOMPADDING", (0, 1), (0, 1), 12),
+    ]))
+    story.append(header_table)
+
+    # thin accent line under banner
+    accent = Table([[""]], colWidths=[FULL_W], rowHeights=[2.2])
+    accent.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), BLUE)]))
+    story.append(accent)
+
+    story.append(Paragraph("ADMISSION SLIP", doc_title))
+    story.append(Paragraph("Official Admission Approval &amp; Confirmation", doc_sub))
+
+    # =====================================================
+    # META STRIP
+    # =====================================================
+    application_number = f"APP-{application.id:05d}"
+    issue_date = (
+        application.applied_date.strftime("%d %B %Y")
+        if application.applied_date else "—"
+    )
+
+    meta_table = Table(
+        [[
+            Paragraph(f"<b>APPLICATION NO.</b><br/>{application_number}", normal_style),
+            Paragraph("<b>DOCUMENT TYPE</b><br/>Admission Slip", normal_style),
+            Paragraph(f"<b>ISSUE DATE</b><br/>{issue_date}", normal_style),
+        ]],
+        colWidths=[FULL_W / 3] * 3,
+    )
+    meta_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BLUE),
+        ("BOX", (0, 0), (-1, -1), 0.7, LINE_BLUE),
+        ("INNERGRID", (0, 0), (-1, -1), 0.5, LINE_BLUE),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 10),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING", (0, 0), (-1, -1), 7),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
+    ]))
+    story.append(Spacer(1, 10))
+    story.append(meta_table)
+    story.append(Spacer(1, 12))
+
+    # =====================================================
+    # STUDENT & ADMISSION DETAILS
+    # =====================================================
+    story.append(Paragraph("STUDENT &amp; ADMISSION DETAILS", section_style))
+
+    percentage = f"{student.plus_two_percentage}%" if student.plus_two_percentage else "—"
+    qualification = student.previous_qualification or "—"
+    college_name = application.college.college_name if application.college else "—"
+    department_name = application.department.department_name if application.department else "—"
+    course_name = application.course.course_name if application.course else "—"
+
+    rows = [
+        ("Student Name", student.full_name),
+        ("Qualification", qualification),
+        ("Academic Percentage", percentage),
+        ("College", college_name),
+        ("Department", department_name),
+        ("Course", course_name),
+    ]
+
+    student_data = [
+        [Paragraph(label, label_cell), Paragraph(str(val), value_cell)]
+        for label, val in rows
+    ] + [[
+        Paragraph("Application Status", label_cell),
+        Paragraph(
+            "<font color='#16824F'><b>APPROVED</b></font>", value_cell
+        ),
+    ]]
+
+    student_table = Table(student_data, colWidths=[50 * mm, FULL_W - 50 * mm])
+    student_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (0, -1), LIGHT_BLUE),
+        ("GRID", (0, 0), (-1, -1), 0.5, LINE_BLUE),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 9),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 9),
+        ("TOPPADDING", (0, 0), (-1, -1), 6.5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6.5),
+    ]))
+    story.append(student_table)
+    story.append(Spacer(1, 12))
+
+    # =====================================================
+    # CONFIRMATION STATEMENT (blue accent panel)
+    # =====================================================
+    confirmation_text = (
+        f"<b><font color='#0F2E5C'>ADMISSION CONFIRMED</font></b><br/><br/>"
+        f"This is to officially confirm that <b>{student.full_name}</b> has been "
+        f"approved for admission to <b>{course_name}</b> under "
+        f"<b>{department_name}</b> at <b>{college_name}</b>."
+    )
+    confirmation_table = Table(
+        [[Paragraph(confirmation_text, normal_style)]], colWidths=[FULL_W]
+    )
+    confirmation_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BLUE),
+        ("BOX", (0, 0), (-1, -1), 0.8, LINE_BLUE),
+        ("LINEBEFORE", (0, 0), (0, -1), 4, BLUE),
+        ("LEFTPADDING", (0, 0), (-1, -1), 13),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 13),
+        ("TOPPADDING", (0, 0), (-1, -1), 10),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+    ]))
+    story.append(confirmation_table)
+    story.append(Spacer(1, 12))
+
+    # =====================================================
+    # STATUS RIBBON
+    # =====================================================
+    status_table = Table(
+        [[Paragraph(
+            "&#10003;&nbsp;&nbsp;ADMISSION APPROVED",
+            ParagraphStyle(
+                "Approved", parent=normal_style, fontName="Helvetica-Bold",
+                fontSize=11.5, alignment=TA_CENTER, textColor=WHITE,
+            ),
+        )]],
+        colWidths=[FULL_W], rowHeights=[11 * mm],
+    )
+    status_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), NAVY),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+    ]))
+    story.append(status_table)
+    story.append(Spacer(1, 12))
+
+    # =====================================================
+    # IMPORTANT INFORMATION
+    # =====================================================
+    story.append(Paragraph("IMPORTANT INFORMATION", section_style))
+
+    important_text = (
+        "•&nbsp; This admission slip is generated by the MM Technical "
+        "University Admission System.<br/>"
+        "•&nbsp; The student must produce this slip during the "
+        "admission / joining process when requested.<br/>"
+        "•&nbsp; Admission is subject to verification of original "
+        "documents and compliance with university regulations."
+    )
+    important_table = Table([[Paragraph(important_text, small_style)]], colWidths=[FULL_W])
+    important_table.setStyle(TableStyle([
+        ("BOX", (0, 0), (-1, -1), 0.6, LINE_BLUE),
+        ("LEFTPADDING", (0, 0), (-1, -1), 11),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 11),
+        ("TOPPADDING", (0, 0), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+    ]))
+    story.append(important_table)
+    story.append(Spacer(1, 14))
+
+    # =====================================================
+    # SIGNATURE / SEAL / DATE STRIP
+    # =====================================================
+    officer_table = Table(
+        [[
+            Paragraph(
+                "<b>UNIVERSITY OFFICER</b><br/><br/>"
+                "____________________________<br/>"
+                "<font size='7'>Authorized Signature</font>", center_small,
+            ),
+            Paragraph(
+                "<b>OFFICIAL SEAL</b><br/><br/>"
+                "MM TECHNICAL<br/>UNIVERSITY", center_small,
+            ),
+            Paragraph(
+                "<b>DATE OF APPROVAL</b><br/><br/>"
+                f"{issue_date}<br/>"
+                "<font size='7'>University Admissions Office</font>", center_small,
+            ),
+        ]],
+        colWidths=[FULL_W / 3] * 3, rowHeights=[24 * mm],
+    )
+    officer_table.setStyle(TableStyle([
+        ("BOX", (0, 0), (-1, -1), 0.6, LINE_BLUE),
+        ("INNERGRID", (0, 0), (-1, -1), 0.5, LINE_BLUE),
+        ("BACKGROUND", (0, 0), (-1, -1), LIGHT_BLUE),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("TOPPADDING", (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+    ]))
+    story.append(officer_table)
+    story.append(Spacer(1, 10))
+
+    # =====================================================
+    # FOOTER
+    # =====================================================
+    footer_line = Table([[""]], colWidths=[FULL_W], rowHeights=[1])
+    footer_line.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), LINE_BLUE)]))
+    story.append(footer_line)
+    story.append(Spacer(1, 6))
+
+    story.append(Paragraph(
+        "This is a system-generated document and does not require a "
+        "handwritten signature unless specifically requested by the "
+        "University Admissions Office.", footer_style,
+    ))
+    story.append(Paragraph(
+        "MM Technical University &nbsp;•&nbsp; Office of University Admissions",
+        footer_style,
+    ))
+    story.append(Paragraph(f"Document Reference: MMTU-{application_number}", footer_style))
+
+    doc.build(story)
+    return response

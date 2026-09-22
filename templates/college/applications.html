@@ -1,0 +1,1440 @@
+
+{% extends "college/college_dashboard.html" %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       PAGE
+       ===================================================== */
+
+    .applications-page {
+        padding: 30px;
+        background: #f5f7fb;
+        min-height: calc(100vh - 70px);
+    }
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .page-header h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: #172033;
+    }
+
+    .page-header p {
+        margin-top: 7px;
+        color: #7b8494;
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       FILTER
+       ===================================================== */
+
+    .filter-card {
+        background: #ffffff;
+        border: 1px solid #e7eaf0;
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 14px rgba(20, 30, 50, 0.04);
+    }
+
+    .filter-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #202939;
+        margin-bottom: 15px;
+    }
+
+    .filter-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #596273;
+        margin-bottom: 7px;
+    }
+
+    .filter-input,
+    .filter-select {
+        width: 100%;
+        height: 43px;
+        border: 1px solid #dfe3ea;
+        border-radius: 8px;
+        padding: 0 13px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    .filter-input:focus,
+    .filter-select:focus {
+        border-color: #315efb;
+        box-shadow: 0 0 0 3px rgba(49, 94, 251, 0.08);
+    }
+
+
+    /* =====================================================
+       APPLICATION CARD
+       ===================================================== */
+
+    .application-card {
+        background: #ffffff;
+        border: 1px solid #e6e9ef;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 18px rgba(20, 30, 50, 0.05);
+        transition: box-shadow 0.2s ease;
+    }
+
+    .application-card.is-open {
+        box-shadow: 0 10px 28px rgba(20, 30, 50, 0.09);
+    }
+
+
+    /* =====================================================
+       CARD HEADER
+       ===================================================== */
+
+    .application-header {
+        padding: 19px 22px;
+        border-bottom: 1px solid #edf0f4;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .student-info {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .student-avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: #eef2ff;
+        color: #315efb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .student-name {
+        font-size: 17px;
+        font-weight: 700;
+        color: #172033;
+    }
+
+    .application-number {
+        margin-top: 3px;
+        font-size: 12px;
+        color: #8a93a3;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+
+    /* =====================================================
+       VERIFIED BADGE
+       ===================================================== */
+
+    .verified-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 12px;
+        border-radius: 20px;
+        background: #eaf8ef;
+        color: #18864b;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       APPROVED BADGE
+       ===================================================== */
+
+    .approved-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 12px;
+        border-radius: 20px;
+        background: #e8f1ff;
+        color: #315efb;
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       DETAILS TOGGLE
+       ===================================================== */
+
+    .details-toggle-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #d9dee7;
+        background: #ffffff;
+        color: #315efb;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s ease,
+                    border-color 0.2s ease,
+                    color 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .details-toggle-btn:hover {
+        background: #f1f5fe;
+        border-color: #315efb;
+    }
+
+    .details-toggle-btn i.chevron {
+        transition: transform 0.25s ease;
+        font-size: 11px;
+    }
+
+    .details-toggle-btn.is-open i.chevron {
+        transform: rotate(180deg);
+    }
+
+    .details-toggle-btn.is-open {
+        background: #315efb;
+        color: #ffffff;
+        border-color: #315efb;
+    }
+
+
+    /* =====================================================
+       COLLAPSIBLE BODY
+       ===================================================== */
+
+    .application-collapse {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s cubic-bezier(.22,1,.36,1);
+    }
+
+    .application-collapse.is-open {
+        max-height: 2400px;
+    }
+
+    .application-body {
+        padding: 22px;
+        animation: bodyFadeIn 0.3s ease;
+    }
+
+    @keyframes bodyFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    /* =====================================================
+       DETAILS
+       ===================================================== */
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #273247;
+        margin-bottom: 14px;
+    }
+
+    .section-title i {
+        color: #315efb;
+        font-size: 13px;
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 13px;
+    }
+
+    .detail-box {
+        background: #f8f9fc;
+        border: 1px solid #edf0f4;
+        border-radius: 10px;
+        padding: 14px;
+    }
+
+    .detail-label {
+        font-size: 11px;
+        color: #8a93a3;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .detail-value {
+        font-size: 14px;
+        color: #273247;
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       DOCUMENTS
+       ===================================================== */
+
+    .documents-section {
+        margin-top: 22px;
+        padding-top: 20px;
+        border-top: 1px solid #edf0f4;
+    }
+
+    .document-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .document-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid #e7eaf0;
+        border-radius: 10px;
+        padding: 13px 15px;
+        background: #ffffff;
+    }
+
+    .document-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .document-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #f1f4f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #526070;
+        flex-shrink: 0;
+    }
+
+    .document-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #303a4d;
+    }
+
+    .view-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        border: 1px solid #d9dee7;
+        color: #315efb;
+        padding: 6px 11px;
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: 0.2s;
+    }
+
+    .view-btn:hover {
+        background: #315efb;
+        color: #ffffff;
+        border-color: #315efb;
+    }
+
+    .not-uploaded {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #d14343;
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       VERIFICATION
+       ===================================================== */
+
+    .verification-section {
+        margin-top: 22px;
+        padding-top: 20px;
+        border-top: 1px solid #edf0f4;
+    }
+
+    .verification-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+    }
+
+    .verification-item {
+        border: 1px solid #dcefe3;
+        background: #f6fcf8;
+        border-radius: 10px;
+        padding: 13px;
+    }
+
+    .verification-label {
+        font-size: 11px;
+        color: #718078;
+        margin-bottom: 6px;
+    }
+
+    .verification-value {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #18864b;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+       FOOTER / ACTION
+       ===================================================== */
+
+    .application-footer {
+        margin-top: 22px;
+        padding-top: 18px;
+        border-top: 1px solid #edf0f4;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .approve-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        background: #18864b;
+        color: #ffffff;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .approve-btn:hover {
+        background: #126b3b;
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================================
+       ALREADY APPROVED MESSAGE
+       ===================================================== */
+
+    .already-approved {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #eaf8ef;
+        color: #18864b;
+        border: 1px solid #d4efde;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+       ===================================================== */
+
+    .empty-state {
+        background: #ffffff;
+        border: 1px solid #e7eaf0;
+        border-radius: 15px;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .empty-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        background: #f1f3f7;
+        color: #8b94a3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+    }
+
+    .empty-state h5 {
+        font-size: 17px;
+        font-weight: 700;
+        color: #273247;
+        margin-bottom: 6px;
+    }
+
+    .empty-state p {
+        color: #8a93a3;
+        font-size: 13px;
+        margin: 0;
+    }
+
+    .no-match-state {
+        display: none;
+        background: #ffffff;
+        border: 1px dashed #d9dee7;
+        border-radius: 15px;
+        padding: 46px 20px;
+        text-align: center;
+        color: #8a93a3;
+        font-size: 13.5px;
+    }
+
+    .no-match-state.is-visible {
+        display: block;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+
+    @media (max-width: 1100px) {
+
+        .details-grid,
+        .verification-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+    }
+
+    @media (max-width: 768px) {
+
+        .applications-page {
+            padding: 18px;
+        }
+
+        .application-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .header-right {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .details-grid,
+        .verification-grid,
+        .document-list {
+            grid-template-columns: 1fr;
+        }
+
+        .application-footer {
+            justify-content: stretch;
+        }
+
+        .approve-btn,
+        .already-approved {
+            width: 100%;
+            justify-content: center;
+        }
+
+    }
+
+</style>
+
+
+<div class="applications-page">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <div class="page-header">
+
+        <h2>
+            Admission Applications
+        </h2>
+
+        <p>
+            Review and approve university verified student applications.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         FILTER
+         ===================================================== -->
+
+    <div class="filter-card">
+
+        <div class="filter-title">
+            Search &amp; Filter
+        </div>
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+
+                <label class="filter-label">
+                    Search Student
+                </label>
+
+                <input
+                    type="text"
+                    id="studentSearch"
+                    class="filter-input"
+                    placeholder="Search student name..."
+                >
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <label class="filter-label">
+                    Course
+                </label>
+
+                <select
+                    id="courseFilter"
+                    class="filter-select"
+                >
+
+                    <option value="">
+                        All Courses
+                    </option>
+
+                    {% for course in courses %}
+
+                        <option value="{{ course.course_name|lower }}">
+                            {{ course.course_name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         APPLICATION LIST
+         ===================================================== -->
+
+    <div id="applicationList">
+
+        {% for application in applications %}
+
+        <div
+            class="application-card application-item"
+            data-student="{{ application.student.full_name|lower }}"
+            data-course="{{ application.course.course_name|lower }}"
+        >
+
+
+            <!-- =================================================
+                 HEADER
+                 ================================================= -->
+
+            <div class="application-header">
+
+                <div class="student-info">
+
+                    <div class="student-avatar">
+
+                        {{ application.student.full_name|first|upper }}
+
+                    </div>
+
+                    <div>
+
+                        <div class="student-name">
+
+                            {{ application.student.full_name }}
+
+                        </div>
+
+                        <div class="application-number">
+
+                            APP-{{ application.id|stringformat:"05d" }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="header-right">
+
+
+                    <!-- UNIVERSITY VERIFIED -->
+
+                    <span class="verified-badge">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        University Verified
+
+                    </span>
+
+
+                    <!-- APPROVED BADGE -->
+
+                    {% if application.status|lower == "approved" %}
+
+                        <span class="approved-badge">
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            Application Approved
+
+                        </span>
+
+                    {% endif %}
+
+
+                    <!-- VIEW DETAILS -->
+
+                    <button
+                        type="button"
+                        class="details-toggle-btn"
+                        onclick="toggleApplication({{ application.id }}, this)"
+                    >
+
+                        <i class="bi bi-eye"></i>
+
+                        View Details
+
+                        <i class="bi bi-chevron-down chevron"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 COLLAPSIBLE DETAILS
+                 ================================================= -->
+
+            <div
+                class="application-collapse"
+                id="collapse-{{ application.id }}"
+            >
+
+                <div class="application-body">
+
+
+                    <!-- =================================================
+                         APPLICATION DETAILS
+                         ================================================= -->
+
+                    <div class="section-title">
+
+                        <i class="bi bi-person-lines-fill"></i>
+
+                        Application Details
+
+                    </div>
+
+
+                    <div class="details-grid">
+
+
+                        <!-- STUDENT NAME -->
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Student Name
+                            </div>
+
+                            <div class="detail-value">
+
+                                {{ application.student.full_name }}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUALIFICATION -->
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Qualification
+                            </div>
+
+                            <div class="detail-value">
+
+                                {{ application.student.get_previous_qualification_display }}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PERCENTAGE -->
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Percentage
+                            </div>
+
+                            <div class="detail-value">
+
+                                {{ application.student.plus_two_percentage }}%
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COURSE -->
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Course
+                            </div>
+
+                            <div class="detail-value">
+
+                                {{ application.course.course_name }}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DEPARTMENT -->
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Department
+                            </div>
+
+                            <div class="detail-value">
+
+                                {{ application.department.department_name }}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COLLEGE -->
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                College
+                            </div>
+
+                            <div class="detail-value">
+
+                                {{ application.college.college_name }}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- APPLIED DATE -->
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Applied Date
+                            </div>
+
+                            <div class="detail-value">
+
+                                {{ application.applied_date|date:"d M Y" }}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="detail-box">
+
+                            <div class="detail-label">
+                                Status
+                            </div>
+
+                            <div class="detail-value">
+
+                                {{ application.status }}
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- =================================================
+                         DOCUMENTS
+                         ================================================= -->
+
+                    <div class="documents-section">
+
+                        <div class="section-title">
+
+                            <i class="bi bi-folder2-open"></i>
+
+                            Uploaded Documents
+
+                        </div>
+
+
+                        <div class="document-list">
+
+
+                            <!-- PLUS TWO -->
+
+                            <div class="document-item">
+
+                                <div class="document-left">
+
+                                    <div class="document-icon">
+
+                                        <i class="bi bi-file-earmark-text"></i>
+
+                                    </div>
+
+                                    <div class="document-name">
+
+                                        Plus Two Certificate
+
+                                    </div>
+
+                                </div>
+
+
+                                {% if application.plus_two_certificate %}
+
+                                    <a
+                                        href="{{ application.plus_two_certificate.url }}"
+                                        target="_blank"
+                                        class="view-btn"
+                                    >
+
+                                        <i class="bi bi-box-arrow-up-right"></i>
+
+                                        View
+
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="not-uploaded">
+
+                                        <i class="bi bi-exclamation-circle"></i>
+
+                                        Not uploaded
+
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- AADHAAR -->
+
+                            <div class="document-item">
+
+                                <div class="document-left">
+
+                                    <div class="document-icon">
+
+                                        <i class="bi bi-person-vcard"></i>
+
+                                    </div>
+
+                                    <div class="document-name">
+
+                                        Aadhaar Document
+
+                                    </div>
+
+                                </div>
+
+
+                                {% if application.aadhaar_document %}
+
+                                    <a
+                                        href="{{ application.aadhaar_document.url }}"
+                                        target="_blank"
+                                        class="view-btn"
+                                    >
+
+                                        <i class="bi bi-box-arrow-up-right"></i>
+
+                                        View
+
+                                    </a>
+
+                                {% else %}
+
+                                    <span class="not-uploaded">
+
+                                        <i class="bi bi-exclamation-circle"></i>
+
+                                        Not uploaded
+
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         UNIVERSITY VERIFICATION
+                         ================================================= -->
+
+                    <div class="verification-section">
+
+                        <div class="section-title">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            University Verification
+
+                        </div>
+
+
+                        <div class="verification-grid">
+
+
+                            <!-- NAME -->
+
+                            <div class="verification-item">
+
+                                <div class="verification-label">
+                                    Name
+                                </div>
+
+                                <div class="verification-value">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                    Verified
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- QUALIFICATION -->
+
+                            <div class="verification-item">
+
+                                <div class="verification-label">
+                                    Qualification
+                                </div>
+
+                                <div class="verification-value">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                    Verified
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- PERCENTAGE -->
+
+                            <div class="verification-item">
+
+                                <div class="verification-label">
+                                    Percentage
+                                </div>
+
+                                <div class="verification-value">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                    Verified
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- OVERALL -->
+
+                            <div class="verification-item">
+
+                                <div class="verification-label">
+                                    Overall
+                                </div>
+
+                                <div class="verification-value">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                    Verified
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         APPROVE / APPROVED
+                         ================================================= -->
+
+                    <div class="application-footer">
+
+
+                        {% if application.status|lower != "approved" %}
+
+                            <!-- APPROVE BUTTON -->
+
+                            <form
+                                method="POST"
+                                action="{% url 'college_approve_application' application.id %}"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="approve-btn"
+                                    onclick="return confirm(
+                                        'Are you sure you want to approve this application?'
+                                    );"
+                                >
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                    Approve Application
+
+                                </button>
+
+                            </form>
+
+
+                        {% else %}
+
+                            <!-- ALREADY APPROVED -->
+
+                            <div class="already-approved">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                Application Already Approved
+
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        {% empty %}
+
+
+        <!-- =====================================================
+             EMPTY STATE
+             ===================================================== -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+
+                <i class="bi bi-inbox"></i>
+
+            </div>
+
+            <h5>
+                No Applications Available
+            </h5>
+
+            <p>
+                No university verified applications are
+                currently available.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+
+        <!-- =====================================================
+             NO SEARCH MATCH STATE
+             ===================================================== -->
+
+        <div
+            class="no-match-state"
+            id="noMatchState"
+        >
+
+            No applications match your search or course filter.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOGGLE + FILTER SCRIPT
+     ========================================================= -->
+
+<script>
+
+function toggleApplication(applicationId, btn) {
+
+    const collapse =
+        document.getElementById(
+            "collapse-" + applicationId
+        );
+
+    const card =
+        btn.closest(".application-card");
+
+
+    if (!collapse) return;
+
+
+    const isOpen =
+        collapse.classList.toggle("is-open");
+
+
+    btn.classList.toggle(
+        "is-open",
+        isOpen
+    );
+
+
+    card.classList.toggle(
+        "is-open",
+        isOpen
+    );
+
+
+    btn.innerHTML = isOpen
+
+        ? '<i class="bi bi-eye-slash"></i> Hide Details <i class="bi bi-chevron-down chevron"></i>'
+
+        : '<i class="bi bi-eye"></i> View Details <i class="bi bi-chevron-down chevron"></i>';
+
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const searchInput =
+            document.getElementById(
+                "studentSearch"
+            );
+
+
+        const courseFilter =
+            document.getElementById(
+                "courseFilter"
+            );
+
+
+        const applicationItems =
+            document.querySelectorAll(
+                ".application-item"
+            );
+
+
+        const noMatchState =
+            document.getElementById(
+                "noMatchState"
+            );
+
+
+        function filterApplications() {
+
+
+            const searchValue =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const courseValue =
+                courseFilter.value
+                    .toLowerCase();
+
+
+            let anyVisible = false;
+
+
+            applicationItems.forEach(
+                function (item) {
+
+
+                    const studentName =
+                        item.dataset.student;
+
+
+                    const courseName =
+                        item.dataset.course;
+
+
+                    const studentMatch =
+                        studentName.includes(
+                            searchValue
+                        );
+
+
+                    const courseMatch =
+                        !courseValue ||
+                        courseName === courseValue;
+
+
+                    if (
+                        studentMatch &&
+                        courseMatch
+                    ) {
+
+                        item.style.display = "";
+
+                        anyVisible = true;
+
+                    } else {
+
+                        item.style.display = "none";
+
+                    }
+
+                }
+            );
+
+
+            if (noMatchState) {
+
+                noMatchState.classList.toggle(
+                    "is-visible",
+                    !anyVisible &&
+                    applicationItems.length > 0
+                );
+
+            }
+
+        }
+
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "input",
+                filterApplications
+            );
+
+        }
+
+
+        if (courseFilter) {
+
+            courseFilter.addEventListener(
+                "change",
+                filterApplications
+            );
+
+        }
+
+
+    }
+);
+
+</script>
+
+{% endblock %}
+

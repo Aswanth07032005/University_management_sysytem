@@ -3,240 +3,796 @@
 {% block content %}
 
 <style>
-    :root{
-        --navy-dark:#0B2C5C;
-        --navy:#16407E;
-        --navy-soft:#EAF0FA;
-        --blue-pale:#EEF3FB;
-        --blue-line:#D9E3F2;
-        --gold:#C9A227;
-        --ink:#1C2430;
-        --muted:#6B7383;
-        --error:#B23A48;
+
+    /* =========================================================
+       EDIT PROFILE
+    ========================================================= */
+
+    .edit-shell {
+        max-width: 850px;
+        margin: 0 auto;
     }
 
-    .edit-shell{
-        max-width:760px;
-        margin:0 auto;
+    .edit-card {
+        background: #ffffff;
+        border: 1px solid #D9E6F5;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(6, 43, 92, 0.08);
     }
 
-    .edit-card{
-        background:#fff;
-        border:1px solid var(--blue-line);
-        border-radius:14px;
-        overflow:hidden;
-        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    .edit-header {
+        position: relative;
+
+        padding: 26px 30px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 15px;
+
+        background:
+            linear-gradient(
+                120deg,
+                #062B5C 0%,
+                #0B3D7A 58%,
+                #1769D1 100%
+            );
+
+        color: #ffffff;
+
+        overflow: hidden;
     }
 
-    .edit-header{
-        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
-        color:#fff;
-        padding:26px 32px;
-        display:flex;
-        align-items:center;
-        gap:14px;
-        position:relative;
+    .edit-header::before {
+        content: "";
+
+        position: absolute;
+
+        width: 190px;
+        height: 190px;
+
+        right: -70px;
+        top: -105px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,0.07);
     }
 
-    .edit-header::after{
-        content:"";
-        position:absolute;
-        left:0; right:0; bottom:0;
-        height:3px;
-        background:var(--gold);
+    .edit-header::after {
+        content: "";
+
+        position: absolute;
+
+        width: 110px;
+        height: 110px;
+
+        right: 100px;
+        bottom: -80px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,0.04);
     }
 
-    .edit-header .icon-wrap{
-        width:42px; height:42px;
-        border-radius:10px;
-        background:rgba(255,255,255,0.14);
-        border:1px solid rgba(244,197,66,0.5);
-        display:flex; align-items:center; justify-content:center;
-        font-size:17px;
-        color:var(--gold);
-        flex:none;
+
+    /* Header icon */
+
+    .edit-header .icon-wrap {
+        position: relative;
+        z-index: 2;
+
+        width: 48px;
+        height: 48px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background: rgba(255,255,255,0.13);
+
+        border: 1px solid rgba(255,255,255,0.18);
+
+        color: #ffffff;
+
+        font-size: 17px;
+
+        box-shadow:
+            0 6px 16px rgba(0,0,0,0.10);
     }
 
-    .edit-header h4{
-        margin:0;
-        font-family:"Georgia","Times New Roman",serif;
-        font-weight:700;
-        font-size:19px;
+
+    /* Header text */
+
+    .edit-header-content {
+        position: relative;
+        z-index: 2;
     }
 
-    .edit-header p{
-        margin:2px 0 0;
-        font-size:12.5px;
-        color:#C7D6EE;
+    .edit-header .eyebrow {
+        margin: 0 0 3px;
+
+        color: #BFD5EF;
+
+        font-size: 10px;
+        font-weight: 700;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.11em;
     }
 
-    .edit-body{
-        padding:32px 32px 28px;
+    .edit-header h4 {
+        margin: 0;
+
+        color: #ffffff;
+
+        font-size: 20px;
+        font-weight: 700;
+
+        letter-spacing: -0.2px;
     }
 
-    .field-group{
-        margin-bottom:18px;
+    .edit-header p {
+        margin: 4px 0 0;
+
+        color: #C9D9EC;
+
+        font-size: 12px;
     }
 
-    .field-group label{
-        display:block;
-        font-size:13px;
-        font-weight:600;
-        color:var(--ink);
-        margin-bottom:6px;
+
+    /* =========================================================
+       FORM BODY
+    ========================================================= */
+
+    .edit-body {
+        padding: 30px 34px 32px;
     }
 
-    /* Style the rendered Django widgets directly */
+
+    /* =========================================================
+       FORM INTRO
+    ========================================================= */
+
+    .form-intro {
+        display: flex;
+        align-items: flex-start;
+
+        gap: 11px;
+
+        margin-bottom: 25px;
+
+        padding: 13px 15px;
+
+        background: #F4F8FD;
+
+        border: 1px solid #E1EBF6;
+
+        border-radius: 10px;
+
+        color: #637186;
+
+        font-size: 12px;
+
+        line-height: 1.55;
+    }
+
+    .form-intro i {
+        margin-top: 2px;
+
+        color: #1769D1;
+
+        font-size: 13px;
+    }
+
+    .form-intro p {
+        margin: 0;
+    }
+
+
+    /* =========================================================
+       FORM GRID
+    ========================================================= */
+
+    .form-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 20px 18px;
+    }
+
+    .field-group {
+        min-width: 0;
+    }
+
+    .field-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+
+    /* =========================================================
+       LABEL
+    ========================================================= */
+
+    .field-group label {
+        display: flex;
+        align-items: center;
+
+        gap: 6px;
+
+        margin-bottom: 7px;
+
+        color: #263449;
+
+        font-size: 12.5px;
+        font-weight: 700;
+    }
+
+    .field-group label::after {
+        content: "*";
+
+        color: #1769D1;
+
+        font-size: 12px;
+    }
+
+
+    /* =========================================================
+       INPUTS
+    ========================================================= */
+
     .edit-body input[type="text"],
     .edit-body input[type="email"],
     .edit-body input[type="tel"],
     .edit-body input:not([type]),
     .edit-body select,
-    .edit-body textarea{
-        font-family:inherit;
-        font-size:14.5px;
-        padding:10px 14px;
-        border:1px solid #C7D2E3;
-        border-radius:8px;
-        background:#FBFCFE;
-        color:var(--ink);
-        outline:none;
-        width:100%;
-        box-sizing:border-box;
-        transition:border-color .15s ease, box-shadow .15s ease;
+    .edit-body textarea {
+
+        width: 100%;
+
+        min-height: 44px;
+
+        padding: 10px 13px;
+
+        box-sizing: border-box;
+
+        border: 1px solid #D3DFEC;
+
+        border-radius: 9px;
+
+        background: #FBFCFE;
+
+        color: #172033;
+
+        outline: none;
+
+        font-family: inherit;
+
+        font-size: 13.5px;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+    .edit-body textarea {
+        min-height: 100px;
+
+        resize: vertical;
+    }
+
+    .edit-body input::placeholder,
+    .edit-body textarea::placeholder {
+        color: #A0AABB;
+    }
+
+    .edit-body input:hover,
+    .edit-body select:hover,
+    .edit-body textarea:hover {
+        border-color: #B9CCE3;
+
+        background: #ffffff;
     }
 
     .edit-body input:focus,
     .edit-body select:focus,
-    .edit-body textarea:focus{
-        border-color:var(--navy);
-        box-shadow:0 0 0 3px rgba(22,64,126,0.14);
-        background:#fff;
+    .edit-body textarea:focus {
+
+        border-color: #1769D1;
+
+        background: #ffffff;
+
+        box-shadow:
+            0 0 0 3px rgba(23,105,209,0.09);
     }
 
-    .edit-body .helptext{
-        font-size:12px;
-        color:var(--muted);
-        display:block;
-        margin-top:4px;
+
+    /* =========================================================
+       HELP TEXT
+    ========================================================= */
+
+    .edit-body .helptext {
+        display: block;
+
+        margin-top: 5px;
+
+        color: #7B8799;
+
+        font-size: 10.5px;
+
+        line-height: 1.4;
     }
 
-    .edit-body ul.errorlist{
-        list-style:none;
-        margin:4px 0 0;
-        padding:0;
-        font-size:12.5px;
-        color:var(--error);
+
+    /* =========================================================
+       ERRORS
+    ========================================================= */
+
+    .edit-body ul.errorlist {
+
+        list-style: none;
+
+        margin: 6px 0 0;
+
+        padding: 0;
+
+        color: #DC3545;
+
+        font-size: 11px;
+
+        font-weight: 500;
     }
 
-    .edit-actions{
-        display:flex;
-        justify-content:flex-end;
-        gap:10px;
-        margin-top:10px;
-        padding-top:22px;
-        border-top:1px solid var(--blue-line);
+    .edit-body ul.errorlist li {
+        padding-left: 2px;
     }
 
-    .btn-save{
-        display:inline-flex;
-        align-items:center;
-        gap:8px;
-        background:var(--navy-dark);
-        color:#fff;
-        border:none;
-        font-size:13.5px;
-        font-weight:600;
-        padding:10px 20px;
-        border-radius:8px;
-        cursor:pointer;
-        text-decoration:none;
-        transition:background .15s ease, transform .1s ease;
+
+    /* =========================================================
+       ACTION AREA
+    ========================================================= */
+
+    .edit-actions {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 15px;
+
+        margin-top: 30px;
+
+        padding-top: 22px;
+
+        border-top: 1px solid #E1EAF4;
     }
 
-    .btn-save:hover{ background:var(--navy); color:#fff; }
-    .btn-save:active{ transform:translateY(1px); }
+    .action-note {
 
-    .btn-back{
-        display:inline-flex;
-        align-items:center;
-        gap:8px;
-        background:#fff;
-        color:var(--muted);
-        border:1px solid var(--blue-line);
-        font-size:13.5px;
-        font-weight:600;
-        padding:10px 20px;
-        border-radius:8px;
-        text-decoration:none;
-        transition:background .15s ease, color .15s ease;
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        color: #7A8798;
+
+        font-size: 11px;
     }
 
-    .btn-back:hover{
-        background:var(--blue-pale);
-        color:var(--ink);
+    .action-note i {
+        color: #1769D1;
+
+        font-size: 12px;
     }
 
-    @media (max-width:576px){
-        .edit-body{ padding:26px 22px 22px; }
-        .edit-header{ padding:22px 22px; }
-        .edit-actions{ flex-direction:column-reverse; }
-        .btn-save, .btn-back{ justify-content:center; width:100%; }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+
+    .action-buttons {
+        display: flex;
+
+        align-items: center;
+
+        gap: 9px;
     }
+
+    .btn-save,
+    .btn-back {
+
+        min-height: 42px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 8px;
+
+        padding: 9px 18px;
+
+        border-radius: 9px;
+
+        font-size: 12.5px;
+
+        font-weight: 700;
+
+        text-decoration: none;
+
+        cursor: pointer;
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+
+    /* Back */
+
+    .btn-back {
+
+        background: #ffffff;
+
+        color: #526174;
+
+        border: 1px solid #D7E2EE;
+    }
+
+    .btn-back:hover {
+
+        background: #F4F8FD;
+
+        color: #172033;
+
+        border-color: #C6D7EA;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* Save */
+
+    .btn-save {
+
+        border: none;
+
+        background:
+            linear-gradient(
+                135deg,
+                #0B3D7A,
+                #1769D1
+            );
+
+        color: #ffffff;
+
+        box-shadow:
+            0 6px 15px rgba(23,105,209,0.17);
+    }
+
+    .btn-save:hover {
+
+        background:
+            linear-gradient(
+                135deg,
+                #062B5C,
+                #0B3D7A
+            );
+
+        color: #ffffff;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 9px 20px rgba(6,43,92,0.20);
+    }
+
+    .btn-save:active,
+    .btn-back:active {
+        transform: translateY(0);
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 767px) {
+
+        .edit-shell {
+            max-width: 100%;
+        }
+
+        .edit-header {
+            padding: 23px 21px;
+        }
+
+        .edit-header .icon-wrap {
+            width: 44px;
+            height: 44px;
+        }
+
+        .edit-header h4 {
+            font-size: 18px;
+        }
+
+        .edit-body {
+            padding: 25px 21px 27px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .field-group.full-width {
+            grid-column: auto;
+        }
+
+        .edit-actions {
+            align-items: stretch;
+
+            flex-direction: column;
+        }
+
+        .action-note {
+            justify-content: center;
+        }
+
+        .action-buttons {
+            width: 100%;
+        }
+
+        .btn-save,
+        .btn-back {
+            flex: 1;
+        }
+    }
+
+
+    @media (max-width: 480px) {
+
+        .edit-header {
+            padding: 20px 17px;
+        }
+
+        .edit-header .icon-wrap {
+            width: 41px;
+            height: 41px;
+
+            border-radius: 10px;
+        }
+
+        .edit-header h4 {
+            font-size: 16px;
+        }
+
+        .edit-header p {
+            font-size: 11px;
+        }
+
+        .edit-body {
+            padding: 21px 15px 23px;
+        }
+
+        .form-intro {
+            font-size: 11px;
+        }
+
+        .edit-actions {
+            margin-top: 24px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn-save,
+        .btn-back {
+            width: 100%;
+        }
+    }
+
 </style>
+
 
 <div class="edit-shell">
 
     <div class="edit-card">
 
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
         <div class="edit-header">
-            <div class="icon-wrap"><i class="fa-solid fa-user-pen"></i></div>
-            <div>
-                <h4>Edit Staff Profile</h4>
-                <p>Update your contact and qualification details</p>
+
+            <div class="icon-wrap">
+                <i class="fa-solid fa-user-pen"></i>
             </div>
+
+            <div class="edit-header-content">
+
+                <p class="eyebrow">
+                    Staff Account
+                </p>
+
+                <h4>
+                    Edit Staff Profile
+                </h4>
+
+                <p>
+                    Update your contact and qualification details
+                </p>
+
+            </div>
+
         </div>
 
+
+        <!-- =====================================================
+             BODY
+        ====================================================== -->
+
         <div class="edit-body">
+
+
+            <!-- Information -->
+
+            <div class="form-intro">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <p>
+                    Update your personal information below and save
+                    the changes to keep your staff profile up to date.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORM
+            ================================================== -->
 
             <form method="POST" novalidate>
 
                 {% csrf_token %}
 
-                <div class="field-group">
-                    <label for="{{ form.full_name.id_for_label }}">Full Name</label>
-                    {{ form.full_name }}
-                    {{ form.full_name.errors }}
+
+                <div class="form-grid">
+
+
+                    <!-- Full Name -->
+
+                    <div class="field-group">
+
+                        <label for="{{ form.full_name.id_for_label }}">
+                            Full Name
+                        </label>
+
+                        {{ form.full_name }}
+
+                        {{ form.full_name.errors }}
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div class="field-group">
+
+                        <label for="{{ form.email.id_for_label }}">
+                            Email
+                        </label>
+
+                        {{ form.email }}
+
+                        {{ form.email.errors }}
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div class="field-group">
+
+                        <label for="{{ form.phone.id_for_label }}">
+                            Phone
+                        </label>
+
+                        {{ form.phone }}
+
+                        {{ form.phone.errors }}
+
+                    </div>
+
+
+                    <!-- Qualification -->
+
+                    <div class="field-group">
+
+                        <label for="{{ form.qualification.id_for_label }}">
+                            Qualification
+                        </label>
+
+                        {{ form.qualification }}
+
+                        {{ form.qualification.errors }}
+
+                    </div>
+
+
                 </div>
 
-                <div class="field-group">
-                    <label for="{{ form.email.id_for_label }}">Email</label>
-                    {{ form.email }}
-                    {{ form.email.errors }}
-                </div>
 
-                <div class="field-group">
-                    <label for="{{ form.phone.id_for_label }}">Phone</label>
-                    {{ form.phone }}
-                    {{ form.phone.errors }}
-                </div>
-
-                <div class="field-group">
-                    <label for="{{ form.qualification.id_for_label }}">Qualification</label>
-                    {{ form.qualification }}
-                    {{ form.qualification.errors }}
-                </div>
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
 
                 <div class="edit-actions">
-                    <a href="{% url 'staff_profile' %}" class="btn-back">
-                        Back
-                    </a>
 
-                    <button type="submit" class="btn-save">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        Save Changes
-                    </button>
+
+                    <div class="action-note">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        <span>
+                            Your profile information is securely managed.
+                        </span>
+
+                    </div>
+
+
+                    <div class="action-buttons">
+
+
+                        <a
+                            href="{% url 'staff_profile' %}"
+                            class="btn-back"
+                        >
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Back
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="btn-save"
+                        >
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+
+                            Save Changes
+
+                        </button>
+
+
+                    </div>
+
                 </div>
+
 
             </form>
 

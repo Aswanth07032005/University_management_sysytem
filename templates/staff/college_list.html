@@ -1,269 +1,1533 @@
 {% extends "staff/staff_dashboard.html" %}
 
+{% block title %}College Directory | MM-Technical University{% endblock %}
+
 {% block content %}
 
 <style>
     :root{
-        --navy-dark:#0B2C5C;
-        --navy:#16407E;
-        --navy-soft:#EAF0FA;
-        --blue-pale:#EEF3FB;
-        --blue-line:#D9E3F2;
-        --gold:#C9A227;
-        --ink:#1C2430;
-        --muted:#6B7383;
-        --green:#1F8A5F;
-        --green-soft:#E4F5EC;
-        --red:#B23A48;
-        --red-soft:#FBEAEC;
+        --college-navy-dark:#062B5C;
+        --college-navy:#0B3D7A;
+        --college-blue:#1769D1;
+        --college-blue-hover:#0F5DBE;
+
+        --college-soft:#F4F8FD;
+        --college-pale:#EAF3FF;
+        --college-line:#D9E6F5;
+
+        --college-white:#FFFFFF;
+        --college-ink:#172033;
+        --college-muted:#6B7688;
+
+        --college-green:#16845B;
+        --college-green-soft:#E7F7EF;
+
+        --college-red:#C0394B;
+        --college-red-soft:#FCECEF;
     }
 
-    .staff-panel{
-        max-width:1300px;
+    /* =====================================
+       MAIN WRAPPER
+    ====================================== */
+
+    .college-page{
+        max-width:1400px;
         margin:0 auto;
-        background:#fff;
-        border:1px solid var(--blue-line);
-        border-radius:12px;
-        overflow:hidden;
-        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+        padding:2px 0 35px;
     }
 
-    .staff-panel .panel-head{
-        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
-        color:#fff;
-        padding:20px 24px;
+    /* =====================================
+       PAGE TOP
+    ====================================== */
+
+    .college-top{
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap:16px;
+        gap:20px;
+        margin-bottom:20px;
         flex-wrap:wrap;
-        position:relative;
     }
 
-    .staff-panel .panel-head::after{
-        content:"";
-        position:absolute;
-        left:0; right:0; bottom:0;
-        height:3px;
-        background:var(--gold);
-    }
-
-    .staff-panel .panel-head h4{
-        margin:0;
-        font-family:"Georgia","Times New Roman",serif;
-        font-weight:700;
-        font-size:19px;
+    .college-heading{
         display:flex;
         align-items:center;
-        gap:10px;
+        gap:13px;
     }
 
-    .staff-panel .panel-head h4 i{ color:var(--gold); }
+    .college-heading-icon{
+        width:47px;
+        height:47px;
 
-    .staff-count{
-        background:rgba(255,255,255,0.12);
-        border:1px solid rgba(244,197,66,0.4);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:12px;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--college-navy-dark),
+                var(--college-blue)
+            );
+
         color:#fff;
-        font-size:12.5px;
-        font-weight:600;
-        padding:6px 14px;
-        border-radius:20px;
+        font-size:18px;
+
+        box-shadow:
+            0 8px 20px rgba(23,105,209,.18);
     }
 
-    .staff-panel .panel-body{
-        padding:22px 24px 26px;
-    }
+    .college-heading-text h3{
+        margin:0;
 
-    table.staff-table{
-        width:100%;
-        border-collapse:collapse;
-        font-size:13.5px;
-    }
-
-    table.staff-table thead th{
-        background:var(--navy-soft);
-        color:var(--navy-dark);
-        text-transform:uppercase;
-        letter-spacing:0.05em;
-        font-size:11px;
+        color:var(--college-ink);
+        font-size:21px;
         font-weight:700;
-        padding:12px 14px;
-        border-bottom:2px solid var(--blue-line);
-        text-align:left;
+        letter-spacing:-.2px;
+    }
+
+    .college-heading-text p{
+        margin:4px 0 0;
+
+        color:var(--college-muted);
+        font-size:12.5px;
+    }
+
+    .directory-badge{
+        display:inline-flex;
+        align-items:center;
+        gap:7px;
+
+        padding:8px 13px;
+
+        border:1px solid var(--college-line);
+        border-radius:8px;
+
+        background:var(--college-pale);
+        color:var(--college-navy);
+
+        font-size:12px;
+        font-weight:700;
+    }
+
+    /* =====================================
+       MAIN CARD
+    ====================================== */
+
+    .college-panel{
+        background:var(--college-white);
+
+        border:1px solid var(--college-line);
+        border-radius:16px;
+
+        overflow:hidden;
+
+        box-shadow:
+            0 15px 40px rgba(11,61,122,.08);
+    }
+
+    /* =====================================
+       PANEL HEADER
+    ====================================== */
+
+    .panel-head{
+        position:relative;
+
+        padding:22px 26px;
+
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        gap:15px;
+        flex-wrap:wrap;
+
+        color:#fff;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--college-navy-dark) 0%,
+                var(--college-navy) 55%,
+                var(--college-blue) 100%
+            );
+    }
+
+    .panel-head::after{
+        content:"";
+
+        position:absolute;
+        left:0;
+        right:0;
+        bottom:0;
+
+        height:3px;
+
+        background:rgba(255,255,255,.16);
+    }
+
+    .panel-title{
+        display:flex;
+        align-items:center;
+        gap:12px;
+    }
+
+    .panel-title-icon{
+        width:39px;
+        height:39px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:10px;
+
+        background:rgba(255,255,255,.12);
+        border:1px solid rgba(255,255,255,.17);
+
+        font-size:15px;
+    }
+
+    .panel-title h4{
+        margin:0;
+
+        font-size:17px;
+        font-weight:700;
+    }
+
+    .panel-title p{
+        margin:3px 0 0;
+
+        color:#D8E7FA;
+        font-size:11.5px;
+    }
+
+    .college-count{
+        display:inline-flex;
+        align-items:center;
+        gap:7px;
+
+        padding:8px 13px;
+
+        background:rgba(255,255,255,.10);
+        border:1px solid rgba(255,255,255,.18);
+
+        border-radius:9px;
+
+        color:#fff;
+
+        font-size:12px;
+        font-weight:700;
+
         white-space:nowrap;
     }
 
-    table.staff-table tbody td{
-        padding:13px 14px;
-        border-bottom:1px solid #F0F3F9;
-        vertical-align:middle;
-        color:var(--ink);
+    .college-count i{
+        font-size:11px;
+        opacity:.85;
     }
 
-    table.staff-table tbody tr:last-child td{
-        border-bottom:none;
+    /* =====================================
+       PANEL BODY
+    ====================================== */
+
+    .panel-body{
+        padding:22px 24px 25px;
     }
 
-    table.staff-table tbody tr:hover{
-        background:var(--blue-pale);
+    /* =====================================
+       TABLE TOOLBAR
+    ====================================== */
+
+    .table-toolbar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        gap:15px;
+        flex-wrap:wrap;
+
+        margin-bottom:16px;
     }
 
-    .college-name{
-        font-weight:600;
+    .directory-info{
+        display:flex;
+        align-items:center;
+        gap:8px;
+
+        color:var(--college-muted);
+        font-size:12px;
     }
 
-    .address-cell{
-        color:var(--muted);
-        max-width:220px;
+    .directory-info i{
+        color:var(--college-blue);
+        font-size:12px;
     }
 
-    .status-pill{
-        font-size:11.5px;
-        font-weight:700;
-        padding:5px 12px;
-        border-radius:20px;
+    .secure-badge{
         display:inline-flex;
         align-items:center;
         gap:6px;
+
+        padding:6px 10px;
+
+        background:#F6FAFF;
+        border:1px solid var(--college-line);
+        border-radius:7px;
+
+        color:#617188;
+
+        font-size:11px;
+        font-weight:600;
+    }
+
+    .secure-badge i{
+        color:var(--college-green);
+        font-size:10px;
+    }
+
+
+    /* =====================================
+       SEARCH BOX
+    ====================================== */
+
+    .college-search-wrapper{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        gap:15px;
+
+        margin-bottom:16px;
+
+        padding:13px 15px;
+
+        background:#F7FAFE;
+
+        border:1px solid var(--college-line);
+
+        border-radius:11px;
+    }
+
+    .college-search-label{
+        display:flex;
+        align-items:center;
+
+        gap:9px;
+
+        color:#526176;
+
+        font-size:11.5px;
+        font-weight:700;
+
         white-space:nowrap;
     }
 
-    .status-pill.approved{ background:var(--green-soft); color:var(--green); }
-    .status-pill.pending{ background:var(--red-soft); color:var(--red); }
+    .college-search-label i{
+        width:29px;
+        height:29px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:8px;
+
+        background:var(--college-pale);
+
+        color:var(--college-blue);
+
+        font-size:11px;
+    }
+
+    .college-search-box{
+        position:relative;
+
+        width:min(430px, 100%);
+    }
+
+    .college-search-box > i{
+        position:absolute;
+
+        left:13px;
+        top:50%;
+
+        transform:translateY(-50%);
+
+        color:#8493A7;
+
+        font-size:12px;
+
+        pointer-events:none;
+    }
+
+    .college-search-input{
+        width:100%;
+
+        height:39px;
+
+        padding:0 42px 0 36px;
+
+        background:#fff;
+
+        border:1px solid #D6E2EF;
+
+        border-radius:9px;
+
+        outline:none;
+
+        color:#243247;
+
+        font-size:12px;
+
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .college-search-input::placeholder{
+        color:#9AA7B7;
+    }
+
+    .college-search-input:focus{
+        border-color:var(--college-blue);
+
+        box-shadow:
+            0 0 0 3px rgba(23,105,209,.10);
+    }
+
+    .search-clear{
+        position:absolute;
+
+        right:9px;
+        top:50%;
+
+        transform:translateY(-50%);
+
+        width:25px;
+        height:25px;
+
+        display:none;
+        align-items:center;
+        justify-content:center;
+
+        border:none;
+
+        border-radius:6px;
+
+        background:#EEF4FB;
+
+        color:#68788D;
+
+        cursor:pointer;
+
+        font-size:10px;
+    }
+
+    .search-clear:hover{
+        background:#E1EBF7;
+        color:var(--college-blue);
+    }
+
+    .search-result-count{
+        display:none;
+
+        color:#718096;
+
+        font-size:10.5px;
+        font-weight:600;
+
+        white-space:nowrap;
+    }
+
+
+    /* =====================================
+       TABLE CONTAINER
+    ====================================== */
+
+    .table-container{
+        border:1px solid var(--college-line);
+        border-radius:12px;
+
+        overflow:hidden;
+        background:#fff;
+    }
+
+    .table-responsive{
+        overflow-x:auto;
+    }
+
+
+    /* =====================================
+       TABLE
+    ====================================== */
+
+    table.college-table{
+        width:100%;
+        min-width:1250px;
+
+        border-collapse:separate;
+        border-spacing:0;
+
+        font-size:12.5px;
+    }
+
+    table.college-table thead th{
+        padding:13px 13px;
+
+        background:#F1F6FC;
+
+        color:#365477;
+
+        border-bottom:1px solid var(--college-line);
+
+        font-size:10.5px;
+        font-weight:800;
+
+        text-transform:uppercase;
+        letter-spacing:.045em;
+
+        white-space:nowrap;
+
+        position:sticky;
+        top:0;
+        z-index:2;
+    }
+
+    table.college-table thead th:first-child{
+        padding-left:17px;
+    }
+
+    table.college-table tbody td{
+        padding:13px;
+
+        border-bottom:1px solid #EDF2F8;
+
+        color:var(--college-ink);
+
+        vertical-align:middle;
+
+        white-space:nowrap;
+    }
+
+    table.college-table tbody tr:last-child td{
+        border-bottom:none;
+    }
+
+    table.college-table tbody tr{
+        transition:
+            background .15s ease,
+            box-shadow .15s ease;
+    }
+
+    table.college-table tbody tr:hover{
+        background:#F8FBFF;
+    }
+
+    /* SEARCH HIDDEN */
+
+    table.college-table tbody tr.search-hidden{
+        display:none;
+    }
+
+
+    /* =====================================
+       SERIAL NUMBER
+    ====================================== */
+
+    .serial-number{
+        width:35px;
+
+        color:#8492A5;
+        font-size:11.5px;
+        font-weight:700;
+    }
+
+
+    /* =====================================
+       COLLEGE NAME
+    ====================================== */
+
+    .college-info{
+        display:flex;
+        align-items:center;
+        gap:10px;
+
+        min-width:210px;
+    }
+
+    .college-icon{
+        width:36px;
+        height:36px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        flex:none;
+
+        border-radius:9px;
+
+        background:var(--college-pale);
+        color:var(--college-blue);
+
+        border:1px solid var(--college-line);
+
+        font-size:13px;
+    }
+
+    .college-details{
+        min-width:0;
+    }
+
+    .college-name{
+        color:var(--college-ink);
+
+        font-weight:700;
+        font-size:13px;
+
+        max-width:210px;
+
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .college-sub{
+        margin-top:2px;
+
+        color:#8794A7;
+        font-size:10.5px;
+    }
+
+
+    /* =====================================
+       PRINCIPAL
+    ====================================== */
+
+    .principal-cell{
+        display:flex;
+        align-items:center;
+        gap:7px;
+    }
+
+    .principal-cell i{
+        color:#8AA1BC;
+        font-size:11px;
+    }
+
+
+    /* =====================================
+       LOCATION
+    ====================================== */
+
+    .location-cell{
+        display:flex;
+        align-items:center;
+        gap:6px;
+    }
+
+    .location-cell i{
+        color:#6F91B8;
+        font-size:10px;
+    }
+
+
+    /* =====================================
+       PHONE / EMAIL
+    ====================================== */
+
+    .phone-cell,
+    .email-cell{
+        color:#41536A;
+        font-size:12px;
+    }
+
+    .email-cell{
+        max-width:190px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+
+    /* =====================================
+       ADDRESS
+    ====================================== */
+
+    .address-cell{
+        max-width:210px;
+
+        color:var(--college-muted);
+
+        white-space:normal;
+        line-height:1.45;
+    }
+
+
+    /* =====================================
+       STATUS
+    ====================================== */
+
+    .status-pill{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:6px;
+
+        padding:6px 10px;
+
+        border-radius:7px;
+
+        font-size:10.5px;
+        font-weight:800;
+
+        white-space:nowrap;
+    }
+
+    .status-pill.approved{
+        color:var(--college-green);
+        background:var(--college-green-soft);
+        border:1px solid #CBECDD;
+    }
+
+    .status-pill.pending{
+        color:var(--college-red);
+        background:var(--college-red-soft);
+        border:1px solid #F4D0D5;
+    }
+
+    .status-pill i{
+        font-size:9px;
+    }
+
+
+    /* =====================================
+       MESSAGE BUTTON
+    ====================================== */
 
     .btn-message{
         display:inline-flex;
         align-items:center;
-        gap:6px;
-        background:var(--navy-dark);
+        justify-content:center;
+        gap:7px;
+
+        padding:8px 12px;
+
+        border-radius:8px;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--college-navy),
+                var(--college-blue)
+            );
+
+        border:1px solid var(--college-blue);
+
         color:#fff;
-        font-size:12.5px;
-        font-weight:600;
-        padding:7px 14px;
-        border-radius:6px;
+
+        font-size:11.5px;
+        font-weight:700;
+
         text-decoration:none;
+
         white-space:nowrap;
-        transition:background .15s ease;
+
+        box-shadow:
+            0 5px 12px rgba(23,105,209,.14);
+
+        transition:
+            transform .15s ease,
+            box-shadow .15s ease,
+            background .15s ease;
     }
 
     .btn-message:hover{
-        background:var(--navy);
         color:#fff;
+
+        background:
+            linear-gradient(
+                135deg,
+                #082F68,
+                var(--college-blue-hover)
+            );
+
+        transform:translateY(-1px);
+
+        box-shadow:
+            0 8px 18px rgba(23,105,209,.22);
     }
+
+    .btn-message i{
+        font-size:10px;
+    }
+
+
+    /* =====================================
+       EMPTY STATE
+    ====================================== */
 
     .empty-row td{
-        padding:36px 14px;
+        padding:65px 20px !important;
+
         text-align:center;
-        color:var(--muted);
-        font-size:13.5px;
+
+        color:var(--college-muted);
     }
 
-    .empty-row i{
+    .empty-icon{
+        width:60px;
+        height:60px;
+
+        margin:0 auto 14px;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        border-radius:14px;
+
+        background:var(--college-soft);
+        border:1px solid var(--college-line);
+
+        color:#9BB0C8;
+
+        font-size:22px;
+    }
+
+    .empty-title{
         display:block;
-        font-size:26px;
-        color:var(--blue-line);
-        margin-bottom:10px;
+
+        color:var(--college-ink);
+
+        font-size:14px;
+        font-weight:700;
+
+        margin-bottom:4px;
+    }
+
+    .empty-text{
+        font-size:11.5px;
+        color:var(--college-muted);
+    }
+
+    .search-empty-row{
+        display:none;
+    }
+
+
+    /* =====================================
+       TABLE FOOTER
+    ====================================== */
+
+    .table-footer{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+
+        gap:15px;
+
+        margin-top:14px;
+
+        color:#7A8798;
+        font-size:11px;
+    }
+
+    .table-footer-left{
+        display:flex;
+        align-items:center;
+        gap:6px;
+    }
+
+    .table-footer-left i{
+        color:var(--college-blue);
+    }
+
+
+    /* =====================================
+       SCROLLBAR
+    ====================================== */
+
+    .table-responsive::-webkit-scrollbar{
+        height:7px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track{
+        background:#F1F5FA;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb{
+        background:#B9CBE0;
+        border-radius:10px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover{
+        background:#8EAAC8;
+    }
+
+
+    /* =====================================
+       RESPONSIVE
+    ====================================== */
+
+    @media (max-width:900px){
+
+        .college-page{
+            padding:0 8px 30px;
+        }
+
+        .panel-body{
+            padding:18px;
+        }
+
+        .panel-head{
+            padding:20px;
+        }
+
+        .college-search-wrapper{
+            align-items:flex-start;
+            flex-direction:column;
+        }
+
+        .college-search-box{
+            width:100%;
+        }
+
+        .search-result-count{
+            align-self:flex-end;
+        }
+    }
+
+    @media (max-width:650px){
+
+        .college-top{
+            align-items:flex-start;
+            flex-direction:column;
+        }
+
+        .directory-badge{
+            align-self:flex-start;
+        }
+
+        .college-heading-text h3{
+            font-size:18px;
+        }
+
+        .college-heading-icon{
+            width:43px;
+            height:43px;
+        }
+
+        .table-toolbar{
+            align-items:flex-start;
+            flex-direction:column;
+        }
+
+        .table-footer{
+            align-items:flex-start;
+            flex-direction:column;
+        }
+
+        .panel-title h4{
+            font-size:15px;
+        }
+
+        .college-count{
+            width:100%;
+            justify-content:center;
+        }
+
+        .college-search-wrapper{
+            padding:12px;
+        }
     }
 </style>
 
-<div class="staff-panel">
 
-    <div class="panel-head">
-        <h4>
-            <i class="fa-solid fa-building-columns"></i>
-            College Directory
-        </h4>
+<div class="college-page">
 
-        <span class="staff-count">
-            Total Colleges&nbsp;: {{ colleges.count }}
-        </span>
+    <!-- =====================================
+         PAGE HEADING
+    ====================================== -->
+
+    <div class="college-top">
+
+        <div class="college-heading">
+
+            <div class="college-heading-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </div>
+
+            <div class="college-heading-text">
+
+                <h3>College Directory</h3>
+
+                <p>
+                    View and manage registered colleges across the university
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="directory-badge">
+
+            <i class="fa-solid fa-building"></i>
+
+            Registered Colleges
+
+        </div>
+
     </div>
 
-    <div class="panel-body">
 
-        <div class="table-responsive">
+    <!-- =====================================
+         MAIN PANEL
+    ====================================== -->
 
-            <table class="staff-table">
+    <div class="college-panel">
 
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>College</th>
-                        <th>Principal</th>
-                        <th>District</th>
-                        <th>State</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
 
-                <tbody>
+        <!-- PANEL HEADER -->
 
-                    {% for college in colleges %}
+        <div class="panel-head">
 
-                        <tr>
+            <div class="panel-title">
 
-                            <td>{{ forloop.counter }}</td>
+                <div class="panel-title-icon">
+                    <i class="fa-solid fa-landmark"></i>
+                </div>
 
-                            <td class="college-name">{{ college.college_name }}</td>
+                <div>
 
-                            <td>{{ college.principal_name }}</td>
+                    <h4>
+                        College Directory
+                    </h4>
 
-                            <td>{{ college.district }}</td>
+                    <p>
+                        Official registered college information
+                    </p>
 
-                            <td>{{ college.state }}</td>
+                </div>
 
-                            <td>{{ college.phone }}</td>
+            </div>
 
-                            <td>{{ college.email }}</td>
 
-                            <td class="address-cell">{{ college.address }}</td>
+            <div class="college-count">
 
-                            <td>
-                                {% if college.is_approved %}
-                                    <span class="status-pill approved">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                        NAAC Approved
+                <i class="fa-solid fa-layer-group"></i>
+
+                Total Colleges:
+                {{ colleges.count }}
+
+            </div>
+
+        </div>
+
+
+        <!-- PANEL BODY -->
+
+        <div class="panel-body">
+
+
+            <!-- TOOLBAR -->
+
+            <div class="table-toolbar">
+
+                <div class="directory-info">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    Registered college details and approval status
+
+                </div>
+
+                <div class="secure-badge">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    University Staff Directory
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 SEARCH
+            ====================================== -->
+
+            <div class="college-search-wrapper">
+
+
+
+
+                <div class="college-search-box">
+
+                    <i class="fa-solid fa-search"></i>
+
+                    <input
+                        type="text"
+                        id="collegeSearch"
+                        class="college-search-input"
+                        placeholder="Search by college, principal, district, state, phone or email..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        id="clearCollegeSearch"
+                        class="search-clear"
+                        title="Clear Search"
+                    >
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                    </button>
+
+                </div>
+
+
+                <span
+                    id="collegeSearchResult"
+                    class="search-result-count"
+                ></span>
+
+            </div>
+
+
+            <!-- =====================================
+                 TABLE
+            ====================================== -->
+
+            <div class="table-container">
+
+                <div class="table-responsive">
+
+                    <table class="college-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>#</th>
+
+                                <th>College</th>
+
+                                <th>Principal</th>
+
+                                <th>District</th>
+
+                                <th>State</th>
+
+                                <th>Phone</th>
+
+                                <th>Email</th>
+
+                                <th>Address</th>
+
+                                <th>Status</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="collegeTableBody">
+
+
+                            {% for college in colleges %}
+
+                                <tr class="college-row">
+
+
+                                    <!-- NUMBER -->
+
+                                    <td class="serial-number">
+                                        {{ forloop.counter }}
+                                    </td>
+
+
+                                    <!-- COLLEGE -->
+
+                                    <td>
+
+                                        <div class="college-info">
+
+                                            <div class="college-icon">
+                                                <i class="fa-solid fa-building-columns"></i>
+                                            </div>
+
+                                            <div class="college-details">
+
+                                                <div class="college-name">
+                                                    {{ college.college_name }}
+                                                </div>
+
+                                                <div class="college-sub">
+                                                    Registered Institution
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- PRINCIPAL -->
+
+                                    <td>
+
+                                        <div class="principal-cell">
+
+                                            <i class="fa-solid fa-user-tie"></i>
+
+                                            {{ college.principal_name }}
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- DISTRICT -->
+
+                                    <td>
+
+                                        <div class="location-cell">
+
+                                            <i class="fa-solid fa-location-dot"></i>
+
+                                            {{ college.district }}
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- STATE -->
+
+                                    <td>
+
+                                        <div class="location-cell">
+
+                                            <i class="fa-solid fa-map"></i>
+
+                                            {{ college.state }}
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- PHONE -->
+
+                                    <td class="phone-cell">
+                                        {{ college.phone }}
+                                    </td>
+
+
+                                    <!-- EMAIL -->
+
+                                    <td
+                                        class="email-cell"
+                                        title="{{ college.email }}"
+                                    >
+                                        {{ college.email }}
+                                    </td>
+
+
+                                    <!-- ADDRESS -->
+
+                                    <td class="address-cell">
+                                        {{ college.address }}
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        {% if college.is_approved %}
+
+                                            <span class="status-pill approved">
+
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                                NAAC Approved
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="status-pill pending">
+
+                                                <i class="fa-solid fa-clock"></i>
+
+                                                Pending
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- ACTION -->
+
+                                    <td>
+
+                                        <a
+                                            href=" "
+                                            class="btn-message"
+                                        >
+
+                                            <i class="fa-solid fa-paper-plane"></i>
+
+                                            Send Message
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+
+                            {% empty %}
+
+                                <tr class="empty-row">
+
+                                    <td colspan="10">
+
+                                        <div class="empty-icon">
+
+                                            <i class="fa-solid fa-building-circle-xmark"></i>
+
+                                        </div>
+
+                                        <span class="empty-title">
+                                            No Colleges Found
+                                        </span>
+
+                                        <span class="empty-text">
+                                            There are currently no registered colleges available.
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+
+                            <!-- SEARCH EMPTY STATE -->
+
+                            <tr
+                                id="collegeSearchEmpty"
+                                class="search-empty-row empty-row"
+                            >
+
+                                <td colspan="10">
+
+                                    <div class="empty-icon">
+
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                                    </div>
+
+                                    <span class="empty-title">
+                                        No Matching Colleges
                                     </span>
-                                {% else %}
-                                    <span class="status-pill pending">
-                                        <i class="fa-solid fa-clock"></i>
-                                        Pending
+
+                                    <span class="empty-text">
+                                        Try searching with a different college name, principal, district or email.
                                     </span>
-                                {% endif %}
-                            </td>
 
-                            <td>
-                                <a href=" " class="btn-message">
-                                    <i class="fa-solid fa-paper-plane"></i>
-                                    Send Message
-                                </a>
-                            </td>
+                                </td>
 
-                        </tr>
+                            </tr>
 
-                    {% empty %}
 
-                        <tr class="empty-row">
-                            <td colspan="10">
-                                <i class="fa-solid fa-building-circle-xmark"></i>
-                                No Colleges Found
-                            </td>
-                        </tr>
+                        </tbody>
 
-                    {% endfor %}
+                    </table>
 
-                </tbody>
+                </div>
 
-            </table>
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="table-footer">
+
+                <div class="table-footer-left">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    College directory is maintained by university staff.
+
+                </div>
+
+                <div>
+
+                    Showing
+                    <strong id="visibleCollegeCount">
+                        {{ colleges.count }}
+                    </strong>
+                    college{{ colleges.count|pluralize }}
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+
+<!-- =====================================
+     SEARCH SCRIPT
+====================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.getElementById("collegeSearch");
+
+    const clearButton =
+        document.getElementById("clearCollegeSearch");
+
+    const resultCount =
+        document.getElementById("collegeSearchResult");
+
+    const searchEmpty =
+        document.getElementById("collegeSearchEmpty");
+
+    const visibleCount =
+        document.getElementById("visibleCollegeCount");
+
+    const collegeRows =
+        document.querySelectorAll(".college-row");
+
+
+    function filterColleges() {
+
+        const searchValue =
+            searchInput.value.trim().toLowerCase();
+
+        let matchedCount = 0;
+
+
+        collegeRows.forEach(function (row) {
+
+            const rowText =
+                row.textContent.toLowerCase();
+
+
+            if (
+                searchValue === "" ||
+                rowText.includes(searchValue)
+            ) {
+
+                row.classList.remove("search-hidden");
+
+                matchedCount++;
+
+            } else {
+
+                row.classList.add("search-hidden");
+
+            }
+
+        });
+
+
+        /* Clear button */
+
+        if (searchValue !== "") {
+
+            clearButton.style.display = "flex";
+
+        } else {
+
+            clearButton.style.display = "none";
+
+        }
+
+
+        /* Result count */
+
+        if (searchValue !== "") {
+
+            resultCount.style.display = "block";
+
+            resultCount.textContent =
+                matchedCount +
+                " college" +
+                (matchedCount !== 1 ? "s" : "") +
+                " found";
+
+        } else {
+
+            resultCount.style.display = "none";
+
+        }
+
+
+        /* Footer count */
+
+        visibleCount.textContent = matchedCount;
+
+
+        /* No matching result */
+
+        if (
+            searchValue !== "" &&
+            matchedCount === 0 &&
+            collegeRows.length > 0
+        ) {
+
+            searchEmpty.style.display = "table-row";
+
+        } else {
+
+            searchEmpty.style.display = "none";
+
+        }
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        filterColleges
+    );
+
+
+    clearButton.addEventListener(
+        "click",
+        function () {
+
+            searchInput.value = "";
+
+            searchInput.focus();
+
+            filterColleges();
+
+        }
+    );
+
+});
+
+</script>
 
 {% endblock %}

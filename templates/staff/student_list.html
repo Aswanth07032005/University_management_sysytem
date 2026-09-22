@@ -3,343 +3,1250 @@
 {% block content %}
 
 <style>
-    :root{
-        --navy-dark:#0B2C5C;
-        --navy:#16407E;
-        --navy-soft:#EAF0FA;
-        --blue-pale:#EEF3FB;
-        --blue-line:#D9E3F2;
-        --gold:#C9A227;
-        --ink:#1C2430;
-        --muted:#6B7383;
-        --green:#1F8A5F;
-        --green-soft:#E4F5EC;
-        --amber:#B8791F;
-        --amber-soft:#FBF2DC;
-        --red:#B23A48;
-        --red-soft:#FBEAEC;
+
+    /* =========================================================
+       STUDENT LIST PAGE
+    ========================================================= */
+
+    .student-page {
+        width: 100%;
     }
 
-    .staff-panel{
-        max-width:1300px;
-        margin:0 auto;
-        background:#fff;
-        border:1px solid var(--blue-line);
-        border-radius:12px;
-        overflow:hidden;
-        box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+    .student-panel {
+        background: #ffffff;
+        border: 1px solid #D9E6F5;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(6, 43, 92, 0.07);
     }
 
-    .staff-panel .panel-head{
-        background:linear-gradient(120deg,var(--navy-dark),var(--navy));
-        color:#fff;
-        padding:20px 24px;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:16px;
-        flex-wrap:wrap;
-        position:relative;
-        margin:0;
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    .student-panel-head {
+        position: relative;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 18px;
+
+        padding: 20px 24px;
+
+        background:
+            linear-gradient(
+                120deg,
+                #062B5C 0%,
+                #0B3D7A 58%,
+                #1769D1 100%
+            );
+
+        color: #ffffff;
+
+        overflow: hidden;
     }
 
-    .staff-panel .panel-head::after{
-        content:"";
-        position:absolute;
-        left:0; right:0; bottom:0;
-        height:3px;
-        background:var(--gold);
+    .student-panel-head::before {
+        content: "";
+
+        position: absolute;
+
+        width: 220px;
+        height: 220px;
+
+        right: -90px;
+        top: -135px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,0.07);
     }
 
-    .staff-panel .panel-head h4{
-        margin:0;
-        font-family:"Georgia","Times New Roman",serif;
-        font-weight:700;
-        font-size:19px;
-        display:flex;
-        align-items:center;
-        gap:10px;
+    .student-panel-head::after {
+        content: "";
+
+        position: absolute;
+
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        height: 3px;
+
+        background: #3B82D0;
     }
 
-    .staff-panel .panel-head h4 i{ color:var(--gold); }
 
-    .staff-count{
-        background:rgba(255,255,255,0.12);
-        border:1px solid rgba(244,197,66,0.4);
-        color:#fff;
-        font-size:12.5px;
-        font-weight:600;
-        padding:6px 14px;
-        border-radius:20px;
+    /* Header left */
+
+    .student-title {
+        position: relative;
+        z-index: 2;
+
+        display: flex;
+        align-items: center;
+
+        gap: 13px;
     }
 
-    .staff-panel .panel-body{
-        padding:22px 24px 26px;
+    .student-title-icon {
+        width: 43px;
+        height: 43px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background: rgba(255,255,255,0.12);
+
+        border: 1px solid rgba(255,255,255,0.17);
+
+        color: #ffffff;
+
+        font-size: 16px;
     }
 
-    table.staff-table{
-        width:100%;
-        border-collapse:collapse;
-        font-size:13.5px;
+    .student-title-text p {
+        margin: 0 0 3px;
+
+        color: #BFD4EE;
+
+        font-size: 9.5px;
+        font-weight: 700;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.12em;
     }
 
-    table.staff-table thead th{
-        background:var(--navy-soft);
-        color:var(--navy-dark);
-        text-transform:uppercase;
-        letter-spacing:0.05em;
-        font-size:11px;
-        font-weight:700;
-        padding:12px 14px;
-        border-bottom:2px solid var(--blue-line);
-        text-align:left;
-        white-space:nowrap;
+    .student-title-text h4 {
+        margin: 0;
+
+        color: #ffffff;
+
+        font-size: 19px;
+        font-weight: 700;
+
+        letter-spacing: -0.2px;
     }
 
-    table.staff-table tbody td{
-        padding:11px 14px;
-        border-bottom:1px solid #F0F3F9;
-        vertical-align:middle;
-        color:var(--ink);
+
+    /* Count */
+
+    .student-count {
+        position: relative;
+        z-index: 2;
+
+        display: inline-flex;
+        align-items: center;
+
+        gap: 7px;
+
+        padding: 8px 13px;
+
+        border-radius: 9px;
+
+        background: rgba(255,255,255,0.10);
+
+        border: 1px solid rgba(255,255,255,0.16);
+
+        color: #ffffff;
+
+        font-size: 11.5px;
+        font-weight: 600;
+
+        white-space: nowrap;
     }
 
-    table.staff-table tbody tr:last-child td{
-        border-bottom:none;
+    .student-count i {
+        color: #C9DCF3;
+
+        font-size: 11px;
     }
 
-    table.staff-table tbody tr:hover{
-        background:var(--blue-pale);
+    .student-count strong {
+        font-weight: 700;
     }
 
-    .student-photo{
-        width:44px;
-        height:44px;
-        border-radius:50%;
-        object-fit:cover;
-        border:1px solid var(--blue-line);
-        display:block;
+
+    /* =========================================================
+       BODY
+    ========================================================= */
+
+    .student-panel-body {
+        padding: 20px 22px 23px;
     }
 
-    .student-photo-fallback{
-        width:44px;
-        height:44px;
-        border-radius:50%;
-        background:var(--navy-soft);
-        color:var(--navy);
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:18px;
+
+    /* =========================================================
+       SEARCH BAR
+    ========================================================= */
+
+    .student-search-area {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 15px;
+
+        margin-bottom: 17px;
+
+        padding: 13px 15px;
+
+        background: #F7FAFE;
+
+        border: 1px solid #E0EAF5;
+
+        border-radius: 11px;
     }
 
-    .student-name{
-        font-weight:600;
+    .student-search-label {
+        display: flex;
+        align-items: center;
+
+        gap: 9px;
+
+        color: #526176;
+
+        font-size: 11.5px;
+        font-weight: 700;
+
+        white-space: nowrap;
     }
 
-    .marks-pill{
-        display:inline-block;
-        background:var(--green-soft);
-        color:var(--green);
-        font-size:11.5px;
-        font-weight:700;
-        padding:4px 10px;
-        border-radius:20px;
+    .student-search-label i {
+        width: 29px;
+        height: 29px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 8px;
+
+        background: #EAF3FF;
+
+        color: #1769D1;
+
+        font-size: 11px;
     }
 
-    .status-pill{
-        display:inline-block;
-        background:var(--navy-soft);
-        color:var(--navy);
-        font-size:11.5px;
-        font-weight:700;
-        padding:4px 10px;
-        border-radius:20px;
-        white-space:nowrap;
+    .student-search-box {
+        position: relative;
+
+        width: min(420px, 100%);
     }
 
-    .row-actions{
-        display:flex;
-        gap:6px;
+    .student-search-box > i {
+        position: absolute;
+
+        left: 13px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #8493A7;
+
+        font-size: 12px;
+
+        pointer-events: none;
     }
 
-    .btn-icon{
-        width:32px;
-        height:32px;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:6px;
-        text-decoration:none;
-        font-size:12.5px;
-        transition:background .15s ease, color .15s ease;
+    .student-search-input {
+        width: 100%;
+
+        height: 39px;
+
+        padding: 0 40px 0 36px;
+
+        border: 1px solid #D6E2EF;
+
+        border-radius: 9px;
+
+        outline: none;
+
+        background: #ffffff;
+
+        color: #243247;
+
+        font-size: 12px;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
     }
 
-    .btn-icon.view{
-        background:var(--navy-soft);
-        color:var(--navy);
+    .student-search-input::placeholder {
+        color: #9AA7B7;
     }
 
-    .btn-icon.view:hover{
-        background:var(--navy);
-        color:#fff;
+    .student-search-input:focus {
+        border-color: #1769D1;
+
+        box-shadow:
+            0 0 0 3px rgba(23,105,209,0.10);
     }
 
-    .btn-icon.edit{
-        background:var(--amber-soft);
-        color:var(--amber);
+    .search-clear {
+        position: absolute;
+
+        right: 9px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        width: 25px;
+        height: 25px;
+
+        display: none;
+
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+
+        border-radius: 6px;
+
+        background: #EEF4FB;
+
+        color: #68788D;
+
+        cursor: pointer;
+
+        font-size: 10px;
     }
 
-    .btn-icon.edit:hover{
-        background:var(--amber);
-        color:#fff;
+    .search-clear:hover {
+        background: #E1EBF7;
+        color: #1769D1;
     }
 
-    .btn-icon.delete{
-        background:var(--red-soft);
-        color:var(--red);
+    .search-result-count {
+        display: none;
+
+        color: #718096;
+
+        font-size: 10.5px;
+        font-weight: 600;
+
+        white-space: nowrap;
     }
 
-    .btn-icon.delete:hover{
-        background:var(--red);
-        color:#fff;
+
+    /* =========================================================
+       TABLE WRAPPER
+    ========================================================= */
+
+    .student-table-wrapper {
+        width: 100%;
+
+        overflow-x: auto;
+
+        border: 1px solid #E1EAF4;
+
+        border-radius: 11px;
+
+        scrollbar-width: thin;
     }
 
-    .empty-row td{
-        padding:36px 14px;
-        text-align:center;
-        color:var(--muted);
-        font-size:13.5px;
+    .student-table-wrapper::-webkit-scrollbar {
+        height: 6px;
     }
 
-    .empty-row i{
-        display:block;
-        font-size:26px;
-        color:var(--blue-line);
-        margin-bottom:10px;
+    .student-table-wrapper::-webkit-scrollbar-track {
+        background: #F3F6FA;
     }
+
+    .student-table-wrapper::-webkit-scrollbar-thumb {
+        background: #C8D7E8;
+
+        border-radius: 10px;
+    }
+
+
+    /* =========================================================
+       TABLE
+    ========================================================= */
+
+    table.student-table {
+        width: 100%;
+
+        min-width: 1250px;
+
+        border-collapse: separate;
+
+        border-spacing: 0;
+
+        font-size: 12.5px;
+    }
+
+
+    /* Header */
+
+    table.student-table thead th {
+        position: sticky;
+        top: 0;
+
+        z-index: 2;
+
+        padding: 12px 13px;
+
+        background: #F5F8FC;
+
+        border-bottom: 1px solid #DCE7F3;
+
+        color: #59677B;
+
+        font-size: 10px;
+        font-weight: 700;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.065em;
+
+        text-align: left;
+
+        white-space: nowrap;
+    }
+
+    table.student-table thead th:first-child {
+        padding-left: 15px;
+    }
+
+
+    /* Body */
+
+    table.student-table tbody td {
+        padding: 11px 13px;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #EDF2F7;
+
+        color: #344054;
+
+        vertical-align: middle;
+
+        white-space: nowrap;
+    }
+
+    table.student-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    table.student-table tbody tr {
+        transition: background 0.18s ease;
+    }
+
+    table.student-table tbody tr:hover td {
+        background: #F7FAFE;
+    }
+
+
+    /* =========================================================
+       HIDDEN SEARCH ROW
+    ========================================================= */
+
+    .student-table tbody tr.search-hidden {
+        display: none;
+    }
+
+
+    /* =========================================================
+       SERIAL NUMBER
+    ========================================================= */
+
+    .serial-number {
+        color: #8491A3;
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+    /* =========================================================
+       PHOTO
+    ========================================================= */
+
+    .student-photo {
+        width: 40px;
+        height: 40px;
+
+        display: block;
+
+        object-fit: cover;
+
+        border-radius: 10px;
+
+        border: 1px solid #D9E5F1;
+
+        background: #F3F7FC;
+
+        box-shadow:
+            0 2px 6px rgba(6,43,92,0.05);
+    }
+
+    .student-photo-fallback {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 10px;
+
+        background: #EAF3FF;
+
+        border: 1px solid #D7E6F7;
+
+        color: #1769D1;
+
+        font-size: 17px;
+    }
+
+
+    /* =========================================================
+       STUDENT NAME
+    ========================================================= */
+
+    .student-name {
+        color: #172033 !important;
+
+        font-size: 13px;
+
+        font-weight: 700;
+    }
+
+
+    /* =========================================================
+       MARKS
+    ========================================================= */
+
+    .marks-pill {
+        display: inline-flex;
+        align-items: center;
+
+        min-width: 55px;
+
+        justify-content: center;
+
+        padding: 5px 9px;
+
+        border-radius: 7px;
+
+        background: #EAF7F0;
+
+        border: 1px solid #D3EDDF;
+
+        color: #198754;
+
+        font-size: 10.5px;
+        font-weight: 700;
+    }
+
+
+    /* =========================================================
+       STATUS
+    ========================================================= */
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+
+        gap: 6px;
+
+        padding: 5px 10px;
+
+        border-radius: 20px;
+
+        background: #EAF3FF;
+
+        border: 1px solid #D7E6F7;
+
+        color: #1769D1;
+
+        font-size: 10.5px;
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    .status-pill::before {
+        content: "";
+
+        width: 6px;
+        height: 6px;
+
+        border-radius: 50%;
+
+        background: #1769D1;
+    }
+
+
+    /* =========================================================
+       ACTIONS
+    ========================================================= */
+
+    .row-actions {
+        display: flex;
+        align-items: center;
+
+        gap: 6px;
+    }
+
+    .btn-icon {
+        width: 33px;
+        height: 33px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 8px;
+
+        text-decoration: none;
+
+        font-size: 11.5px;
+
+        border: 1px solid transparent;
+
+        transition:
+            background 0.2s ease,
+            border-color 0.2s ease,
+            color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .btn-icon:hover {
+        transform: translateY(-1px);
+    }
+
+
+    /* Edit */
+
+    .btn-icon.edit {
+        background: #EEF5FF;
+
+        border-color: #D8E7F7;
+
+        color: #1769D1;
+    }
+
+    .btn-icon.edit:hover {
+        background: #1769D1;
+
+        border-color: #1769D1;
+
+        color: #ffffff;
+    }
+
+
+    /* Delete */
+
+    .btn-icon.delete {
+        background: #FDEEEF;
+
+        border-color: #F5D8DC;
+
+        color: #C43D4D;
+    }
+
+    .btn-icon.delete:hover {
+        background: #C43D4D;
+
+        border-color: #C43D4D;
+
+        color: #ffffff;
+    }
+
+
+    /* =========================================================
+       EMPTY STATE
+    ========================================================= */
+
+    .empty-row td {
+        padding: 55px 20px !important;
+
+        text-align: center;
+
+        color: #788598 !important;
+
+        font-size: 13px;
+
+        background: #ffffff !important;
+    }
+
+    .empty-row i {
+        width: 52px;
+        height: 52px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin: 0 auto 12px;
+
+        border-radius: 13px;
+
+        background: #F1F6FC;
+
+        color: #A9BBD0;
+
+        font-size: 20px;
+    }
+
+    .empty-title {
+        display: block;
+
+        margin-bottom: 3px;
+
+        color: #536174;
+
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .empty-subtitle {
+        font-size: 11px;
+
+        color: #98A4B4;
+    }
+
+    .search-empty-row {
+        display: none;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 991px) {
+
+        .student-panel-head {
+            padding: 18px 19px;
+        }
+
+        .student-panel-body {
+            padding: 17px;
+        }
+
+        .student-search-area {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .student-search-box {
+            width: 100%;
+        }
+
+        .search-result-count {
+            align-self: flex-end;
+        }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+        .student-panel-head {
+            align-items: flex-start;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+        .student-count {
+            align-self: flex-start;
+        }
+
+        .student-title-text h4 {
+            font-size: 17px;
+        }
+
+        .student-panel-body {
+            padding: 14px;
+        }
+
+        .student-search-area {
+            padding: 12px;
+        }
+
+    }
+
 </style>
 
-<div class="staff-panel">
 
-    <div class="panel-head">
-        <h4>
-            <i class="fa-solid fa-user-graduate"></i>
-            Student List
-        </h4>
-        <span class="staff-count">
-            Total Students&nbsp;: {{ students.count }}
-        </span>
-    </div>
+<div class="student-page">
 
-    <div class="panel-body">
+    <div class="student-panel">
 
-        <div class="table-responsive">
 
-            <table class="staff-table">
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
 
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Photo</th>
-                        <th>Student Name</th>
-                        <th>Gender</th>
-                        <th>Qualification</th>
-                        <th>Marks (%)</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>District</th>
-                        <th>State</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+        <div class="student-panel-head">
 
-                <tbody>
+            <div class="student-title">
 
-                    {% for student in students %}
+                <div class="student-title-icon">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+
+                <div class="student-title-text">
+
+                    <p>
+                        Staff Management
+                    </p>
+
+                    <h4>
+                        Student List
+                    </h4>
+
+                </div>
+
+            </div>
+
+
+            <div class="student-count">
+
+                <i class="fa-solid fa-users"></i>
+
+                <span>
+                    Total Students :
+                </span>
+
+                <strong>
+                    {{ students.count }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             BODY
+        ====================================================== -->
+
+        <div class="student-panel-body">
+
+
+            <!-- =================================================
+                 SEARCH
+            ================================================== -->
+
+            <div class="student-search-area">
+
+
+
+
+                <div class="student-search-box">
+
+                    <i class="fa-solid fa-search"></i>
+
+                    <input
+                        type="text"
+                        id="studentSearch"
+                        class="student-search-input"
+                        placeholder="Search by name, email, phone, qualification..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        id="clearStudentSearch"
+                        class="search-clear"
+                        title="Clear Search"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <span
+                    id="searchResultCount"
+                    class="search-result-count"
+                ></span>
+
+            </div>
+
+
+            <!-- =================================================
+                 TABLE
+            ================================================== -->
+
+            <div class="student-table-wrapper">
+
+                <table class="student-table">
+
+                    <thead>
 
                         <tr>
 
-                            <td>{{ forloop.counter }}</td>
+                            <th>#</th>
 
-                            <td>
-                                {% if student.profile_photo %}
-                                    <img src="{{ student.profile_photo.url }}"
-                                         class="student-photo"
-                                         alt="{{ student.full_name }}">
-                                {% else %}
-                                    <div class="student-photo-fallback">
-                                        <i class="fa-solid fa-circle-user"></i>
+                            <th>Photo</th>
+
+                            <th>Student Name</th>
+
+                            <th>Gender</th>
+
+                            <th>Qualification</th>
+
+                            <th>Marks (%)</th>
+
+                            <th>Phone</th>
+
+                            <th>Email</th>
+
+                            <th>District</th>
+
+                            <th>State</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="studentTableBody">
+
+
+                        {% for student in students %}
+
+                            <tr class="student-row">
+
+
+                                <!-- Number -->
+
+                                <td>
+                                    <span class="serial-number">
+                                        {{ forloop.counter }}
+                                    </span>
+                                </td>
+
+
+                                <!-- Photo -->
+
+                                <td>
+
+                                    {% if student.profile_photo %}
+
+                                        <img
+                                            src="{{ student.profile_photo.url }}"
+                                            class="student-photo"
+                                            alt="{{ student.full_name }}"
+                                        >
+
+                                    {% else %}
+
+                                        <div class="student-photo-fallback">
+                                            <i class="fa-solid fa-circle-user"></i>
+                                        </div>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- Name -->
+
+                                <td class="student-name">
+                                    {{ student.full_name }}
+                                </td>
+
+
+                                <!-- Gender -->
+
+                                <td>
+                                    {{ student.gender }}
+                                </td>
+
+
+                                <!-- Qualification -->
+
+                                <td>
+                                    {{ student.previous_qualification }}
+                                </td>
+
+
+                                <!-- Marks -->
+
+                                <td>
+
+                                    <span class="marks-pill">
+                                        {{ student.plus_two_percentage }}%
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Phone -->
+
+                                <td>
+                                    {{ student.phone }}
+                                </td>
+
+
+                                <!-- Email -->
+
+                                <td>
+                                    {{ student.email }}
+                                </td>
+
+
+                                <!-- District -->
+
+                                <td>
+                                    {{ student.district }}
+                                </td>
+
+
+                                <!-- State -->
+
+                                <td>
+                                    {{ student.state }}
+                                </td>
+
+
+                                <!-- Status -->
+
+                                <td>
+
+                                    <span class="status-pill">
+                                        Registered
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Actions -->
+
+                                <td>
+
+                                    <div class="row-actions">
+
+                                        <a
+                                            href="{% url 'staff_student_edit' student.id %}"
+                                            class="btn-icon edit"
+                                            title="Edit"
+                                        >
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+
+
+                                        <a
+                                            href="{% url 'staff_student_delete' student.id %}"
+                                            class="btn-icon delete"
+                                            title="Delete"
+                                            onclick="return confirm('Are you sure you want to delete this student?');"
+                                        >
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+
                                     </div>
-                                {% endif %}
-                            </td>
 
-                            <td class="student-name">
-                                {{ student.full_name }}
-                            </td>
+                                </td>
 
-                            <td>{{ student.gender }}</td>
 
-                            <td>{{ student.previous_qualification }}</td>
+                            </tr>
 
-                            <td>
-                                <span class="marks-pill">
-                                    {{ student.plus_two_percentage }}%
-                                </span>
-                            </td>
+                        {% empty %}
 
-                            <td>{{ student.phone }}</td>
+                            <tr class="empty-row">
 
-                            <td>{{ student.email }}</td>
+                                <td colspan="12">
 
-                            <td>{{ student.district }}</td>
+                                    <i class="fa-solid fa-user-slash"></i>
 
-                            <td>{{ student.state }}</td>
+                                    <span class="empty-title">
+                                        No Students Found
+                                    </span>
 
-                            <td>
-                                <span class="status-pill">
-                                    Registered
-                                </span>
-                            </td>
+                                    <span class="empty-subtitle">
+                                        There are currently no registered students.
+                                    </span>
 
-                            <td>
-                                <div class="row-actions">
+                                </td>
 
-                                    <a href="{% url 'staff_student_edit' student.id %}"
-                                       class="btn-icon edit"
-                                       title="Edit">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </a>
-                                    <a href="{% url 'staff_student_delete' student.id %}"
-                                       class="btn-icon delete"
-                                       title="Delete"
-                                       onclick="return confirm('Are you sure you want to delete this student?');">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
+                            </tr>
 
-                        </tr>
+                        {% endfor %}
 
-                    {% empty %}
 
-                        <tr class="empty-row">
+                        <!-- Search Empty State -->
+
+                        <tr
+                            id="searchEmptyRow"
+                            class="search-empty-row empty-row"
+                        >
+
                             <td colspan="12">
-                                <i class="fa-solid fa-user-slash"></i>
-                                No Students Found
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <span class="empty-title">
+                                    No Matching Students
+                                </span>
+
+                                <span class="empty-subtitle">
+                                    Try searching with a different name, email, phone or qualification.
+                                </span>
+
                             </td>
+
                         </tr>
 
-                    {% endfor %}
 
-                </tbody>
+                    </tbody>
 
-            </table>
+                </table>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const searchInput =
+            document.getElementById("studentSearch");
+
+        const clearButton =
+            document.getElementById("clearStudentSearch");
+
+        const resultCount =
+            document.getElementById("searchResultCount");
+
+        const searchEmptyRow =
+            document.getElementById("searchEmptyRow");
+
+        const studentRows =
+            document.querySelectorAll(".student-row");
+
+
+        function filterStudents() {
+
+            const searchValue =
+                searchInput.value.trim().toLowerCase();
+
+            let visibleCount = 0;
+
+
+            studentRows.forEach(function (row) {
+
+                const rowText =
+                    row.textContent.toLowerCase();
+
+                if (
+                    searchValue === "" ||
+                    rowText.includes(searchValue)
+                ) {
+
+                    row.classList.remove("search-hidden");
+
+                    visibleCount++;
+
+                } else {
+
+                    row.classList.add("search-hidden");
+
+                }
+
+            });
+
+
+            /* Clear button */
+
+            if (searchValue !== "") {
+
+                clearButton.style.display = "flex";
+
+            } else {
+
+                clearButton.style.display = "none";
+
+            }
+
+
+            /* Result count */
+
+            if (searchValue !== "") {
+
+                resultCount.style.display = "block";
+
+                resultCount.textContent =
+                    visibleCount +
+                    " student" +
+                    (visibleCount !== 1 ? "s" : "") +
+                    " found";
+
+            } else {
+
+                resultCount.style.display = "none";
+
+            }
+
+
+            /* No matching result */
+
+            if (
+                searchValue !== "" &&
+                visibleCount === 0 &&
+                studentRows.length > 0
+            ) {
+
+                searchEmptyRow.style.display = "table-row";
+
+            } else {
+
+                searchEmptyRow.style.display = "none";
+
+            }
+
+        }
+
+
+        searchInput.addEventListener(
+            "input",
+            filterStudents
+        );
+
+
+        clearButton.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value = "";
+
+                searchInput.focus();
+
+                filterStudents();
+
+            }
+        );
+
+    });
+
+</script>
 
 {% endblock %}

@@ -1,0 +1,239 @@
+{% extends "admin/admin_dashboard.html" %}
+
+{% block title %}University Details | MM-Technical University{% endblock %}
+
+{% block content %}
+
+<style>
+    .university-page {
+        padding: 30px 0;
+    }
+
+    .university-hero {
+        background: linear-gradient(135deg, #062b5c, #0d5ec9);
+        border-radius: 20px;
+        padding: 35px;
+        color: #fff;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .university-hero::after {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        right: -70px;
+        top: -90px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.08);
+    }
+
+    .university-hero h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .university-hero p {
+        margin: 0;
+        color: rgba(255,255,255,.78);
+    }
+
+    .stat-card {
+        background: #fff;
+        border: 1px solid #e4eaf3;
+        border-radius: 16px;
+        padding: 22px;
+        height: 100%;
+        transition: .25s ease;
+        box-shadow: 0 5px 20px rgba(6,43,92,.06);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(6,43,92,.10);
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 13px;
+        background: #eaf2ff;
+        color: #1668e3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .stat-label {
+        color: #6b7a90;
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .stat-number {
+        color: #062b5c;
+        font-size: 30px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .details-card {
+        background: #fff;
+        border: 1px solid #e4eaf3;
+        border-radius: 16px;
+        padding: 25px;
+        margin-top: 25px;
+        box-shadow: 0 5px 20px rgba(6,43,92,.05);
+    }
+
+    .details-card h4 {
+        color: #062b5c;
+        font-size: 17px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 13px 0;
+        border-bottom: 1px solid #eef2f7;
+    }
+
+    .detail-row:last-child {
+        border-bottom: 0;
+    }
+
+    .detail-label {
+        color: #6b7a90;
+        font-size: 13px;
+    }
+
+    .detail-value {
+        color: #17243a;
+        font-size: 13px;
+        font-weight: 600;
+        text-align: right;
+    }
+</style>
+
+
+<div class="container-fluid university-page">
+
+    <!-- Hero -->
+    <div class="university-hero">
+        <h1>
+            <i class="fa-solid fa-building-columns me-2"></i>
+            MM-Technical University
+        </h1>
+
+        <p>
+            University administration and admission management overview
+        </p>
+    </div>
+
+
+    <!-- Statistics -->
+    <div class="row g-4">
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+
+                <div class="stat-label">Total Students</div>
+
+                <p class="stat-number">
+                    {{ total_students|default:"0" }}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+
+                <div class="stat-label">Total Staff</div>
+
+                <p class="stat-number">
+                    {{ total_staff|default:"0" }}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+
+                <div class="stat-label">Colleges</div>
+
+                <p class="stat-number">
+                    {{ total_colleges|default:"0" }}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+
+                <div class="stat-label">Departments</div>
+
+                <p class="stat-number">
+                    {{ total_departments|default:"0" }}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- University Details -->
+    <div class="details-card">
+
+        <h4>
+            <i class="fa-solid fa-circle-info me-2"></i>
+            University Information
+        </h4>
+
+        <div class="detail-row">
+            <span class="detail-label">University Name</span>
+            <span class="detail-value">MM-Technical University</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Academic Year</span>
+            <span class="detail-value">2026 - 2027</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Administration</span>
+            <span class="detail-value">University Administration</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Admission System</span>
+            <span class="detail-value">Online Admission Management</span>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

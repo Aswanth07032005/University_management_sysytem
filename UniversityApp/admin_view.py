@@ -7,6 +7,45 @@ def admin_dashboard_view(request):
     return render(request,'admin/admin_dashboard.html')
 
 
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import Register, College, Department
+
+
+@login_required
+def university_details_view(request):
+
+    total_students = Register.objects.filter(
+        is_student=True
+    ).count()
+
+    total_staff = Register.objects.filter(
+        is_university_staff=True
+    ).count()
+
+    total_colleges = College.objects.count()
+
+    total_departments = Department.objects.count()
+
+    context = {
+        "total_students": total_students,
+        "total_staff": total_staff,
+        "total_colleges": total_colleges,
+        "total_departments": total_departments,
+    }
+
+    return render(
+        request,
+        "admin/university_details.html",
+        context
+    )
+
+
+
+
 def StaffListView(request):
 
     staffs = UniversityStaff.objects.all()
@@ -241,4 +280,49 @@ def StudentListView(request):
         {
             "students": students
         }
+    )
+
+
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import AdmissionApplication
+
+
+
+def admin_application_view(request):
+    applications = AdmissionApplication.objects.select_related(
+        "student",
+        "college"
+    ).order_by("-id")
+
+    return render(
+        request,
+        "admin/admin_application_view.html",
+        {
+            "applications": applications
+        }
+    )
+
+
+
+
+
+from django.shortcuts import render
+from .models import Course
+
+
+def admin_courses(request):
+    courses = Course.objects.all().order_by('course_name')
+
+    context = {
+        'courses': courses,
+    }
+
+    return render(
+        request,
+        'admin/admin_courses.html',
+        context
     )

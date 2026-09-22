@@ -7,7 +7,7 @@ from .models import Student, Register, UniversityStaff, College, Department, Cou
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        exclude = ["user","allotted_college","allotted_course","allotted_date"]
+        exclude = ["admission_status","user","allotted_college","allotted_course","allotted_date"]
 
 
         widgets = {

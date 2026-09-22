@@ -1,1723 +1,2033 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#022542">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>Admission Status | MM-Technical University</title>
 
-    <title>Admission Status · MM Technical University</title>
+    {# Fonts #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+    {# Bootstrap #}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    {# Font Awesome #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <style>
+        /* =====================================================
+           DESIGN TOKENS
+        ====================================================== */
+        :root {
+            --navy: #06345f;
+            --navy-dark: #022542;
+            --blue: #0b5ed7;
+            --blue-soft: #edf5fb;
+
+            --page-bg: #f5f8fc;
+            --surface: #ffffff;
+            --surface-alt: #f8fbfe;
+
+            --text: #374151;
+            --muted: #667085;
+
+            --border: #dce5ed;
+            --border-soft: #e8eef5;
+
+            --success: #16824f;
+            --success-bg: #edf9f2;
+            --success-border: #c9e8d6;
+
+            --warning: #8a6500;
+            --warning-bg: #fff8e8;
+            --warning-border: #f0dfb0;
+
+            --danger: #b83232;
+            --danger-bg: #fff1f1;
+            --danger-border: #efcaca;
+
+            --info: #1557a6;
+            --info-bg: #eaf3ff;
+            --info-border: #cfe2fa;
+
+            --purple: #6841b8;
+            --purple-bg: #f1edff;
+            --purple-border: #ddd2fa;
+
+            --radius-sm: 8px;
+            --radius: 12px;
+
+            --shadow: 0 1px 2px rgba(3, 40, 70, .05), 0 8px 24px rgba(3, 40, 70, .06);
+        }
+
+
+        /* =====================================================
+           BASE
+        ====================================================== */
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
-            background: #eef3fb;
-            font-family: "Inter", "Segoe UI", sans-serif;
-            color: #1c2430;
-            font-size: 12px;
-        }
-
-
-        /* ==============================
-           HEADER
-        ============================== */
-
-        .page-header {
-
-            background: linear-gradient(
-                135deg,
-                #0b2c5c,
-                #16407e
-            );
-
-            color: white;
-
-            padding: 28px 0;
-
-            margin-bottom: 25px;
-        }
-
-
-        .page-header h2 {
-
-            font-family: Georgia, serif;
-
-            font-weight: 700;
-
-            margin-bottom: 4px;
-
-            font-size: 24px;
-        }
-
-
-        .page-header p {
-
-            color: #c9d7eb;
-
             margin: 0;
+            font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--page-bg);
+            -webkit-text-size-adjust: 100%;
+        }
 
-            font-size: 12px;
+        ::selection {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:focus-visible,
+        .application-toggle:focus-visible {
+            outline: 3px solid rgba(11, 94, 215, .35);
+            outline-offset: 2px;
+        }
+
+        .page-container {
+            max-width: 1000px;
         }
 
 
-        /* ==============================
-           CARD
-        ============================== */
-
-        .status-card {
-
-            background: white;
-
-            border: 1px solid #d9e3f2;
-
-            border-radius: 12px;
-
-            margin-bottom: 18px;
-
+        /* =====================================================
+           HERO
+        ====================================================== */
+        .status-hero {
+            position: relative;
             overflow: hidden;
-
-            box-shadow:
-                0 6px 20px rgba(11,44,92,.07);
+            padding: clamp(40px, 7vw, 68px) 0 clamp(64px, 9vw, 92px);
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+            color: #fff;
         }
 
+        .status-hero::before {
+            content: "";
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            top: -170px;
+            right: -110px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .04);
+            pointer-events: none;
+        }
 
-        /* ==============================
-           APPLICATION HEADER
-        ============================== */
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
 
-        .application-header {
-
-            background: #f7faff;
-
-            border-bottom: 1px solid #d9e3f2;
-
-            padding: 13px 18px;
-
-            display: flex;
-
-            justify-content: space-between;
-
+        .hero-label {
+            display: inline-flex;
             align-items: center;
-
-            gap: 12px;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: #bcd6f2;
+            font-size: .875rem;
+            font-weight: 500;
+            letter-spacing: .02em;
         }
 
+        .hero-label i {
+            color: #8ec5ff;
+        }
 
-        .application-number {
-
-            color: #0b2c5c;
-
-            font-family: monospace;
-
+        .status-hero h1 {
+            margin: 0 0 12px;
+            color: #fff;
+            font-size: clamp(1.9rem, 4.5vw, 2.75rem);
             font-weight: 700;
+            line-height: 1.2;
+        }
 
-            font-size: 12px;
+        .status-hero p {
+            max-width: 620px;
+            margin: 0;
+            color: #c8d8e9;
+            font-size: .95rem;
+            line-height: 1.75;
         }
 
 
-        .application-date {
-
-            color: #7a8797;
-
-            font-size: 10px;
-
-            margin-top: 2px;
+        /* =====================================================
+           MAIN
+        ====================================================== */
+        .main-wrapper {
+            position: relative;
+            z-index: 2;
+            margin-top: -36px;
+            padding-bottom: 72px;
         }
 
 
-        /* ==============================
-           STATUS BADGE
-        ============================== */
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
+        .btn-portal {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 9px 18px;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 1.2;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+        }
 
-        .status-badge {
+        .btn-portal-primary {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: #fff;
+        }
 
-            padding: 5px 10px;
+        .btn-portal-primary:hover {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+        }
 
-            border-radius: 15px;
+        .btn-portal-danger {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: #fff;
+        }
 
-            font-size: 10px;
+        .btn-portal-danger:hover {
+            background: #962828;
+            border-color: #962828;
+            color: #fff;
+        }
 
-            font-weight: 700;
+        .btn-portal-outline {
+            background: var(--surface);
+            border-color: var(--border);
+            color: var(--navy);
+            box-shadow: 0 1px 2px rgba(3, 40, 70, .05);
+        }
 
+        .btn-portal-outline:hover {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: #fff;
+        }
+
+        .back-row {
+            margin-bottom: 18px;
+        }
+
+        .back-row .btn-portal-outline {
+            background: rgba(255, 255, 255, .96);
+        }
+
+
+        /* =====================================================
+           PILLS (status badges)
+        ====================================================== */
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+            font-size: .8125rem;
+            font-weight: 600;
+            line-height: 1.3;
             white-space: nowrap;
         }
 
-
-        .status-pending {
-
-            background: #fff3cd;
-
-            color: #997404;
-        }
-
-
-        .status-college {
-
-            background: #e8f1ff;
-
-            color: #1557a6;
-        }
+        .pill-success { color: var(--success); background: var(--success-bg); border-color: var(--success-border); }
+        .pill-warning { color: var(--warning); background: var(--warning-bg); border-color: var(--warning-border); }
+        .pill-info    { color: var(--info);    background: var(--info-bg);    border-color: var(--info-border); }
+        .pill-purple  { color: var(--purple);  background: var(--purple-bg);  border-color: var(--purple-border); }
+        .pill-danger  { color: var(--danger);  background: var(--danger-bg);  border-color: var(--danger-border); }
+        .pill-neutral { color: #58677a;        background: #edf1f5;           border-color: #dce3ea; }
 
 
-        .status-university {
-
-            background: #eee8ff;
-
-            color: #6138a5;
-        }
-
-
-        .status-approved {
-
-            background: #dff5e9;
-
-            color: #177245;
-        }
-
-
-        .status-rejected {
-
-            background: #fde4e4;
-
-            color: #a52d2d;
-        }
-
-
-        .status-default {
-
-            background: #edf1f5;
-
-            color: #58677a;
-        }
-
-
-        /* ==============================
-           BODY
-        ============================== */
-
-        .application-body {
-
-            padding: 16px;
-        }
-
-
-        /* ==============================
-           INFO BOX
-        ============================== */
-
-        .info-box {
-
-            background: #f8faff;
-
-            border: 1px solid #e1e8f3;
-
-            border-radius: 7px;
-
-            padding: 9px 11px;
-
-            height: 100%;
-        }
-
-
-        .info-label {
-
-            color: #7b8797;
-
-            font-size: 9px;
-
-            text-transform: uppercase;
-
-            letter-spacing: .05em;
-
-            margin-bottom: 3px;
-        }
-
-
-        .info-value {
-
-            color: #0b2c5c;
-
-            font-weight: 700;
-
-            font-size: 11px;
-
-            line-height: 1.35;
-
-            word-break: break-word;
-        }
-
-
-        /* ==============================
-           VERIFICATION
-        ============================== */
-
-        .verification-section {
-
-            margin-top: 14px;
-
-            border: 1px solid #dfe6ef;
-
-            border-radius: 8px;
-
+        /* =====================================================
+           OVERALL REGISTRATION CARD
+        ====================================================== */
+        .summary-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            margin-bottom: 20px;
+            padding: 18px 22px 18px 26px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
             overflow: hidden;
         }
 
-
-        .verification-title {
-
-            background: #f1f5fa;
-
-            color: #0b2c5c;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            padding: 8px 11px;
-
-            border-bottom: 1px solid #dfe6ef;
+        .summary-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+            background: var(--blue);
         }
 
-
-        .verification-row {
-
-            display: grid;
-
-            grid-template-columns:
-                1.2fr
-                1fr
-                1fr
-                .8fr;
-
-            border-bottom: 1px solid #edf0f4;
-        }
-
-
-        .verification-row:last-child {
-
-            border-bottom: none;
-        }
-
-
-        .verification-cell {
-
-            padding: 7px 10px;
-
-            font-size: 10px;
-
-            border-right: 1px solid #edf0f4;
-
-            word-break: break-word;
-        }
-
-
-        .verification-cell:last-child {
-
-            border-right: none;
-        }
-
-
-        .verification-label {
-
-            color: #6f7c8e;
-
-            display: block;
-
-            font-size: 9px;
-        }
-
-
-        .verification-value {
-
-            color: #182b44;
-
+        .summary-title {
+            margin: 0 0 2px;
+            color: var(--navy);
+            font-size: 1rem;
             font-weight: 600;
         }
 
+        .summary-title i {
+            margin-right: 6px;
+            color: var(--blue);
+        }
 
-        .verified {
-
-            color: #16824f;
-
-            font-weight: 700;
+        .summary-name {
+            color: var(--muted);
+            font-size: .875rem;
         }
 
 
-        .not-verified {
+        /* =====================================================
+           APPLICATION CARD
+        ====================================================== */
+        .application-card {
+            margin-bottom: 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
 
-            color: #c0392b;
+        .application-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px 16px;
+            padding: 16px 22px;
+            background: var(--surface-alt);
+        }
 
-            font-weight: 700;
+        .application-toggle {
+            cursor: pointer;
+            user-select: none;
+            transition: background-color .2s ease;
+        }
+
+        @media (hover: hover) {
+            .application-toggle:hover {
+                background: #f0f6fc;
+            }
+        }
+
+        .application-header-info {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .application-number {
+            overflow: hidden;
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: .3px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .application-number i,
+        .application-date i {
+            margin-right: 6px;
+        }
+
+        .application-date {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: .8125rem;
+        }
+
+        .application-header-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .application-expand-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--blue-soft);
+            color: var(--navy);
+            font-size: .75rem;
+            transition: transform .3s ease, background-color .3s ease, color .3s ease;
+        }
+
+        .application-toggle[aria-expanded="true"] .application-expand-icon {
+            transform: rotate(180deg);
+            background: var(--navy);
+            color: #fff;
+        }
+
+        /* Padding lives on the inner wrapper so the collapse animation stays smooth */
+        .application-body-inner {
+            padding: 24px 22px 26px;
+            border-top: 1px solid var(--border);
         }
 
 
-        /* ==============================
-           VERIFICATION SUCCESS
-        ============================== */
-
-        .verification-success {
-
-            margin-top: 10px;
-
-            padding: 9px 11px;
-
-            background: #edf9f2;
-
-            border: 1px solid #ccebd8;
-
-            border-radius: 7px;
-
-            color: #197346;
-
-            font-size: 10px;
-
+        /* =====================================================
+           SECTION TITLES
+        ====================================================== */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 14px;
+            color: var(--navy);
+            font-size: 1rem;
             font-weight: 600;
         }
 
-
-        /* ==============================
-           VERIFICATION ERROR
-        ============================== */
-
-        .verification-error {
-
-            margin-top: 10px;
-
-            padding: 9px 11px;
-
-            background: #fff1f1;
-
-            border: 1px solid #f0cccc;
-
-            border-left: 4px solid #c0392b;
-
-            border-radius: 7px;
-
-            color: #8e2d2d;
-
-            font-size: 10px;
+        .section-title:not(:first-child) {
+            margin-top: 28px;
         }
 
-
-        .verification-error strong {
-
-            color: #a52d2d;
-        }
-
-
-        .error-item {
-
-            margin-top: 3px;
-
-            padding-left: 3px;
-        }
-
-
-        /* ==============================
-           ALLOTMENT
-        ============================== */
-
-        .allotment-box {
-
-            margin-top: 12px;
-
-            padding: 11px;
-
-            background: #f1f7ff;
-
-            border: 1px solid #cbdff7;
-
+        .section-title i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
             border-radius: 8px;
+            background: var(--blue-soft);
+            color: var(--blue);
+            font-size: .75rem;
         }
 
 
-        .allotment-title {
-
-            color: #0b2c5c;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            margin-bottom: 8px;
+        /* =====================================================
+           STUDENT DETAILS + INFO BOXES
+        ====================================================== */
+        .student-details {
+            padding: 14px 18px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border-soft);
+            border-radius: 10px;
         }
 
-
-        .allotment-item {
-
-            display: inline-block;
-
-            margin-right: 25px;
-
-            font-size: 10px;
-        }
-
-
-        .allotment-item span {
-
-            color: #748196;
-
-            margin-right: 4px;
-        }
-
-
-        .allotment-item strong {
-
-            color: #173a65;
-        }
-
-
-        /* ==============================
-           REMARK
-        ============================== */
-
-        .remark {
-
-            margin-top: 12px;
-
-            padding: 10px 12px;
-
-            border-radius: 7px;
-
-            background: #fff8e8;
-
-            border: 1px solid #f0dfb0;
-
-            font-size: 10px;
-        }
-
-
-        .remark strong {
-
-            color: #8b641b;
-        }
-
-
-        /* ==============================
-           REJECTION
-        ============================== */
-
-        .rejection-box {
-
-            margin-top: 12px;
-
-            padding: 11px 13px;
-
-            background: #fff1f1;
-
-            border: 1px solid #efcaca;
-
-            border-left: 4px solid #c0392b;
-
-            border-radius: 7px;
-
-            color: #8e2d2d;
-
-            font-size: 10px;
-        }
-
-
-        .rejection-box strong {
-
-            color: #a52d2d;
-
-            font-size: 10px;
-        }
-
-
-        .rejection-reason {
-
-            margin-top: 5px;
-
-            padding: 6px 8px;
-
-            background: white;
-
-            border: 1px solid #f1d4d4;
-
-            border-radius: 5px;
-
-            color: #7d2929;
-        }
-
-
-        .apply-again-btn {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 5px;
-
-            margin-top: 9px;
-
-            padding: 5px 11px;
-
-            border-radius: 5px;
-
-            background: #c0392b;
-
-            color: white;
-
-            text-decoration: none;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            border: none;
-        }
-
-
-        .apply-again-btn:hover {
-
-            background: #a52d2d;
-
-            color: white;
-        }
-
-
-        /* ==============================
-           BACK BUTTON
-        ============================== */
-
-        .back-btn {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 6px;
-
-            background: #0b2c5c;
-
-            color: white;
-
-            padding: 7px 14px;
-
-            border-radius: 6px;
-
-            text-decoration: none;
-
+        .student-name {
+            margin-bottom: 2px;
+            color: var(--navy);
+            font-size: 1.0625rem;
             font-weight: 600;
+        }
 
-            font-size: 11px;
+        .student-id {
+            color: var(--muted);
+            font-size: .8125rem;
+        }
 
-            margin-bottom: 18px;
+        .info-box {
+            height: 100%;
+            padding: 12px 16px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border-soft);
+            border-radius: 10px;
+        }
+
+        .info-label {
+            margin-bottom: 3px;
+            color: var(--muted);
+            font-size: .75rem;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--navy);
+            font-size: .9375rem;
+            font-weight: 600;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .payment-paid,
+        .payment-pending {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .payment-paid    { color: var(--success); }
+        .payment-pending { color: var(--warning); }
+
+
+        /* =====================================================
+           NOTICES (verification / remarks)
+        ====================================================== */
+        .notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 22px;
+            padding: 14px 16px;
+            border: 1px solid;
+            border-left-width: 4px;
+            border-radius: 10px;
+            font-size: .875rem;
+            line-height: 1.65;
+        }
+
+        .notice-icon {
+            flex-shrink: 0;
+            margin-top: 4px;
+            font-size: 1rem;
+        }
+
+        .notice-body {
+            min-width: 0;
+        }
+
+        .notice-body strong {
+            display: block;
+            margin-bottom: 1px;
+            font-weight: 600;
+        }
+
+        .notice-body p {
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .notice-success { color: #197346; background: #f0faf4; border-color: var(--success-border); border-left-color: var(--success); }
+        .notice-warning { color: #7a5a10; background: #fffaf0; border-color: var(--warning-border); border-left-color: #c29421; }
+        .notice-info    { color: var(--info); background: #f2f7fd; border-color: #d4e3f3; border-left-color: var(--blue); }
+
+
+        /* =====================================================
+           PANELS (allotment / approved / registered / rejected)
+        ====================================================== */
+        .panel {
+            margin-top: 24px;
+            padding: 20px;
+            border: 1px solid;
+            border-radius: var(--radius);
+        }
+
+        .panel-blue {
+            background: linear-gradient(135deg, #eff6fd, #f9fcff);
+            border-color: #cbdff2;
+        }
+
+        .panel-green {
+            background: linear-gradient(135deg, #f2faf6, #fbfffd);
+            border-color: #cde9d8;
+        }
+
+        .panel-registered {
+            border-left: 5px solid var(--success);
+        }
+
+        .panel-danger {
+            background: var(--danger-bg);
+            border-color: var(--danger-border);
+            border-left: 5px solid var(--danger);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-size: 1.0625rem;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .panel-header i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: .875rem;
+        }
+
+        .panel-blue .panel-header { color: var(--navy); }
+        .panel-blue .panel-header i { background: #dcecff; color: var(--blue); }
+
+        .panel-green .panel-header { color: #177245; }
+        .panel-green .panel-header i { background: #d9f3e3; color: var(--success); }
+
+        .panel-danger .panel-header { color: var(--danger); }
+        .panel-danger .panel-header i { background: #fbdcdc; color: var(--danger); }
+
+        .panel-text {
+            margin: 0 0 16px;
+            color: #3f5a4b;
+            font-size: .9rem;
+            line-height: 1.7;
+        }
+
+        .panel .info-box {
+            background: #fff;
+        }
+
+        .panel .notice {
+            margin-top: 16px;
+        }
+
+        .panel .btn-portal {
+            margin-top: 16px;
+        }
+
+        .panel .pill {
+            margin-top: 4px;
+        }
+
+        .reason-box {
+            padding: 12px 14px;
+            background: #fff;
+            border: 1px solid #f1d4d4;
+            border-radius: var(--radius-sm);
+            color: #7d2929;
+            font-size: .875rem;
+            line-height: 1.65;
+            overflow-wrap: anywhere;
         }
 
 
-        .back-btn:hover {
-
-            background: #16407e;
-
-            color: white;
-        }
-
-
-        /* ==============================
-           EMPTY
-        ============================== */
-
+        /* =====================================================
+           EMPTY STATE
+        ====================================================== */
         .empty-box {
+            padding: 56px 24px;
+            text-align: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
 
-            background: white;
+        .empty-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: var(--blue-soft);
+            color: var(--blue);
+            font-size: 1.6rem;
+        }
 
-            border: 1px solid #d9e3f2;
+        .empty-box h2 {
+            margin: 0 0 8px;
+            color: var(--navy);
+            font-size: 1.35rem;
+            font-weight: 600;
+        }
 
-            border-radius: 12px;
+        .empty-box p {
+            max-width: 420px;
+            margin: 0 auto 22px;
+            color: var(--muted);
+            font-size: .9rem;
+        }
 
-            padding: 50px 20px;
 
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+        @media (max-width: 767.98px) {
+
+            .main-wrapper {
+                margin-top: -28px;
+                padding-bottom: 48px;
+            }
+
+            .summary-card {
+                padding: 16px 18px 16px 22px;
+            }
+
+            .application-header {
+                padding: 14px 18px;
+            }
+
+            .application-body-inner {
+                padding: 20px 18px 22px;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+
+            body {
+                font-size: 14px;
+            }
+
+            .status-hero p {
+                font-size: .875rem;
+            }
+
+            /* Header: info + chevron on top row is not possible with a badge,
+               so badge and chevron share a second row */
+            .application-header {
+                flex-wrap: wrap;
+            }
+
+            .application-header-info {
+                flex: 1 1 100%;
+            }
+
+            .application-header-right {
+                flex: 1 1 100%;
+                justify-content: space-between;
+            }
+
+            .panel-header {
+                font-size: 1rem;
+            }
+
+            .panel .btn-portal,
+            .empty-box .btn-portal,
+            .btn-mobile-block {
+                width: 100%;
+            }
+
+            .notice {
+                padding: 12px 14px;
+                gap: 10px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: .01ms !important;
+            }
+        }
+        /* =====================================================
+           ENHANCEMENTS: backgrounds, motion, progress tracker
+        ====================================================== */
+
+        /* ---------- Keyframes ---------- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(28px) scale(.985); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        @keyframes heroShift {
+            0%, 100% { background-position: 0% 50%; }
+            50%      { background-position: 100% 50%; }
+        }
+
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-16px); }
+        }
+
+        @keyframes floatX {
+            0%, 100% { transform: translate(0, 0); }
+            50%      { transform: translate(14px, -10px); }
+        }
+
+        @keyframes popIn {
+            0%   { opacity: 0; transform: scale(.4); }
+            70%  { transform: scale(1.15); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulseWarn {
+            0%   { box-shadow: 0 0 0 0 rgba(200, 150, 20, .38); }
+            70%  { box-shadow: 0 0 0 9px rgba(200, 150, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(200, 150, 20, 0); }
+        }
+
+        @keyframes pulseGreen {
+            0%   { box-shadow: 0 0 0 0 rgba(22, 130, 79, .35); }
+            70%  { box-shadow: 0 0 0 10px rgba(22, 130, 79, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(22, 130, 79, 0); }
+        }
+
+        @keyframes ringOut {
+            0%   { transform: scale(1); opacity: .6; }
+            100% { transform: scale(1.7); opacity: 0; }
+        }
+
+        @keyframes fillX { to { transform: scaleX(1); } }
+        @keyframes fillY { to { transform: scaleY(1); } }
+
+        @keyframes shine {
+            0%        { transform: translateX(-160%) skewX(-20deg); }
+            45%, 100% { transform: translateX(320%) skewX(-20deg); }
+        }
+
+
+        /* ---------- Page background ---------- */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                radial-gradient(620px 420px at 92% 18%, rgba(11, 94, 215, .08), transparent 70%),
+                radial-gradient(520px 380px at 4% 78%, rgba(104, 65, 184, .06), transparent 70%),
+                radial-gradient(rgba(6, 52, 95, .07) 1px, transparent 1.3px) 0 0 / 24px 24px;
+        }
+
+
+        /* ---------- Hero ---------- */
+        .status-hero {
+            background: linear-gradient(115deg, #022542 0%, #06345f 35%, #0b4a8f 65%, #06345f 100%);
+            background-size: 220% 220%;
+            animation: heroShift 16s ease-in-out infinite;
+            border-radius: 0 0 28px 28px;
+        }
+
+        /* the old circle becomes a soft grid overlay */
+        .status-hero::before {
+            inset: 0;
+            width: auto;
+            height: auto;
+            border-radius: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .055) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .055) 1px, transparent 1px);
+            background-size: 44px 44px;
+            -webkit-mask-image: radial-gradient(ellipse 70% 90% at 75% 20%, #000, transparent 75%);
+            mask-image: radial-gradient(ellipse 70% 90% at 75% 20%, #000, transparent 75%);
+        }
+
+        .hero-orb {
+            position: absolute;
+            z-index: 0;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 280px;
+            height: 280px;
+            top: -90px;
+            right: 6%;
+            background: radial-gradient(circle at 30% 30%, rgba(142, 197, 255, .36), rgba(142, 197, 255, 0) 70%);
+            animation: floatY 10s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 190px;
+            height: 190px;
+            bottom: -70px;
+            left: 8%;
+            background: radial-gradient(circle at 30% 30%, rgba(104, 165, 255, .30), rgba(104, 165, 255, 0) 70%);
+            animation: floatY 12s ease-in-out infinite reverse;
+        }
+
+        .orb-3 {
+            width: 70px;
+            height: 70px;
+            top: 26%;
+            right: 34%;
+            border: 2px solid rgba(255, 255, 255, .14);
+            animation: floatX 8s ease-in-out infinite;
+        }
+
+        .hero-art {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            width: 150px;
+            height: 150px;
+            margin-top: -75px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .18);
+            box-shadow: 0 0 60px rgba(142, 197, 255, .18), inset 0 0 30px rgba(255, 255, 255, .06);
+            color: #cfe6ff;
+            font-size: 3.6rem;
+            animation: floatY 7s ease-in-out infinite;
+        }
+
+        @media (min-width: 992px) {
+            .hero-art { display: flex; }
+        }
+
+        .hero-label,
+        .status-hero h1,
+        .status-hero p {
+            animation: fadeUp .7s cubic-bezier(.2, .7, .2, 1) backwards;
+        }
+
+        .hero-label      { animation-delay: .05s; }
+        .status-hero h1  { animation-delay: .15s; }
+        .status-hero p   { animation-delay: .25s; }
+
+
+        /* ---------- Entrance of page blocks ---------- */
+        .back-row {
+            animation: fadeUp .5s cubic-bezier(.2, .7, .2, 1) backwards;
+            animation-delay: .05s;
+        }
+
+        .summary-card {
+            background: linear-gradient(120deg, #fff 55%, #eef5fd);
+            animation: riseIn .6s cubic-bezier(.2, .7, .2, 1) backwards;
+            animation-delay: .12s;
+        }
+
+        .summary-card::before {
+            background: linear-gradient(180deg, #3b82f6, var(--navy));
+        }
+
+        .application-card {
+            border-top: 3px solid var(--strip, var(--border));
+            transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+            animation: riseIn .6s cubic-bezier(.2, .7, .2, 1) backwards;
+            animation-delay: calc(var(--i, 1) * 90ms + 150ms);
+        }
+
+        .application-card--pending             { --strip: #e3b23c; }
+        .application-card--college-verified    { --strip: #3b82f6; }
+        .application-card--university-verified { --strip: #8b5cf6; }
+        .application-card--approved            { --strip: #22a06b; }
+        .application-card--rejected            { --strip: #d64545; }
+
+        @media (hover: hover) {
+            .application-card:not(:has(.application-toggle[aria-expanded="true"])):hover {
+                transform: translateY(-3px);
+                box-shadow: 0 2px 4px rgba(3, 40, 70, .06), 0 18px 38px rgba(3, 40, 70, .12);
+            }
+        }
+
+        .application-card:has(.application-toggle[aria-expanded="true"]) {
+            box-shadow: 0 2px 4px rgba(3, 40, 70, .06), 0 20px 44px rgba(3, 40, 70, .11);
+        }
+
+        .application-card:has(.application-toggle[aria-expanded="true"]) .application-header {
+            background: linear-gradient(90deg, #eaf3fc, #f8fbff);
+        }
+
+
+        /* ---------- Content reveal when a card opens ---------- */
+        .application-body-inner > :nth-child(2)  { --d: 60ms; }
+        .application-body-inner > :nth-child(3)  { --d: 120ms; }
+        .application-body-inner > :nth-child(4)  { --d: 180ms; }
+        .application-body-inner > :nth-child(5)  { --d: 240ms; }
+        .application-body-inner > :nth-child(6)  { --d: 300ms; }
+        .application-body-inner > :nth-child(7)  { --d: 360ms; }
+        .application-body-inner > :nth-child(8)  { --d: 420ms; }
+        .application-body-inner > :nth-child(9)  { --d: 480ms; }
+        .application-body-inner > :nth-child(n+10) { --d: 540ms; }
+
+        .application-body.show .application-body-inner > *,
+        .application-body.collapsing .application-body-inner > * {
+            animation: fadeUp .5s cubic-bezier(.2, .7, .2, 1) backwards;
+            animation-delay: var(--d, 0ms);
+        }
+
+        .application-body.show .notice-icon,
+        .application-body.collapsing .notice-icon,
+        .application-body.show .panel-header i,
+        .application-body.collapsing .panel-header i {
+            animation: popIn .5s cubic-bezier(.3, 1.6, .5, 1) backwards;
+            animation-delay: .4s;
+        }
+
+        .application-body.show .panel-green .panel-header i,
+        .application-body.collapsing .panel-green .panel-header i {
+            animation: popIn .5s cubic-bezier(.3, 1.6, .5, 1) .4s backwards,
+                       pulseGreen 2.6s ease-out 1.2s infinite;
+        }
+
+
+        /* ---------- Info boxes ---------- */
+        .info-box {
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background-color .25s ease;
+        }
+
+        @media (hover: hover) {
+            .info-box:hover {
+                transform: translateY(-2px);
+                border-color: #bcd3ea;
+                background: #fff;
+                box-shadow: 0 6px 16px rgba(6, 52, 95, .08);
+            }
+        }
+
+
+        /* ---------- Pills ---------- */
+        .pill-warning {
+            animation: pulseWarn 2.6s ease-out infinite;
+        }
+
+        .pill-success i {
+            animation: popIn .5s cubic-bezier(.3, 1.6, .5, 1) .5s backwards;
+        }
+
+
+        /* ---------- Panels ---------- */
+        .panel-green {
+            background:
+                radial-gradient(420px 220px at 100% 0%, rgba(34, 160, 107, .13), transparent 70%),
+                linear-gradient(135deg, #f2faf6, #fbfffd);
+        }
+
+        .panel-blue {
+            background:
+                radial-gradient(420px 220px at 100% 0%, rgba(11, 94, 215, .10), transparent 70%),
+                linear-gradient(135deg, #eff6fd, #f9fcff);
+        }
+
+
+        /* ---------- Buttons ---------- */
+        .btn-portal {
+            transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease;
+        }
+
+        .btn-portal i {
+            transition: transform .2s ease;
+        }
+
+        .btn-portal:active {
+            transform: scale(.98);
+        }
+
+        @media (hover: hover) {
+            .btn-portal:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 18px rgba(6, 52, 95, .18);
+            }
+
+            .back-row .btn-portal:hover i {
+                transform: translateX(-4px);
+            }
+
+            .btn-shine:hover i {
+                transform: translateY(2px);
+            }
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-shine::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .38), transparent);
+            transform: translateX(-160%) skewX(-20deg);
+            animation: shine 3.6s ease-in-out 1.2s infinite;
+            pointer-events: none;
+        }
+
+
+        /* ---------- Empty state ---------- */
+        .empty-box {
+            background: linear-gradient(180deg, #fff, #f6faff);
+            animation: riseIn .6s cubic-bezier(.2, .7, .2, 1) backwards;
+            animation-delay: .15s;
+        }
+
+        .empty-icon {
+            position: relative;
+            animation: floatY 5s ease-in-out infinite;
+        }
+
+        .empty-icon::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--blue);
+            border-radius: 50%;
+            animation: ringOut 2.4s ease-out infinite;
+        }
+
+
+        /* ---------- Progress tracker ---------- */
+        .tracker {
+            display: flex;
+            align-items: flex-start;
+            margin: 6px 0 0;
+            padding: 6px 4px 2px;
+            list-style: none;
+        }
+
+        .step {
+            position: relative;
+            flex: 1 1 0;
+            min-width: 0;
             text-align: center;
         }
 
-
-        .empty-box i {
-
-            font-size: 42px;
-
-            color: #9aabc2;
-
-            margin-bottom: 15px;
+        /* connector line: grey track (::before) + green fill (::after) */
+        .step:not(:first-child)::before,
+        .step:not(:first-child)::after {
+            content: "";
+            position: absolute;
+            top: 16.5px;
+            left: -50%;
+            width: 100%;
+            height: 3px;
+            border-radius: 3px;
         }
 
+        .step:not(:first-child)::before {
+            background: #dfe7ef;
+        }
 
-        /* ==============================
-           RESPONSIVE
-        ============================== */
+        .step:not(:first-child)::after {
+            background: linear-gradient(90deg, #22a06b, #16824f);
+            transform: scaleX(0);
+            transform-origin: left center;
+        }
 
-        @media(max-width:768px) {
+        .step.done::after,
+        .step.current::after {
+            animation: fillX .6s ease forwards;
+        }
 
-            .application-header {
+        .step:nth-child(2)::after { animation-delay: .25s; }
+        .step:nth-child(3)::after { animation-delay: .55s; }
+        .step:nth-child(4)::after { animation-delay: .85s; }
 
+        .step-dot {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            margin: 0 auto 8px;
+            border: 2px solid #d5dee8;
+            border-radius: 50%;
+            background: #fff;
+            color: #9aa7b6;
+            font-size: .8rem;
+            animation: popIn .5s cubic-bezier(.3, 1.6, .5, 1) backwards;
+        }
+
+        .step:nth-child(1) .step-dot { animation-delay: .15s; }
+        .step:nth-child(2) .step-dot { animation-delay: .45s; }
+        .step:nth-child(3) .step-dot { animation-delay: .75s; }
+        .step:nth-child(4) .step-dot { animation-delay: 1.05s; }
+
+        .step.done .step-dot {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+        }
+
+        .step.current .step-dot {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .step.current .step-dot::after {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border: 2px solid var(--blue);
+            border-radius: 50%;
+            animation: ringOut 2s ease-out 1.2s infinite;
+        }
+
+        .step-label {
+            display: block;
+            color: var(--muted);
+            font-size: .78rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .step.done .step-label    { color: var(--navy); }
+        .step.current .step-label { color: var(--blue); }
+
+        .step.current .step-label::after {
+            content: "In progress";
+            display: block;
+            margin-top: 1px;
+            color: var(--muted);
+            font-size: .7rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 991.98px) {
+            .status-hero { border-radius: 0 0 22px 22px; }
+        }
+
+        @media (max-width: 767.98px) {
+            .orb-3 { display: none; }
+        }
+
+        /* Tracker turns vertical on phones */
+        @media (max-width: 575.98px) {
+
+            .tracker {
                 flex-direction: column;
-
-                align-items: flex-start;
+                align-items: stretch;
+                padding-left: 2px;
             }
 
-
-            .verification-row {
-
-                grid-template-columns: 1fr 1fr;
+            .step {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                flex: none;
+                padding-bottom: 22px;
+                text-align: left;
             }
 
-
-            .verification-cell {
-
-                border-bottom: 1px solid #edf0f4;
+            .step:last-child {
+                padding-bottom: 0;
             }
 
-
-            .allotment-item {
-
-                display: block;
-
-                margin-bottom: 5px;
+            .step-dot {
+                flex-shrink: 0;
+                margin: 0;
             }
 
+            .step:not(:first-child)::before,
+            .step:not(:first-child)::after {
+                top: -22px;
+                left: 16.5px;
+                width: 3px;
+                height: 22px;
+            }
+
+            .step:not(:first-child)::after {
+                background: linear-gradient(180deg, #22a06b, #16824f);
+                transform: scaleY(0);
+                transform-origin: top center;
+            }
+
+            .step.done::after,
+            .step.current::after {
+                animation-name: fillY;
+            }
+
+            .step.current .step-label::after {
+                display: inline;
+                margin-left: 8px;
+            }
         }
 
-    </style>
 
+        /* ---------- Respect reduced motion ---------- */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-delay: 0s !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .btn-shine::after {
+                display: none;
+            }
+        }
+
+        /* =====================================================
+           EXTRA: 5-step tracker, document checks, allotment card
+        ====================================================== */
+
+        .step:nth-child(5)::after { animation-delay: 1.15s; }
+        .step:nth-child(5) .step-dot { animation-delay: 1.35s; }
+
+        .info-sub {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: .75rem;
+            font-weight: 500;
+        }
+
+        .allotment-card {
+            margin-top: 0;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            animation: riseIn .6s cubic-bezier(.2, .7, .2, 1) backwards;
+            animation-delay: .18s;
+        }
+
+        .check-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border-soft);
+            border-radius: 10px;
+        }
+
+        .check-item > i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: .8rem;
+        }
+
+        .check-item strong {
+            display: block;
+            color: var(--navy);
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .check-item > div > span {
+            display: block;
+            color: var(--muted);
+            font-size: .8125rem;
+            line-height: 1.45;
+        }
+
+        .check-item.ok {
+            background: #f3fbf6;
+            border-color: var(--success-border);
+        }
+
+        .check-item.ok > i   { background: #d9f3e3; color: var(--success); }
+        .check-item.wait > i { background: #fff1cf; color: var(--warning); }
+
+        @media (max-width: 767.98px) {
+            .check-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 
 <body>
 
-
-<!-- =====================================================
-     PAGE HEADER
-====================================================== -->
-
-<div class="page-header">
-
-    <div class="container">
-
-        <h2>
-
-            <i class="fa-solid fa-circle-check me-2"></i>
-
-            Admission Status
-
-        </h2>
-
-        <p>
-
-            Track your admission application, verification,
-            approval and allotment status.
-
-        </p>
-
-    </div>
-
-</div>
-
-
-<div class="container">
-
-
-    <!-- =================================================
-         BACK
-    ================================================== -->
-
-    <a
-        href="{% url 's_dashboard' %}"
-        class="back-btn"
-    >
-
-        <i class="fa-solid fa-arrow-left"></i>
-
-        Dashboard
-
-    </a>
-
-
-    {% if applications %}
-
-
-        {% for application in applications %}
-
-
-            <div class="status-card">
-
-
-                <!-- =====================================
-                     APPLICATION HEADER
-                ====================================== -->
-
-                <div class="application-header">
-
-
-                    <div>
-
-                        <div class="application-number">
-
-                            APP-{{ application.id|stringformat:"05d" }}
-
-                        </div>
-
-
-                        <div class="application-date">
-
-                            Applied:
-
-                            {{ application.applied_date|date:"d M Y, h:i A" }}
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- STATUS -->
-
-                    {% if application.status == "Pending" %}
-
-                        <span class="status-badge status-pending">
-
-                            <i class="fa-solid fa-clock me-1"></i>
-
-                            Pending
-
-                        </span>
-
-
-                    {% elif application.status == "College Verified" %}
-
-                        <span class="status-badge status-college">
-
-                            <i class="fa-solid fa-building-columns me-1"></i>
-
-                            College Verified
-
-                        </span>
-
-
-                    {% elif application.status == "University Verified" %}
-
-                        <span class="status-badge status-university">
-
-                            <i class="fa-solid fa-university me-1"></i>
-
-                            University Verified / Allotted
-
-                        </span>
-
-
-                    {% elif application.status == "Approved" %}
-
-                        <span class="status-badge status-approved">
-
-                            <i class="fa-solid fa-circle-check me-1"></i>
-
-                            Approved
-
-                        </span>
-
-
-                    {% elif application.status == "Rejected" %}
-
-                        <span class="status-badge status-rejected">
-
-                            <i class="fa-solid fa-circle-xmark me-1"></i>
-
-                            Rejected
-
-                        </span>
-
-
-                    {% else %}
-
-                        <span class="status-badge status-default">
-
-                            {{ application.status }}
-
-                        </span>
-
-                    {% endif %}
-
-
-                </div>
-
-
-                <!-- =====================================
-                     APPLICATION BODY
-                ====================================== -->
-
-                <div class="application-body">
-
-
-                    <!-- BASIC APPLICATION DETAILS -->
-
-                    <div class="row g-2">
-
-
-                        <!-- COLLEGE -->
-
-                        <div class="col-md-3">
-
-                            <div class="info-box">
-
-                                <div class="info-label">
-
-                                    College
-
-                                </div>
-
-                                <div class="info-value">
-
-                                    {{ application.college.college_name }}
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- DEPARTMENT -->
-
-                        <div class="col-md-3">
-
-                            <div class="info-box">
-
-                                <div class="info-label">
-
-                                    Department
-
-                                </div>
-
-                                <div class="info-value">
-
-                                    {{ application.department.department_name }}
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- COURSE -->
-
-                        <div class="col-md-3">
-
-                            <div class="info-box">
-
-                                <div class="info-label">
-
-                                    Course
-
-                                </div>
-
-                                <div class="info-value">
-
-                                    {{ application.course.course_name }}
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- PAYMENT -->
-
-                        <div class="col-md-3">
-
-                            <div class="info-box">
-
-                                <div class="info-label">
-
-                                    Payment
-
-                                </div>
-
-                                <div class="info-value">
-
-                                    {% if application.payment_status == "Paid" %}
-
-                                        <span class="verified">
-
-                                            <i class="fa-solid fa-circle-check"></i>
-
-                                            Paid
-
-                                        </span>
-
-                                    {% else %}
-
-                                        <span style="color:#a97900;">
-
-                                            <i class="fa-solid fa-clock"></i>
-
-                                            Pending
-
-                                        </span>
-
-                                    {% endif %}
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- =================================
-                         VERIFICATION DETAILS
-                    ================================== -->
-
-                    {% with verification=application.percentage_verification %}
-
-
-                        {% if verification %}
-
-
-                            <div class="verification-section">
-
-
-                                <!-- TITLE -->
-
-                                <div class="verification-title">
-
-                                    <i class="fa-solid fa-file-circle-check me-1"></i>
-
-                                    Certificate Verification
-
-                                </div>
-
-
-                                <!-- TABLE HEADER -->
-
-                                <div class="verification-row">
-
-
-                                    <div class="verification-cell">
-
-                                        <span class="verification-label">
-
-                                            Verification Field
-
-                                        </span>
-
-                                        <span class="verification-value">
-
-                                            Field
-
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        <span class="verification-label">
-
-                                            Registered
-
-                                        </span>
-
-                                        <span class="verification-value">
-
-                                            Value
-
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        <span class="verification-label">
-
-                                            Certificate
-
-                                        </span>
-
-                                        <span class="verification-value">
-
-                                            Value
-
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        <span class="verification-label">
-
-                                            Status
-
-                                        </span>
-
-                                        <span class="verification-value">
-
-                                            Result
-
-                                        </span>
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <!-- =================================
-                                     NAME
-                                ================================== -->
-
-                                <div class="verification-row">
-
-
-                                    <div class="verification-cell">
-
-                                        <span class="verification-label">
-
-                                            Name
-
-                                        </span>
-
-                                        <span class="verification-value">
-
-                                            Student Name
-
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {{ verification.registered_name|default:"—" }}
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {{ verification.certificate_name|default:"—" }}
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {% if verification.name_verified %}
-
-                                            <span class="verified">
-
-                                                ✓ MATCH
-
-                                            </span>
-
-                                        {% else %}
-
-                                            <span class="not-verified">
-
-                                                ✕ NOT MATCH
-
-                                            </span>
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <!-- =================================
-                                     QUALIFICATION
-                                ================================== -->
-
-                                <div class="verification-row">
-
-
-                                    <div class="verification-cell">
-
-                                        <span class="verification-label">
-
-                                            Qualification
-
-                                        </span>
-
-                                        <span class="verification-value">
-
-                                            Qualification
-
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {{ verification.registered_qualification|default:"—" }}
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {{ verification.certificate_qualification|default:"—" }}
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {% if verification.qualification_verified %}
-
-                                            <span class="verified">
-
-                                                ✓ MATCH
-
-                                            </span>
-
-                                        {% else %}
-
-                                            <span class="not-verified">
-
-                                                ✕ NOT MATCH
-
-                                            </span>
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <!-- =================================
-                                     PERCENTAGE
-                                ================================== -->
-
-                                <div class="verification-row">
-
-
-                                    <div class="verification-cell">
-
-                                        <span class="verification-label">
-
-                                            Percentage
-
-                                        </span>
-
-                                        <span class="verification-value">
-
-                                            Plus Two %
-
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {% if verification.registered_percentage %}
-
-                                            {{ verification.registered_percentage }}%
-
-                                        {% else %}
-
-                                            —
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {% if verification.certificate_percentage %}
-
-                                            {{ verification.certificate_percentage }}%
-
-                                        {% else %}
-
-                                            —
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                    <div class="verification-cell">
-
-                                        {% if verification.percentage_verified %}
-
-                                            <span class="verified">
-
-                                                ✓ MATCH
-
-                                            </span>
-
-                                        {% else %}
-
-                                            <span class="not-verified">
-
-                                                ✕ NOT MATCH
-
-                                            </span>
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                </div>
-
-
-                            </div>
-
-
-                            <!-- =================================
-                                 OVERALL VERIFICATION
-                            ================================== -->
-
-                            {% if verification.is_verified %}
-
-
-                                <div class="verification-success">
-
-                                    <i class="fa-solid fa-circle-check me-1"></i>
-
-                                    <strong>
-
-                                        Overall Verification Passed.
-
-                                    </strong>
-
-                                    Name, qualification and percentage
-                                    successfully matched with the certificate.
-
-                                </div>
-
-
-                            {% else %}
-
-
-                                <div class="verification-error">
-
-                                    <i class="fa-solid fa-triangle-exclamation me-1"></i>
-
-                                    <strong>
-
-                                        Verification Failed
-
-                                    </strong>
-
-
-                                    <!-- NAME ERROR -->
-
-                                    {% if not verification.name_verified %}
-
-                                        <div class="error-item">
-
-                                            • <strong>Name:</strong>
-
-                                            Registered name does not match
-                                            the certificate name.
-
-                                        </div>
-
-                                    {% endif %}
-
-
-                                    <!-- QUALIFICATION ERROR -->
-
-                                    {% if not verification.qualification_verified %}
-
-                                        <div class="error-item">
-
-                                            • <strong>Qualification:</strong>
-
-                                            Registered qualification does not
-                                            match the certificate qualification.
-
-                                        </div>
-
-                                    {% endif %}
-
-
-                                    <!-- PERCENTAGE ERROR -->
-
-                                    {% if not verification.percentage_verified %}
-
-                                        <div class="error-item">
-
-                                            • <strong>Percentage:</strong>
-
-                                            Registered percentage does not
-                                            match the certificate percentage.
-
-                                        </div>
-
-                                    {% endif %}
-
-
-                                    <!-- ALL CHECK FAILED -->
-
-                                    {% if not verification.name_verified and not verification.qualification_verified and not verification.percentage_verified %}
-
-                                        <div class="error-item">
-
-                                            • <strong>Overall:</strong>
-
-                                            Name, qualification and percentage
-                                            verification failed.
-
-                                        </div>
-
-                                    {% endif %}
-
-
-                                </div>
-
-
-                            {% endif %}
-
-
-                        {% else %}
-
-
-                            <!-- NO VERIFICATION RECORD -->
-
-                            <div class="verification-error">
-
-                                <i class="fa-solid fa-triangle-exclamation me-1"></i>
-
-                                <strong>
-
-                                    Verification Not Available.
-
-                                </strong>
-
-                                <div class="error-item">
-
-                                    • Certificate verification has not been
-                                    completed by University Staff yet.
-
-                                </div>
-
-                            </div>
-
-
-                        {% endif %}
-
-
-                    {% endwith %}
-
-
-                    <!-- =================================
-                         ALLOTMENT DETAILS
-                    ================================== -->
-
-                    {% if application.student.allotted_college %}
-
-
-                        <div class="allotment-box">
-
-
-                            <div class="allotment-title">
-
-                                <i class="fa-solid fa-graduation-cap me-1"></i>
-
-                                College Allotment
-
-                            </div>
-
-
-                            <div class="allotment-item">
-
-                                <span>College:</span>
-
-                                <strong>
-
-                                    {{ application.student.allotted_college.college_name }}
-
-                                </strong>
-
-                            </div>
-
-
-                            {% if application.student.allotted_course %}
-
-                                <div class="allotment-item">
-
-                                    <span>Course:</span>
-
-                                    <strong>
-
-                                        {{ application.student.allotted_course.course_name }}
-
-                                    </strong>
-
-                                </div>
-
-                            {% endif %}
-
-
-                            {% if application.student.allotted_date %}
-
-                                <div class="allotment-item">
-
-                                    <span>Allotted On:</span>
-
-                                    <strong>
-
-                                        {{ application.student.allotted_date|date:"d M Y, h:i A" }}
-
-                                    </strong>
-
-                                </div>
-
-                            {% endif %}
-
-
-                            <div style="margin-top:7px;">
-
-                                <span class="verified">
-
-                                    <i class="fa-solid fa-circle-check me-1"></i>
-
-                                    Student allotted to college by
-                                    University Staff.
-
-                                </span>
-
-                            </div>
-
-
-                        </div>
-
-
-                    {% endif %}
-
-
-                    <!-- =================================
-                         COLLEGE REMARK
-                    ================================== -->
-
-                    {% if application.college_remark %}
-
-
-                        <div class="remark">
-
-                            <strong>
-
-                                <i class="fa-solid fa-building me-1"></i>
-
-                                College Remark:
-
-                            </strong>
-
-                            {{ application.college_remark }}
-
-                        </div>
-
-
-                    {% endif %}
-
-
-                    <!-- =================================
-                         UNIVERSITY REMARK
-                    ================================== -->
-
-                    {% if application.staff_remark %}
-
-
-                        <div class="remark">
-
-                            <strong>
-
-                                <i class="fa-solid fa-user-tie me-1"></i>
-
-                                University Remark:
-
-                            </strong>
-
-                            {{ application.staff_remark }}
-
-                        </div>
-
-
-                    {% endif %}
-
-
-                    <!-- =================================
-                         REJECTION DETAILS + APPLY AGAIN
-                    ================================== -->
-
-                    {% if application.status == "Rejected" %}
-
-
-                        <div class="rejection-box">
-
-
-                            <strong>
-
-                                <i class="fa-solid fa-circle-xmark me-1"></i>
-
-                                Application Rejected
-
-                            </strong>
-
-
-                            <div class="rejection-reason">
-
-
-                                {% if application.staff_remark %}
-
-                                    <strong>Reason:</strong>
-
-                                    {{ application.staff_remark }}
-
-
-                                {% elif application.college_remark %}
-
-                                    <strong>Reason:</strong>
-
-                                    {{ application.college_remark }}
-
-
-                                {% else %}
-
-                                    <strong>Reason:</strong>
-
-                                    The application was rejected by
-                                    the admission authority.
-
-                                {% endif %}
-
-
-                            </div>
-
-
-                            <!-- APPLY AGAIN -->
-
-                            <a
-                                href="{% url 'admission_apply' %}"
-                                class="apply-again-btn"
-                            >
-
-                                <i class="fa-solid fa-rotate-right"></i>
-
-                                Apply Again
-
-                            </a>
-
-
-                        </div>
-
-
-                    {% endif %}
-
-
-                    <!-- =================================
-                         APPROVED MESSAGE
-                    ================================== -->
-
-                    {% if application.status == "Approved" %}
-
-
-                        <div class="verification-success">
-
-                            <i class="fa-solid fa-circle-check me-1"></i>
-
-                            <strong>
-
-                                Admission Approved
-
-                            </strong>
-
-                            Your admission application has been
-                            approved by the University.
-
-                        </div>
-
-
-                    {% endif %}
-
-
-                </div>
-
-
+<section class="status-hero">
+    <span class="hero-orb orb-1" aria-hidden="true"></span>
+    <span class="hero-orb orb-2" aria-hidden="true"></span>
+    <span class="hero-orb orb-3" aria-hidden="true"></span>
+
+    <div class="container page-container">
+        <div class="hero-content">
+
+            <div class="hero-art" aria-hidden="true">
+                <i class="fa-solid fa-graduation-cap"></i>
             </div>
 
+            <div class="hero-label">
+                <i class="fa-solid fa-graduation-cap"></i>
+                MM-Technical University
+            </div>
 
-        {% endfor %}
+            <h1>Admission Status</h1>
 
-
-    {% else %}
-
-
-        <!-- =============================================
-             EMPTY STATE
-        ============================================== -->
-
-        <div class="empty-box">
-
-
-            <i class="fa-solid fa-folder-open"></i>
-
-
-            <h5>
-
-                No Applications Found
-
-            </h5>
-
-
-            <p class="text-muted">
-
-                You have not submitted any admission
-                applications yet.
-
+            <p>
+                Track your admission application, verification, approval,
+                registration and college allotment in one place.
             </p>
 
+        </div>
+    </div>
+</section>
 
-            <a
-                href="{% url 'admission_apply' %}"
-                class="btn btn-primary btn-sm"
-            >
 
-                <i class="fa-solid fa-plus me-1"></i>
 
-                Apply for Admission
+<main class="main-wrapper">
+    <div class="container page-container">
 
+        {# BACK BUTTON #}
+        <div class="back-row">
+            <a href="{% url 's_dashboard' %}" class="btn-portal btn-portal-outline">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Dashboard
             </a>
+        </div>
 
+
+        {# OVERALL REGISTRATION STATUS #}
+        <div class="summary-card">
+
+            <div>
+                <h2 class="summary-title">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    Admission Registration Status
+                </h2>
+                <div class="summary-name">{{ student.full_name }}</div>
+            </div>
+
+            {% if admission_status == "Admission Registered" %}
+                <span class="pill pill-success">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Admission Registered
+                </span>
+            {% else %}
+                <span class="pill pill-warning">
+                    <i class="fa-solid fa-clock"></i>
+                    Admission Not Registered
+                </span>
+            {% endif %}
 
         </div>
 
 
-    {% endif %}
+        {# COLLEGE ALLOTMENT (once per student) #}
+        {% if allotted_college %}
+
+            <section class="panel panel-blue allotment-card">
+
+                <div class="panel-header">
+                    <i class="fa-solid fa-building-columns"></i>
+                    College Allotment
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="info-box">
+                            <div class="info-label">Allotted college</div>
+                            <div class="info-value">{{ allotted_college.college_name }}</div>
+                        </div>
+                    </div>
+
+                    {% if allotted_course %}
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="info-box">
+                                <div class="info-label">Allotted course</div>
+                                <div class="info-value">{{ allotted_course.course_name }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if allotted_date %}
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="info-box">
+                                <div class="info-label">Allotted on</div>
+                                <div class="info-value">{{ allotted_date|date:"d M Y, h:i A" }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <div class="notice notice-success">
+                    <i class="fa-solid fa-circle-check notice-icon"></i>
+                    <div class="notice-body">
+                        <p>You have been officially allotted to this college by University Staff.</p>
+                    </div>
+                </div>
+
+            </section>
+
+        {% endif %}
 
 
-</div>
+        {% if applications %}
 
+            {% for application in applications %}
+
+                <article class="application-card application-card--{{ application.status|slugify }}" style="--i: {{ forloop.counter }}">
+
+                    {# ---------- HEADER (click to expand) ---------- #}
+                    <div
+                        class="application-header application-toggle collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#applicationDetails{{ application.id }}"
+                        aria-expanded="false"
+                        aria-controls="applicationDetails{{ application.id }}"
+                        role="button"
+                        tabindex="0"
+                    >
+
+                        <div class="application-header-info">
+                            <div class="application-number">
+                                <i class="fa-regular fa-file-lines"></i>APP-{{ application.id|stringformat:"05d" }}
+                            </div>
+                            <div class="application-date">
+                                <i class="fa-regular fa-calendar"></i>Applied: {{ application.applied_date|date:"d M Y, h:i A" }}
+                            </div>
+                        </div>
+
+                        <div class="application-header-right">
+
+                            {% if application.status == "Pending" %}
+                                <span class="pill pill-warning">
+                                    <i class="fa-solid fa-clock"></i> Pending
+                                </span>
+
+                            {% elif application.status == "College Verified" %}
+                                <span class="pill pill-info">
+                                    <i class="fa-solid fa-building-columns"></i> College Verified
+                                </span>
+
+                            {% elif application.status == "University Verified" %}
+                                <span class="pill pill-purple">
+                                    <i class="fa-solid fa-landmark"></i> University Verified
+                                </span>
+
+                            {% elif application.status == "Approved" %}
+                                <span class="pill pill-success">
+                                    <i class="fa-solid fa-circle-check"></i> Admission Approved
+                                </span>
+
+                            {% elif application.status == "Rejected" %}
+                                <span class="pill pill-danger">
+                                    <i class="fa-solid fa-circle-xmark"></i> Rejected
+                                </span>
+
+                            {% else %}
+                                <span class="pill pill-neutral">{{ application.status }}</span>
+                            {% endif %}
+
+                            <span class="application-expand-icon" aria-hidden="true">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    {# ---------- BODY ---------- #}
+                    <div
+                        id="applicationDetails{{ application.id }}"
+                        class="application-body collapse"
+                    >
+                        <div class="application-body-inner">
+
+                            {# APPLICATION PROGRESS #}
+                            {% if application.status != "Rejected" %}
+
+                                <h3 class="section-title">
+                                    <i class="fa-solid fa-route"></i>
+                                    Application Progress
+                                </h3>
+
+                                <ol class="tracker" aria-label="Application progress">
+
+                                    <li class="step done">
+                                        <span class="step-dot"><i class="fa-solid fa-paper-plane"></i></span>
+                                        <span class="step-label">Applied</span>
+                                    </li>
+
+                                    <li class="step {% if application.status == 'University Verified' or application.status == 'College Verified' or application.status == 'Approved' %}done{% elif application.status == 'Pending' %}current{% endif %}">
+                                        <span class="step-dot"><i class="fa-solid fa-landmark"></i></span>
+                                        <span class="step-label">University verified</span>
+                                    </li>
+
+                                    <li class="step {% if application.status == 'College Verified' or application.status == 'Approved' %}done{% elif application.status == 'University Verified' %}{% if allotted_college %}done{% else %}current{% endif %}{% endif %}">
+                                        <span class="step-dot"><i class="fa-solid fa-location-dot"></i></span>
+                                        <span class="step-label">College allotted</span>
+                                    </li>
+
+                                    <li class="step {% if application.status == 'College Verified' or application.status == 'Approved' %}done{% elif application.status == 'University Verified' and allotted_college %}current{% endif %}">
+                                        <span class="step-dot"><i class="fa-solid fa-building-columns"></i></span>
+                                        <span class="step-label">College verified</span>
+                                    </li>
+
+                                    <li class="step {% if application.status == 'Approved' %}done{% elif application.status == 'College Verified' %}current{% endif %}">
+                                        <span class="step-dot"><i class="fa-solid fa-graduation-cap"></i></span>
+                                        <span class="step-label">Admission approved</span>
+                                    </li>
+
+                                </ol>
+
+                            {% endif %}
+
+
+                            {# STUDENT INFORMATION #}
+                            <h3 class="section-title">
+                                <i class="fa-solid fa-user"></i>
+                                Student Information
+                            </h3>
+
+                            <div class="student-details">
+                                <div class="student-name">{{ student.full_name }}</div>
+                                <div class="student-id">
+                                    Admission Application: APP-{{ application.id|stringformat:"05d" }}
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-0">
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="info-box">
+                                        <div class="info-label">Qualification</div>
+                                        <div class="info-value">
+                                            {{ student.get_previous_qualification_display|default:"Plus Two" }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <div class="info-box">
+                                        <div class="info-label">Plus Two percentage</div>
+                                        <div class="info-value">
+                                            {% if student.plus_two_percentage %}
+                                                {{ student.plus_two_percentage }}%
+                                            {% else %}
+                                                —
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            {# ADMISSION DETAILS #}
+                            <h3 class="section-title">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                Admission Details
+                            </h3>
+
+                            <div class="row g-3">
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <div class="info-box">
+                                        <div class="info-label">College</div>
+                                        <div class="info-value">{{ application.college.college_name }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <div class="info-box">
+                                        <div class="info-label">Department</div>
+                                        <div class="info-value">{{ application.department.department_name }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <div class="info-box">
+                                        <div class="info-label">Course</div>
+                                        <div class="info-value">{{ application.course.course_name }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <div class="info-box">
+                                        <div class="info-label">Duration</div>
+                                        <div class="info-value">{{ application.course.duration }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <div class="info-box">
+                                        <div class="info-label">Course fee</div>
+                                        <div class="info-value">₹{{ application.course.course_fee|floatformat:2 }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-4">
+                                    <div class="info-box">
+                                        <div class="info-label">Application payment</div>
+                                        <div class="info-value">
+                                            {% if application.payment_status == "Paid" %}
+                                                <span class="payment-paid">
+                                                    <i class="fa-solid fa-circle-check"></i> Paid
+                                                </span>
+                                                {% if application.payment_date %}
+                                                    <span class="info-sub">on {{ application.payment_date|date:"d M Y" }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="payment-pending">
+                                                    <i class="fa-solid fa-clock"></i> Pending
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            {# DOCUMENT VERIFICATION #}
+                            <h3 class="section-title">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                Document Verification
+                            </h3>
+
+                            <ul class="check-list">
+
+                                <li class="check-item {% if application.certificate_percentage_verified %}ok{% else %}wait{% endif %}">
+                                    <i class="fa-solid {% if application.certificate_percentage_verified %}fa-circle-check{% else %}fa-clock{% endif %}"></i>
+                                    <div>
+                                        <strong>Plus Two percentage</strong>
+                                        <span>
+                                            {% if application.certificate_percentage_verified %}
+                                                Matches your certificate{% if application.certificate_percentage %} ({{ application.certificate_percentage }}%){% endif %}
+                                            {% else %}
+                                                Not verified yet
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="check-item {% if application.aadhaar_verified %}ok{% else %}wait{% endif %}">
+                                    <i class="fa-solid {% if application.aadhaar_verified %}fa-circle-check{% else %}fa-clock{% endif %}"></i>
+                                    <div>
+                                        <strong>Aadhaar number</strong>
+                                        <span>
+                                            {% if application.aadhaar_verified %}
+                                                Matches your Aadhaar document
+                                            {% else %}
+                                                Not verified yet
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="check-item {% if application.document_verified %}ok{% else %}wait{% endif %}">
+                                    <i class="fa-solid {% if application.document_verified %}fa-circle-check{% else %}fa-clock{% endif %}"></i>
+                                    <div>
+                                        <strong>All documents</strong>
+                                        <span>
+                                            {% if application.document_verified %}
+                                                Documents verified
+                                            {% else %}
+                                                Waiting for verification
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </li>
+
+                            </ul>
+
+
+                            {# CURRENT STAGE MESSAGE #}
+                            {% if application.status == "Pending" %}
+
+                                <div class="notice notice-warning">
+                                    <i class="fa-solid fa-clock notice-icon"></i>
+                                    <div class="notice-body">
+                                        <strong>University verification pending</strong>
+                                        <p>
+                                            Your application has been submitted and is waiting for
+                                            University Staff to verify your documents.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            {% elif application.status == "University Verified" %}
+
+                                <div class="notice notice-success">
+                                    <i class="fa-solid fa-circle-check notice-icon"></i>
+                                    <div class="notice-body">
+                                        <strong>University verification passed</strong>
+                                        <p>
+                                            Your name, qualification and percentage have been
+                                            successfully verified by University Staff.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {% if allotted_college %}
+                                    <div class="notice notice-info">
+                                        <i class="fa-solid fa-hourglass-half notice-icon"></i>
+                                        <div class="notice-body">
+                                            <strong>College verification pending</strong>
+                                            <p>
+                                                {{ allotted_college.college_name }} will verify your
+                                                application next.
+                                            </p>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="notice notice-info">
+                                        <i class="fa-solid fa-hourglass-half notice-icon"></i>
+                                        <div class="notice-body">
+                                            <strong>College allotment pending</strong>
+                                            <p>University Staff will allot you a college and course soon.</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            {% elif application.status == "College Verified" %}
+
+                                <div class="notice notice-success">
+                                    <i class="fa-solid fa-circle-check notice-icon"></i>
+                                    <div class="notice-body">
+                                        <strong>College verification passed</strong>
+                                        <p>
+                                            Your application has been verified by
+                                            {{ application.college.college_name }} and is waiting for
+                                            final approval.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            {% endif %}
+
+
+                            {# APPROVED ADMISSION #}
+                            {% if application.status == "Approved" %}
+
+                                <div class="panel panel-green">
+
+                                    <div class="panel-header">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                        Admission Successfully Approved
+                                    </div>
+
+                                    <p class="panel-text">
+                                        Congratulations <strong>{{ student.full_name }}</strong>!
+                                        Your admission application has been approved by the college.
+                                        Your admission details are confirmed below.
+                                    </p>
+
+                                    <div class="row g-3">
+
+                                        <div class="col-12 col-sm-6 col-lg-4">
+                                            <div class="info-box">
+                                                <div class="info-label">College</div>
+                                                <div class="info-value">{{ application.college.college_name }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-sm-6 col-lg-4">
+                                            <div class="info-box">
+                                                <div class="info-label">Department</div>
+                                                <div class="info-value">{{ application.department.department_name }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-sm-6 col-lg-4">
+                                            <div class="info-box">
+                                                <div class="info-label">Course</div>
+                                                <div class="info-value">{{ application.course.course_name }}</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="notice notice-success">
+                                        <i class="fa-solid fa-circle-check notice-icon"></i>
+                                        <div class="notice-body">
+                                            <strong>Admission confirmed</strong>
+                                            <p>Your seat has been confirmed successfully.</p>
+                                        </div>
+                                    </div>
+
+                                    <a href="{% url 'admission_slip' application.id %}" class="btn-portal btn-portal-primary btn-shine">
+                                        <i class="fa-solid fa-file-arrow-down"></i>
+                                        Download Admission Slip
+                                    </a>
+
+                                </div>
+
+
+                                {# REGISTRATION STATUS #}
+                                {% if admission_status == "Admission Registered" %}
+
+                                    <div class="panel panel-green panel-registered">
+
+                                        <div class="panel-header">
+                                            <i class="fa-solid fa-user-graduate"></i>
+                                            Admission Registration Completed
+                                        </div>
+
+                                        <p class="panel-text">
+                                            Congratulations <strong>{{ student.full_name }}</strong>!
+                                            Your admission has been officially registered by
+                                            <strong>{{ application.college.college_name }}</strong>.
+                                            Your admission registration is now successfully completed.
+                                        </p>
+
+                                        <span class="pill pill-success">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                            Admission Registered
+                                        </span>
+
+                                    </div>
+
+                                {% else %}
+
+                                    <div class="notice notice-warning">
+                                        <i class="fa-solid fa-clock notice-icon"></i>
+                                        <div class="notice-body">
+                                            <strong>Admission registration pending</strong>
+                                            <p>
+                                                Your admission has been approved by the college, but the
+                                                final admission registration has not yet been completed.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                {% endif %}
+
+                            {% endif %}
+
+
+                            {# COLLEGE REMARK #}
+                            {% if application.college_remark %}
+                                <div class="notice notice-warning">
+                                    <i class="fa-solid fa-building notice-icon"></i>
+                                    <div class="notice-body">
+                                        <strong>College remark</strong>
+                                        <p>{{ application.college_remark }}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+
+                            {# UNIVERSITY REMARK #}
+                            {% if application.staff_remark %}
+                                <div class="notice notice-warning">
+                                    <i class="fa-solid fa-user-tie notice-icon"></i>
+                                    <div class="notice-body">
+                                        <strong>University remark</strong>
+                                        <p>{{ application.staff_remark }}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+
+                            {# REJECTION #}
+                            {% if application.status == "Rejected" %}
+
+                                <div class="panel panel-danger">
+
+                                    <div class="panel-header">
+                                        <i class="fa-solid fa-circle-xmark"></i>
+                                        Application Rejected
+                                    </div>
+
+                                    <div class="reason-box">
+                                        <strong>Reason:</strong>
+                                        {% if application.staff_remark %}
+                                            {{ application.staff_remark }}
+                                        {% elif application.college_remark %}
+                                            {{ application.college_remark }}
+                                        {% else %}
+                                            The application was rejected by the admission authority.
+                                        {% endif %}
+                                    </div>
+
+                                    <a href="{% url 'admission_apply' %}" class="btn-portal btn-portal-danger">
+                                        <i class="fa-solid fa-rotate-right"></i>
+                                        Apply Again
+                                    </a>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            {# EMPTY STATE #}
+            <div class="empty-box">
+
+                <div class="empty-icon">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+
+                <h2>No applications found</h2>
+
+                <p>You have not submitted any admission applications yet.</p>
+
+                <a href="{% url 'admission_apply' %}" class="btn-portal btn-portal-primary">
+                    <i class="fa-solid fa-plus"></i>
+                    Apply for Admission
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    /* Keyboard support (Enter / Space) for the application dropdown headers */
+    document.querySelectorAll(".application-toggle").forEach(function (header) {
+        header.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                header.click();
+            }
+        });
+    });
+</script>
 
 </body>
 
 </html>
-```

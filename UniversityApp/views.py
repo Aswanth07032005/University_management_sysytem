@@ -113,3 +113,233 @@ def logout_view(request):
     )
 
     return redirect("/")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from django.shortcuts import render
+from django.http import JsonResponse
+
+from .models import (
+    College,
+    Course,
+    Department,
+)
+
+from .groq_service import ask_groq
+
+
+# =========================================================
+# PUBLIC CHATBOT PAGE
+# =========================================================
+
+def chatbot(request):
+
+    return render(
+        request,
+        "chatbot.html"
+    )
+
+
+# =========================================================
+# PUBLIC CHATBOT API
+# =========================================================
+
+def chatbot_api(request):
+
+    if request.method != "POST":
+
+        return JsonResponse({
+            "success": False,
+            "answer": "Invalid request."
+        })
+
+
+    message = request.POST.get(
+        "message",
+        ""
+    ).strip()
+
+
+    if not message:
+
+        return JsonResponse({
+            "success": False,
+            "answer": "Please enter a message."
+        })
+
+
+    try:
+
+        # =================================================
+        # APPROVED COLLEGES
+        # =================================================
+
+        colleges = College.objects.filter(
+            is_approved=True
+        )
+
+
+        college_context = ""
+
+
+        for college in colleges:
+
+            college_context += f"""
+College Name: {college.college_name}
+District: {college.district}
+State: {college.state}
+Address: {college.address}
+"""
+
+
+        if not college_context:
+
+            college_context = "No approved colleges available."
+
+
+        # =================================================
+        # COURSES
+        # =================================================
+
+        courses = Course.objects.select_related(
+            "college",
+            "department"
+        )
+
+
+        course_context = ""
+
+
+        for course in courses:
+
+            course_context += f"""
+Course Name: {course.course_name}
+Course Code: {course.course_code}
+College: {course.college.college_name}
+Department: {course.department.department_name}
+Duration: {course.duration}
+Course Fee: ₹{course.course_fee}
+Total Seats: {course.total_seats}
+Eligibility: {course.eligibility_percentage}%
+Description: {course.description}
+"""
+
+
+        if not course_context:
+
+            course_context = "No course information available."
+
+
+        # =================================================
+        # DEPARTMENTS
+        # =================================================
+
+        departments = Department.objects.all()
+
+
+        department_context = ""
+
+
+        for department in departments:
+
+            department_context += f"""
+Department Name: {department.department_name}
+Department Code: {department.department_code}
+Description: {department.description}
+"""
+
+
+        if not department_context:
+
+            department_context = "No department information available."
+
+
+        # =================================================
+        # DATABASE CONTEXT
+        # =================================================
+
+        context = f"""
+
+========================================
+UNIVERSITY MANAGEMENT SYSTEM
+========================================
+
+
+APPROVED COLLEGES:
+
+{college_context}
+
+
+AVAILABLE COURSES:
+
+{course_context}
+
+
+DEPARTMENTS:
+
+{department_context}
+
+
+========================================
+END DATABASE INFORMATION
+========================================
+"""
+
+
+        # =================================================
+        # ASK GROQ
+        # =================================================
+
+        answer = ask_groq(
+            message,
+            context
+        )
+
+
+        return JsonResponse({
+
+            "success": True,
+
+            "answer": answer
+
+        })
+
+
+    except Exception as e:
+
+        print(
+            "CHATBOT ERROR:",
+            repr(e)
+        )
+
+
+        return JsonResponse({
+
+            "success": False,
+
+            "answer":
+            f"Chatbot Error: {str(e)}"
+
+        })
+
