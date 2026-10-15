@@ -1,0 +1,1 @@
+regex:gsk[A-Za-z0-9_-]+==>REDACTED_GROQ_API_KEY
