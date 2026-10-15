@@ -1,344 +1,950 @@
+
 {% extends "college/college_dashboard.html" %}
 
 {% block content %}
 
 <style>
 
-:root{
-    --navy:#16407E;
-    --navy-dark:#0B2C5C;
-    --navy-soft:#EAF0FA;
-    --blue-pale:#EEF3FB;
-    --gold:#C9A227;
-    --blue-line:#D9E3F2;
-    --ink:#1C2430;
-    --muted:#6B7383;
-    --red:#B23A48;
-    --red-soft:#FBEAEC;
-    --amber:#B8791F;
-    --amber-soft:#FBF2DC;
+:root {
+    --navy-deep: #02172f;
+    --navy-dark: #062b5c;
+    --navy: #0a3f78;
+    --navy-mid: #0d4f91;
+    --blue: #155fa8;
+    --blue-dark: #08447f;
+
+    --blue-soft: #edf4fb;
+    --blue-pale: #f7faff;
+    --blue-line: #dce3eb;
+
+    --white: #ffffff;
+
+    --ink: #132238;
+    --text-soft: #40546c;
+    --muted: #718096;
+
+    --success: #17805b;
+    --success-soft: #eaf6f0;
+
+    --danger: #c83d4b;
+    --danger-soft: #fbedef;
+
+    --radius: 16px;
+
+    --shadow-sm: 0 3px 12px rgba(2, 23, 47, .05);
+    --shadow: 0 12px 35px rgba(2, 23, 47, .08);
 }
 
-.staff-panel{
-    max-width:1200px;
-    margin:0 auto;
-    background:#fff;
-    border:1px solid var(--blue-line);
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 18px 40px -28px rgba(11,44,92,0.35);
+
+/* =========================================
+   MAIN PANEL
+========================================= */
+
+.course-panel {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    background: var(--white);
+
+    border: 1px solid var(--blue-line);
+    border-radius: var(--radius);
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow);
 }
 
-.panel-head{
-    background:linear-gradient(120deg,var(--navy-dark),var(--navy));
-    color:#fff;
-    padding:20px 24px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:16px;
-    flex-wrap:wrap;
-    position:relative;
+
+/* =========================================
+   PANEL HEADER
+========================================= */
+
+.course-panel-head {
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 18px;
+
+    padding: 22px 26px;
+
+    color: #fff;
+
+    background:
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(255,255,255,.10),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            var(--navy-dark),
+            var(--navy),
+            var(--blue)
+        );
 }
 
-.panel-head::after{
-    content:"";
-    position:absolute;
-    left:0; right:0; bottom:0;
-    height:3px;
-    background:var(--gold);
+
+/* Bottom blue line */
+
+.course-panel-head::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 3px;
+
+    background: #4f8fca;
 }
 
-.panel-head h4{
-    margin:0;
-    font-family:"Georgia","Times New Roman",serif;
-    font-weight:700;
-    font-size:19px;
-    display:flex;
-    align-items:center;
-    gap:10px;
+
+/* =========================================
+   TITLE
+========================================= */
+
+.course-panel-title {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
 }
 
-.panel-head h4 i{
-    color:var(--gold);
+.course-panel-title-icon {
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: rgba(255,255,255,.13);
+
+    color: #fff;
+
+    font-size: 17px;
 }
 
-.btn-add-course{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background:var(--gold);
-    color:var(--navy-dark);
-    text-decoration:none;
-    padding:9px 16px;
-    border-radius:8px;
-    font-size:13px;
-    font-weight:700;
-    transition:background .15s ease, transform .1s ease;
+.course-panel-title h4 {
+
+    margin: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    color: #fff;
 }
 
-.btn-add-course:hover{
-    background:#DDB438;
-    color:var(--navy-dark);
+.course-panel-title p {
+
+    margin: 3px 0 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 11px;
+
+    color: rgba(255,255,255,.68);
 }
 
-.btn-add-course:active{ transform:translateY(1px); }
 
-.panel-body{
-    padding:22px 24px 26px;
+/* =========================================
+   ADD COURSE BUTTON
+========================================= */
+
+.btn-add-course {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 10px 17px;
+
+    border-radius: 9px;
+
+    background: #fff;
+
+    color: var(--navy);
+
+    border: 1px solid rgba(255,255,255,.4);
+
+    text-decoration: none;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: all .2s ease;
 }
 
-.staff-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:13.5px;
+.btn-add-course:hover {
+
+    background: var(--blue-soft);
+
+    color: var(--navy-dark);
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 6px 18px rgba(0,0,0,.12);
 }
 
-.staff-table thead th{
-    background:var(--navy-soft);
-    color:var(--navy-dark);
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    font-size:11px;
-    font-weight:700;
-    padding:12px 14px;
-    border-bottom:2px solid var(--blue-line);
-    text-align:left;
-    white-space:nowrap;
+
+/* =========================================
+   PANEL BODY
+========================================= */
+
+.course-panel-body {
+
+    padding: 22px 24px 26px;
+
+    background: #fff;
 }
 
-.staff-table tbody td{
-    padding:13px 14px;
-    border-bottom:1px solid #F0F3F9;
-    vertical-align:middle;
-    color:var(--ink);
+
+/* =========================================
+   TABLE
+========================================= */
+
+.course-table {
+
+    width: 100%;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12.5px;
 }
 
-.staff-table tbody tr:last-child td{
-    border-bottom:none;
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.course-table thead th {
+
+    padding: 13px 14px;
+
+    background: var(--blue-soft);
+
+    color: var(--navy-dark);
+
+    border-top: 1px solid var(--blue-line);
+
+    border-bottom: 1px solid var(--blue-line);
+
+    font-size: 10.5px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: .04em;
+
+    white-space: nowrap;
+
+    text-align: left;
 }
 
-.staff-table tbody tr:hover{
-    background:var(--blue-pale);
+.course-table thead th:first-child {
+
+    border-left: 1px solid var(--blue-line);
+
+    border-radius: 9px 0 0 0;
 }
 
-.course-name{
-    font-weight:600;
-    display:flex;
-    align-items:center;
+.course-table thead th:last-child {
+
+    border-right: 1px solid var(--blue-line);
+
+    border-radius: 0 9px 0 0;
 }
 
-.course-name i{
-    color:var(--navy) !important;
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.course-table tbody td {
+
+    padding: 14px;
+
+    color: var(--ink);
+
+    border-bottom: 1px solid #edf1f5;
+
+    vertical-align: middle;
+
+    background: #fff;
 }
 
-.course-code{
-    display:inline-block;
-    background:var(--navy-soft);
-    color:var(--navy);
-    padding:4px 10px;
-    border-radius:6px;
-    font-size:11.5px;
-    font-weight:700;
-    letter-spacing:0.03em;
+.course-table tbody tr:hover td {
+
+    background: var(--blue-pale);
 }
 
-.eligibility-pill{
-    display:inline-block;
-    font-size:11.5px;
-    font-weight:700;
-    padding:4px 10px;
-    border-radius:20px;
+.course-table tbody tr:last-child td {
+
+    border-bottom: 0;
 }
 
-.eligibility-pill.set{
-    background:#E4F5EC;
-    color:#1F8A5F;
+
+/* =========================================
+   COURSE NAME
+========================================= */
+
+.course-name {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    font-weight: 600;
+
+    color: var(--navy-dark);
+
+    white-space: nowrap;
 }
 
-.eligibility-pill.missing{
-    background:var(--red-soft);
-    color:var(--red);
+.course-name-icon {
+
+    width: 31px;
+    height: 31px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: var(--blue-soft);
+
+    color: var(--blue);
+
+    font-size: 12px;
+
+    flex-shrink: 0;
 }
 
-.row-actions{
-    display:flex;
-    gap:6px;
+
+/* =========================================
+   COURSE CODE
+========================================= */
+
+.course-code {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 7px;
+
+    background: var(--blue-soft);
+
+    color: var(--navy);
+
+    border: 1px solid #d7e4f2;
+
+    font-size: 10.5px;
+
+    font-weight: 600;
+
+    letter-spacing: .02em;
 }
 
-.btn-icon{
-    width:32px;
-    height:32px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    border-radius:6px;
-    text-decoration:none;
-    font-size:12.5px;
-    transition:background .15s ease, color .15s ease;
+
+/* =========================================
+   DEPARTMENT
+========================================= */
+
+.department-name {
+
+    color: var(--text-soft);
+
+    font-weight: 500;
 }
 
-.btn-icon.edit{
-    background:var(--amber-soft);
-    color:var(--amber);
+
+/* =========================================
+   NORMAL VALUES
+========================================= */
+
+.course-value {
+
+    color: var(--text-soft);
+
+    font-size: 12px;
 }
 
-.btn-icon.edit:hover{
-    background:var(--amber);
-    color:#fff;
+
+/* =========================================
+   ELIGIBILITY
+========================================= */
+
+.eligibility-pill {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 10.5px;
+
+    font-weight: 600;
 }
 
-.btn-icon.delete{
-    background:var(--red-soft);
-    color:var(--red);
+
+/* Blue */
+
+.eligibility-pill.set {
+
+    background: var(--blue-soft);
+
+    color: var(--blue-dark);
+
+    border: 1px solid #d6e4f2;
 }
 
-.btn-icon.delete:hover{
-    background:var(--red);
-    color:#fff;
+
+/* Missing */
+
+.eligibility-pill.missing {
+
+    background: #f1f4f7;
+
+    color: var(--muted);
+
+    border: 1px solid var(--blue-line);
 }
 
-.empty-state{
-    text-align:center;
-    padding:48px 20px;
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.row-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
 }
 
-.empty-state i{
-    font-size:44px;
-    color:var(--blue-line);
-    margin-bottom:14px;
-    display:block;
+
+/* Common button */
+
+.btn-icon {
+
+    width: 32px;
+    height: 32px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    transition: all .18s ease;
 }
 
-.empty-state h5{
-    font-family:"Georgia",serif;
-    font-weight:700;
-    color:var(--navy-dark);
-    margin-bottom:6px;
+
+/* Edit */
+
+.btn-icon.edit {
+
+    background: var(--blue-soft);
+
+    color: var(--blue);
+
+    border: 1px solid #d6e4f2;
 }
 
-.empty-state p{
-    color:var(--muted);
-    font-size:13.5px;
-    margin-bottom:18px;
+.btn-icon.edit:hover {
+
+    background: var(--blue);
+
+    color: #fff;
+
+    border-color: var(--blue);
+}
+
+
+/* Delete */
+
+.btn-icon.delete {
+
+    background: #f3f6f9;
+
+    color: #60758a;
+
+    border: 1px solid var(--blue-line);
+}
+
+.btn-icon.delete:hover {
+
+    background: var(--danger);
+
+    color: #fff;
+
+    border-color: var(--danger);
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state {
+
+    text-align: center;
+
+    padding: 60px 20px;
+}
+
+.empty-state-icon {
+
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 16px;
+
+    border-radius: 16px;
+
+    background: var(--blue-soft);
+
+    color: var(--blue);
+
+    font-size: 24px;
+}
+
+.empty-state h5 {
+
+    margin: 0 0 7px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    color: var(--navy-dark);
+}
+
+.empty-state p {
+
+    margin: 0 0 20px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   EMPTY BUTTON
+========================================= */
+
+.empty-add-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 15px;
+
+    border-radius: 8px;
+
+    background: var(--navy);
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-size: 11.5px;
+
+    font-weight: 600;
+
+    transition: .2s ease;
+}
+
+.empty-add-button:hover {
+
+    background: var(--blue-dark);
+
+    color: #fff;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .course-panel-head {
+
+        padding: 20px;
+    }
+
+    .course-panel-body {
+
+        padding: 18px;
+    }
+
+    .course-panel-title h4 {
+
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 576px) {
+
+    .course-panel {
+
+        border-radius: 12px;
+    }
+
+    .course-panel-head {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 18px;
+    }
+
+    .btn-add-course {
+
+        width: 100%;
+    }
+
+    .course-panel-body {
+
+        padding: 12px;
+    }
+
+    .course-table {
+
+        font-size: 11px;
+    }
+
+    .course-table thead th {
+
+        padding: 10px;
+    }
+
+    .course-table tbody td {
+
+        padding: 11px 10px;
+    }
+
 }
 
 </style>
 
-<div class="staff-panel">
 
-    <!-- Header -->
-    <div class="panel-head">
+<div class="course-panel">
 
-        <h4>
-            <i class="fa-solid fa-book-open"></i>
-            Course List
-        </h4>
 
-        <a href="{% url 'course_add' %}" class="btn-add-course">
+    <!-- =====================================
+         HEADER
+    ====================================== -->
+
+    <div class="course-panel-head">
+
+        <div class="course-panel-title">
+
+            <div class="course-panel-title-icon">
+
+                <i class="fa-solid fa-book-open"></i>
+
+            </div>
+
+            <div>
+
+                <h4>
+                    Course List
+                </h4>
+
+                <p>
+                    Manage courses offered by your college
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'course_add' %}"
+            class="btn-add-course"
+        >
+
             <i class="fa-solid fa-plus"></i>
+
             Add Course
+
         </a>
 
     </div>
 
-    <!-- Body -->
-    <div class="panel-body">
+
+    <!-- =====================================
+         BODY
+    ====================================== -->
+
+    <div class="course-panel-body">
+
 
         <div class="table-responsive">
 
-            <table class="staff-table">
+            <table class="course-table">
 
                 <thead>
 
                     <tr>
 
                         <th>#</th>
+
                         <th>Course</th>
+
                         <th>Code</th>
+
                         <th>Department</th>
+
                         <th>Duration</th>
+
                         <th>Seats</th>
+
                         <th>Eligibility %</th>
+
                         <th>Created</th>
+
                         <th>Action</th>
 
                     </tr>
 
                 </thead>
 
+
                 <tbody>
+
 
                 {% for course in courses %}
 
                     <tr>
 
-                        <td>{{ forloop.counter }}</td>
+
+                        <!-- Number -->
 
                         <td>
-                            <div class="course-name">
-                                <i class="fa-solid fa-graduation-cap me-2"></i>
-                                {{ course.course_name }}
-                            </div>
-                        </td>
 
-                        <td>
-                            <span class="course-code">
-                                {{ course.course_code }}
+                            <span class="course-value">
+
+                                {{ forloop.counter }}
+
                             </span>
+
                         </td>
 
-                        <td>
-                            {{ course.department.department_name }}
-                        </td>
+
+                        <!-- Course -->
 
                         <td>
-                            {{ course.duration }}
+
+                            <div class="course-name">
+
+                                <div class="course-name-icon">
+
+                                    <i class="fa-solid fa-graduation-cap"></i>
+
+                                </div>
+
+                                {{ course.course_name }}
+
+                            </div>
+
                         </td>
 
-                        <td>
-                            {{ course.total_seats }}
-                        </td>
+
+                        <!-- Code -->
 
                         <td>
+
+                            <span class="course-code">
+
+                                {{ course.course_code }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- Department -->
+
+                        <td>
+
+                            <span class="department-name">
+
+                                {{ course.department.department_name }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- Duration -->
+
+                        <td>
+
+                            <span class="course-value">
+
+                                {{ course.duration }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- Seats -->
+
+                        <td>
+
+                            <span class="course-value">
+
+                                {{ course.total_seats }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- Eligibility -->
+
+                        <td>
+
                             {% if course.eligibility_percentage %}
-                                <span class="eligibility-pill set">{{ course.eligibility_percentage }}%</span>
+
+                                <span class="eligibility-pill set">
+
+                                    <i class="fa-solid fa-check"></i>
+
+                                    {{ course.eligibility_percentage }}%
+
+                                </span>
+
                             {% else %}
-                                <span class="eligibility-pill missing">Not Added</span>
+
+                                <span class="eligibility-pill missing">
+
+                                    Not Added
+
+                                </span>
+
                             {% endif %}
+
                         </td>
 
+
+                        <!-- Created -->
+
                         <td>
-                            {{ course.created_at|date:"d M Y" }}
+
+                            <span class="course-value">
+
+                                {{ course.created_at|date:"d M Y" }}
+
+                            </span>
+
                         </td>
+
+
+                        <!-- Actions -->
 
                         <td>
 
                             <div class="row-actions">
 
-                                <a href="{% url 'course_edit' course.id %}"
-                                   class="btn-icon edit"
-                                   title="Edit">
+
+                                <a
+                                    href="{% url 'course_edit' course.id %}"
+                                    class="btn-icon edit"
+                                    title="Edit Course"
+                                >
 
                                     <i class="fa-solid fa-pen-to-square"></i>
 
                                 </a>
 
-                                <a href="{% url 'course_delete' course.id %}"
-                                   class="btn-icon delete"
-                                   title="Delete">
+
+                                <a
+                                    href="{% url 'course_delete' course.id %}"
+                                    class="btn-icon delete"
+                                    title="Delete Course"
+                                >
 
                                     <i class="fa-solid fa-trash"></i>
 
                                 </a>
 
+
                             </div>
 
                         </td>
 
+
                     </tr>
 
+
                 {% empty %}
+
 
                     <tr>
 
@@ -346,17 +952,31 @@
 
                             <div class="empty-state">
 
-                                <i class="fa-solid fa-book-open"></i>
+                                <div class="empty-state-icon">
 
-                                <h5>No Courses Found</h5>
+                                    <i class="fa-solid fa-book-open"></i>
 
-                                <p>Add your first course.</p>
+                                </div>
 
-                                <a href="{% url 'course_add' %}" class="btn-add-course">
+
+                                <h5>
+                                    No Courses Found
+                                </h5>
+
+
+                                <p>
+                                    No courses have been added to your college yet.
+                                </p>
+
+
+                                <a
+                                    href="{% url 'course_add' %}"
+                                    class="empty-add-button"
+                                >
 
                                     <i class="fa-solid fa-plus"></i>
 
-                                    Add Course
+                                    Add Your First Course
 
                                 </a>
 
@@ -366,7 +986,9 @@
 
                     </tr>
 
+
                 {% endfor %}
+
 
                 </tbody>
 
@@ -379,3 +1001,4 @@
 </div>
 
 {% endblock %}
+

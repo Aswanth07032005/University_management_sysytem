@@ -1,72 +1,124 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>AI Help Desk | MM-Technical University</title>
 
-    <!-- Bootstrap -->
+
+    <!-- =========================================================
+         BOOTSTRAP
+    ========================================================== -->
+
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
 
-    <!-- Font Awesome -->
+
+    <!-- =========================================================
+         FONT AWESOME
+    ========================================================== -->
+
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-    <!-- Google Fonts -->
+
+    <!-- =========================================================
+         GOOGLE FONT
+    ========================================================== -->
+
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
     >
 
-    <!-- Marked.js -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- =========================================================
+         MARKED.JS
+    ========================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+    ></script>
 
 
     <style>
+
 
         /* =========================================================
            ROOT
         ========================================================= */
 
         :root {
+
             --navy: #00203e;
+
             --dark-navy: #022542;
+
             --blue: #0b5ed7;
+
             --light-blue: #edf5fb;
+
             --gold: #d8a928;
+
             --white: #ffffff;
+
             --black: #111827;
+
             --text: #4b5563;
+
             --border: #dce5ed;
-            --shadow: 0 15px 45px rgba(3, 40, 70, 0.12);
+
+            --shadow:
+                0 15px 45px rgba(3, 40, 70, 0.12);
+
         }
 
+
+        /* =========================================================
+           RESET
+        ========================================================= */
 
         * {
+
             margin: 0;
+
             padding: 0;
+
             box-sizing: border-box;
+
         }
+
 
         html {
+
             scroll-behavior: smooth;
+
         }
 
+
         body {
+
             font-family: "Poppins", sans-serif;
+
             color: var(--black);
-            background: #fff;
+
+            background: #ffffff;
+
             overflow-x: hidden;
+
         }
+
 
         h1,
         h2,
@@ -74,11 +126,16 @@
         h4,
         h5,
         h6 {
-            font-family: "Playfair Display", serif;
+
+            font-family: "Poppins", sans-serif;
+
         }
 
+
         a {
+
             text-decoration: none;
+
         }
 
 
@@ -87,34 +144,59 @@
         ========================================================= */
 
         .top-bar {
+
             background: #f8fafc;
+
             border-bottom: 1px solid #e5e7eb;
+
             min-height: 40px;
+
             display: flex;
+
             align-items: center;
+
         }
+
 
         .top-bar-inner {
+
             display: flex;
+
             justify-content: flex-end;
+
             align-items: center;
+
             gap: 24px;
+
             font-size: 12px;
+
             color: #536171;
+
         }
+
 
         .top-link {
+
             color: #536171;
+
             transition: 0.3s;
+
         }
+
 
         .top-link:hover {
+
             color: var(--blue);
+
         }
 
+
         .top-link i {
+
             margin-right: 5px;
+
             color: var(--navy);
+
         }
 
 
@@ -123,107 +205,205 @@
         ========================================================= */
 
         .main-navbar {
-            background: #fff;
+
+            background: #ffffff;
+
             min-height: 100px;
+
             border-bottom: 1px solid #e8edf2;
+
             transition: 0.3s ease;
+
             z-index: 1000;
+
         }
+
 
         .main-navbar.scrolled {
+
             min-height: 72px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.08);
+
         }
+
 
         .brand {
+
             display: flex;
+
             align-items: center;
+
             gap: 13px;
+
         }
+
 
         .brand-logo {
+
             width: 48px;
+
             height: 58px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             color: var(--navy);
-            font-family: "Playfair Display", serif;
+
+            font-family: "Poppins", sans-serif;
+
             font-size: 46px;
+
             font-weight: 800;
+
             border-right: 1px solid #d8dee5;
+
             padding-right: 13px;
+
         }
+
 
         .brand-text {
+
             line-height: 1.05;
+
         }
+
 
         .brand-name {
-            font-family: "Playfair Display", serif;
+
+            font-family: "Poppins", sans-serif;
+
             color: var(--navy);
+
             font-size: 24px;
+
             font-weight: 700;
+
         }
+
 
         .brand-sub {
+
             font-size: 10px;
+
             color: #6b7280;
+
             letter-spacing: 2px;
+
             text-transform: uppercase;
+
             margin-top: 5px;
+
         }
+
 
         .navbar-nav {
+
             gap: 8px;
+
         }
+
 
         .navbar-nav .nav-link {
+
             color: #243746;
+
             font-size: 13px;
+
             font-weight: 500;
+
             padding: 10px 13px !important;
+
             transition: 0.3s;
+
         }
+
 
         .navbar-nav .nav-link:hover {
+
             color: var(--blue);
+
         }
+
+
+        .navbar-nav .nav-link.active {
+
+            color: var(--blue);
+
+            font-weight: 600;
+
+        }
+
 
         .nav-buttons {
+
             display: flex;
+
             gap: 9px;
+
             margin-left: 12px;
+
         }
+
 
         .btn-give {
+
             border: 1px solid var(--navy);
+
             color: var(--navy);
+
             padding: 10px 20px;
+
             font-size: 12px;
+
             font-weight: 600;
+
             transition: 0.3s;
+
         }
+
 
         .btn-give:hover {
+
             background: var(--navy);
-            color: white;
+
+            color: #ffffff;
+
         }
+
 
         .btn-apply {
+
             background: var(--navy);
-            color: white;
+
+            color: #ffffff;
+
             padding: 11px 22px;
+
             font-size: 12px;
+
             font-weight: 600;
+
             border: 1px solid var(--navy);
+
             transition: 0.3s;
+
         }
 
+
         .btn-apply:hover {
+
             background: var(--blue);
+
             border-color: var(--blue);
-            color: #fff;
+
+            color: #ffffff;
+
         }
 
 
@@ -232,94 +412,176 @@
         ========================================================= */
 
         .chat-hero {
+
             position: relative;
+
             min-height: 390px;
 
             background:
+
                 linear-gradient(
                     90deg,
-                    rgba(1, 27, 49, 0.92),
-                    rgba(2, 45, 79, 0.82),
-                    rgba(2, 45, 79, 0.70)
+                    rgba(1, 27, 49, 0.72),
+                    rgba(2, 45, 79, 0.55),
+                    rgba(2, 45, 79, 0.32)
                 ),
-                url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1800&q=85")
+
+                url("https://flexcollegeprep.com/wp-content/uploads/2018/12/university-2704306_19201.jpg")
+
                 center center / cover no-repeat;
 
             display: flex;
+
             align-items: center;
+
             overflow: hidden;
+
         }
+
 
         .chat-hero::after {
+
             content: "";
+
             position: absolute;
+
             left: 0;
+
             bottom: -1px;
+
             width: 100%;
+
             height: 75px;
-            background: white;
+
+            background: #ffffff;
+
             clip-path: polygon(
+
                 0 60%,
+
                 8% 100%,
+
                 92% 100%,
+
                 100% 60%,
+
                 100% 100%,
+
                 0 100%
+
             );
+
         }
+
 
         .chat-hero-content {
+
             position: relative;
+
             z-index: 2;
+
             width: 100%;
-            color: white;
+
+            color: #ffffff;
+
             max-width: 850px;
+
             margin: auto;
+
             text-align: center;
+
             padding: 75px 20px 95px;
+
         }
+
 
         .chat-hero-small {
+
             font-size: 13px;
+
             letter-spacing: 3px;
+
             text-transform: uppercase;
+
             margin-bottom: 16px;
+
             color: rgba(255,255,255,0.88);
+
         }
+
 
         .chat-hero-badge {
+
             display: inline-flex;
+
             align-items: center;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
             gap: 8px;
 
-            padding: 7px 15px;
+            padding: 8px 16px;
+
             margin-bottom: 20px;
 
-            border: 1px solid rgba(255,255,255,0.25);
-            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.28);
+
+            background: rgba(255,255,255,0.10);
+
+            backdrop-filter: blur(5px);
 
             font-size: 10px;
+
             letter-spacing: 1.5px;
+
             text-transform: uppercase;
+
         }
+
 
         .chat-hero-badge i {
+
             color: #e4bc42;
+
         }
+
+
+        .badge-divider {
+
+            color: #e4bc42;
+
+            font-weight: 700;
+
+        }
+
 
         .chat-hero h1 {
+
             font-size: clamp(46px, 6vw, 70px);
+
             font-weight: 700;
+
             line-height: 1.05;
+
             margin-bottom: 18px;
+
         }
 
+
         .chat-hero-description {
+
             max-width: 650px;
+
             margin: auto;
+
             font-size: 14px;
+
             line-height: 1.8;
+
             color: rgba(255,255,255,0.86);
+
         }
 
 
@@ -328,15 +590,42 @@
         ========================================================= */
 
         .chat-section {
-            padding: 55px 0 85px;
-            background: #fff;
+
+            padding:
+                clamp(32px, 6vw, 55px)
+                0
+                clamp(45px, 8vw, 85px);
+
+            background: #ffffff;
+
         }
 
+
+        .chat-section .container {
+
+            max-width: 1000px;
+
+        }
+
+
         .chat-card {
-            background: #fff;
+
+            width: 100%;
+
+            background: #ffffff;
+
             border: 1px solid var(--border);
+
+            border-radius: 16px;
+
             box-shadow: var(--shadow);
+
             overflow: hidden;
+
+            display: flex;
+
+            flex-direction: column;
+
         }
 
 
@@ -345,64 +634,134 @@
         ========================================================= */
 
         .chat-header {
-            padding: 20px 25px;
+
+            padding: 18px clamp(16px, 4vw, 25px);
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
 
-            background: #fff;
+            flex-wrap: wrap;
+
+            row-gap: 10px;
+
+            background: #ffffff;
+
             border-bottom: 1px solid #e7edf2;
+
         }
+
 
         .bot-info {
+
             display: flex;
+
             align-items: center;
+
             gap: 14px;
+
+            min-width: 0;
+
         }
 
+
+        .bot-info > div {
+
+            min-width: 0;
+
+        }
+
+
         .bot-avatar {
+
             width: 48px;
+
             height: 48px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             background: var(--light-blue);
+
             color: var(--navy);
 
             border: 1px solid #d9e5ef;
+
             font-size: 19px;
+
+            flex-shrink: 0;
+
         }
+
 
         .bot-name {
+
             margin: 0;
+
             color: var(--navy);
+
             font-size: 16px;
+
             font-weight: 700;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
         }
+
 
         .bot-status {
+
             margin-top: 4px;
+
             color: #198754;
+
             font-size: 10px;
+
+            font-weight: 500;
+
         }
+
 
         .bot-status i {
+
             font-size: 7px;
+
             margin-right: 4px;
+
         }
 
+
         .secure-badge {
+
+            flex: 0 0 auto;
+
+            white-space: nowrap;
+
             border: 1px solid #dce5ed;
+
             background: #f8fafc;
+
             color: #536171;
 
             padding: 8px 13px;
 
+            border-radius: 20px;
+
             font-size: 10px;
+
             text-transform: uppercase;
+
             letter-spacing: .5px;
+
         }
 
 
@@ -411,119 +770,427 @@
         ========================================================= */
 
         .chat-body {
-            height: 500px;
+
+            height: clamp(350px, 60vh, 550px);
+
             overflow-y: auto;
 
-            padding: 30px;
+            overflow-x: hidden;
+
+            padding: clamp(16px, 4vw, 30px);
+
             background: #f8fafc;
+
         }
+
 
         .chat-body::-webkit-scrollbar {
+
             width: 6px;
+
         }
+
 
         .chat-body::-webkit-scrollbar-track {
+
             background: #f1f5f9;
+
         }
+
 
         .chat-body::-webkit-scrollbar-thumb {
+
             background: #cbd5e1;
+
+            border-radius: 10px;
+
         }
+
 
         .message-row {
+
             display: flex;
+
             margin-bottom: 20px;
+
         }
+
 
         .message-row.user {
+
             justify-content: flex-end;
+
         }
 
+
         .message {
-            max-width: 78%;
+
+            max-width: 88%;
+
             padding: 15px 19px;
 
             font-size: 12px;
+
             line-height: 1.75;
 
             word-wrap: break-word;
+
         }
 
+
         .bot-message {
-            background: #fff;
+
+            background: #ffffff;
+
             color: #344150;
 
             border: 1px solid #dce5ed;
+
             border-left: 3px solid var(--navy);
 
-            box-shadow: 0 5px 18px rgba(3, 40, 70, 0.05);
+            box-shadow:
+                0 5px 18px rgba(3, 40, 70, 0.05);
+
         }
+
 
         .user-message {
+
             background: var(--navy);
-            color: #fff;
+
+            color: #ffffff;
 
             border-right: 3px solid var(--gold);
+
         }
+
 
         .bot-message p {
+
             margin-bottom: 8px;
+
         }
 
+
         .bot-message p:last-child {
+
             margin-bottom: 0;
+
         }
+
 
         .bot-message ul,
         .bot-message ol {
+
             margin: 7px 0 9px 20px;
+
             padding: 0;
+
         }
+
 
         .bot-message li {
+
             margin-bottom: 3px;
+
         }
+
 
         .bot-message strong {
+
             color: var(--navy);
+
+            font-weight: 600;
+
         }
 
+
+        /* =========================================================
+           MARKDOWN HEADINGS
+        ========================================================= */
+
+        .bot-message h1,
+        .bot-message h2,
+        .bot-message h3,
+        .bot-message h4 {
+
+            color: var(--navy);
+
+            font-weight: 600;
+
+            margin-top: 15px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .bot-message h1 {
+
+            font-size: 20px;
+
+        }
+
+
+        .bot-message h2 {
+
+            font-size: 18px;
+
+        }
+
+
+        .bot-message h3 {
+
+            font-size: 15px;
+
+        }
+
+
+        .bot-message h4 {
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================================================
+           COURSE TABLE
+        ========================================================= */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+            margin: 16px 0 8px;
+
+            border: 1px solid #d8e2eb;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 4px 12px rgba(3, 40, 70, 0.04);
+
+        }
+
+
+        .table-wrapper::-webkit-scrollbar {
+
+            height: 6px;
+
+        }
+
+
+        .table-wrapper::-webkit-scrollbar-track {
+
+            background: #eef2f6;
+
+        }
+
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+
+            background: #b9c6d2;
+
+            border-radius: 10px;
+
+        }
+
+
+        .bot-message table {
+
+            width: 100%;
+
+            min-width: 650px;
+
+            border-collapse: separate;
+
+            border-spacing: 0;
+
+            margin: 0;
+
+            font-family: "Poppins", sans-serif;
+
+            font-size: 11px;
+
+            background: #ffffff;
+
+        }
+
+
+        .bot-message table thead {
+
+            background: var(--navy);
+
+        }
+
+
+        .bot-message table th {
+
+            padding: 12px 13px;
+
+            color: #ffffff;
+
+            background: var(--navy);
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            text-align: left;
+
+            white-space: nowrap;
+
+            border-right: 1px solid rgba(255,255,255,0.14);
+
+            border-bottom: 1px solid var(--navy);
+
+        }
+
+
+        .bot-message table th:last-child {
+
+            border-right: none;
+
+        }
+
+
+        .bot-message table td {
+
+            padding: 11px 13px;
+
+            color: #344150;
+
+            background: #ffffff;
+
+            border-right: 1px solid #e1e8ee;
+
+            border-bottom: 1px solid #e1e8ee;
+
+            vertical-align: middle;
+
+        }
+
+
+        .bot-message table td:last-child {
+
+            border-right: none;
+
+        }
+
+
+        .bot-message table tbody tr:last-child td {
+
+            border-bottom: none;
+
+        }
+
+
+        .bot-message table tbody tr:nth-child(even) td {
+
+            background: #f8fafc;
+
+        }
+
+
+        .bot-message table tbody tr:hover td {
+
+            background: #edf5fb;
+
+        }
+
+
+        .bot-message table td strong {
+
+            color: var(--navy);
+
+            font-weight: 600;
+
+        }
+
+
+        /* =========================================================
+           TABLE STATUS / BADGES
+        ========================================================= */
+
+        .bot-message table td:first-child {
+
+            font-weight: 500;
+
+        }
+
+
+        /* =========================================================
+           MARKDOWN CODE
+        ========================================================= */
+
         .bot-message code {
+
             background: var(--light-blue);
+
             color: var(--navy);
 
             padding: 2px 6px;
+
             border-radius: 3px;
 
-            font-family: monospace;
+            font-family: "Poppins", sans-serif;
+
             font-size: 11px;
+
         }
 
+
         .bot-message pre {
+
             background: var(--dark-navy);
+
             color: #f8fafc;
 
             padding: 14px;
+
             overflow-x: auto;
 
             margin: 10px 0;
+
             border-left: 3px solid var(--gold);
+
         }
+
 
         .bot-message pre code {
+
             background: transparent;
+
             color: inherit;
+
             padding: 0;
+
         }
+
+
+        /* =========================================================
+           MESSAGE TIME
+        ========================================================= */
 
         .message-time {
+
             color: #8a96a3;
+
             font-size: 9px;
+
             margin-top: 6px;
+
         }
 
+
         .user .message-time {
+
             text-align: right;
+
         }
 
 
@@ -532,46 +1199,71 @@
         ========================================================= */
 
         .typing {
+
             display: none;
+
             align-items: center;
+
             gap: 5px;
 
             width: fit-content;
 
             padding: 13px 16px;
 
-            background: #fff;
+            background: #ffffff;
+
             border: 1px solid #dce5ed;
 
             margin-bottom: 15px;
+
         }
 
+
         .typing span {
+
             width: 6px;
+
             height: 6px;
 
             background: #8795a3;
+
             border-radius: 50%;
 
             animation: typing 1.2s infinite;
+
         }
+
 
         .typing span:nth-child(2) {
+
             animation-delay: .2s;
+
         }
+
 
         .typing span:nth-child(3) {
+
             animation-delay: .4s;
+
         }
 
+
         @keyframes typing {
-            0%, 60%, 100% {
+
+            0%,
+            60%,
+            100% {
+
                 transform: translateY(0);
+
             }
 
             30% {
+
                 transform: translateY(-5px);
+
             }
+
         }
 
 
@@ -580,31 +1272,48 @@
         ========================================================= */
 
         .quick-section {
+
             padding: 20px 25px 12px;
-            background: #fff;
+
+            background: #ffffff;
+
             border-top: 1px solid #edf0f3;
+
         }
 
+
         .quick-title {
+
             color: var(--blue);
 
             font-size: 10px;
+
             font-weight: 700;
 
             text-transform: uppercase;
+
             letter-spacing: 2px;
 
             margin-bottom: 12px;
+
         }
+
 
         .quick-buttons {
+
             display: flex;
+
             flex-wrap: wrap;
+
             gap: 8px;
+
         }
 
+
         .quick-btn {
-            background: #fff;
+
+            background: #ffffff;
+
             color: #344150;
 
             border: 1px solid #cfd9e2;
@@ -612,27 +1321,42 @@
             padding: 8px 13px;
 
             font-size: 10px;
+
             font-weight: 600;
 
             cursor: pointer;
 
             transition: 0.3s;
+
         }
+
 
         .quick-btn:hover {
+
             background: var(--navy);
+
             border-color: var(--navy);
-            color: #fff;
+
+            color: #ffffff;
+
             transform: translateY(-2px);
+
         }
+
 
         .quick-btn i {
+
             color: var(--blue);
+
             transition: 0.3s;
+
         }
 
+
         .quick-btn:hover i {
+
             color: var(--gold);
+
         }
 
 
@@ -641,77 +1365,116 @@
         ========================================================= */
 
         .chat-input-area {
-            background: #fff;
+
+            background: #ffffff;
+
             padding: 18px 25px 22px;
 
             border-top: 1px solid #edf0f3;
+
         }
 
+
         .input-wrapper {
+
             display: flex;
+
             align-items: center;
+
             gap: 10px;
 
             padding: 5px 6px 5px 17px;
 
-            background: #fff;
+            background: #ffffff;
+
             border: 1px solid #cbd6df;
 
             transition: 0.3s;
+
         }
+
 
         .input-wrapper:focus-within {
+
             border-color: var(--navy);
-            box-shadow: 0 0 0 3px rgba(6, 52, 95, 0.08);
+
+            box-shadow:
+                0 0 0 3px rgba(6, 52, 95, 0.08);
+
         }
 
+
         #messageInput {
+
             flex: 1;
+
             min-width: 0;
 
             border: none;
+
             outline: none;
 
             font-family: "Poppins", sans-serif;
+
             font-size: 12px;
 
             color: var(--black);
+
         }
+
 
         #messageInput::placeholder {
+
             color: #9aa5b1;
+
         }
 
+
         #sendBtn {
+
             width: 42px;
+
             height: 42px;
 
             border: none;
 
             background: var(--navy);
-            color: #fff;
+
+            color: #ffffff;
 
             cursor: pointer;
 
             transition: 0.3s;
+
         }
+
 
         #sendBtn:hover {
+
             background: var(--blue);
+
         }
+
 
         #sendBtn:disabled {
+
             opacity: .55;
+
             cursor: not-allowed;
+
         }
 
+
         .input-note {
+
             text-align: center;
 
             color: #96a1ad;
 
             font-size: 9px;
+
             margin-top: 9px;
+
         }
 
 
@@ -720,35 +1483,52 @@
         ========================================================= */
 
         .info-section {
+
             background: var(--light-blue);
+
             padding: 80px 0;
+
         }
 
+
         .section-label {
+
             font-size: 11px;
+
             color: var(--blue);
 
             text-transform: uppercase;
+
             letter-spacing: 3px;
 
             font-weight: 600;
 
             margin-bottom: 12px;
+
         }
 
+
         .section-title {
+
             color: var(--navy);
 
             font-size: clamp(34px, 4vw, 50px);
 
             line-height: 1.15;
+
             margin-bottom: 18px;
+
         }
 
+
         .section-description {
+
             color: var(--text);
+
             line-height: 1.8;
+
             font-size: 13px;
+
         }
 
 
@@ -757,52 +1537,75 @@
         ========================================================= */
 
         .info-card {
+
             height: 100%;
 
-            background: #fff;
+            background: #ffffff;
 
             padding: 30px 25px;
 
             border: 1px solid var(--border);
 
             transition: 0.35s ease;
+
         }
+
 
         .info-card:hover {
+
             transform: translateY(-7px);
+
             box-shadow: var(--shadow);
+
             border-color: transparent;
+
         }
 
+
         .info-icon {
+
             width: 55px;
+
             height: 55px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             background: var(--light-blue);
+
             color: var(--navy);
 
             font-size: 20px;
 
             margin-bottom: 20px;
+
         }
+
 
         .info-card h5 {
+
             color: var(--navy);
+
             font-size: 22px;
+
             margin-bottom: 10px;
+
         }
 
+
         .info-card p {
+
             color: var(--text);
 
             font-size: 12px;
+
             line-height: 1.8;
 
             margin: 0;
+
         }
 
 
@@ -811,41 +1614,59 @@
         ========================================================= */
 
         .chat-cta {
+
             position: relative;
 
             background:
+
                 linear-gradient(
                     rgba(2, 39, 68, 0.93),
                     rgba(2, 39, 68, 0.93)
                 ),
+
                 url("https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1800&q=85")
+
                 center / cover;
 
             padding: 80px 0;
 
-            color: white;
+            color: #ffffff;
+
             text-align: center;
+
         }
+
 
         .chat-cta h2 {
+
             font-size: 46px;
+
             margin-bottom: 15px;
+
         }
 
+
         .chat-cta p {
+
             max-width: 650px;
+
             margin: auto;
 
             color: rgba(255,255,255,0.82);
 
             font-size: 13px;
+
             line-height: 1.8;
+
         }
 
+
         .chat-cta-button {
+
             display: inline-block;
 
-            background: white;
+            background: #ffffff;
+
             color: var(--navy);
 
             margin-top: 27px;
@@ -853,16 +1674,22 @@
             padding: 13px 28px;
 
             font-size: 11px;
+
             font-weight: 700;
 
             text-transform: uppercase;
 
             transition: 0.3s;
+
         }
 
+
         .chat-cta-button:hover {
+
             background: var(--gold);
-            color: white;
+
+            color: #ffffff;
+
         }
 
 
@@ -871,101 +1698,153 @@
         ========================================================= */
 
         footer {
+
             background: #021b30;
+
             color: rgba(255,255,255,0.7);
+
         }
+
 
         .footer-main {
+
             padding: 60px 0 40px;
+
         }
 
-        .footer-brand {
-            color: white;
 
-            font-family: "Playfair Display", serif;
+        .footer-brand {
+
+            color: #ffffff;
+
+            font-family: "Poppins", sans-serif;
+
             font-size: 27px;
 
             margin-bottom: 15px;
+
         }
+
 
         .footer-description {
+
             font-size: 12px;
+
             line-height: 1.8;
+
             max-width: 350px;
+
         }
 
+
         .footer-title {
-            color: white;
+
+            color: #ffffff;
 
             font-family: "Poppins", sans-serif;
 
             font-size: 11px;
 
             text-transform: uppercase;
+
             letter-spacing: 1.5px;
 
             margin-bottom: 18px;
+
         }
 
+
         .footer-links {
+
             list-style: none;
 
             padding: 0;
+
             margin: 0;
+
         }
+
 
         .footer-links li {
+
             margin-bottom: 9px;
+
             font-size: 12px;
+
         }
 
+
         .footer-links a {
+
             color: rgba(255,255,255,0.65);
 
             font-size: 12px;
 
             transition: 0.3s;
+
         }
+
 
         .footer-links a:hover {
-            color: white;
+
+            color: #ffffff;
+
             padding-left: 4px;
+
         }
+
 
         .socials {
+
             display: flex;
+
             gap: 8px;
+
             margin-top: 20px;
+
         }
 
+
         .social {
+
             width: 35px;
+
             height: 35px;
 
             border: 1px solid rgba(255,255,255,0.2);
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
-            color: white;
+            color: #ffffff;
 
             font-size: 13px;
 
             transition: 0.3s;
+
         }
+
 
         .social:hover {
-            background: white;
+
+            background: #ffffff;
+
             color: var(--navy);
+
         }
 
+
         .footer-bottom {
+
             border-top: 1px solid rgba(255,255,255,0.1);
 
             padding: 20px 0;
 
             font-size: 11px;
+
         }
 
 
@@ -974,15 +1853,22 @@
         ========================================================= */
 
         .reveal {
+
             opacity: 0;
+
             transform: translateY(30px);
 
             transition: 0.8s ease;
+
         }
 
+
         .reveal.active {
+
             opacity: 1;
+
             transform: translateY(0);
+
         }
 
 
@@ -993,177 +1879,339 @@
         @media (max-width: 991px) {
 
             .top-bar {
+
                 display: none;
+
             }
+
 
             .main-navbar {
+
                 min-height: 75px;
+
             }
 
+
             .navbar-collapse {
-                background: white;
+
+                background: #ffffff;
 
                 padding: 20px;
 
                 margin-top: 10px;
 
                 border-top: 1px solid #edf0f3;
+
             }
 
+
             .nav-buttons {
+
                 margin: 15px 0 0;
 
                 flex-direction: column;
+
             }
+
 
             .chat-hero {
+
                 min-height: 500px;
+
             }
 
+
             .chat-body {
+
                 height: 480px;
+
             }
+
         }
 
 
         @media (max-width: 767px) {
 
             .brand-logo {
+
                 font-size: 36px;
 
                 width: 40px;
+
                 height: 45px;
+
             }
+
 
             .brand-name {
+
                 font-size: 19px;
+
             }
+
 
             .brand-sub {
+
                 font-size: 8px;
+
             }
+
 
             .chat-hero {
+
                 min-height: 480px;
+
             }
+
 
             .chat-hero-content {
+
                 padding: 65px 20px 90px;
+
             }
+
 
             .chat-hero-small {
+
                 font-size: 10px;
+
                 letter-spacing: 2px;
+
             }
+
+
+            .chat-hero-badge {
+
+                font-size: 8px;
+
+                letter-spacing: 1px;
+
+                padding: 7px 11px;
+
+            }
+
 
             .chat-hero h1 {
+
                 font-size: 45px;
+
             }
+
 
             .chat-hero-description {
+
                 font-size: 12px;
+
             }
+
 
             .chat-section {
+
                 padding: 40px 0 60px;
+
             }
+
 
             .chat-header {
+
                 padding: 16px;
+
             }
+
 
             .bot-avatar {
+
                 width: 42px;
+
                 height: 42px;
+
             }
+
 
             .bot-name {
+
                 font-size: 13px;
+
             }
+
 
             .secure-badge {
+
                 display: none;
+
             }
+
 
             .chat-body {
+
                 height: 430px;
+
                 padding: 18px;
+
             }
+
 
             .message {
-                max-width: 90%;
+
+                max-width: 98%;
+
                 padding: 13px 15px;
+
                 font-size: 11px;
+
             }
+
+
+            .bot-message table {
+
+                min-width: 650px;
+
+                font-size: 10px;
+
+            }
+
+
+            .bot-message table th {
+
+                padding: 9px 10px;
+
+                font-size: 9px;
+
+            }
+
+
+            .bot-message table td {
+
+                padding: 9px 10px;
+
+            }
+
 
             .quick-section {
+
                 padding: 17px 16px 10px;
+
             }
+
 
             .quick-buttons {
+
                 gap: 6px;
+
             }
+
 
             .quick-btn {
+
                 font-size: 9px;
+
                 padding: 7px 9px;
+
             }
+
 
             .chat-input-area {
+
                 padding: 15px 16px 18px;
+
             }
+
 
             .info-section {
+
                 padding: 60px 0;
+
             }
+
 
             .chat-cta h2 {
+
                 font-size: 36px;
+
             }
 
+
             .footer-main {
+
                 padding: 50px 0 35px;
+
             }
+
         }
 
 
         @media (max-width: 480px) {
 
             .brand-name {
+
                 font-size: 16px;
+
             }
+
 
             .brand-sub {
+
                 font-size: 7px;
+
                 letter-spacing: 1px;
+
             }
+
 
             .chat-hero h1 {
+
                 font-size: 39px;
+
             }
+
 
             .chat-hero-small {
+
                 font-size: 9px;
+
             }
+
 
             .chat-body {
+
                 height: 410px;
+
                 padding: 14px;
+
             }
+
 
             .message {
-                max-width: 94%;
+
+                max-width: 100%;
+
             }
+
+
+            .bot-message table {
+
+                min-width: 650px;
+
+            }
+
 
             .quick-btn {
+
                 width: 100%;
+
                 text-align: left;
+
             }
 
+
             .chat-cta {
+
                 padding: 65px 20px;
+
             }
+
         }
+
 
     </style>
 
@@ -1183,24 +2231,51 @@
 
         <div class="top-bar-inner">
 
-            <a href="{% url 'Home' %}" class="top-link">
+            <a
+                href="{% url 'Home' %}"
+                class="top-link"
+            >
+
                 <i class="fa-solid fa-house"></i>
+
                 Home
+
             </a>
 
-            <a href="{% url 'chatbot' %}" class="top-link">
+
+            <a
+                href="{% url 'chatbot' %}"
+                class="top-link"
+            >
+
                 <i class="fa-solid fa-headset"></i>
+
                 Help Desk
+
             </a>
 
-            <a href="{% url 'Home' %}#contact" class="top-link">
+
+            <a
+                href="{% url 'Home' %}#contact"
+                class="top-link"
+            >
+
                 <i class="fa-solid fa-phone"></i>
+
                 Contact
+
             </a>
 
-            <a href="{% url 'Home' %}#campus" class="top-link">
+
+            <a
+                href="{% url 'Home' %}#campus"
+                class="top-link"
+            >
+
                 <i class="fa-solid fa-location-dot"></i>
+
                 Campus
+
             </a>
 
         </div>
@@ -1214,24 +2289,39 @@
      NAVBAR
 ========================================================= -->
 
-<nav class="navbar navbar-expand-lg main-navbar sticky-top" id="mainNavbar">
+<nav
+    class="navbar navbar-expand-lg main-navbar sticky-top"
+    id="mainNavbar"
+>
 
     <div class="container">
 
-        <a href="{% url 'Home' %}" class="brand">
+
+        <a
+            href="{% url 'Home' %}"
+            class="brand"
+        >
 
             <div class="brand-logo">
+
                 M
+
             </div>
+
 
             <div class="brand-text">
 
                 <div class="brand-name">
+
                     MM-Technical University
+
                 </div>
 
+
                 <div class="brand-sub">
+
                     Knowledge • Innovation • Excellence
+
                 </div>
 
             </div>
@@ -1254,97 +2344,196 @@
         </button>
 
 
-        <div class="collapse navbar-collapse" id="mainMenu">
+        <div
+            class="collapse navbar-collapse"
+            id="mainMenu"
+        >
+
 
             <ul class="navbar-nav ms-auto align-items-lg-center">
 
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Home' %}">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'Home' %}"
+                    >
+
                         Home
+
                     </a>
+
                 </li>
 
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Home' %}#about">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'Home' %}#about"
+                    >
+
                         About
+
                     </a>
+
                 </li>
 
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Home' %}#academics">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'Home' %}#academics"
+                    >
+
                         Academics
+
                     </a>
+
                 </li>
 
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Home' %}#admissions">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'Home' %}#admissions"
+                    >
+
                         Admissions
+
                     </a>
+
                 </li>
 
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'Home' %}#campus">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'Home' %}#campus"
+                    >
+
                         Life at MM
+
                     </a>
+
                 </li>
 
+
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'chatbot' %}">
+
+                    <a
+                        class="nav-link active"
+                        href="{% url 'chatbot' %}"
+                    >
+
                         Help Desk
+
                     </a>
+
                 </li>
+
 
             </ul>
 
 
             <div class="nav-buttons">
 
+
                 {% if request.user.is_authenticated %}
+
 
                     {% if request.user.is_superuser or request.user.is_staff %}
 
-                        <a href="{% url 'admin_d' %}" class="btn-give">
+                        <a
+                            href="{% url 'admin_d' %}"
+                            class="btn-give"
+                        >
+
                             Dashboard
+
                         </a>
+
 
                     {% elif request.user.is_student %}
 
-                        <a href="{% url 's_dashboard' %}" class="btn-give">
+                        <a
+                            href="{% url 's_dashboard' %}"
+                            class="btn-give"
+                        >
+
                             Dashboard
+
                         </a>
+
 
                     {% elif request.user.is_university_staff %}
 
-                        <a href="{% url 'staff_dashboard' %}" class="btn-give">
+                        <a
+                            href="{% url 'staff_dashboard' %}"
+                            class="btn-give"
+                        >
+
                             Dashboard
+
                         </a>
+
 
                     {% elif request.user.is_college %}
 
-                        <a href="{% url 'college_dashboard' %}" class="btn-give">
+                        <a
+                            href="{% url 'college_dashboard' %}"
+                            class="btn-give"
+                        >
+
                             Dashboard
+
                         </a>
 
                     {% endif %}
 
 
-                    <a href="{% url 'logout_b' %}" class="btn-apply">
+                    <a
+                        href="{% url 'logout_b' %}"
+                        class="btn-apply"
+                    >
+
                         Logout
+
                     </a>
+
 
                 {% else %}
 
-                    <a href="{% url 'login_p' %}" class="btn-give">
+
+                    <a
+                        href="{% url 'login_p' %}"
+                        class="btn-give"
+                    >
+
                         Login
+
                     </a>
 
-                    <a href="{% url 's_register' %}" class="btn-apply">
+
+                    <a
+                        href="{% url 's_register' %}"
+                        class="btn-apply"
+                    >
+
                         Apply
+
                     </a>
+
 
                 {% endif %}
 
+
             </div>
+
 
         </div>
 
@@ -1363,9 +2552,13 @@
 
         <div class="chat-hero-content">
 
+
             <div class="chat-hero-small">
+
                 MM-Technical University
+
             </div>
+
 
             <div class="chat-hero-badge">
 
@@ -1373,11 +2566,21 @@
 
                 AI UNIVERSITY HELP DESK
 
+                <span class="badge-divider">
+                    •
+                </span>
+
+                24/7 SERVICE
+
             </div>
 
+
             <h1>
+
                 How Can We Help?
+
             </h1>
+
 
             <p class="chat-hero-description">
 
@@ -1386,6 +2589,7 @@
                 application procedures and more.
 
             </p>
+
 
         </div>
 
@@ -1402,120 +2606,174 @@
 
     <div class="container">
 
+
         <div class="chat-card">
 
 
-            <!-- CHAT HEADER -->
+            <!-- =================================================
+                 CHAT HEADER
+            ================================================== -->
 
             <div class="chat-header">
 
+
                 <div class="bot-info">
 
+
                     <div class="bot-avatar">
+
                         <i class="fa-solid fa-robot"></i>
+
                     </div>
+
 
                     <div>
 
                         <p class="bot-name">
+
                             University AI Help Desk
+
                         </p>
+
 
                         <div class="bot-status">
 
                             <i class="fa-solid fa-circle"></i>
 
-                            Online & Ready to Help
+                            Available 24/7
 
                         </div>
 
                     </div>
+
 
                 </div>
 
 
                 <div class="secure-badge">
 
-                    <i class="fa-solid fa-shield-halved me-1"></i>
+                    <i
+                        class="fa-solid fa-shield-halved me-1"
+                    ></i>
 
                     University Assistant
 
                 </div>
 
+
             </div>
 
 
-            <!-- CHAT BODY -->
+            <!-- =================================================
+                 CHAT BODY
+            ================================================== -->
 
-            <div class="chat-body" id="chatBody">
+            <div
+                class="chat-body"
+                id="chatBody"
+            >
 
 
                 <!-- Welcome Message -->
 
                 <div class="message-row">
 
+
                     <div>
+
 
                         <div class="message bot-message">
 
+
                             <p>
+
                                 Hello! Welcome to
-                                <strong>MM-Technical University</strong>.
+                                <strong>
+                                    MM-Technical University
+                                </strong>.
+
                             </p>
 
-                            <p>
-                                I'm your University AI Help Desk Assistant.
-                                I can help you with courses, colleges,
-                                eligibility, fees, admission procedures
-                                and more.
-                            </p>
 
                             <p>
+
+                                I'm your University AI Help Desk
+                                Assistant. I can help you with
+                                courses, colleges, eligibility,
+                                fees, admission procedures and more.
+
+                            </p>
+
+
+                            <p>
+
                                 How can I assist you today?
+
                             </p>
+
 
                         </div>
+
 
                         <div class="message-time">
+
                             AI Help Desk
+
                         </div>
 
+
                     </div>
+
 
                 </div>
 
 
                 <!-- Typing Indicator -->
 
-                <div class="typing" id="typingIndicator">
+                <div
+                    class="typing"
+                    id="typingIndicator"
+                >
 
                     <span></span>
+
                     <span></span>
+
                     <span></span>
 
                 </div>
+
 
             </div>
 
 
-            <!-- QUICK QUESTIONS -->
+            <!-- =================================================
+                 QUICK QUESTIONS
+            ================================================== -->
 
             <div class="quick-section">
 
+
                 <div class="quick-title">
+
                     Popular Questions
+
                 </div>
 
 
                 <div class="quick-buttons">
+
 
                     <button
                         type="button"
                         class="quick-btn"
                         onclick="askQuickQuestion('What courses are available?')"
                     >
+
                         <i class="fa-solid fa-book-open me-1"></i>
+
                         Available Courses
+
                     </button>
 
 
@@ -1524,8 +2782,11 @@
                         class="quick-btn"
                         onclick="askQuickQuestion('What colleges are available?')"
                     >
+
                         <i class="fa-solid fa-building-columns me-1"></i>
+
                         Colleges
+
                     </button>
 
 
@@ -1534,8 +2795,11 @@
                         class="quick-btn"
                         onclick="askQuickQuestion('What is the eligibility for admission?')"
                     >
+
                         <i class="fa-solid fa-circle-check me-1"></i>
+
                         Eligibility
+
                     </button>
 
 
@@ -1544,8 +2808,11 @@
                         class="quick-btn"
                         onclick="askQuickQuestion('What are the course fees?')"
                     >
+
                         <i class="fa-solid fa-indian-rupee-sign me-1"></i>
+
                         Course Fees
+
                     </button>
 
 
@@ -1554,20 +2821,29 @@
                         class="quick-btn"
                         onclick="askQuickQuestion('What departments are available?')"
                     >
+
                         <i class="fa-solid fa-layer-group me-1"></i>
+
                         Departments
+
                     </button>
 
+
                 </div>
+
 
             </div>
 
 
-            <!-- INPUT AREA -->
+            <!-- =================================================
+                 INPUT AREA
+            ================================================== -->
 
             <div class="chat-input-area">
 
+
                 <div class="input-wrapper">
+
 
                     <input
                         type="text"
@@ -1575,6 +2851,7 @@
                         placeholder="Type your question here..."
                         autocomplete="off"
                     >
+
 
                     <button
                         type="button"
@@ -1587,6 +2864,7 @@
 
                     </button>
 
+
                 </div>
 
 
@@ -1597,9 +2875,12 @@
 
                 </div>
 
+
             </div>
 
+
         </div>
+
 
     </div>
 
@@ -1617,13 +2898,20 @@
 
         <div class="text-center mb-5 reveal">
 
+
             <div class="section-label">
+
                 University Assistance
+
             </div>
 
+
             <h2 class="section-title">
+
                 What Can We Help You With?
+
             </h2>
+
 
             <p
                 class="section-description mx-auto"
@@ -1635,6 +2923,7 @@
 
             </p>
 
+
         </div>
 
 
@@ -1645,17 +2934,25 @@
 
             <div class="col-md-4 reveal">
 
+
                 <div class="info-card">
+
 
                     <div class="info-icon">
 
-                        <i class="fa-solid fa-graduation-cap"></i>
+                        <i
+                            class="fa-solid fa-graduation-cap"
+                        ></i>
 
                     </div>
 
+
                     <h5>
+
                         Admissions
+
                     </h5>
+
 
                     <p>
 
@@ -1665,7 +2962,9 @@
 
                     </p>
 
+
                 </div>
+
 
             </div>
 
@@ -1674,17 +2973,25 @@
 
             <div class="col-md-4 reveal">
 
+
                 <div class="info-card">
+
 
                     <div class="info-icon">
 
-                        <i class="fa-solid fa-book-open"></i>
+                        <i
+                            class="fa-solid fa-book-open"
+                        ></i>
 
                     </div>
 
+
                     <h5>
+
                         Courses & Fees
+
                     </h5>
+
 
                     <p>
 
@@ -1694,7 +3001,9 @@
 
                     </p>
 
+
                 </div>
+
 
             </div>
 
@@ -1703,17 +3012,25 @@
 
             <div class="col-md-4 reveal">
 
+
                 <div class="info-card">
+
 
                     <div class="info-icon">
 
-                        <i class="fa-solid fa-building-columns"></i>
+                        <i
+                            class="fa-solid fa-building-columns"
+                        ></i>
 
                     </div>
 
+
                     <h5>
+
                         Colleges & Departments
+
                     </h5>
+
 
                     <p>
 
@@ -1722,12 +3039,15 @@
 
                     </p>
 
+
                 </div>
+
 
             </div>
 
 
         </div>
+
 
     </div>
 
@@ -1740,13 +3060,19 @@
 
 <section class="chat-cta">
 
+
     <div class="container">
+
 
         <div class="reveal">
 
+
             <h2>
+
                 Still Have Questions?
+
             </h2>
+
 
             <p>
 
@@ -1764,13 +3090,18 @@
 
                 Explore MM-Technical University
 
-                <i class="fa-solid fa-arrow-right ms-2"></i>
+                <i
+                    class="fa-solid fa-arrow-right ms-2"
+                ></i>
 
             </a>
 
+
         </div>
 
+
     </div>
+
 
 </section>
 
@@ -1781,9 +3112,12 @@
 
 <footer>
 
+
     <div class="footer-main">
 
+
         <div class="container">
+
 
             <div class="row g-5">
 
@@ -1792,9 +3126,13 @@
 
                 <div class="col-lg-5">
 
+
                     <div class="footer-brand">
+
                         MM-Technical University
+
                     </div>
+
 
                     <p class="footer-description">
 
@@ -1808,23 +3146,57 @@
 
                     <div class="socials">
 
-                        <a href="#" class="social">
-                            <i class="fa-brands fa-facebook-f"></i>
+
+                        <a
+                            href="#"
+                            class="social"
+                        >
+
+                            <i
+                                class="fa-brands fa-facebook-f"
+                            ></i>
+
                         </a>
 
-                        <a href="#" class="social">
-                            <i class="fa-brands fa-instagram"></i>
+
+                        <a
+                            href="#"
+                            class="social"
+                        >
+
+                            <i
+                                class="fa-brands fa-instagram"
+                            ></i>
+
                         </a>
 
-                        <a href="#" class="social">
-                            <i class="fa-brands fa-linkedin-in"></i>
+
+                        <a
+                            href="#"
+                            class="social"
+                        >
+
+                            <i
+                                class="fa-brands fa-linkedin-in"
+                            ></i>
+
                         </a>
 
-                        <a href="#" class="social">
-                            <i class="fa-brands fa-youtube"></i>
+
+                        <a
+                            href="#"
+                            class="social"
+                        >
+
+                            <i
+                                class="fa-brands fa-youtube"
+                            ></i>
+
                         </a>
+
 
                     </div>
+
 
                 </div>
 
@@ -1833,37 +3205,71 @@
 
                 <div class="col-6 col-lg-2">
 
+
                     <div class="footer-title">
+
                         University
+
                     </div>
+
 
                     <ul class="footer-links">
 
+
                         <li>
-                            <a href="{% url 'Home' %}#about">
+
+                            <a
+                                href="{% url 'Home' %}#about"
+                            >
+
                                 About
+
                             </a>
+
                         </li>
 
+
                         <li>
-                            <a href="{% url 'Home' %}#academics">
+
+                            <a
+                                href="{% url 'Home' %}#academics"
+                            >
+
                                 Academics
+
                             </a>
+
                         </li>
 
+
                         <li>
-                            <a href="{% url 'Home' %}#courses">
+
+                            <a
+                                href="{% url 'Home' %}#courses"
+                            >
+
                                 Programs
+
                             </a>
+
                         </li>
 
+
                         <li>
-                            <a href="{% url 'Home' %}#campus">
+
+                            <a
+                                href="{% url 'Home' %}#campus"
+                            >
+
                                 Campus Life
+
                             </a>
+
                         </li>
+
 
                     </ul>
+
 
                 </div>
 
@@ -1872,37 +3278,71 @@
 
                 <div class="col-6 col-lg-2">
 
+
                     <div class="footer-title">
+
                         Admissions
+
                     </div>
+
 
                     <ul class="footer-links">
 
+
                         <li>
-                            <a href="{% url 'Home' %}#admissions">
+
+                            <a
+                                href="{% url 'Home' %}#admissions"
+                            >
+
                                 How to Apply
+
                             </a>
+
                         </li>
 
+
                         <li>
-                            <a href="{% url 's_register' %}">
+
+                            <a
+                                href="{% url 's_register' %}"
+                            >
+
                                 Register
+
                             </a>
+
                         </li>
 
+
                         <li>
-                            <a href="{% url 'login_p' %}">
+
+                            <a
+                                href="{% url 'login_p' %}"
+                            >
+
                                 Student Login
+
                             </a>
+
                         </li>
 
+
                         <li>
-                            <a href="{% url 'chatbot' %}">
+
+                            <a
+                                href="{% url 'chatbot' %}"
+                            >
+
                                 Help Desk
+
                             </a>
+
                         </li>
+
 
                     </ul>
+
 
                 </div>
 
@@ -1911,65 +3351,104 @@
 
                 <div class="col-lg-3">
 
+
                     <div class="footer-title">
+
                         Contact
+
                     </div>
+
 
                     <ul class="footer-links">
 
+
                         <li>
-                            <i class="fa-solid fa-location-dot me-2"></i>
+
+                            <i
+                                class="fa-solid fa-location-dot me-2"
+                            ></i>
+
                             Kerala, India
+
                         </li>
 
+
                         <li>
-                            <i class="fa-solid fa-phone me-2"></i>
+
+                            <i
+                                class="fa-solid fa-phone me-2"
+                            ></i>
+
                             +91 00000 00000
+
                         </li>
 
+
                         <li>
-                            <i class="fa-solid fa-envelope me-2"></i>
+
+                            <i
+                                class="fa-solid fa-envelope me-2"
+                            ></i>
+
                             admissions@mmtechnicaluniversity.edu
+
                         </li>
+
 
                     </ul>
+
 
                 </div>
 
 
             </div>
 
+
         </div>
+
 
     </div>
 
 
     <div class="footer-bottom">
 
+
         <div class="container">
 
+
             <div class="row align-items-center">
+
 
                 <div class="col-md-6">
 
                     ©
+
                     <span id="year"></span>
+
                     MM-Technical University.
+
                     All Rights Reserved.
 
                 </div>
 
-                <div class="col-md-6 text-md-end mt-2 mt-md-0">
+
+                <div
+                    class="col-md-6 text-md-end mt-2 mt-md-0"
+                >
 
                     Knowledge • Innovation • Excellence
 
                 </div>
 
+
             </div>
+
 
         </div>
 
+
     </div>
+
 
 </footer>
 
@@ -1978,7 +3457,9 @@
      BOOTSTRAP JS
 ========================================================= -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
 
 
 <!-- =========================================================
@@ -1996,12 +3477,14 @@ document.getElementById("year").textContent =
     new Date().getFullYear();
 
 
+
 /* =========================================================
    NAVBAR SCROLL
 ========================================================= */
 
 const navbar =
     document.getElementById("mainNavbar");
+
 
 window.addEventListener("scroll", function () {
 
@@ -2018,12 +3501,14 @@ window.addEventListener("scroll", function () {
 });
 
 
+
 /* =========================================================
    REVEAL ANIMATION
 ========================================================= */
 
 const revealElements =
     document.querySelectorAll(".reveal");
+
 
 const revealObserver =
     new IntersectionObserver(
@@ -2036,7 +3521,9 @@ const revealObserver =
 
                     entry.target.classList.add("active");
 
-                    revealObserver.unobserve(entry.target);
+                    revealObserver.unobserve(
+                        entry.target
+                    );
 
                 }
 
@@ -2058,12 +3545,16 @@ revealElements.forEach(function (element) {
 });
 
 
+
 /* =========================================================
    MOBILE MENU CLOSE
 ========================================================= */
 
 const menuLinks =
-    document.querySelectorAll("#mainMenu .nav-link");
+    document.querySelectorAll(
+        "#mainMenu .nav-link"
+    );
+
 
 const menu =
     document.getElementById("mainMenu");
@@ -2091,6 +3582,7 @@ menuLinks.forEach(function (link) {
 });
 
 
+
 /* =========================================================
    CHATBOT ELEMENTS
 ========================================================= */
@@ -2098,14 +3590,20 @@ menuLinks.forEach(function (link) {
 const chatBody =
     document.getElementById("chatBody");
 
+
 const messageInput =
     document.getElementById("messageInput");
+
 
 const sendBtn =
     document.getElementById("sendBtn");
 
+
 const typingIndicator =
-    document.getElementById("typingIndicator");
+    document.getElementById(
+        "typingIndicator"
+    );
+
 
 
 /* =========================================================
@@ -2116,14 +3614,20 @@ function getCookie(name) {
 
     let cookieValue = null;
 
-    if (document.cookie && document.cookie !== "") {
+
+    if (
+        document.cookie &&
+        document.cookie !== ""
+    ) {
 
         const cookies =
             document.cookie.split(";");
 
+
         for (let cookie of cookies) {
 
             cookie = cookie.trim();
+
 
             if (
                 cookie.substring(
@@ -2147,6 +3651,7 @@ function getCookie(name) {
 
     }
 
+
     return cookieValue;
 
 }
@@ -2154,6 +3659,57 @@ function getCookie(name) {
 
 const csrftoken =
     getCookie("csrftoken");
+
+
+
+/* =========================================================
+   MARKDOWN TABLE WRAPPER
+========================================================= */
+
+function renderBotMessage(message) {
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.innerHTML =
+        marked.parse(message);
+
+
+    /*
+       Wrap every generated table inside
+       a horizontally scrollable container.
+    */
+
+    const tables =
+        wrapper.querySelectorAll("table");
+
+
+    tables.forEach(function (table) {
+
+        const tableWrapper =
+            document.createElement("div");
+
+
+        tableWrapper.className =
+            "table-wrapper";
+
+
+        table.parentNode.insertBefore(
+            tableWrapper,
+            table
+        );
+
+
+        tableWrapper.appendChild(table);
+
+    });
+
+
+    return wrapper.innerHTML;
+
+}
+
 
 
 /* =========================================================
@@ -2164,6 +3720,7 @@ function addMessage(message, type) {
 
     const row =
         document.createElement("div");
+
 
     row.className =
         "message-row";
@@ -2183,6 +3740,7 @@ function addMessage(message, type) {
     const bubble =
         document.createElement("div");
 
+
     bubble.className =
         "message";
 
@@ -2193,8 +3751,10 @@ function addMessage(message, type) {
             "user-message"
         );
 
+
         bubble.textContent =
             message;
+
 
     } else {
 
@@ -2202,8 +3762,18 @@ function addMessage(message, type) {
             "bot-message"
         );
 
+
+        /*
+           Markdown response is converted
+           to HTML here.
+
+           If AI sends a Markdown table,
+           it will automatically become
+           a styled HTML table.
+        */
+
         bubble.innerHTML =
-            marked.parse(message);
+            renderBotMessage(message);
 
     }
 
@@ -2211,8 +3781,10 @@ function addMessage(message, type) {
     const time =
         document.createElement("div");
 
+
     time.className =
         "message-time";
+
 
     time.textContent =
         type === "user"
@@ -2238,6 +3810,7 @@ function addMessage(message, type) {
 }
 
 
+
 /* =========================================================
    SCROLL CHAT
 ========================================================= */
@@ -2248,6 +3821,7 @@ function scrollToBottom() {
         chatBody.scrollHeight;
 
 }
+
 
 
 /* =========================================================
@@ -2270,6 +3844,7 @@ function hideTyping() {
         "none";
 
 }
+
 
 
 /* =========================================================
@@ -2297,15 +3872,19 @@ async function sendMessage() {
 
     messageInput.value = "";
 
+
     sendBtn.disabled = true;
+
 
     showTyping();
 
 
     try {
 
+
         const formData =
             new FormData();
+
 
         formData.append(
             "message",
@@ -2315,17 +3894,24 @@ async function sendMessage() {
 
         const response =
             await fetch(
+
                 "{% url 'chatbot_api' %}",
+
                 {
+
                     method: "POST",
 
                     headers: {
+
                         "X-CSRFToken":
                             csrftoken
+
                     },
 
                     body: formData
+
                 }
+
             );
 
 
@@ -2353,18 +3939,23 @@ async function sendMessage() {
                 "bot"
             );
 
+
         } else {
 
             addMessage(
+
                 data.answer ||
                 "Sorry, something went wrong.",
+
                 "bot"
+
             );
 
         }
 
 
     } catch (error) {
+
 
         console.error(
             "CHATBOT ERROR:",
@@ -2376,8 +3967,11 @@ async function sendMessage() {
 
 
         addMessage(
+
             "Sorry, I could not connect to the University AI Assistant. Please try again.",
+
             "bot"
+
         );
 
     }
@@ -2385,9 +3979,11 @@ async function sendMessage() {
 
     sendBtn.disabled = false;
 
+
     messageInput.focus();
 
 }
+
 
 
 /* =========================================================
@@ -2399,9 +3995,11 @@ function askQuickQuestion(question) {
     messageInput.value =
         question;
 
+
     sendMessage();
 
 }
+
 
 
 /* =========================================================
@@ -2422,6 +4020,7 @@ messageInput.addEventListener(
 
     }
 );
+
 
 
 /* =========================================================

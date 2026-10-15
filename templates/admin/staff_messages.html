@@ -1,0 +1,1421 @@
+{% extends "admin/admin_dashboard.html" %}
+
+{% block title %}
+Staff Messages | MM-Technical University
+{% endblock %}
+
+{% block page_title %}
+Staff Messages
+{% endblock %}
+
+{% block content %}
+
+<div class="staff-message-page">
+
+    <!-- ================= PAGE HEADER ================= -->
+    <div class="page-header">
+
+        <div class="header-left">
+
+            <div class="page-label">
+                <i class="fas fa-comments"></i>
+                Communication
+            </div>
+
+            <h2>
+                Staff Messages
+            </h2>
+
+            <p>
+                Messages received from university staff.
+            </p>
+
+        </div>
+
+
+        {% if messages %}
+        <div class="message-count">
+            <i class="fas fa-envelope"></i>
+            <span>{{ messages|length }}</span>
+            Messages
+        </div>
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================= MAIN CARD ================= -->
+    <div class="messages-card">
+
+        <!-- Card Header -->
+        <div class="messages-card-header">
+
+            <div class="card-title">
+
+                <div class="title-icon">
+                    <i class="fas fa-inbox"></i>
+                </div>
+
+                <div>
+                    <h5>
+                        Received Messages
+                    </h5>
+
+                    <p>
+                        Communication from university staff
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="flow-label">
+                Staff
+                <i class="fas fa-arrow-right"></i>
+                Admin
+            </div>
+
+        </div>
+
+
+        <!-- ================= MESSAGE LIST ================= -->
+        <div class="message-list">
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                <div class="message-item">
+
+                    <div class="message-grid">
+
+
+                        <!-- ================= SENDER ================= -->
+                        <div class="sender-section">
+
+                            <div class="sender-avatar">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+
+                            <div class="sender-info">
+
+                                <div class="sender-name">
+                                    {{ message.sender.get_full_name|default:message.sender.username }}
+                                </div>
+
+                                <div class="sender-role">
+                                    University Staff
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= SUBJECT ================= -->
+                        <div class="subject-section">
+
+                            <div class="subject">
+                                {{ message.subject }}
+                            </div>
+
+                            <div class="message-preview">
+                                {{ message.message }}
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= META (date + details) ================= -->
+                        <div class="meta-row">
+
+                            <!-- DATE -->
+                            <div class="date-section">
+
+                                <div class="date">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ message.created_at|date:"d M Y" }}
+                                </div>
+
+                                <div class="time">
+                                    <i class="far fa-clock"></i>
+                                    {{ message.created_at|date:"h:i A" }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- DETAILS -->
+                            <div class="details-section">
+
+                                <div class="dropdown">
+
+                                    <button
+                                        class="details-btn dropdown-toggle"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside"
+                                        aria-expanded="false"
+                                    >
+                                        <i class="fas fa-eye"></i>
+                                        Details
+                                    </button>
+
+
+                                    <!-- ================= DROPDOWN ================= -->
+                                    <div
+                                        class="dropdown-menu dropdown-menu-end message-dropdown"
+                                    >
+
+                                        <!-- Dropdown Header -->
+                                        <div class="dropdown-header-custom">
+
+                                            <div class="dropdown-title">
+                                                <i class="fas fa-envelope-open-text"></i>
+                                                Message Details
+                                            </div>
+
+                                            <div class="dropdown-subtitle">
+                                                Staff communication
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- From -->
+                                        <div class="detail-row">
+
+                                            <div class="detail-label">
+                                                From
+                                            </div>
+
+                                            <div class="detail-value">
+                                                <i class="fas fa-user-tie"></i>
+                                                {{ message.sender.get_full_name|default:message.sender.username }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- Subject -->
+                                        <div class="detail-row">
+
+                                            <div class="detail-label">
+                                                Subject
+                                            </div>
+
+                                            <div class="detail-value">
+                                                {{ message.subject }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- Received -->
+                                        <div class="detail-row">
+
+                                            <div class="detail-label">
+                                                Received
+                                            </div>
+
+                                            <div class="detail-value">
+                                                <i class="far fa-clock"></i>
+                                                {{ message.created_at|date:"d M Y, h:i A" }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- Full Message -->
+                                        <div class="full-message-section">
+
+                                            <div class="detail-label">
+                                                Message
+                                            </div>
+
+                                            <div class="full-message">
+                                                {{ message.message }}
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- ================= REPLY ================= -->
+                                        <div class="reply-section">
+
+                                            <button
+                                                class="reply-toggle"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#replyBox{{ message.id }}"
+                                                aria-expanded="false"
+                                                aria-controls="replyBox{{ message.id }}"
+                                            >
+
+                                                <span>
+                                                    <i class="fas fa-reply"></i>
+                                                    Reply to Staff
+                                                </span>
+
+                                                <i class="fas fa-chevron-down reply-arrow"></i>
+
+                                            </button>
+
+
+                                            <!-- Reply Form -->
+                                            <div
+                                                class="collapse reply-box"
+                                                id="replyBox{{ message.id }}"
+                                            >
+
+                                                <form
+                                                    method="POST"
+                                                    action="{% url 'admin_reply_staff' message.id %}"
+                                                >
+
+                                                    {% csrf_token %}
+
+
+                                                    <!-- Reply To -->
+                                                    <div class="reply-field">
+
+                                                        <label>
+                                                            Reply To
+                                                        </label>
+
+                                                        <div class="readonly-field">
+
+                                                            <i class="fas fa-user"></i>
+
+                                                            {{ message.sender.get_full_name|default:message.sender.username }}
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!-- Subject -->
+                                                    <div class="reply-field">
+
+                                                        <label>
+                                                            Subject
+                                                        </label>
+
+                                                        <div class="readonly-field">
+
+                                                            <i class="fas fa-heading"></i>
+
+                                                            Re: {{ message.subject }}
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!-- Message -->
+                                                    <div class="reply-field">
+
+                                                        <label for="replyMessage{{ message.id }}">
+                                                            Your Reply
+                                                        </label>
+
+                                                        <textarea
+                                                            id="replyMessage{{ message.id }}"
+                                                            name="message"
+                                                            rows="4"
+                                                            placeholder="Type your reply..."
+                                                            required
+                                                        ></textarea>
+
+                                                    </div>
+
+
+                                                    <!-- Send Reply -->
+                                                    <button
+                                                        type="submit"
+                                                        class="send-reply-btn"
+                                                    >
+
+                                                        <i class="fas fa-paper-plane"></i>
+
+                                                        Send Reply
+
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+                <!-- ================= EMPTY STATE ================= -->
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        <i class="fas fa-envelope-open"></i>
+                    </div>
+
+                    <h5>
+                        No Staff Messages
+                    </h5>
+
+                    <p>
+                        There are no messages received from staff yet.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+/* ============================================================
+   PAGE
+============================================================ */
+
+.staff-message-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 2px 2px 30px;
+}
+
+
+/* ============================================================
+   PAGE HEADER
+============================================================ */
+
+.page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+.page-label {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 6px;
+
+    padding: 5px 11px;
+
+    border-radius: 20px;
+
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+
+    color: var(--blue);
+
+    font-size: 9.5px;
+    font-weight: 700;
+
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.page-header h2 {
+    margin: 0;
+
+    color: var(--navy-deep);
+
+    font-family: var(--heading-font);
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.page-header p {
+    margin: 4px 0 0;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   MESSAGE COUNT
+============================================================ */
+
+.message-count {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 9px 14px;
+
+    border: 1px solid rgba(198, 154, 53, .28);
+    border-radius: 20px;
+
+    background: var(--gold-soft);
+
+    color: var(--gold);
+
+    font-size: 10.5px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.message-count i {
+    font-size: 10px;
+}
+
+.message-count span {
+    color: var(--navy-deep);
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   MAIN CARD
+============================================================ */
+
+.messages-card {
+    overflow: visible;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* ============================================================
+   CARD HEADER
+============================================================ */
+
+.messages-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid var(--border);
+
+    background: var(--surface-soft);
+
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.title-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 38px;
+
+    border-radius: var(--radius-sm);
+
+    background: #edf2f7;
+
+    color: var(--navy);
+
+    font-size: 14px;
+}
+
+.card-title h5 {
+    margin: 0 0 2px;
+
+    color: var(--navy-deep);
+
+    font-family: var(--heading-font);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.card-title p {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.flow-label {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    background: #fff;
+    border: 1px solid var(--border);
+
+    color: var(--text-soft);
+
+    font-size: 9.5px;
+    font-weight: 600;
+}
+
+.flow-label i {
+    color: var(--gold);
+    font-size: 8px;
+}
+
+
+/* ============================================================
+   MESSAGE LIST
+============================================================ */
+
+.message-list {
+    width: 100%;
+}
+
+
+/* ============================================================
+   MESSAGE ITEM
+============================================================ */
+
+.message-item {
+    position: relative;
+
+    border-bottom: 1px solid var(--border);
+
+    background: var(--surface);
+
+    transition: background .18s ease;
+}
+
+.message-item::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 3px;
+
+    background: var(--gold);
+
+    opacity: 0;
+
+    transition: opacity .18s ease;
+}
+
+.message-item:last-child {
+    border-bottom: none;
+
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.message-item:hover {
+    background: var(--surface-soft);
+}
+
+.message-item:hover::before {
+    opacity: 1;
+}
+
+
+/* ============================================================
+   MESSAGE GRID  (mobile-first: stacked card)
+============================================================ */
+
+.message-grid {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 16px 20px;
+}
+
+.meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+
+/* ============================================================
+   SENDER
+============================================================ */
+
+.sender-section {
+    display: flex;
+    align-items: center;
+
+    min-width: 0;
+}
+
+.sender-avatar {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 40px;
+
+    margin-right: 11px;
+
+    border-radius: 11px;
+
+    background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+
+    color: #fff;
+
+    font-size: 13px;
+
+    box-shadow: 0 6px 14px rgba(6, 43, 92, .18);
+}
+
+.sender-info {
+    min-width: 0;
+}
+
+.sender-name {
+    overflow: hidden;
+
+    color: var(--navy-deep);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sender-role {
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 9.5px;
+}
+
+
+/* ============================================================
+   SUBJECT
+============================================================ */
+
+.subject-section {
+    min-width: 0;
+}
+
+.subject {
+    margin-bottom: 4px;
+
+    color: var(--navy-deep);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.message-preview {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    color: var(--text-soft);
+
+    font-size: 10.5px;
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   DATE
+============================================================ */
+
+.date-section {
+    min-width: 0;
+}
+
+.date,
+.time {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--text-soft);
+
+    font-size: 9.5px;
+}
+
+.time {
+    margin-top: 4px;
+
+    color: var(--muted);
+}
+
+.date i,
+.time i {
+    width: 11px;
+
+    color: var(--blue);
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   DETAILS BUTTON
+============================================================ */
+
+.details-section {
+    flex: 0 0 auto;
+}
+
+.details-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 34px;
+
+    padding: 7px 14px;
+
+    border: 1px solid var(--border-dark);
+    border-radius: 8px;
+
+    background: #fff;
+
+    color: var(--navy);
+
+    font-family: var(--body-font);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    box-shadow: none !important;
+
+    transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+
+.details-btn:hover,
+.details-btn:focus,
+.details-btn.show {
+    border-color: var(--navy);
+
+    background: var(--navy);
+
+    color: #fff !important;
+}
+
+.details-btn::after {
+    margin-left: 3px;
+
+    font-size: 8px;
+}
+
+
+/* ============================================================
+   DROPDOWN
+============================================================ */
+
+.message-dropdown {
+    width: 400px;
+    max-width: calc(100vw - 30px);
+
+    margin-top: 8px !important;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: var(--radius-lg);
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow-lg);
+
+    z-index: 1055;
+}
+
+
+/* ============================================================
+   DROPDOWN HEADER
+============================================================ */
+
+.dropdown-header-custom {
+    padding: 15px 17px;
+
+    border-bottom: 1px solid var(--border);
+
+    background: var(--surface-soft);
+}
+
+.dropdown-title {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--navy-deep);
+
+    font-family: var(--heading-font);
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+.dropdown-title i {
+    color: var(--navy);
+    font-size: 11px;
+}
+
+.dropdown-subtitle {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   DETAIL ROW
+============================================================ */
+
+.detail-row {
+    padding: 10px 17px;
+
+    border-bottom: 1px solid #f0f3f9;
+}
+
+.detail-label {
+    margin-bottom: 4px;
+
+    color: var(--muted);
+
+    font-size: 8.5px;
+    font-weight: 700;
+
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--text);
+
+    font-size: 10.5px;
+    font-weight: 600;
+
+    word-break: break-word;
+}
+
+.detail-value i {
+    color: var(--navy);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   FULL MESSAGE
+============================================================ */
+
+.full-message-section {
+    padding: 12px 17px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.full-message {
+    max-height: 170px;
+
+    overflow-y: auto;
+
+    padding: 11px 13px;
+
+    border-left: 3px solid var(--navy);
+    border-radius: var(--radius-sm);
+
+    background: var(--surface-soft);
+
+    color: var(--text);
+
+    font-size: 10.5px;
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+
+/* ============================================================
+   REPLY SECTION
+============================================================ */
+
+.reply-section {
+    padding: 13px 17px 16px;
+}
+
+.reply-toggle {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 13px;
+
+    border: 1px solid var(--navy);
+    border-radius: 9px;
+
+    background: #fff;
+
+    color: var(--navy);
+
+    font-family: var(--body-font);
+    font-size: 10.5px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background .2s ease, color .2s ease;
+}
+
+.reply-toggle:hover {
+    background: var(--navy);
+
+    color: #fff;
+}
+
+.reply-toggle span {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+}
+
+.reply-arrow {
+    font-size: 8px;
+
+    transition: transform .2s ease;
+}
+
+.reply-toggle[aria-expanded="true"] .reply-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* ============================================================
+   REPLY FORM
+============================================================ */
+
+.reply-box {
+    padding-top: 14px;
+}
+
+.reply-field {
+    margin-bottom: 11px;
+}
+
+.reply-field label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--navy-deep);
+
+    font-size: 9.5px;
+    font-weight: 600;
+}
+
+.readonly-field {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 34px;
+
+    padding: 7px 10px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background: var(--surface-soft);
+
+    color: var(--text-soft);
+
+    font-size: 9.5px;
+
+    word-break: break-word;
+}
+
+.readonly-field i {
+    color: var(--navy);
+
+    font-size: 9px;
+}
+
+.reply-field textarea {
+    width: 100%;
+
+    min-height: 90px;
+
+    padding: 9px 11px;
+
+    resize: vertical;
+
+    border: 1px solid var(--border-dark);
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #fff;
+
+    color: var(--text);
+
+    font-family: var(--body-font);
+    font-size: 10.5px;
+
+    line-height: 1.55;
+}
+
+.reply-field textarea:focus {
+    border-color: var(--navy);
+
+    box-shadow: 0 0 0 3px rgba(6, 43, 92, .08);
+}
+
+.reply-field textarea::placeholder {
+    color: var(--muted);
+
+    opacity: 1;
+}
+
+
+/* ============================================================
+   SEND REPLY
+============================================================ */
+
+.send-reply-btn {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 36px;
+
+    padding: 8px 12px;
+
+    border: 1px solid var(--navy-dark);
+    border-radius: 9px;
+
+    background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+
+    color: #fff;
+
+    font-family: var(--body-font);
+    font-size: 10.5px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 18px rgba(6, 43, 92, .18);
+
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.send-reply-btn:hover {
+    transform: translateY(-1px);
+
+    box-shadow: 0 10px 22px rgba(6, 43, 92, .24);
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.empty-state {
+    padding: 60px 20px;
+
+    text-align: center;
+}
+
+.empty-icon {
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 14px;
+
+    border-radius: 50%;
+
+    background: #edf2f7;
+
+    color: var(--navy);
+
+    font-size: 22px;
+}
+
+.empty-state h5 {
+    margin: 0 0 6px;
+
+    color: var(--navy-deep);
+
+    font-family: var(--heading-font);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.empty-state p {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 10.5px;
+}
+
+
+/* ============================================================
+   RESPONSIVE - DESKTOP / TABLET LANDSCAPE
+   (grid layout kicks in; meta-row's children rejoin the grid
+   via display:contents)
+============================================================ */
+
+@media (min-width: 768px) {
+
+    .message-grid {
+        display: grid;
+
+        grid-template-columns:
+            minmax(200px, 1.05fr)
+            minmax(220px, 1.5fr)
+            135px
+            120px;
+
+        align-items: center;
+
+        gap: 16px;
+
+        padding: 15px 20px;
+    }
+
+    .meta-row {
+        display: contents;
+    }
+
+    .message-preview {
+        -webkit-line-clamp: 1;
+    }
+
+    .details-section {
+        text-align: right;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE - NARROWER DESKTOP
+============================================================ */
+
+@media (min-width: 768px) and (max-width: 1150px) {
+
+    .message-grid {
+        grid-template-columns:
+            minmax(180px, 1fr)
+            minmax(200px, 1.3fr)
+            120px
+            105px;
+
+        gap: 12px;
+
+        padding: 14px 16px;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE - MOBILE
+============================================================ */
+
+@media (max-width: 767px) {
+
+    .staff-message-page {
+        padding: 2px 0 26px;
+    }
+
+    .page-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+    .page-header h2 {
+        font-size: 20px;
+    }
+
+    .messages-card-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 15px 16px;
+    }
+
+    .flow-label {
+        align-self: flex-start;
+    }
+
+    .message-preview {
+        -webkit-line-clamp: 2;
+    }
+
+    .meta-row {
+        padding-top: 4px;
+
+        border-top: 1px dashed var(--border);
+    }
+
+    .details-btn {
+        width: 100%;
+    }
+
+    .message-dropdown {
+        width: 100%;
+        max-width: calc(100vw - 28px);
+
+        left: 0 !important;
+        right: auto !important;
+
+        transform: none !important;
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE - SMALL MOBILE
+============================================================ */
+
+@media (max-width: 430px) {
+
+    .page-header h2 {
+        font-size: 18px;
+    }
+
+    .sender-avatar {
+        width: 36px;
+        height: 36px;
+
+        flex: 0 0 36px;
+
+        border-radius: 9px;
+    }
+
+    .message-grid {
+        padding: 14px 16px;
+    }
+
+    .message-dropdown {
+        max-width: calc(100vw - 20px);
+    }
+
+    .dropdown-header-custom,
+    .detail-row,
+    .full-message-section,
+    .reply-section {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+    .meta-row {
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 10px;
+    }
+}
+
+
+/* ============================================================
+   TEXT VISIBILITY / FORM RESET
+============================================================ */
+
+.staff-message-page input,
+.staff-message-page textarea,
+.staff-message-page select {
+    -webkit-text-fill-color: var(--text) !important;
+}
+
+.staff-message-page * {
+    text-shadow: none;
+}
+
+</style>
+
+{% endblock %}

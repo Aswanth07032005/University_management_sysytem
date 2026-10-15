@@ -1,0 +1,392 @@
+{% extends "staff/staff_dashboard.html" %}
+
+{% block title %}
+College Messages
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .messages-page {
+        background: #f5f7fa;
+        min-height: calc(100vh - 80px);
+        padding: 30px 0 50px;
+    }
+
+    .page-header {
+        background: #fff;
+        border: 1px solid #e1e5ea;
+        border-left: 5px solid #0b3a6b;
+        padding: 20px 24px;
+        margin-bottom: 22px;
+    }
+
+    .page-header h3 {
+        margin: 0;
+        color: #123b63;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        margin: 5px 0 0;
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+    /* Message Item */
+    .message-item {
+        background: #fff;
+        border: 1px solid #dfe4ea;
+        margin-bottom: 12px;
+    }
+
+    /* Dropdown Header */
+    .message-toggle {
+        width: 100%;
+        border: 0;
+        background: #fff;
+        padding: 17px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .message-toggle:hover {
+        background: #f8fafc;
+    }
+
+    .message-left {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        min-width: 0;
+    }
+
+    .message-icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        background: #0b3a6b;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+    }
+
+    .message-info {
+        min-width: 0;
+    }
+
+    .message-subject {
+        color: #173f65;
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 3px;
+    }
+
+    .message-sender {
+        color: #6b7280;
+        font-size: 12px;
+    }
+
+    .message-date {
+        color: #7b8490;
+        font-size: 11px;
+        margin-top: 2px;
+    }
+
+    .message-arrow {
+        color: #0b3a6b;
+        font-size: 14px;
+        transition: transform 0.25s ease;
+        margin-left: 15px;
+    }
+
+    .message-toggle.active .message-arrow {
+        transform: rotate(180deg);
+    }
+
+    /* Dropdown Content */
+    .message-content {
+        display: none;
+        border-top: 1px solid #e5e7eb;
+        padding: 20px;
+    }
+
+    .message-content.show {
+        display: block;
+    }
+
+    .received-label {
+        color: #123b63;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .received-message {
+        background: #f8fafc;
+        border: 1px solid #e2e7ec;
+        border-left: 3px solid #9aafc3;
+        padding: 14px 16px;
+        color: #374151;
+        font-size: 14px;
+        line-height: 1.7;
+        white-space: pre-line;
+        margin-bottom: 20px;
+    }
+
+    .reply-label {
+        color: #123b63;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .reply-textarea {
+        width: 100%;
+        min-height: 100px;
+        border: 1px solid #ccd4dc;
+        border-radius: 3px;
+        padding: 12px;
+        font-size: 14px;
+        resize: vertical;
+    }
+
+    .reply-textarea:focus {
+        border-color: #0b3a6b;
+        box-shadow: 0 0 0 2px rgba(11, 58, 107, 0.08);
+        outline: none;
+    }
+
+    .reply-btn {
+        background: #0b3a6b;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    .reply-btn:hover {
+        background: #082d53;
+        color: #fff;
+    }
+
+    /* Empty */
+    .empty-card {
+        background: #fff;
+        border: 1px solid #dfe4ea;
+        padding: 50px 20px;
+        text-align: center;
+    }
+
+    .empty-icon {
+        color: #0b3a6b;
+        font-size: 38px;
+        margin-bottom: 15px;
+    }
+
+    .empty-card h5 {
+        color: #123b63;
+        font-weight: 700;
+    }
+
+    .empty-card p {
+        color: #7b8490;
+        font-size: 13px;
+    }
+
+    @media (max-width: 576px) {
+
+        .messages-page {
+            padding: 20px 0 40px;
+        }
+
+        .page-header {
+            padding: 17px;
+        }
+
+        .message-toggle {
+            padding: 14px;
+        }
+
+        .message-content {
+            padding: 15px;
+        }
+
+        .message-date {
+            display: none;
+        }
+    }
+</style>
+
+
+<div class="messages-page">
+
+    <div class="container">
+
+        <!-- Page Header -->
+        <div class="page-header">
+
+            <h3>
+                <i class="fas fa-envelope-open-text me-2"></i>
+                College Messages
+            </h3>
+
+            <p>
+                Messages received from colleges
+            </p>
+
+        </div>
+
+
+        {% if college_messages %}
+
+            {% for message in college_messages %}
+
+            <!-- Message -->
+            <div class="message-item">
+
+                <!-- Dropdown Header -->
+                <button
+                    type="button"
+                    class="message-toggle"
+                    onclick="toggleMessage(this)"
+                >
+
+                    <div class="message-left">
+
+                        <div class="message-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+
+                        <div class="message-info">
+
+                            <div class="message-subject">
+                                {{ message.subject }}
+                            </div>
+
+                            <div class="message-sender">
+                                From:
+                                <strong>
+                                    {{ message.sender.username }}
+                                </strong>
+                            </div>
+
+                            <div class="message-date">
+                                {{ message.created_at|date:"d M Y, h:i A" }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="message-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+
+                </button>
+
+
+                <!-- Expandable Content -->
+                <div class="message-content">
+
+                    <!-- Received Message -->
+                    <div class="received-label">
+                        Message
+                    </div>
+
+                    <div class="received-message">
+                        {{ message.message }}
+                    </div>
+
+
+                    <!-- Reply -->
+                    <div class="reply-label">
+                        <i class="fas fa-reply me-1"></i>
+                        Reply
+                    </div>
+
+                    <form
+                        method="POST"
+                        action="{% url 'staff_college_messages' %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="message_id"
+                            value="{{ message.id }}"
+                        >
+
+                        <textarea
+                            name="message"
+                            class="form-control reply-textarea"
+                            placeholder="Write your reply..."
+                            required
+                        ></textarea>
+
+                        <button
+                            type="submit"
+                            class="btn reply-btn"
+                        >
+                            <i class="fas fa-paper-plane me-1"></i>
+                            Send Reply
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <!-- No Messages -->
+            <div class="empty-card">
+
+                <div class="empty-icon">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+
+                <h5>
+                    No College Messages
+                </h5>
+
+                <p>
+                    No messages have been received from colleges yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<script>
+    function toggleMessage(button) {
+
+        const content = button.nextElementSibling;
+
+        button.classList.toggle("active");
+
+        content.classList.toggle("show");
+    }
+</script>
+
+{% endblock %}

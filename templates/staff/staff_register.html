@@ -6,7 +6,10 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Staff Registration | MM-Technical University</title>
 
@@ -24,27 +27,27 @@
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
     >
 
 
     <style>
 
-        /* =========================================================
-           ROOT
-        ========================================================= */
-
         :root {
 
             --navy: #002040;
             --dark-navy: #022542;
+
             --blue: #0b5ed7;
             --blue-dark: #084298;
 
             --blue-light: #edf5fb;
             --blue-soft: #f5f9ff;
             --blue-border: #c8dcf1;
+
+            --danger: #dc3545;
+            --danger-light: #fff5f5;
 
             --white: #ffffff;
 
@@ -53,10 +56,6 @@
 
         }
 
-
-        /* =========================================================
-           GLOBAL
-        ========================================================= */
 
         * {
             margin: 0;
@@ -80,9 +79,11 @@
             color:
                 var(--navy);
 
-            min-height: 100vh;
+            min-height:
+                100vh;
 
-            overflow-x: hidden;
+            overflow-x:
+                hidden;
 
         }
 
@@ -116,30 +117,37 @@
 
         .brand {
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            gap: 13px;
+            gap:
+                13px;
 
         }
 
 
         .brand-logo {
 
-            width: 48px;
-            height: 56px;
+            width:
+                48px;
 
-            display: flex;
+            height:
+                56px;
 
-            align-items: center;
-            justify-content: center;
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
 
             color:
                 var(--navy);
-
-            font-family:
-                "Playfair Display", serif;
 
             font-size:
                 45px;
@@ -162,9 +170,6 @@
 
 
         .brand-name {
-
-            font-family:
-                "Playfair Display", serif;
 
             color:
                 var(--navy);
@@ -365,7 +370,7 @@
                 ),
 
                 url(
-                    "https://images.unsplash.com/photo-1562774053-701939374585?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29sbGVnZXxlbnwwfHwwfHx8MA%3D%3D"
+                    "https://images.unsplash.com/photo-1562774053-701939374585?fm=jpg&q=60&w=3000&auto=format&fit=crop"
                 )
 
                 center / cover;
@@ -442,11 +447,6 @@
         }
 
 
-
-        /* =========================================================
-           UNIVERSITY MARK
-        ========================================================= */
-
         .university-mark {
 
             width:
@@ -469,9 +469,6 @@
 
             color:
                 var(--white);
-
-            font-family:
-                "Playfair Display", serif;
 
             font-size:
                 40px;
@@ -510,9 +507,6 @@
 
         .register-info h1 {
 
-            font-family:
-                "Playfair Display", serif;
-
             font-size:
                 clamp(38px, 4vw, 54px);
 
@@ -544,11 +538,6 @@
 
         }
 
-
-
-        /* =========================================================
-           INFORMATION POINTS
-        ========================================================= */
 
         .info-points {
 
@@ -612,7 +601,7 @@
 
 
         /* =========================================================
-           RIGHT FORM AREA
+           RIGHT FORM
         ========================================================= */
 
         .register-form-area {
@@ -684,9 +673,6 @@
 
         .form-header h2 {
 
-            font-family:
-                "Playfair Display", serif;
-
             color:
                 var(--navy);
 
@@ -715,6 +701,76 @@
 
             margin:
                 0;
+
+        }
+
+
+
+        /* =========================================================
+           DJANGO FORM GLOBAL ERRORS
+        ========================================================= */
+
+        .form-errors {
+
+            margin-bottom:
+                22px;
+
+            padding:
+                13px 15px;
+
+            background:
+                var(--danger-light);
+
+            border:
+                1px solid #f1b8be;
+
+            border-left:
+                4px solid var(--danger);
+
+            border-radius:
+                5px;
+
+        }
+
+
+        .form-errors-title {
+
+            color:
+                var(--danger);
+
+            font-size:
+                11px;
+
+            font-weight:
+                600;
+
+            margin-bottom:
+                5px;
+
+        }
+
+
+        .form-errors ul {
+
+            margin:
+                0;
+
+            padding-left:
+                17px;
+
+        }
+
+
+        .form-errors li {
+
+            color:
+                #a51e2a;
+
+            font-size:
+                10px;
+
+            line-height:
+                1.6;
 
         }
 
@@ -810,21 +866,29 @@
 
 
         /* =========================================================
-           DJANGO FORM
+           CUSTOM DJANGO FIELDS
         ========================================================= */
 
-        .django-form p {
+        .django-form {
+            width: 100%;
+        }
+
+
+        .django-field {
 
             margin-bottom:
-                17px;
+                18px;
 
         }
 
 
-        .django-form label {
+        .django-field label {
 
             display:
-                block;
+                flex;
+
+            align-items:
+                center;
 
             color:
                 var(--navy);
@@ -841,9 +905,23 @@
         }
 
 
-        .django-form input,
-        .django-form select,
-        .django-form textarea {
+        .required-star {
+
+            color:
+                var(--danger);
+
+            margin-left:
+                3px;
+
+            font-size:
+                12px;
+
+        }
+
+
+        .django-field input,
+        .django-field select,
+        .django-field textarea {
 
             width:
                 100%;
@@ -881,7 +959,7 @@
         }
 
 
-        .django-form textarea {
+        .django-field textarea {
 
             min-height:
                 85px;
@@ -892,18 +970,9 @@
         }
 
 
-        .django-form input::placeholder,
-        .django-form textarea::placeholder {
-
-            color:
-                #6f9ac4;
-
-        }
-
-
-        .django-form input:hover,
-        .django-form select:hover,
-        .django-form textarea:hover {
+        .django-field input:hover,
+        .django-field select:hover,
+        .django-field textarea:hover {
 
             border-color:
                 #7eaedc;
@@ -911,9 +980,9 @@
         }
 
 
-        .django-form input:focus,
-        .django-form select:focus,
-        .django-form textarea:focus {
+        .django-field input:focus,
+        .django-field select:focus,
+        .django-field textarea:focus {
 
             border-color:
                 var(--blue);
@@ -925,21 +994,56 @@
         }
 
 
+        /* Invalid field */
+
+        .django-field.has-error input,
+        .django-field.has-error select,
+        .django-field.has-error textarea {
+
+            border-color:
+                var(--danger);
+
+            background:
+                #fffafa;
+
+        }
+
+
+        .django-field.has-error input:focus,
+        .django-field.has-error select:focus,
+        .django-field.has-error textarea:focus {
+
+            border-color:
+                var(--danger);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(220,53,69,0.10);
+
+        }
+
+
 
         /* =========================================================
-           HELP TEXT
+           FIELD ERROR
         ========================================================= */
 
-        .django-form .helptext {
+        .field-error {
 
             display:
-                block;
+                flex;
+
+            align-items:
+                flex-start;
+
+            gap:
+                6px;
 
             margin-top:
-                5px;
+                6px;
 
             color:
-                var(--blue-dark);
+                var(--danger);
 
             font-size:
                 9px;
@@ -950,24 +1054,10 @@
         }
 
 
+        .field-error i {
 
-        /* =========================================================
-           ERRORS
-        ========================================================= */
-
-        .django-form ul.errorlist {
-
-            list-style:
-                none;
-
-            padding:
-                0;
-
-            margin:
-                5px 0;
-
-            color:
-                var(--blue-dark);
+            margin-top:
+                2px;
 
             font-size:
                 9px;
@@ -977,7 +1067,90 @@
 
 
         /* =========================================================
-           SUBMIT AREA
+           HELP TEXT
+        ========================================================= */
+
+        .field-help {
+
+            display:
+                block;
+
+            margin-top:
+                6px;
+
+            color:
+                var(--blue-dark);
+
+            font-size:
+                9px;
+
+            line-height:
+                1.6;
+
+        }
+
+
+
+        /* =========================================================
+           PASSWORD HELP
+        ========================================================= */
+
+        .password-help {
+
+            margin-top:
+                7px;
+
+            padding:
+                8px 10px;
+
+            background:
+                var(--blue-soft);
+
+            border:
+                1px solid var(--blue-border);
+
+            border-radius:
+                4px;
+
+            color:
+                var(--blue-dark);
+
+            font-size:
+                9px;
+
+            line-height:
+                1.6;
+
+        }
+
+
+        .password-help ul {
+
+            margin:
+                0;
+
+            padding-left:
+                15px;
+
+        }
+
+
+        .password-help li {
+
+            margin-bottom:
+                2px;
+
+        }
+
+
+        .password-help li:last-child {
+            margin-bottom: 0;
+        }
+
+
+
+        /* =========================================================
+           SUBMIT
         ========================================================= */
 
         .form-actions {
@@ -993,10 +1166,6 @@
 
         }
 
-
-        /* =========================================================
-           OUTLINE BUTTON
-        ========================================================= */
 
         .register-button {
 
@@ -1070,7 +1239,7 @@
 
 
         /* =========================================================
-           LOGIN LINK
+           LOGIN
         ========================================================= */
 
         .login-area {
@@ -1101,9 +1270,6 @@
             margin-left:
                 4px;
 
-            transition:
-                0.3s;
-
         }
 
 
@@ -1114,11 +1280,6 @@
 
         }
 
-
-
-        /* =========================================================
-           SECURITY NOTE
-        ========================================================= */
 
         .security-note {
 
@@ -1220,10 +1381,7 @@
         @media (max-width: 991px) {
 
             .main-navbar {
-
-                min-height:
-                    75px;
-
+                min-height: 75px;
             }
 
 
@@ -1286,18 +1444,12 @@
         @media (max-width: 575px) {
 
             .main-navbar {
-
-                min-height:
-                    70px;
-
+                min-height: 70px;
             }
 
 
             .brand {
-
-                gap:
-                    9px;
-
+                gap: 9px;
             }
 
 
@@ -1319,10 +1471,7 @@
 
 
             .brand-name {
-
-                font-size:
-                    17px;
-
+                font-size: 17px;
             }
 
 
@@ -1349,10 +1498,7 @@
 
 
             .back-home span {
-
-                display:
-                    none;
-
+                display: none;
             }
 
 
@@ -1365,10 +1511,7 @@
 
 
             .register-card {
-
-                border-radius:
-                    6px;
-
+                border-radius: 6px;
             }
 
 
@@ -1409,10 +1552,7 @@
 
 
             .register-info h1 {
-
-                font-size:
-                    35px;
-
+                font-size: 35px;
             }
 
 
@@ -1428,10 +1568,7 @@
 
 
             .info-point {
-
-                font-size:
-                    10px;
-
+                font-size: 10px;
             }
 
 
@@ -1444,24 +1581,18 @@
 
 
             .form-header h2 {
-
-                font-size:
-                    34px;
-
+                font-size: 34px;
             }
 
 
             .section-title {
-
-                margin-top:
-                    24px;
-
+                margin-top: 24px;
             }
 
 
-            .django-form input,
-            .django-form select,
-            .django-form textarea {
+            .django-field input,
+            .django-field select,
+            .django-field textarea {
 
                 min-height:
                     45px;
@@ -1470,10 +1601,7 @@
 
 
             .register-button {
-
-                height:
-                    50px;
-
+                height: 50px;
             }
 
         }
@@ -1499,7 +1627,6 @@
                    align-items-center
                    justify-content-between"
         >
-
 
             <!-- BRAND -->
 
@@ -1567,22 +1694,18 @@
 
             <div class="info-content">
 
-
                 <div class="university-mark">
                     M
                 </div>
-
 
                 <div class="info-small">
                     MM-Technical University
                 </div>
 
-
                 <h1>
                     Join Our
                     University
                 </h1>
-
 
                 <p class="info-description">
 
@@ -1594,7 +1717,6 @@
 
 
                 <div class="info-points">
-
 
                     <div class="info-point">
 
@@ -1639,7 +1761,6 @@
 
                     </div>
 
-
                 </div>
 
             </div>
@@ -1677,18 +1798,84 @@
 
 
 
+                <!-- =================================================
+                     NON FIELD ERRORS
+                ================================================== -->
+
+                {% if register_form.non_field_errors %}
+
+                <div class="form-errors">
+
+                    <div class="form-errors-title">
+
+                        <i class="fas fa-circle-exclamation me-1"></i>
+
+                        Please correct the following errors
+
+                    </div>
+
+                    <ul>
+
+                        {% for error in register_form.non_field_errors %}
+
+                        <li>
+                            {{ error }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                {% endif %}
+
+
+                {% if staff_form.non_field_errors %}
+
+                <div class="form-errors">
+
+                    <div class="form-errors-title">
+
+                        <i class="fas fa-circle-exclamation me-1"></i>
+
+                        Please correct the following errors
+
+                    </div>
+
+                    <ul>
+
+                        {% for error in staff_form.non_field_errors %}
+
+                        <li>
+                            {{ error }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                {% endif %}
+
+
+
                 <!-- FORM -->
 
                 <form
                     method="POST"
                     action=""
+                    novalidate
                 >
 
                     {% csrf_token %}
 
 
 
-                    <!-- ACCOUNT DETAILS -->
+                    <!-- =================================================
+                         ACCOUNT DETAILS
+                    ================================================== -->
 
                     <div class="section-title">
 
@@ -1705,13 +1892,68 @@
 
                     <div class="django-form">
 
-                        {{ register_form.as_p }}
+                        {% for field in register_form %}
+
+                        <div
+                            class="django-field {% if field.errors %}has-error{% endif %}"
+                        >
+
+                            <label for="{{ field.id_for_label }}">
+
+                                {{ field.label }}
+
+                                {% if field.field.required %}
+
+                                <span class="required-star">
+                                    *
+                                </span>
+
+                                {% endif %}
+
+                            </label>
+
+
+                            {{ field }}
+
+
+                            {% if field.help_text %}
+
+                            <div class="field-help">
+                                {{ field.help_text|safe }}
+                            </div>
+
+                            {% endif %}
+
+
+                            {% if field.errors %}
+
+                                {% for error in field.errors %}
+
+                                <div class="field-error">
+
+                                    <i class="fas fa-circle-exclamation"></i>
+
+                                    <span>
+                                        {{ error }}
+                                    </span>
+
+                                </div>
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
 
                     </div>
 
 
 
-                    <!-- STAFF DETAILS -->
+                    <!-- =================================================
+                         STAFF DETAILS
+                    ================================================== -->
 
                     <div class="section-title">
 
@@ -1728,16 +1970,70 @@
 
                     <div class="django-form">
 
-                        {{ staff_form.as_p }}
+                        {% for field in staff_form %}
+
+                        <div
+                            class="django-field {% if field.errors %}has-error{% endif %}"
+                        >
+
+                            <label for="{{ field.id_for_label }}">
+
+                                {{ field.label }}
+
+                                {% if field.field.required %}
+
+                                <span class="required-star">
+                                    *
+                                </span>
+
+                                {% endif %}
+
+                            </label>
+
+
+                            {{ field }}
+
+
+                            {% if field.help_text %}
+
+                            <div class="field-help">
+                                {{ field.help_text|safe }}
+                            </div>
+
+                            {% endif %}
+
+
+                            {% if field.errors %}
+
+                                {% for error in field.errors %}
+
+                                <div class="field-error">
+
+                                    <i class="fas fa-circle-exclamation"></i>
+
+                                    <span>
+                                        {{ error }}
+                                    </span>
+
+                                </div>
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
 
                     </div>
 
 
 
-                    <!-- ACTIONS -->
+                    <!-- =================================================
+                         ACTIONS
+                    ================================================== -->
 
                     <div class="form-actions">
-
 
                         <button
                             type="submit"
@@ -1770,7 +2066,6 @@
 
                         </div>
 
-
                     </div>
 
                 </form>
@@ -1791,24 +2086,11 @@
 
 <footer class="register-footer">
 
-    © <span id="year"></span>
+    © {% now "Y" %}
     MM-Technical University.
     All Rights Reserved.
 
 </footer>
-
-
-
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
-
-<script>
-
-    document.getElementById("year").textContent =
-        new Date().getFullYear();
-
-</script>
 
 
 </body>

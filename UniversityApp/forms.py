@@ -733,3 +733,65 @@ class AdmissionApplicationEditForm(forms.ModelForm):
                     )
 
         return cleaned_data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from django import forms
+from .models import Notification
+
+
+class NotificationForm(forms.ModelForm):
+
+    class Meta:
+        model = Notification
+
+        fields = [
+            "category",
+            "subject",
+            "priority",
+            "message",
+        ]
+
+        widgets = {
+            "category": forms.Select(
+                attrs={
+                    "class": "form-select"
+                }
+            ),
+
+            "subject": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Enter notification subject"
+                }
+            ),
+
+            "priority": forms.Select(
+                attrs={
+                    "class": "form-select"
+                }
+            ),
+
+            "message": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 6,
+                    "placeholder": "Write your message here..."
+                }
+            ),
+        }

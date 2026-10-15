@@ -2441,3 +2441,26 @@ document.querySelectorAll(".custom-toast").forEach(function(toast){
 
 
 Ai Chatboat api------------   REDACTED_GROQ_API_KEY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+✅ models.py — done
+🔜 views.py — Admin send message
+🔜 urls.py
+🔜 Admin HTML — Send Message form
+🔜 Student/College/Staff received messages
+🔜 Message detail + is_read
+🔜 Reply system
+🔜 Navbar/sidebar unread count

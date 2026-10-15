@@ -1,0 +1,854 @@
+{% extends "college/college_dashboard.html" %}
+
+{% block title %}
+Send Message | MM-Technical University
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .send-message-page {
+        width: 100%;
+        max-width: 850px;
+        margin: 0 auto;
+        padding: 6px 4px 35px;
+        color: var(--text);
+    }
+
+    /* ============================================================
+       PAGE HEADER
+    ============================================================ */
+
+    .page-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .page-header-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: var(--radius-sm);
+
+        background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+        color: #fff;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 18px;
+        flex-shrink: 0;
+
+        box-shadow: 0 8px 18px rgba(6, 43, 92, .18);
+    }
+
+    .page-header-text h2 {
+        margin: 0;
+        font-family: var(--heading-font);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--navy-deep);
+    }
+
+    .page-header-text p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+
+    /* ============================================================
+       MESSAGE CARD
+    ============================================================ */
+
+    .message-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .card-header-custom {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        padding: 17px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface-soft);
+    }
+
+    .card-header-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--radius-sm);
+
+        background: #edf2f7;
+        color: var(--navy);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .card-header-custom h5 {
+        margin: 0;
+        font-family: var(--heading-font);
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--navy-deep);
+    }
+
+    .card-header-custom span {
+        display: block;
+        margin-top: 2px;
+        font-size: 11px;
+        color: var(--muted);
+    }
+
+
+    /* ============================================================
+       FORM
+    ============================================================ */
+
+    .form-content {
+        padding: 22px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--navy-deep);
+    }
+
+    .input-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-box > i:first-child {
+        position: absolute;
+        left: 14px;
+        color: var(--navy);
+        font-size: 13px;
+        z-index: 2;
+    }
+
+    .input-box .arrow {
+        position: absolute;
+        right: 14px;
+        color: var(--green);
+        font-size: 12px;
+    }
+
+    .form-control-custom {
+        width: 100%;
+        height: 45px;
+
+        border: 1px solid var(--border-dark);
+        border-radius: var(--radius-sm);
+
+        padding: 0 42px 0 39px;
+
+        background: #fff;
+        color: var(--text);
+
+        font-family: var(--body-font);
+        font-size: 12.5px;
+        outline: none;
+
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .form-control-custom:focus {
+        border-color: var(--navy);
+        box-shadow: 0 0 0 3px rgba(6, 43, 92, .08);
+    }
+
+    .form-control-custom::placeholder {
+        color: var(--muted);
+    }
+
+    .form-control-custom[readonly] {
+        background: var(--surface-soft);
+        color: var(--text-soft);
+        cursor: default;
+    }
+
+    textarea.form-control-custom {
+        height: 165px;
+        resize: vertical;
+        min-height: 130px;
+
+        padding: 13px 15px;
+        line-height: 1.65;
+    }
+
+    .recipient-info {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 10.5px;
+        line-height: 1.5;
+    }
+
+    .recipient-info i {
+        color: var(--navy);
+        margin-right: 4px;
+    }
+
+
+    /* ============================================================
+       MESSAGE FOOTER
+    ============================================================ */
+
+    .message-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-top: 6px;
+    }
+
+    .message-note {
+        font-size: 10.5px;
+        color: var(--muted);
+    }
+
+    .message-note i {
+        color: var(--navy);
+        margin-right: 4px;
+    }
+
+    .character-count {
+        font-size: 10.5px;
+        color: var(--muted);
+        white-space: nowrap;
+
+        transition: color .2s ease;
+    }
+
+    .character-count.is-near-limit {
+        color: var(--gold);
+        font-weight: 700;
+    }
+
+    .character-count.is-at-limit {
+        color: var(--danger);
+        font-weight: 700;
+    }
+
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+
+        padding-top: 18px;
+        margin-top: 20px;
+
+        border-top: 1px solid var(--border);
+    }
+
+    .btn-clear,
+    .btn-send {
+        height: 42px;
+        padding: 0 18px;
+
+        border-radius: var(--radius-sm);
+
+        font-family: var(--body-font);
+        font-size: 11.5px;
+        font-weight: 600;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        cursor: pointer;
+        transition: background .2s ease, color .2s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .btn-clear {
+        background: #fff;
+        color: var(--text-soft);
+        border: 1px solid var(--border-dark);
+    }
+
+    .btn-clear:hover {
+        background: var(--surface-soft);
+        color: var(--navy-deep);
+    }
+
+    .btn-send {
+        background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+        color: #fff;
+        border: 1px solid var(--navy-dark);
+
+        box-shadow: 0 8px 18px rgba(6, 43, 92, .18);
+    }
+
+    .btn-send:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(6, 43, 92, .24);
+    }
+
+    .btn-send:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+
+    /* ============================================================
+       ALERTS
+    ============================================================ */
+
+    .alert-container {
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .custom-alert {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+
+        border-radius: var(--radius-sm);
+        font-size: 11.5px;
+        line-height: 1.5;
+        padding: 11px 14px;
+
+        border: 1px solid var(--border);
+        background: var(--surface-soft);
+        color: var(--text);
+    }
+
+    .custom-alert i {
+        margin-top: 1px;
+        color: var(--navy);
+    }
+
+    .alert-success {
+        background: var(--green-soft);
+        border-color: rgba(23, 128, 91, .25);
+        color: var(--green);
+    }
+
+    .alert-success i {
+        color: var(--green);
+    }
+
+    .alert-error {
+        background: var(--danger-soft);
+        border-color: rgba(200, 61, 75, .25);
+        color: var(--danger);
+    }
+
+    .alert-error i {
+        color: var(--danger);
+    }
+
+    .alert-warning {
+        background: var(--gold-soft);
+        border-color: rgba(198, 154, 53, .3);
+        color: #8a6a1f;
+    }
+
+    .alert-warning i {
+        color: var(--gold);
+    }
+
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+
+    @media (max-width: 700px) {
+
+        .send-message-page {
+            padding: 4px 2px 30px;
+        }
+
+        .form-content {
+            padding: 17px;
+        }
+
+        .page-header-text h2 {
+            font-size: 19px;
+        }
+
+        .message-bottom {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 6px;
+        }
+    }
+
+
+    @media (max-width: 450px) {
+
+        .page-header {
+            gap: 10px;
+        }
+
+        .page-header-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 15px;
+        }
+
+        .page-header-text h2 {
+            font-size: 17px;
+        }
+
+        .page-header-text p {
+            font-size: 10.5px;
+        }
+
+        .card-header-custom {
+            padding: 14px 15px;
+        }
+
+        .form-content {
+            padding: 15px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .btn-clear,
+        .btn-send {
+            width: 100%;
+        }
+    }
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="send-message-page">
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================= -->
+
+    <div class="page-header">
+
+        <div class="page-header-icon">
+            <i class="fas fa-envelope-open-text"></i>
+        </div>
+
+        <div class="page-header-text">
+
+            <h2>Send Message</h2>
+
+            <p>
+                Communicate with the University Staff
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         DJANGO MESSAGES
+    ========================= -->
+
+    {% if messages %}
+
+        <div class="alert-container">
+
+            {% for message in messages %}
+
+                <div class="custom-alert alert-{{ message.tags }}">
+
+                    {% if message.tags == "success" %}
+
+                        <i class="fas fa-circle-check"></i>
+
+                    {% elif message.tags == "error" %}
+
+                        <i class="fas fa-circle-exclamation"></i>
+
+                    {% elif message.tags == "warning" %}
+
+                        <i class="fas fa-triangle-exclamation"></i>
+
+                    {% else %}
+
+                        <i class="fas fa-circle-info"></i>
+
+                    {% endif %}
+
+                    <span>{{ message }}</span>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+
+    <!-- =========================
+         MESSAGE CARD
+    ========================= -->
+
+    <div class="message-card">
+
+
+        <!-- CARD HEADER -->
+
+        <div class="card-header-custom">
+
+            <div class="card-header-icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+
+            <div>
+
+                <h5>Compose Message</h5>
+
+                <span>
+                    Send a message to the University Staff
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <div class="form-content">
+
+            <form
+                method="POST"
+                action="{% url 'college_send_message' %}"
+            >
+
+                {% csrf_token %}
+
+
+
+                <!-- =========================
+                     RECIPIENT
+                ========================= -->
+
+                <div class="form-group">
+
+                    <label>
+                        Recipient
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fas fa-users"></i>
+
+                        <input
+                            type="text"
+                            class="form-control-custom"
+                            value="All University Staff"
+                            readonly
+                        >
+
+                        <i class="fas fa-check arrow"></i>
+
+                    </div>
+
+                    <div class="recipient-info">
+
+                        <i class="fas fa-circle-info"></i>
+
+                        This message will be delivered to all active
+                        university staff members.
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================
+                     SUBJECT
+                ========================= -->
+
+                <div class="form-group">
+
+                    <label for="subject">
+                        Subject
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fas fa-heading"></i>
+
+                        <input
+                            type="text"
+                            id="subject"
+                            name="subject"
+                            class="form-control-custom"
+                            placeholder="Enter message subject"
+                            maxlength="200"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================
+                     MESSAGE
+                ========================= -->
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        class="form-control-custom"
+                        placeholder="Write your message here..."
+                        maxlength="2000"
+                        required
+                    ></textarea>
+
+
+                    <div class="message-bottom">
+
+                        <div class="message-note">
+
+                            <i class="fas fa-shield-halved"></i>
+
+                            Please provide clear and relevant information.
+
+                        </div>
+
+                        <div class="character-count">
+
+                            <span id="charCount">0</span> / 2000
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================
+                     ACTIONS
+                ========================= -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn-clear"
+                        onclick="clearMessageForm()"
+                    >
+
+                        <i class="fas fa-rotate-left"></i>
+
+                        Clear
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn-send"
+                        id="sendMessageBtn"
+                    >
+
+                        <i class="fas fa-paper-plane"></i>
+
+                        Send Message
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+
+<script>
+
+    const messageBox =
+        document.getElementById("message");
+
+    const charCount =
+        document.getElementById("charCount");
+
+    const charCountWrapper =
+        charCount ? charCount.parentElement : null;
+
+    const MAX_LENGTH = 2000;
+
+
+    if (messageBox && charCount) {
+
+        function updateCharacterCount() {
+
+            const length =
+                messageBox.value.length;
+
+            charCount.textContent =
+                length;
+
+            if (charCountWrapper) {
+
+                charCountWrapper.classList.remove(
+                    "is-near-limit",
+                    "is-at-limit"
+                );
+
+                if (length >= MAX_LENGTH) {
+
+                    charCountWrapper.classList.add(
+                        "is-at-limit"
+                    );
+
+                } else if (length >= MAX_LENGTH * 0.9) {
+
+                    charCountWrapper.classList.add(
+                        "is-near-limit"
+                    );
+
+                }
+
+            }
+
+        }
+
+        messageBox.addEventListener(
+            "input",
+            updateCharacterCount
+        );
+
+        updateCharacterCount();
+
+    }
+
+
+    function clearMessageForm() {
+
+        const subject =
+            document.getElementById("subject");
+
+        const message =
+            document.getElementById("message");
+
+
+        if (subject) {
+
+            subject.value = "";
+
+        }
+
+
+        if (message) {
+
+            message.value = "";
+
+        }
+
+
+        if (charCount) {
+
+            charCount.textContent = "0";
+
+        }
+
+        if (charCountWrapper) {
+
+            charCountWrapper.classList.remove(
+                "is-near-limit",
+                "is-at-limit"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       PREVENT DOUBLE SUBMIT
+    ========================================================= */
+
+    const sendMessageForm =
+        document.querySelector(".send-message-page form");
+
+    const sendMessageBtn =
+        document.getElementById("sendMessageBtn");
+
+    if (sendMessageForm && sendMessageBtn) {
+
+        sendMessageForm.addEventListener("submit", function () {
+
+            sendMessageBtn.disabled = true;
+
+            sendMessageBtn.innerHTML =
+                '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+        });
+
+    }
+
+</script>
+
+{% endblock %}

@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover"
@@ -20,6 +22,7 @@
         rel="stylesheet"
     >
 
+
     <!-- Font Awesome -->
     <link
         rel="stylesheet"
@@ -29,10 +32,15 @@
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
     >
 
@@ -42,7 +50,6 @@
 /* ============================================================
    DESIGN TOKENS
 ============================================================ */
-
 
 :root {
 
@@ -92,7 +99,7 @@
     --shadow-lg:
         0 20px 55px rgba(2, 23, 47, .13);
 
-    --heading-font: "Playfair Display", Georgia, serif;
+    --heading-font: "Poppins", sans-serif;
     --body-font: "Poppins", sans-serif;
 }
 
@@ -106,7 +113,9 @@
 *::after {
 
     box-sizing: border-box;
+
     margin: 0;
+
     padding: 0;
 }
 
@@ -114,6 +123,7 @@
 html {
 
     scroll-behavior: smooth;
+
     -webkit-text-size-adjust: 100%;
 }
 
@@ -131,7 +141,7 @@ body {
 
     color: var(--text);
 
-   font-family: "Playfair Display", serif;
+    font-family: "Poppins", sans-serif;
 
     font-size: 14px;
 
@@ -146,6 +156,7 @@ body {
 a {
 
     text-decoration: none;
+
     color: inherit;
 }
 
@@ -163,7 +174,8 @@ button {
 a:focus-visible,
 button:focus-visible {
 
-    outline: 3px solid rgba(198,154,53,.45);
+    outline:
+        3px solid rgba(198,154,53,.45);
 
     outline-offset: 3px;
 
@@ -214,13 +226,16 @@ button:focus-visible {
     position: absolute;
 
     width: 260px;
+
     height: 260px;
 
     border-radius: 50%;
 
-    border: 1px solid rgba(255,255,255,.045);
+    border:
+        1px solid rgba(255,255,255,.045);
 
     top: -150px;
+
     right: -130px;
 
     pointer-events: none;
@@ -234,13 +249,16 @@ button:focus-visible {
     position: absolute;
 
     width: 180px;
+
     height: 180px;
 
     border-radius: 50%;
 
-    border: 1px solid rgba(255,255,255,.035);
+    border:
+        1px solid rgba(255,255,255,.035);
 
     bottom: -100px;
+
     left: -90px;
 
     pointer-events: none;
@@ -275,6 +293,7 @@ button:focus-visible {
 .brand-icon {
 
     width: 45px;
+
     height: 45px;
 
     flex: 0 0 45px;
@@ -310,7 +329,8 @@ button:focus-visible {
 
 .brand:hover .brand-icon {
 
-    transform: translateY(-2px);
+    transform:
+        translateY(-2px);
 
     background:
         rgba(255,255,255,.20);
@@ -321,7 +341,8 @@ button:focus-visible {
 
     color: #fff;
 
-    font-family: var(--heading-font);
+    font-family:
+        var(--heading-font);
 
     font-size: 17px;
 
@@ -333,7 +354,8 @@ button:focus-visible {
 
 .brand-text p {
 
-    color: rgba(255,255,255,.56);
+    color:
+        rgba(255,255,255,.56);
 
     font-size: 10px;
 
@@ -451,7 +473,8 @@ button:focus-visible {
 
     flex-shrink: 0;
 
-    transition: color .2s ease;
+    transition:
+        color .2s ease;
 }
 
 
@@ -462,7 +485,8 @@ button:focus-visible {
     background:
         rgba(255,255,255,.075);
 
-    transform: translateX(2px);
+    transform:
+        translateX(2px);
 }
 
 
@@ -488,19 +512,23 @@ button:focus-visible {
     left: -13px;
 
     top: 9px;
+
     bottom: 9px;
 
     width: 3px;
 
-    border-radius: 0 4px 4px 0;
+    border-radius:
+        0 4px 4px 0;
 
-    background: var(--gold);
+    background:
+        var(--gold);
 }
 
 
 .nav-link.active i {
 
-    color: var(--navy);
+    color:
+        var(--navy);
 }
 
 
@@ -532,7 +560,8 @@ button:focus-visible {
 
 .logout-link:hover i {
 
-    color: #ff8d98;
+    color:
+        #ff8d98;
 }
 
 
@@ -544,7 +573,8 @@ button:focus-visible {
 
     min-height: 100vh;
 
-    margin-left: var(--sidebar-width);
+    margin-left:
+        var(--sidebar-width);
 
     display: flex;
 
@@ -558,7 +588,9 @@ button:focus-visible {
 body.sidebar-collapsed .sidebar {
 
     transform:
-        translateX(calc(-1 * var(--sidebar-width)));
+        translateX(
+            calc(-1 * var(--sidebar-width))
+        );
 }
 
 
@@ -580,7 +612,8 @@ body.sidebar-collapsed .main-content {
 
     z-index: 1030;
 
-    height: var(--topbar-height);
+    height:
+        var(--topbar-height);
 
     display: flex;
 
@@ -590,7 +623,8 @@ body.sidebar-collapsed .main-content {
 
     gap: 20px;
 
-    padding: 0 clamp(18px, 3vw, 34px);
+    padding:
+        0 clamp(18px, 3vw, 34px);
 
     background:
         rgba(255,255,255,.91);
@@ -623,6 +657,7 @@ body.sidebar-collapsed .main-content {
 .icon-btn {
 
     width: 42px;
+
     height: 42px;
 
     flex: 0 0 42px;
@@ -638,7 +673,8 @@ body.sidebar-collapsed .main-content {
 
     background: #fff;
 
-    color: var(--navy);
+    color:
+        var(--navy);
 
     cursor: pointer;
 
@@ -651,9 +687,11 @@ body.sidebar-collapsed .main-content {
 
     color: #fff;
 
-    background: var(--navy);
+    background:
+        var(--navy);
 
-    border-color: var(--navy);
+    border-color:
+        var(--navy);
 
     box-shadow:
         0 7px 18px rgba(6,43,92,.16);
@@ -664,9 +702,11 @@ body.sidebar-collapsed .main-content {
 
     margin: 0;
 
-    color: var(--navy-deep);
+    color:
+        var(--navy-deep);
 
-    font-family: var(--heading-font);
+    font-family:
+        var(--heading-font);
 
     font-size: 20px;
 
@@ -676,9 +716,11 @@ body.sidebar-collapsed .main-content {
 
 .page-title p {
 
-    margin: 2px 0 0;
+    margin:
+        2px 0 0;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 10px;
 
@@ -703,6 +745,7 @@ body.sidebar-collapsed .main-content {
     position: relative;
 
     width: 42px;
+
     height: 42px;
 
     display: grid;
@@ -715,7 +758,8 @@ body.sidebar-collapsed .main-content {
 
     background: transparent;
 
-    color: var(--text-soft);
+    color:
+        var(--text-soft);
 
     cursor: pointer;
 
@@ -727,9 +771,11 @@ body.sidebar-collapsed .main-content {
 
 .notif:hover {
 
-    color: var(--navy);
+    color:
+        var(--navy);
 
-    background: #eef3f8;
+    background:
+        #eef3f8;
 }
 
 
@@ -738,14 +784,18 @@ body.sidebar-collapsed .main-content {
     position: absolute;
 
     width: 7px;
+
     height: 7px;
 
     top: 9px;
+
     right: 9px;
 
-    background: #c83d4b;
+    background:
+        #c83d4b;
 
-    border: 2px solid #fff;
+    border:
+        2px solid #fff;
 
     border-radius: 50%;
 }
@@ -769,6 +819,7 @@ body.sidebar-collapsed .main-content {
 .admin-avatar {
 
     width: 40px;
+
     height: 40px;
 
     display: grid;
@@ -795,7 +846,8 @@ body.sidebar-collapsed .main-content {
 
     display: block;
 
-    color: var(--navy-deep);
+    color:
+        var(--navy-deep);
 
     font-size: 12px;
 
@@ -807,7 +859,8 @@ body.sidebar-collapsed .main-content {
 
     display: block;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 10px;
 
@@ -850,7 +903,8 @@ body.sidebar-collapsed .main-content {
 
     align-items: center;
 
-    border-radius: var(--radius-xl);
+    border-radius:
+        var(--radius-xl);
 
     padding:
         clamp(25px, 4vw, 40px);
@@ -884,9 +938,11 @@ body.sidebar-collapsed .main-content {
     position: absolute;
 
     width: 300px;
+
     height: 300px;
 
     right: 50px;
+
     top: -180px;
 
     border:
@@ -903,9 +959,11 @@ body.sidebar-collapsed .main-content {
     position: absolute;
 
     width: 210px;
+
     height: 210px;
 
     right: -70px;
+
     bottom: -130px;
 
     border:
@@ -956,11 +1014,13 @@ body.sidebar-collapsed .main-content {
 
 .welcome h2 {
 
-    margin: 0 0 8px;
+    margin:
+        0 0 8px;
 
     color: #fff;
 
-    font-family: var(--heading-font);
+    font-family:
+        var(--heading-font);
 
     font-size:
         clamp(27px, 4vw, 37px);
@@ -1040,13 +1100,15 @@ body.sidebar-collapsed .main-content {
     background:
         rgba(255,255,255,.17);
 
-    transform: translateY(-1px);
+    transform:
+        translateY(-1px);
 }
 
 
 .btn-solid {
 
-    color: var(--navy);
+    color:
+        var(--navy);
 
     background: #fff;
 
@@ -1056,9 +1118,11 @@ body.sidebar-collapsed .main-content {
 
 .btn-solid:hover {
 
-    color: var(--navy);
+    color:
+        var(--navy);
 
-    background: #f1f4f8;
+    background:
+        #f1f4f8;
 }
 
 
@@ -1068,7 +1132,8 @@ body.sidebar-collapsed .main-content {
 
     z-index: 1;
 
-    right: clamp(25px, 6vw, 80px);
+    right:
+        clamp(25px, 6vw, 80px);
 
     bottom: -15px;
 
@@ -1078,7 +1143,8 @@ body.sidebar-collapsed .main-content {
     font-size:
         clamp(100px, 15vw, 190px);
 
-    transform: rotate(-7deg);
+    transform:
+        rotate(-7deg);
 
     pointer-events: none;
 }
@@ -1116,9 +1182,11 @@ body.sidebar-collapsed .main-content {
     border:
         1px solid var(--border);
 
-    border-radius: var(--radius-lg);
+    border-radius:
+        var(--radius-lg);
 
-    box-shadow: var(--shadow-sm);
+    box-shadow:
+        var(--shadow-sm);
 
     transition:
         transform .25s ease,
@@ -1129,11 +1197,14 @@ body.sidebar-collapsed .main-content {
 
 .stat-card:hover {
 
-    transform: translateY(-3px);
+    transform:
+        translateY(-3px);
 
-    border-color: var(--border-dark);
+    border-color:
+        var(--border-dark);
 
-    box-shadow: var(--shadow);
+    box-shadow:
+        var(--shadow);
 }
 
 
@@ -1144,9 +1215,11 @@ body.sidebar-collapsed .main-content {
     position: absolute;
 
     width: 100px;
+
     height: 100px;
 
     right: -48px;
+
     bottom: -50px;
 
     border-radius: 50%;
@@ -1175,6 +1248,7 @@ body.sidebar-collapsed .main-content {
 .stat-icon {
 
     width: 43px;
+
     height: 43px;
 
     display: grid;
@@ -1183,7 +1257,8 @@ body.sidebar-collapsed .main-content {
 
     border-radius: 11px;
 
-    color: var(--navy);
+    color:
+        var(--navy);
 
     background:
         #edf2f7;
@@ -1196,7 +1271,8 @@ body.sidebar-collapsed .main-content {
 
     margin-top: 13px;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 10px;
 
@@ -1212,9 +1288,11 @@ body.sidebar-collapsed .main-content {
 
     margin-top: 3px;
 
-    color: var(--navy-deep);
+    color:
+        var(--navy-deep);
 
-    font-family: var(--heading-font);
+    font-family:
+        var(--heading-font);
 
     font-size: 28px;
 
@@ -1228,7 +1306,8 @@ body.sidebar-collapsed .main-content {
 
     margin-top: 4px;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 10px;
 }
@@ -1261,9 +1340,11 @@ body.sidebar-collapsed .main-content {
     border:
         1px solid var(--border);
 
-    border-radius: var(--radius-lg);
+    border-radius:
+        var(--radius-lg);
 
-    box-shadow: var(--shadow-sm);
+    box-shadow:
+        var(--shadow-sm);
 }
 
 
@@ -1294,9 +1375,11 @@ body.sidebar-collapsed .main-content {
 
     gap: 9px;
 
-    color: var(--navy-deep);
+    color:
+        var(--navy-deep);
 
-    font-family: var(--heading-font);
+    font-family:
+        var(--heading-font);
 
     font-size: 18px;
 
@@ -1306,7 +1389,8 @@ body.sidebar-collapsed .main-content {
 
 .panel-head h3 i {
 
-    color: var(--navy);
+    color:
+        var(--navy);
 
     font-size: 13px;
 }
@@ -1314,7 +1398,8 @@ body.sidebar-collapsed .main-content {
 
 .panel-link {
 
-    color: var(--blue);
+    color:
+        var(--blue);
 
     font-size: 10px;
 
@@ -1328,9 +1413,11 @@ body.sidebar-collapsed .main-content {
 
 .panel-link:hover {
 
-    color: var(--blue-dark);
+    color:
+        var(--blue-dark);
 
-    text-decoration: underline;
+    text-decoration:
+        underline;
 }
 
 
@@ -1372,9 +1459,11 @@ body.sidebar-collapsed .main-content {
 
 .quick-action:hover {
 
-    transform: translateX(3px);
+    transform:
+        translateX(3px);
 
-    background: #f8fafc;
+    background:
+        #f8fafc;
 
     border-color:
         #cbd6e2;
@@ -1384,6 +1473,7 @@ body.sidebar-collapsed .main-content {
 .quick-icon {
 
     width: 39px;
+
     height: 39px;
 
     flex: 0 0 39px;
@@ -1397,7 +1487,8 @@ body.sidebar-collapsed .main-content {
     background:
         #edf2f7;
 
-    color: var(--navy);
+    color:
+        var(--navy);
 
     font-size: 13px;
 }
@@ -1413,7 +1504,8 @@ body.sidebar-collapsed .main-content {
 
     display: block;
 
-    color: var(--navy-deep);
+    color:
+        var(--navy-deep);
 
     font-size: 12px;
 
@@ -1427,7 +1519,8 @@ body.sidebar-collapsed .main-content {
 
     margin-top: 2px;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 10px;
 }
@@ -1437,7 +1530,8 @@ body.sidebar-collapsed .main-content {
 
     margin-left: auto;
 
-    color: #a6b2c1;
+    color:
+        #a6b2c1;
 
     font-size: 9px;
 }
@@ -1462,7 +1556,8 @@ body.sidebar-collapsed .main-content {
 
     min-width: 520px;
 
-    border-collapse: collapse;
+    border-collapse:
+        collapse;
 }
 
 
@@ -1471,7 +1566,8 @@ body.sidebar-collapsed .main-content {
     padding:
         10px 12px;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     border-bottom:
         1px solid var(--border);
@@ -1496,7 +1592,8 @@ body.sidebar-collapsed .main-content {
     border-bottom:
         1px solid #edf1f5;
 
-    color: var(--text);
+    color:
+        var(--text);
 
     font-size: 12px;
 
@@ -1513,7 +1610,8 @@ body.sidebar-collapsed .main-content {
 
 .data-table tbody tr:hover {
 
-    background: #f8fafc;
+    background:
+        #f8fafc;
 }
 
 
@@ -1534,7 +1632,8 @@ body.sidebar-collapsed .main-content {
 
     text-align: center;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 }
 
 
@@ -1544,7 +1643,8 @@ body.sidebar-collapsed .main-content {
 
     margin-bottom: 12px;
 
-    color: #c7d1dc;
+    color:
+        #c7d1dc;
 
     font-size: 30px;
 }
@@ -1556,7 +1656,8 @@ body.sidebar-collapsed .main-content {
 
     margin-bottom: 4px;
 
-    color: var(--navy);
+    color:
+        var(--navy);
 
     font-size: 13px;
 }
@@ -1617,10 +1718,13 @@ body.sidebar-collapsed .main-content {
             repeat(2, 1fr);
     }
 
+
     .panel-grid {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
     }
+
 }
 
 
@@ -1629,8 +1733,11 @@ body.sidebar-collapsed .main-content {
     .sidebar {
 
         transform:
-            translateX(calc(-1 * var(--sidebar-width)));
+            translateX(
+                calc(-1 * var(--sidebar-width))
+            );
     }
+
 
     .sidebar.show {
 
@@ -1638,21 +1745,27 @@ body.sidebar-collapsed .main-content {
             translateX(0);
     }
 
+
     .main-content {
 
         margin-left: 0;
     }
 
+
     body.sidebar-collapsed .sidebar {
 
         transform:
-            translateX(calc(-1 * var(--sidebar-width)));
+            translateX(
+                calc(-1 * var(--sidebar-width))
+            );
     }
+
 
     body.nav-open {
 
         overflow: hidden;
     }
+
 }
 
 
@@ -1708,7 +1821,8 @@ body.sidebar-collapsed .main-content {
 
         min-height: 220px;
 
-        padding: 25px 21px;
+        padding:
+            25px 21px;
     }
 
 
@@ -1773,6 +1887,7 @@ body.sidebar-collapsed .main-content {
 
         padding: 16px;
     }
+
 }
 
 
@@ -1800,6 +1915,7 @@ body.sidebar-collapsed .main-content {
 
         font-size: 16px;
     }
+
 }
 
 
@@ -1818,10 +1934,12 @@ body.sidebar-collapsed .main-content {
         transition: none !important;
     }
 
+
     html {
 
         scroll-behavior: auto;
     }
+
 }
 
 
@@ -1854,6 +1972,7 @@ body.sidebar-collapsed .main-content {
 
         break-inside: avoid;
     }
+
 }
 
 </style>
@@ -1877,7 +1996,7 @@ body.sidebar-collapsed .main-content {
 
     <!-- BRAND -->
 
-    <a href="#" class="brand">
+    <a href="{% url 'Home' %}" class="brand">
 
         <div class="brand-icon">
 
@@ -1908,6 +2027,26 @@ body.sidebar-collapsed .main-content {
         </p>
 
 
+        <!-- HOME -->
+
+        <div class="nav-item">
+
+            <a
+                href="{% url 'Home' %}"
+                class="nav-link"
+            >
+
+                <i class="fa-solid fa-house-chimney"></i>
+
+                <span>Home</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- DASHBOARD -->
+
         <div class="nav-item">
 
             <a
@@ -1925,6 +2064,8 @@ body.sidebar-collapsed .main-content {
         </div>
 
 
+        <!-- STUDENTS -->
+
         <div class="nav-item">
 
             <a
@@ -1940,6 +2081,8 @@ body.sidebar-collapsed .main-content {
 
         </div>
 
+
+        <!-- STAFF -->
 
         <div class="nav-item">
 
@@ -1957,6 +2100,8 @@ body.sidebar-collapsed .main-content {
         </div>
 
 
+        <!-- COLLEGES -->
+
         <div class="nav-item">
 
             <a
@@ -1972,6 +2117,8 @@ body.sidebar-collapsed .main-content {
 
         </div>
 
+
+        <!-- DEPARTMENTS -->
 
         <div class="nav-item">
 
@@ -1990,10 +2137,14 @@ body.sidebar-collapsed .main-content {
 
 
 
+        <!-- MANAGEMENT -->
+
         <p class="nav-heading">
             Management
         </p>
 
+
+        <!-- APPLICATIONS -->
 
         <div class="nav-item">
 
@@ -2011,6 +2162,8 @@ body.sidebar-collapsed .main-content {
         </div>
 
 
+        <!-- COURSES -->
+
         <div class="nav-item">
 
             <a
@@ -2027,34 +2180,39 @@ body.sidebar-collapsed .main-content {
         </div>
 
 
+        <!-- REPORTS -->
+
         <div class="nav-item">
 
             <a
-                href="#"
+                href="{% url 'admin_send_message' %}"
                 class="nav-link"
             >
 
-                <i class="fa-solid fa-chart-column"></i>
+               <i class="fas fa-envelope"></i>
 
-                <span>Reports</span>
+                <span>Send Message</span>
 
             </a>
 
         </div>
 
 
+        <!-- SETTINGS -->
+
         <div class="nav-item">
 
             <a
-                href="#"
+                href="{% url 'admin_staff_messages' %}"
                 class="nav-link"
             >
 
-                <i class="fa-solid fa-gear"></i>
+                <i class="fas fa-envelope"></i>
 
-                <span>Settings</span>
+                <span>Messages</span>
 
             </a>
+            
 
         </div>
 
@@ -2152,11 +2310,15 @@ body.sidebar-collapsed .main-content {
                 aria-label="Notifications"
             >
 
-                <i class="fa-regular fa-bell"></i>
 
-                <span class="notif-dot"></span>
+
+               <a href="{% url 'admin_staff_messages' %}">
+                   <i class="fa-regular fa-bell"></i>
+                    <span class="notif-dot"></span>
+               </a>
 
             </button>
+
 
 
             <div class="admin-profile">
@@ -2307,15 +2469,19 @@ body.sidebar-collapsed .main-content {
     const sidebar =
         document.getElementById("sidebar");
 
+
     const toggle =
         document.getElementById("sidebarToggle");
+
 
     const overlay =
         document.getElementById("overlay");
 
 
     const mobile = () =>
-        window.matchMedia("(max-width: 991px)").matches;
+        window.matchMedia(
+            "(max-width: 991px)"
+        ).matches;
 
 
 
@@ -2605,3 +2771,4 @@ body.sidebar-collapsed .main-content {
 </body>
 
 </html>
+

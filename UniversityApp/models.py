@@ -524,3 +524,101 @@ class AdmissionApplication(models.Model):
 
 
 
+
+
+from django.db import models
+from django.conf import settings
+
+
+class Notification(models.Model):
+    CATEGORY_CHOICES = [
+        ("STUDENT", "Student"),
+        ("COLLEGE", "College"),
+        ("STAFF", "Staff"),
+    ]
+
+    PRIORITY_CHOICES = [
+        ("NORMAL", "Normal"),
+        ("IMPORTANT", "Important"),
+        ("URGENT", "Urgent"),
+    ]
+
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="sent_notifications"
+    )
+
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES
+    )
+
+    subject = models.CharField(max_length=200)
+
+    message = models.TextField()
+
+    priority = models.CharField(
+        max_length=20,
+        choices=PRIORITY_CHOICES,
+        default="NORMAL"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.subject} - {self.category}"
+
+
+class Message(models.Model):
+    PRIORITY_CHOICES = [
+        ("NORMAL", "Normal"),
+        ("IMPORTANT", "Important"),
+        ("URGENT", "Urgent"),
+    ]
+
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="sent_messages"
+    )
+
+    receiver = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="received_messages"
+    )
+
+    notification = models.ForeignKey(
+        Notification,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="messages"
+    )
+
+    subject = models.CharField(max_length=200)
+
+    message = models.TextField()
+
+    priority = models.CharField(
+        max_length=20,
+        choices=PRIORITY_CHOICES,
+        default="NORMAL"
+    )
+
+    is_read = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    parent_message = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="replies"
+    )
+
+    def __str__(self):
+        return self.subject
+

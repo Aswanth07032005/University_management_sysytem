@@ -788,3 +788,194 @@ def VerifyAllApplicationsView(request):
                 True,
         }
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+from .models import Message
+
+
+@login_required
+def staff_messages(request):
+
+    messages_list = Message.objects.filter(
+        receiver=request.user
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "staff/messages.html",
+        {
+            "messages_list": messages_list
+        }
+    )
+
+
+
+
+
+
+
+
+
+
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
+from .models import Message
+
+
+@login_required
+def staff_send_message(request):
+
+    if not request.user.is_university_staff:
+        messages.error(
+            request,
+            "You are not authorized to send messages to the admin."
+        )
+        return redirect("staff_dashboard")
+
+    if request.method == "POST":
+
+        subject = request.POST.get("subject")
+        message_text = request.POST.get("message")
+        priority = request.POST.get("priority", "NORMAL")
+
+        if not subject or not message_text:
+
+            messages.error(
+                request,
+                "Please fill in all required fields."
+            )
+
+            return render(
+                request,
+                "staff/send_message.html"
+            )
+
+        admin_user = request.user.__class__.objects.filter(
+            is_superuser=True,
+            is_active=True
+        ).first()
+
+        if not admin_user:
+
+            messages.error(
+                request,
+                "Admin account was not found."
+            )
+
+            return render(
+                request,
+                "staff/send_message.html"
+            )
+
+        Message.objects.create(
+            sender=request.user,
+            receiver=admin_user,
+            subject=subject,
+            message=message_text,
+            priority=priority
+        )
+
+        messages.success(
+            request,
+            "Your message has been sent to the administrator successfully."
+        )
+
+        return redirect("staff_send_message")
+
+    return render(
+        request,
+        "staff/send_message.html"
+    )
+
+
+
+
+
+
+
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .models import Message
+
+
+@login_required
+def staff_college_messages(request):
+
+    if not request.user.is_university_staff:
+        return redirect("login_p")
+
+    # College അയച്ച messages മാത്രം
+    college_messages = Message.objects.filter(
+        receiver=request.user,
+        sender__is_college=True
+    ).select_related(
+        "sender"
+    ).order_by("-created_at")
+
+
+    if request.method == "POST":
+
+        message_id = request.POST.get("message_id")
+        reply_text = request.POST.get("message", "").strip()
+
+        original_message = get_object_or_404(
+            Message,
+            id=message_id,
+            receiver=request.user,
+            sender__is_college=True
+        )
+
+        if not reply_text:
+
+            messages.error(
+                request,
+                "Please enter a reply message."
+            )
+
+            return redirect("staff_college_messages")
+
+
+        # Reply ONLY to the college that sent the message
+        Message.objects.create(
+            sender=request.user,
+            receiver=original_message.sender,
+            subject=f"Re: {original_message.subject}",
+            message=reply_text
+        )
+
+        messages.success(
+            request,
+            "Reply sent successfully to the college."
+        )
+
+        return redirect("staff_college_messages")
+
+
+    return render(
+        request,
+        "staff/college_messages.html",
+        {
+            "college_messages": college_messages
+        }
+    )

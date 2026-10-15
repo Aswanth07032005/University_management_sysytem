@@ -1,0 +1,822 @@
+{% extends "staff/staff_dashboard.html" %}
+
+{% block title %}
+Messages | MM-Technical University
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    .messages-page {
+        padding: 10px 0 30px;
+    }
+
+
+    /* =========================
+       PAGE HEADER
+    ========================== */
+
+    .messages-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+
+    .messages-title {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+
+    .messages-icon {
+        width: 50px;
+        height: 50px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #e8f1fb;
+        color: #0756a5;
+
+        border-radius: 13px;
+
+        font-size: 20px;
+    }
+
+
+    .messages-title h2 {
+        margin: 0;
+
+        color: #062d59;
+
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+
+    .messages-title p {
+        margin: 4px 0 0;
+
+        color: #6b7280;
+
+        font-size: 13px;
+    }
+
+
+    /* =========================
+       BACK BUTTON
+    ========================== */
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        padding: 10px 16px;
+
+        background: #0756a5;
+        color: #ffffff;
+
+        border-radius: 8px;
+
+        text-decoration: none;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        transition: 0.25s ease;
+    }
+
+
+    .back-button:hover {
+        background: #043f7d;
+        color: #ffffff;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =========================
+       SUMMARY
+    ========================== */
+
+    .summary-card {
+        background: #ffffff;
+
+        border: 1px solid #e3eaf2;
+
+        border-radius: 13px;
+
+        padding: 16px 20px;
+
+        margin-bottom: 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        box-shadow:
+            0 3px 14px rgba(15, 45, 75, 0.05);
+    }
+
+
+    .summary-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        color: #475467;
+
+        font-size: 14px;
+    }
+
+
+    .summary-left i {
+        color: #0756a5;
+    }
+
+
+    .message-count {
+        min-width: 32px;
+        height: 29px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 9px;
+
+        background: #e8f1fb;
+        color: #0756a5;
+
+        border-radius: 20px;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    /* =========================
+       MESSAGE CARD
+    ========================== */
+
+    .message-card {
+        background: #ffffff;
+
+        border: 1px solid #e3eaf2;
+
+        border-radius: 13px;
+
+        margin-bottom: 13px;
+
+        overflow: hidden;
+
+        box-shadow:
+            0 3px 15px rgba(15, 45, 75, 0.05);
+
+        transition: 0.25s ease;
+    }
+
+
+    .message-card:hover {
+        box-shadow:
+            0 6px 20px rgba(15, 45, 75, 0.08);
+    }
+
+
+    .message-card.unread {
+        border-left: 4px solid #0756a5;
+    }
+
+
+    .message-content {
+        padding: 18px 20px;
+    }
+
+
+    /* =========================
+       MESSAGE ROW
+    ========================== */
+
+    .message-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+    }
+
+
+    .message-info {
+        min-width: 0;
+        flex: 1;
+    }
+
+
+    /* =========================
+       MESSAGE TITLE
+    ========================== */
+
+    .message-title-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        gap: 8px;
+    }
+
+
+    .message-title {
+        margin: 0;
+
+        color: #062d59;
+
+        font-size: 16px;
+        font-weight: 700;
+
+        word-break: break-word;
+    }
+
+
+    /* =========================
+       PRIORITY
+    ========================== */
+
+    .priority-badge {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 4px 8px;
+
+        border-radius: 20px;
+
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+
+    .priority-normal {
+        background: #edf2f7;
+        color: #475569;
+    }
+
+
+    .priority-important {
+        background: #fff4d6;
+        color: #9a6700;
+    }
+
+
+    .priority-urgent {
+        background: #ffe4e4;
+        color: #b42318;
+    }
+
+
+    /* =========================
+       NEW LABEL
+    ========================== */
+
+    .unread-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        padding: 4px 8px;
+
+        background: #e8f1fb;
+        color: #0756a5;
+
+        border-radius: 20px;
+
+        font-size: 9px;
+        font-weight: 700;
+
+        text-transform: uppercase;
+    }
+
+
+    .unread-dot {
+        width: 6px;
+        height: 6px;
+
+        background: #0756a5;
+
+        border-radius: 50%;
+    }
+
+
+    /* =========================
+       DATE
+    ========================== */
+
+    .message-date {
+        margin-top: 7px;
+
+        color: #8a96a3;
+
+        font-size: 11px;
+    }
+
+
+    .message-date i {
+        color: #0756a5;
+
+        margin-right: 4px;
+    }
+
+
+    /* =========================
+       VIEW MESSAGE BUTTON
+    ========================== */
+
+    .view-message-btn {
+        flex-shrink: 0;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        padding: 8px 13px;
+
+        background: #ffffff;
+
+        border: 1px solid #d7e1eb;
+
+        color: #0756a5;
+
+        border-radius: 8px;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        transition: 0.25s ease;
+    }
+
+
+    .view-message-btn:hover {
+        background: #edf5fd;
+
+        border-color: #0756a5;
+
+        color: #0756a5;
+    }
+
+
+    .view-message-btn:focus {
+        box-shadow: none;
+    }
+
+
+    /* =========================
+       FULL MESSAGE
+    ========================== */
+
+    .full-message {
+        margin-top: 17px;
+
+        padding: 18px;
+
+        background: #f7faff;
+
+        border: 1px solid #dce9f6;
+
+        border-radius: 10px;
+    }
+
+
+    .full-message-title {
+        margin-bottom: 9px;
+
+        color: #0756a5;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    .full-message-text {
+        margin: 0;
+
+        color: #475467;
+
+        font-size: 13px;
+
+        line-height: 1.8;
+
+        white-space: pre-line;
+
+        word-break: break-word;
+    }
+
+
+    /* =========================
+       EMPTY STATE
+    ========================== */
+
+    .empty-state {
+        background: #ffffff;
+
+        border: 1px solid #e3eaf2;
+
+        border-radius: 14px;
+
+        padding: 60px 20px;
+
+        text-align: center;
+
+        box-shadow:
+            0 3px 15px rgba(15, 45, 75, 0.04);
+    }
+
+
+    .empty-icon {
+        width: 70px;
+        height: 70px;
+
+        margin: 0 auto 15px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #edf5fd;
+        color: #0756a5;
+
+        border-radius: 50%;
+
+        font-size: 25px;
+    }
+
+
+    .empty-state h3 {
+        margin-bottom: 7px;
+
+        color: #062d59;
+
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+
+    .empty-state p {
+        margin: 0;
+
+        color: #7a8795;
+
+        font-size: 13px;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 768px) {
+
+        .messages-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+
+        .back-button {
+            width: 100%;
+            justify-content: center;
+        }
+
+
+        .message-row {
+            align-items: flex-start;
+
+            flex-direction: column;
+        }
+
+
+        .view-message-btn {
+            width: 100%;
+
+            justify-content: center;
+        }
+
+    }
+
+
+    @media (max-width: 480px) {
+
+        .messages-title h2 {
+            font-size: 22px;
+        }
+
+
+        .message-content {
+            padding: 16px;
+        }
+
+    }
+
+</style>
+
+
+
+<div class="messages-page">
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================== -->
+
+    <div class="messages-header">
+
+
+        <div class="messages-title">
+
+
+            <div class="messages-icon">
+
+                <i class="fas fa-envelope"></i>
+
+            </div>
+
+
+            <div>
+
+                <h2>
+                    Messages
+                </h2>
+
+                <p>
+                    Messages from the university administration
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- BACK TO DASHBOARD -->
+
+
+
+
+    </div>
+
+
+
+    <!-- =========================
+         MESSAGE COUNT
+    ========================== -->
+
+    <div class="summary-card">
+
+
+        <div class="summary-left">
+
+            <i class="fas fa-inbox"></i>
+
+            <span>
+                Total messages received
+            </span>
+
+        </div>
+
+
+        <span class="message-count">
+            {{ messages_list|length }}
+        </span>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         MESSAGE LIST
+    ========================== -->
+
+    {% if messages_list %}
+
+
+        {% for msg in messages_list %}
+
+
+            <div
+                class="message-card {% if not msg.is_read %}unread{% endif %}"
+            >
+
+
+                <div class="message-content">
+
+
+                    <!-- =========================
+                         TITLE + BUTTON
+                    ========================== -->
+
+                    <div class="message-row">
+
+
+                        <div class="message-info">
+
+
+                            <div class="message-title-row">
+
+
+                                <!-- MESSAGE TITLE -->
+
+                                <h3 class="message-title">
+                                    {{ msg.subject }}
+                                </h3>
+
+
+                                <!-- PRIORITY -->
+
+                                {% if msg.priority == "URGENT" %}
+
+                                    <span class="priority-badge priority-urgent">
+
+                                        <i class="fas fa-circle-exclamation me-1"></i>
+
+                                        Urgent
+
+                                    </span>
+
+
+                                {% elif msg.priority == "IMPORTANT" %}
+
+                                    <span class="priority-badge priority-important">
+
+                                        <i class="fas fa-star me-1"></i>
+
+                                        Important
+
+                                    </span>
+
+
+                                {% else %}
+
+                                    <span class="priority-badge priority-normal">
+
+                                        <i class="fas fa-circle-info me-1"></i>
+
+                                        Normal
+
+                                    </span>
+
+                                {% endif %}
+
+
+                                <!-- NEW -->
+
+                                {% if not msg.is_read %}
+
+                                    <span class="unread-label">
+
+                                        <span class="unread-dot"></span>
+
+                                        New
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+
+                            <!-- DATE -->
+
+                            <div class="message-date">
+
+                                <i class="fas fa-calendar"></i>
+
+                                {{ msg.created_at|date:"d M Y, h:i A" }}
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- =========================
+                             ONE VIEW MESSAGE BUTTON
+                        ========================== -->
+
+                        <button
+                            class="btn view-message-btn"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#message{{ msg.id }}"
+                            aria-expanded="false"
+                            aria-controls="message{{ msg.id }}"
+                        >
+
+                            <i class="fas fa-eye"></i>
+
+                            View Message
+
+                        </button>
+
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         FULL MESSAGE
+                         HIDDEN INITIALLY
+                    ========================== -->
+
+                    <div
+                        class="collapse"
+                        id="message{{ msg.id }}"
+                    >
+
+
+                        <div class="full-message">
+
+
+                            <div class="full-message-title">
+
+                                <i class="fas fa-message me-2"></i>
+
+                                Message
+
+                            </div>
+
+
+                            <p class="full-message-text">
+                                {{ msg.message }}
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <!-- =========================
+             EMPTY STATE
+        ========================== -->
+
+        <div class="empty-state">
+
+
+            <div class="empty-icon">
+
+                <i class="fas fa-envelope-open"></i>
+
+            </div>
+
+
+            <h3>
+                No Messages
+            </h3>
+
+
+            <p>
+                You don't have any messages from the university administration yet.
+            </p>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+{% endblock %}

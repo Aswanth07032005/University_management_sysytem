@@ -326,3 +326,172 @@ def admin_courses(request):
         'admin/admin_courses.html',
         context
     )
+
+
+
+
+
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
+from .models import Notification, Message
+from UniversityApp.models import Register
+
+
+@login_required
+def admin_send_message(request):
+
+    # Admin മാത്രം access ചെയ്യാൻ
+    if not request.user.is_superuser:
+        messages.error(request, "You are not authorized to access this page.")
+        return redirect("home")
+
+    if request.method == "POST":
+
+        category = request.POST.get("category")
+        subject = request.POST.get("subject")
+        message_text = request.POST.get("message")
+        priority = request.POST.get("priority", "NORMAL")
+
+        # Validation
+        if not category or not subject or not message_text:
+            messages.error(
+                request,
+                "Please fill in all required fields."
+            )
+            return render(
+                request,
+                "admin/send_message.html"
+            )
+
+        # Selected category users
+        if category == "STUDENT":
+            receivers = Register.objects.filter(
+                is_student=True,
+                is_active=True
+            )
+
+        elif category == "COLLEGE":
+            receivers = Register.objects.filter(
+                is_college=True,
+                is_active=True
+            )
+
+        elif category == "STAFF":
+            receivers = Register.objects.filter(
+                is_university_staff=True,
+                is_active=True
+            )
+
+        else:
+            messages.error(request, "Invalid recipient category.")
+            return render(
+                request,
+                "admin/send_message.html"
+            )
+
+        # Create common notification
+        notification = Notification.objects.create(
+            sender=request.user,
+            category=category,
+            subject=subject,
+            message=message_text,
+            priority=priority
+        )
+
+        # Create individual message for each receiver
+        for receiver in receivers:
+
+            Message.objects.create(
+                sender=request.user,
+                receiver=receiver,
+                notification=notification,
+                subject=subject,
+                message=message_text,
+                priority=priority
+            )
+
+        messages.success(
+            request,
+            f"Message sent successfully to {receivers.count()} {category.lower()} users."
+        )
+
+        return redirect("admin_send_message")
+
+    return render(
+        request,
+        "admin/send_message.html"
+    )
+
+
+
+
+
+
+def admin_staff_messages(request):
+    messages = Message.objects.filter(
+        sender__is_university_staff=True
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "admin/staff_messages.html",
+        {
+            "messages": messages
+        }
+    )
+
+
+
+
+
+def admin_staff_messages(request):
+    messages_list = Message.objects.filter(
+        sender__is_university_staff=True
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "admin/staff_messages.html",
+        {
+            "messages": messages_list
+        }
+    )
+
+
+def admin_reply_staff(request, message_id):
+
+    original_message = get_object_or_404(
+        Message,
+        id=message_id,
+        sender__is_university_staff=True
+    )
+
+    if request.method == "POST":
+
+        reply_text = request.POST.get("message", "").strip()
+
+        if reply_text:
+
+            Message.objects.create(
+                sender=request.user,
+                receiver=original_message.sender,
+                subject=f"Re: {original_message.subject}",
+                message=reply_text
+            )
+
+            messages.success(
+                request,
+                "Reply sent successfully to the staff member."
+            )
+
+        else:
+
+            messages.error(
+                request,
+                "Please enter a message."
+            )
+
+    return redirect("admin_staff_messages")

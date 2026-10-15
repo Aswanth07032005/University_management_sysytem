@@ -1,0 +1,241 @@
+{% extends "staff/staff_dashboard.html" %}
+
+{% block title %}
+Send Message | MM-Technical University
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .send-message-page {
+        padding: 10px 0 30px;
+    }
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .page-header h2 {
+        margin: 0;
+        color: #062d59;
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        margin: 5px 0 0;
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+    .message-card {
+        max-width: 850px;
+        background: #ffffff;
+        border: 1px solid #e3eaf2;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 4px 18px rgba(15, 45, 75, 0.05);
+    }
+
+    .form-label {
+        color: #344054;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .form-control,
+    .form-select {
+        border: 1px solid #d7e1eb;
+        border-radius: 8px;
+        padding: 11px 13px;
+        font-size: 13px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #0756a5;
+        box-shadow: 0 0 0 3px rgba(7, 86, 165, 0.08);
+    }
+
+    textarea.form-control {
+        min-height: 160px;
+        resize: vertical;
+    }
+
+    .send-btn {
+        background: #0756a5;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        padding: 11px 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .send-btn:hover {
+        background: #043f7d;
+        color: #ffffff;
+    }
+
+    .admin-info {
+        background: #f7faff;
+        border: 1px solid #dce9f6;
+        border-radius: 10px;
+        padding: 13px 15px;
+        margin-bottom: 22px;
+        color: #475467;
+        font-size: 13px;
+    }
+
+    .admin-info i {
+        color: #0756a5;
+        margin-right: 7px;
+    }
+
+</style>
+
+
+<div class="send-message-page">
+
+    <div class="page-header">
+
+        <h2>
+            Send Message
+        </h2>
+
+        <p>
+            Send a message directly to the university administration
+        </p>
+
+    </div>
+
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                 role="alert">
+
+                {{ message }}
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+                </button>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <div class="message-card">
+
+        <div class="admin-info">
+
+            <i class="fas fa-user-shield"></i>
+
+            Your message will be sent directly to the
+            <strong>University Administrator</strong>.
+
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- SUBJECT -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Subject
+                </label>
+
+                <input
+                    type="text"
+                    name="subject"
+                    class="form-control"
+                    placeholder="Enter message subject"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PRIORITY -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Priority
+                </label>
+
+                <select
+                    name="priority"
+                    class="form-select"
+                >
+
+                    <option value="NORMAL">
+                        Normal
+                    </option>
+
+                    <option value="IMPORTANT">
+                        Important
+                    </option>
+
+                    <option value="URGENT">
+                        Urgent
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Message
+                </label>
+
+                <textarea
+                    name="message"
+                    class="form-control"
+                    placeholder="Write your message to the administrator..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- SEND -->
+
+            <button
+                type="submit"
+                class="btn send-btn"
+            >
+
+                <i class="fas fa-paper-plane me-2"></i>
+
+                Send to Admin
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

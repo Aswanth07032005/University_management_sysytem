@@ -25,15 +25,11 @@ urlpatterns = [
     path("department_delete/<int:id>/", admin_view.DepartmentDeleteView, name="department_delete"),
     path("admin_student_list/",admin_view.StudentListView,name="admin_student_list",),
     path("university-details/",admin_view.university_details_view,name="university_details"),
-   path("applications/view/",admin_view.admin_application_view,name="admin_application_view"),
-path(
-    'admin-courses/',
-    admin_view.admin_courses,
-    name='admin_courses'
-),
-
-
-
+    path("applications/view/",admin_view.admin_application_view,name="admin_application_view"),
+    path('admin-courses/',admin_view.admin_courses,name='admin_courses'),
+    path("admin-send-message/",admin_view.admin_send_message,name="admin_send_message"),
+    path("staff-messages/",admin_view.admin_staff_messages,name="admin_staff_messages"),
+    path("staff-messages/reply/<int:message_id>/",admin_view.admin_reply_staff,name="admin_reply_staff"),
 
 
 
@@ -54,6 +50,9 @@ path(
     path("courses-by-college/",student_views.CoursesByCollegeView,name="courses_by_college"),
     path("admission-status/",student_views.AdmissionStatusView,name="admission_status"),
     path("student/admission-slip/<int:application_id>/", student_views.AdmissionSlipDownloadView, name="admission_slip" ),
+    path("student/messages/",student_views.student_messages,name="student_messages"),
+
+
 
 
 
@@ -70,7 +69,13 @@ path(
     path("staff/student_delete/<int:id>/",uni_staff_views.StudentDeleteView,name="staff_student_delete",),
     path("staff/applications/",uni_staff_views.StaffApplicationsView,name="staff_applications"),
     path("staff/verify-all/",uni_staff_views.VerifyAllApplicationsView,name="verify_all_applications"),
-
+    path("staff/messages/",uni_staff_views.staff_messages,name="staff_messages"),
+    path("staff/send-message/",uni_staff_views.staff_send_message,name="staff_send_message",),
+path(
+    "staff/college-messages/",
+    uni_staff_views.staff_college_messages,
+    name="staff_college_messages"
+),
 
 
 
@@ -89,6 +94,10 @@ path(
     path("college/approved-applications/",college_views.CollegeApprovedApplicationsView,name="college_approved_applications"),
     path("admission-register/<int:application_id>/",college_views.CollegeAdmissionRegisterView,name="admission_register"),
     path("registered-students/",college_views.CollegeRegisteredStudentsView,name="college_registered_students"),
+    path("college/details/",college_views.college_details,name="college_details"),
+    path("college/messages/",college_views.college_messages,name="college_messages"),
+    path("college/send-message/",college_views.college_send_message,name="college_send_message"),
+
 
 
 

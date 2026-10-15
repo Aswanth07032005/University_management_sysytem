@@ -932,3 +932,193 @@ def CollegeRegisteredStudentsView(request):
         "college/registered_students.html",
         context
     )
+
+
+
+
+
+
+from django.shortcuts import render
+
+from .models import (
+    College,
+    Course,
+    AdmissionApplication,
+)
+
+
+def college_details(request):
+
+    # Logged-in college
+    college = request.user.college
+
+    # -----------------------------------------
+    # COURSES
+    # -----------------------------------------
+
+    total_courses = Course.objects.filter(
+        college=college
+    ).count()
+
+    # -----------------------------------------
+    # DEPARTMENTS
+    # Department has no direct college field.
+    # College -> Course -> Department
+    # -----------------------------------------
+
+    total_departments = Course.objects.filter(
+        college=college
+    ).values(
+        "department"
+    ).distinct().count()
+
+    # -----------------------------------------
+    # STUDENTS
+    # Students are connected through
+    # AdmissionApplication.college
+    # -----------------------------------------
+
+    total_students = AdmissionApplication.objects.filter(
+        college=college
+    ).values(
+        "student"
+    ).distinct().count()
+
+    # -----------------------------------------
+    # APPLICATIONS
+    # -----------------------------------------
+
+    total_applications = AdmissionApplication.objects.filter(
+        college=college
+    ).count()
+
+    # -----------------------------------------
+    # APPROVED APPLICATIONS
+    # -----------------------------------------
+
+    approved_applications = AdmissionApplication.objects.filter(
+        college=college,
+        status="Approved"
+    ).count()
+
+    # -----------------------------------------
+    # PENDING APPLICATIONS
+    # -----------------------------------------
+
+    pending_applications = AdmissionApplication.objects.filter(
+        college=college,
+        status="Pending"
+    ).count()
+
+    # -----------------------------------------
+    # CONTEXT
+    # -----------------------------------------
+
+    context = {
+        "college": college,
+
+        "total_courses": total_courses,
+        "total_departments": total_departments,
+        "total_students": total_students,
+
+        "total_applications": total_applications,
+        "approved_applications": approved_applications,
+        "pending_applications": pending_applications,
+    }
+
+    return render(
+        request,
+        "college/college_details.html",
+        context
+    )
+
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+from .models import Message
+
+
+@login_required
+def college_messages(request):
+
+    messages_list = Message.objects.filter(
+        receiver=request.user
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "college/messages.html",
+        {
+            "messages_list": messages_list
+        }
+    )
+
+
+
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
+from .models import Message, Register
+
+
+@login_required
+def college_send_message(request):
+
+    if not request.user.is_college:
+        return redirect("login_p")
+
+    staff_list = Register.objects.filter(
+        is_university_staff=True,
+        is_active=True
+    )
+
+    if request.method == "POST":
+
+        subject = request.POST.get("subject", "").strip()
+        message_text = request.POST.get("message", "").strip()
+
+        if not subject:
+            messages.error(request, "Please enter a subject.")
+            return render(
+                request,
+                "college/send_message.html",
+                {"staff_list": staff_list}
+            )
+
+        if not message_text:
+            messages.error(request, "Please enter a message.")
+            return render(
+                request,
+                "college/send_message.html",
+                {"staff_list": staff_list}
+            )
+
+        # Send message to ALL university staff
+        for staff in staff_list:
+
+            Message.objects.create(
+                sender=request.user,
+                receiver=staff,
+                subject=subject,
+                message=message_text
+            )
+
+        messages.success(
+            request,
+            "Message sent successfully to all university staff."
+        )
+
+        return redirect("college_send_message")
+
+    return render(
+        request,
+        "college/send_message.html",
+        {
+            "staff_list": staff_list
+        }
+    )

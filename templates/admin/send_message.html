@@ -1,0 +1,1106 @@
+
+{% extends "admin/admin_dashboard.html" %}
+
+{% block title %}Send Message | MM-Technical University{% endblock %}
+
+{% block content %}
+
+<div class="send-message-page">
+
+    <!-- Page Header -->
+    <div class="page-header">
+
+        <div>
+            <div class="page-label">
+                <i class="fas fa-envelope"></i>
+                Communication
+            </div>
+
+            <h2>Send Message</h2>
+
+            <p>
+                Send notifications to students, colleges, or university staff.
+            </p>
+        </div>
+
+
+
+    </div>
+
+
+    <!-- Django Messages -->
+    {% if messages %}
+        {% for message in messages %}
+
+            <div class="system-alert">
+
+                <i class="fas fa-circle-info"></i>
+
+                <span>{{ message }}</span>
+
+                <button
+                    type="button"
+                    class="alert-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                >
+                    <i class="fas fa-times"></i>
+                </button>
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+    <!-- Main Card -->
+    <div class="message-card">
+
+        <!-- Card Header -->
+        <div class="card-header-custom">
+
+            <div class="header-icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+
+            <div>
+                <h3>Compose Message</h3>
+
+                <p>
+                    Enter the notification details below.
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- Card Body -->
+        <div class="card-body-custom">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- Recipient -->
+                <div class="form-group">
+
+                    <label for="category">
+                        Recipient
+                        <span>*</span>
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fas fa-users"></i>
+
+                        <select
+                            name="category"
+                            id="category"
+                            required
+                        >
+                            <option value="" selected disabled>
+                                Select recipient
+                            </option>
+
+                            <option value="STUDENT">
+                                Students
+                            </option>
+
+                            <option value="COLLEGE">
+                                Colleges
+                            </option>
+
+                            <option value="STAFF">
+                                University Staff
+                            </option>
+
+                        </select>
+
+                        <i class="fas fa-chevron-down arrow"></i>
+
+                    </div>
+
+                    <small>
+                        Select the category of users who should receive this message.
+                    </small>
+
+                </div>
+
+
+                <!-- Recipient Information -->
+                <div
+                    class="recipient-info"
+                    id="recipientInfo"
+                >
+
+                    <div class="info-icon">
+                        <i class="fas fa-info"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Recipient Information
+                        </strong>
+
+                        <p>
+                            Select a recipient category to continue.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Priority + Subject -->
+                <div class="form-row">
+
+
+                    <!-- Priority -->
+                    <div class="form-group">
+
+                        <label for="priority">
+                            Priority
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fas fa-flag"></i>
+
+                            <select
+                                name="priority"
+                                id="priority"
+                            >
+
+                                <option value="NORMAL">
+                                    Normal
+                                </option>
+
+                                <option value="IMPORTANT">
+                                    Important
+                                </option>
+
+                                <option value="URGENT">
+                                    Urgent
+                                </option>
+
+                            </select>
+
+                            <i class="fas fa-chevron-down arrow"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Subject -->
+                    <div class="form-group">
+
+                        <label for="subject">
+                            Subject
+                            <span>*</span>
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fas fa-heading"></i>
+
+                            <input
+                                type="text"
+                                name="subject"
+                                id="subject"
+                                placeholder="Message subject"
+                                maxlength="200"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Message -->
+                <div class="form-group">
+
+                    <div class="message-label">
+
+                        <label for="message">
+                            Message
+                            <span>*</span>
+                        </label>
+
+                        <small id="characterCount">
+                            0 characters
+                        </small>
+
+                    </div>
+
+                    <textarea
+                        name="message"
+                        id="message"
+                        rows="5"
+                        placeholder="Write your message here..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Information -->
+                <div class="bottom-info">
+
+                    <div>
+
+                        <i class="fas fa-shield-halved"></i>
+
+                        <span>
+                            Message will be delivered through the university portal.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Buttons -->
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'admin_d' %}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="send-btn"
+                    >
+
+                        <i class="fas fa-paper-plane"></i>
+
+                        Send Message
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+/* =========================================================
+   MAIN PAGE
+========================================================= */
+
+.send-message-page {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 5px 10px 35px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.page-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+
+    color: #0d6efd;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.page-header h2 {
+    margin: 0;
+
+    color: #111827 !important;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.page-header p {
+    margin: 3px 0 0;
+
+    color: #374151 !important;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   DASHBOARD BUTTON
+========================================================= */
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 8px 12px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #111827 !important;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition: .2s;
+}
+
+.back-btn:hover {
+    color: #0d6efd !important;
+
+    border-color: #0d6efd;
+
+    background: #f7fbff;
+}
+
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+.system-alert {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 15px;
+
+    padding: 9px 12px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #111827 !important;
+
+    font-size: 10px;
+}
+
+.system-alert > i {
+    color: #0d6efd;
+}
+
+.alert-close {
+    margin-left: auto;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #374151;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.message-card {
+    overflow: hidden;
+
+    border: 1px solid #d7dee7;
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 5px 18px rgba(3, 40, 70, .06);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.card-header-custom {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    background: #fbfdff;
+}
+
+.header-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #edf5fb;
+
+    color: #0b5ed7;
+
+    font-size: 13px;
+}
+
+.card-header-custom h3 {
+    margin: 0 0 2px;
+
+    color: #111827 !important;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.card-header-custom p {
+    margin: 0;
+
+    color: #374151 !important;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   CARD BODY
+========================================================= */
+
+.card-body-custom {
+    padding: 20px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #111827 !important;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.form-group label span {
+    color: #dc3545;
+}
+
+
+/* =========================================================
+   INPUT BOX
+========================================================= */
+
+.input-box {
+    position: relative;
+}
+
+.input-box > i:first-child {
+    position: absolute;
+
+    left: 11px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #374151 !important;
+
+    font-size: 10px;
+
+    z-index: 2;
+}
+
+.input-box input,
+.input-box select {
+    width: 100%;
+    height: 38px;
+
+    padding: 8px 30px 8px 31px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #111827 !important;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 10px;
+
+    transition: .2s;
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    border-color: #0d6efd;
+
+    background: #ffffff;
+
+    color: #111827 !important;
+
+    box-shadow:
+        0 0 0 2px rgba(13, 110, 253, .08);
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.input-box input::placeholder {
+    color: #4b5563 !important;
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   SELECT OPTIONS
+========================================================= */
+
+.input-box select option {
+    color: #111827;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   DROPDOWN ARROW
+========================================================= */
+
+.input-box .arrow {
+    position: absolute;
+
+    right: 11px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #374151 !important;
+
+    font-size: 8px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SMALL HELP TEXT
+========================================================= */
+
+.form-group > small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #374151 !important;
+
+    font-size: 8.5px;
+}
+
+
+/* =========================================================
+   RECIPIENT INFO
+========================================================= */
+
+.recipient-info {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 15px;
+
+    padding: 9px 11px;
+
+    border: 1px solid #d5e1ec;
+    border-radius: 7px;
+
+    background: #f7fbff;
+}
+
+.info-icon {
+    width: 25px;
+    height: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 25px;
+
+    border-radius: 6px;
+
+    background: #e7f1ff;
+
+    color: #0d6efd;
+
+    font-size: 9px;
+}
+
+.recipient-info strong {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: #111827 !important;
+
+    font-size: 9.5px;
+}
+
+.recipient-info p {
+    margin: 0;
+
+    color: #374151 !important;
+
+    font-size: 8.5px;
+}
+
+
+/* =========================================================
+   PRIORITY + SUBJECT
+========================================================= */
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 180px 1fr;
+
+    gap: 15px;
+}
+
+
+/* =========================================================
+   MESSAGE LABEL
+========================================================= */
+
+.message-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.message-label label {
+    margin-bottom: 5px;
+}
+
+#characterCount {
+    color: #374151 !important;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+textarea {
+    width: 100%;
+    min-height: 110px;
+
+    padding: 10px 11px;
+
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #111827 !important;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    transition: .2s;
+}
+
+textarea:focus {
+    border-color: #0d6efd;
+
+    background: #ffffff;
+
+    color: #111827 !important;
+
+    box-shadow:
+        0 0 0 2px rgba(13, 110, 253, .08);
+}
+
+textarea::placeholder {
+    color: #4b5563 !important;
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   BOTTOM INFORMATION
+========================================================= */
+
+.bottom-info {
+    padding: 8px 10px;
+
+    margin-bottom: 17px;
+
+    border-radius: 6px;
+
+    background: #f8fafc;
+
+    color: #374151 !important;
+
+    font-size: 8.5px;
+}
+
+.bottom-info div {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+.bottom-info i {
+    color: #0d6efd;
+}
+
+
+/* =========================================================
+   FORM BUTTONS
+========================================================= */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 7px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.cancel-btn,
+.send-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 35px;
+
+    padding: 7px 14px;
+
+    border-radius: 6px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 9.5px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+
+/* Cancel */
+
+.cancel-btn {
+    border: 1px solid #cbd5e1;
+
+    background: #ffffff;
+
+    color: #111827 !important;
+}
+
+.cancel-btn:hover {
+    background: #f8fafc;
+
+    color: #111827 !important;
+}
+
+
+/* Send */
+
+.send-btn {
+    border: 1px solid #06345f;
+
+    background: #06345f;
+
+    color: #ffffff;
+
+    cursor: pointer;
+}
+
+.send-btn:hover {
+    border-color: #0b5ed7;
+
+    background: #0b5ed7;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .send-message-page {
+        max-width: 100%;
+
+        padding: 5px 0 25px;
+    }
+
+    .page-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .back-btn {
+        width: auto;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+    .card-body-custom {
+        padding: 16px;
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .page-header h2 {
+        font-size: 20px;
+    }
+
+    .card-header-custom {
+        padding: 13px 14px;
+    }
+
+    .card-body-custom {
+        padding: 14px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .cancel-btn,
+    .send-btn {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   FORCE TEXT VISIBILITY
+========================================================= */
+
+.send-message-page,
+.send-message-page * {
+    text-shadow: none;
+}
+
+.send-message-page input,
+.send-message-page select,
+.send-message-page textarea {
+    -webkit-text-fill-color: #111827 !important;
+}
+
+</style>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const category =
+        document.getElementById("category");
+
+    const recipientInfo =
+        document.getElementById("recipientInfo");
+
+    const message =
+        document.getElementById("message");
+
+    const characterCount =
+        document.getElementById("characterCount");
+
+
+    /* =====================================================
+       RECIPIENT PREVIEW
+    ===================================================== */
+
+    category.addEventListener("change", function () {
+
+        let title = "";
+        let description = "";
+        let icon = "fa-users";
+
+
+        if (this.value === "STUDENT") {
+
+            title = "Students Selected";
+
+            description =
+                "Message will be delivered to all active students.";
+
+            icon = "fa-user-graduate";
+
+        }
+
+
+        else if (this.value === "COLLEGE") {
+
+            title = "Colleges Selected";
+
+            description =
+                "Message will be delivered to all active colleges.";
+
+            icon = "fa-building-columns";
+
+        }
+
+
+        else if (this.value === "STAFF") {
+
+            title = "University Staff Selected";
+
+            description =
+                "Message will be delivered to all active university staff.";
+
+            icon = "fa-user-tie";
+
+        }
+
+
+        recipientInfo.innerHTML = `
+
+            <div class="info-icon">
+
+                <i class="fas ${icon}"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    ${title}
+                </strong>
+
+                <p>
+                    ${description}
+                </p>
+
+            </div>
+
+        `;
+
+    });
+
+
+    /* =====================================================
+       CHARACTER COUNT
+    ===================================================== */
+
+    function updateCharacterCount() {
+
+        const count =
+            message.value.length;
+
+        characterCount.textContent =
+            count +
+            (count === 1
+                ? " character"
+                : " characters");
+
+    }
+
+
+    message.addEventListener(
+        "input",
+        updateCharacterCount
+    );
+
+    updateCharacterCount();
+
+});
+
+</script>
+
+{% endblock %}

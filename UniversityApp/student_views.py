@@ -295,33 +295,134 @@ def admission_apply(request):
         }
     )
 
+#
+#
+# from django.utils import timezone
+# from django.core.mail import send_mail
+#
+#
+#
+# @login_required(login_url="login_p")
+#
+# def payment(request):
+#
+#
+#     if not request.user.is_student:
+#         return redirect("login_p")
+#     student = Student.objects.get(
+#         user=request.user
+#     )
+#
+#     amount = request.session.get(
+#         "payment_amount",
+#         0
+#     )
+#
+#     application_ids = request.session.get(
+#         "application_ids",
+#         []
+#     )
+#
+#     applications = AdmissionApplication.objects.filter(
+#         id__in=application_ids
+#     ).select_related(
+#         "college",
+#         "department",
+#         "course"
+#     )
+#
+#     if request.method == "POST":
+#
+#         applications.update(
+#             payment_status="Paid",
+#             payment_date=timezone.now()
+#         )
+#
+#         # Application IDs
+#         application_numbers = list(
+#             applications.values_list(
+#                 "id",
+#                 flat=True
+#             )
+#         )
+#
+#         # Save for success page
+#         request.session["success_payment_amount"] = amount
+#
+#         request.session["success_application_numbers"] = (
+#             application_numbers
+#         )
+#
+#         # Email
+#         subject = "Admission Payment Successful"
+#
+#         message = f"""
+# Dear {student.full_name},
+#
+# Your admission payment has been completed successfully.
+#
+# Payment Amount: ₹{amount}
+#
+# Application ID(s):
+# {", ".join(map(str, application_numbers))}
+#
+# Your admission application has been successfully submitted.
+#
+# You can log in to the University Admission Portal
+# to check your application status.
+#
+# Thank you.
+#
+# University Admission Office
+# """
+#
+#         send_mail(
+#             subject,
+#             message,
+#             settings.DEFAULT_FROM_EMAIL,
+#             [student.email],
+#             fail_silently=False
+#         )
+#
+#         # Clear payment session
+#         request.session.pop(
+#             "payment_amount",
+#             None
+#         )
+#
+#         request.session.pop(
+#             "application_ids",
+#             None
+#         )
+#
+#         return redirect(
+#             "application__success"
+#         )
+#
+#     return render(
+#         request,
+#         "student/payment.html",
+#         {
+#             "amount": amount,
+#             "applications": applications,
+#         }
+#     )
+
 
 
 from django.utils import timezone
-from django.core.mail import send_mail
-
-
 
 @login_required(login_url="login_p")
-
 def payment(request):
-
 
     if not request.user.is_student:
         return redirect("login_p")
-    student = Student.objects.get(
-        user=request.user
-    )
 
-    amount = request.session.get(
-        "payment_amount",
-        0
-    )
+    student = Student.objects.get(user=request.user)
 
-    application_ids = request.session.get(
-        "application_ids",
-        []
-    )
+    amount = request.session.get("payment_amount", 0)
+
+    application_ids = request.session.get("application_ids", [])
 
     applications = AdmissionApplication.objects.filter(
         id__in=application_ids
@@ -338,66 +439,22 @@ def payment(request):
             payment_date=timezone.now()
         )
 
-        # Application IDs
         application_numbers = list(
-            applications.values_list(
-                "id",
-                flat=True
-            )
+            applications.values_list("id", flat=True)
         )
 
-        # Save for success page
         request.session["success_payment_amount"] = amount
 
         request.session["success_application_numbers"] = (
             application_numbers
         )
 
-        # Email
-        subject = "Admission Payment Successful"
+        # Email notification temporarily removed
 
-        message = f"""
-Dear {student.full_name},
+        request.session.pop("payment_amount", None)
+        request.session.pop("application_ids", None)
 
-Your admission payment has been completed successfully.
-
-Payment Amount: ₹{amount}
-
-Application ID(s):
-{", ".join(map(str, application_numbers))}
-
-Your admission application has been successfully submitted.
-
-You can log in to the University Admission Portal
-to check your application status.
-
-Thank you.
-
-University Admission Office
-"""
-
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [student.email],
-            fail_silently=False
-        )
-
-        # Clear payment session
-        request.session.pop(
-            "payment_amount",
-            None
-        )
-
-        request.session.pop(
-            "application_ids",
-            None
-        )
-
-        return redirect(
-            "application__success"
-        )
+        return redirect("application__success")
 
     return render(
         request,
@@ -1829,3 +1886,32 @@ def AdmissionSlipDownloadView(request, application_id):
 
     doc.build(story)
     return response
+
+
+
+
+
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+from .models import Message
+
+
+@login_required
+def student_messages(request):
+    messages_list = Message.objects.filter(
+        receiver=request.user
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "student/messages.html",
+        {
+            "messages_list": messages_list
+        }
+    )
+
+
+
+

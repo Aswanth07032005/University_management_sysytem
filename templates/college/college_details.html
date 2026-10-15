@@ -1,0 +1,867 @@
+
+{% extends "college/college_dashboard.html" %}
+
+{% block title %}
+    College Details | MM-Technical University
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ================================
+         PAGE HEADER
+    ================================= -->
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="fw-semibold mb-1">
+                College Details
+            </h3>
+
+            <p class="text-muted mb-0">
+                View your college academic and application overview.
+            </p>
+        </div>
+
+
+
+    </div>
+
+
+    <!-- ================================
+         COLLEGE HEADER
+    ================================= -->
+
+    <div class="card border-0 shadow-sm mb-4 overflow-hidden">
+
+        <div
+            class="p-4 text-white"
+            style="
+                background:
+                    radial-gradient(
+                        circle at 90% 20%,
+                        rgba(255,255,255,.12),
+                        transparent 30%
+                    ),
+                    linear-gradient(
+                        135deg,
+                        #062b5c,
+                        #0a3f78,
+                        #155fa8
+                    );
+            "
+        >
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div
+                    class="d-flex align-items-center justify-content-center rounded-3"
+                    style="
+                        width:60px;
+                        height:60px;
+                        background:rgba(255,255,255,.14);
+                    "
+                >
+                    <i class="fa-solid fa-building-columns fs-4"></i>
+                </div>
+
+                <div>
+
+                    <h4 class="fw-semibold mb-1">
+                        {{ college.college_name|default:"College Name" }}
+                    </h4>
+
+                    <p class="mb-2 opacity-75">
+                        {{ college.email|default:"College information" }}
+                    </p>
+
+                    {% if college.is_approved %}
+
+                        <span class="badge rounded-pill bg-success px-3 py-2">
+                            <i class="fa-solid fa-circle-check me-1"></i>
+                            Approved College
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                            <i class="fa-solid fa-clock me-1"></i>
+                            Approval Pending
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         STAT CARDS
+    ================================= -->
+
+    <div class="row g-3 mb-4">
+
+        <!-- Courses -->
+
+        <div class="col-xl-2 col-lg-4 col-md-4 col-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                        style="
+                            width:44px;
+                            height:44px;
+                            background:#edf4fb;
+                            color:#155fa8;
+                        "
+                    >
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+
+                    <small class="text-muted">
+                        Total Courses
+                    </small>
+
+                    <h3 class="fw-bold mb-0 mt-1">
+                        {{ total_courses|default:0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Departments -->
+
+        <div class="col-xl-2 col-lg-4 col-md-4 col-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                        style="
+                            width:44px;
+                            height:44px;
+                            background:#edf4fb;
+                            color:#155fa8;
+                        "
+                    >
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+
+                    <small class="text-muted">
+                        Departments
+                    </small>
+
+                    <h3 class="fw-bold mb-0 mt-1">
+                        {{ total_departments|default:0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Students -->
+
+        <div class="col-xl-2 col-lg-4 col-md-4 col-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                        style="
+                            width:44px;
+                            height:44px;
+                            background:#edf4fb;
+                            color:#155fa8;
+                        "
+                    >
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+
+                    <small class="text-muted">
+                        Students
+                    </small>
+
+                    <h3 class="fw-bold mb-0 mt-1">
+                        {{ total_students|default:0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Applications -->
+
+        <div class="col-xl-2 col-lg-4 col-md-4 col-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                        style="
+                            width:44px;
+                            height:44px;
+                            background:#edf4fb;
+                            color:#155fa8;
+                        "
+                    >
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+
+                    <small class="text-muted">
+                        Applications
+                    </small>
+
+                    <h3 class="fw-bold mb-0 mt-1">
+                        {{ total_applications|default:0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Approved -->
+
+        <div class="col-xl-2 col-lg-4 col-md-4 col-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                        style="
+                            width:44px;
+                            height:44px;
+                            background:#eaf6f0;
+                            color:#17805b;
+                        "
+                    >
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <small class="text-muted">
+                        Approved
+                    </small>
+
+                    <h3 class="fw-bold mb-0 mt-1">
+                        {{ approved_applications|default:0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Pending -->
+
+        <div class="col-xl-2 col-lg-4 col-md-4 col-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div
+                        class="rounded-3 d-flex align-items-center justify-content-center mb-3"
+                        style="
+                            width:44px;
+                            height:44px;
+                            background:#fff7e6;
+                            color:#b7791f;
+                        "
+                    >
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+
+                    <small class="text-muted">
+                        Pending
+                    </small>
+
+                    <h3 class="fw-bold mb-0 mt-1">
+                        {{ pending_applications|default:0 }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <div class="row g-4">
+
+        <!-- COLLEGE INFORMATION -->
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-white border-bottom py-3">
+
+                    <h6 class="fw-semibold mb-0">
+
+                        <i
+                            class="fa-solid fa-building me-2"
+                            style="color:#155fa8;"
+                        ></i>
+
+                        College Information
+
+                    </h6>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted d-block mb-1">
+                                College Name
+                            </small>
+
+                            <strong>
+                                {{ college.college_name|default:"—" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted d-block mb-1">
+                                Principal Name
+                            </small>
+
+                            <strong>
+                                {{ college.principal_name|default:"—" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted d-block mb-1">
+                                Email
+                            </small>
+
+                            <strong>
+                                {{ college.email|default:"—" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted d-block mb-1">
+                                Phone
+                            </small>
+
+                            <strong>
+                                {{ college.phone|default:"—" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted d-block mb-1">
+                                District
+                            </small>
+
+                            <strong>
+                                {{ college.district|default:"—" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <small class="text-muted d-block mb-1">
+                                State
+                            </small>
+
+                            <strong>
+                                {{ college.state|default:"—" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="col-12">
+
+                            <small class="text-muted d-block mb-1">
+                                Address
+                            </small>
+
+                            <strong>
+                                {{ college.address|default:"—" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="col-12">
+
+                            <small class="text-muted d-block mb-1">
+                                Academic Year
+                            </small>
+
+                            <strong>
+                                2026 – 27
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-white border-bottom py-3">
+
+                    <h6 class="fw-semibold mb-0">
+
+                        <i
+                            class="fa-solid fa-bolt me-2"
+                            style="color:#155fa8;"
+                        ></i>
+
+                        Academic Overview
+
+                    </h6>
+
+                </div>
+
+                <div class="card-body">
+
+
+                    <a
+                        href="{% url 'course_list' %}"
+                        class="d-flex align-items-center gap-3 text-decoration-none p-3 rounded-3 mb-2"
+                        style="
+                            border:1px solid #dce3eb;
+                            color:#132238;
+                        "
+                    >
+
+                        <div
+                            class="rounded-3 d-flex align-items-center justify-content-center"
+                            style="
+                                width:40px;
+                                height:40px;
+                                background:#edf4fb;
+                                color:#155fa8;
+                            "
+                        >
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+
+                        <div>
+                            <strong class="d-block">
+                                Courses
+                            </strong>
+
+                            <small class="text-muted">
+                                Manage college courses
+                            </small>
+                        </div>
+
+                        <i class="fa-solid fa-chevron-right ms-auto text-muted small"></i>
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'college_registered_students' %}"
+                        class="d-flex align-items-center gap-3 text-decoration-none p-3 rounded-3 mb-2"
+                        style="
+                            border:1px solid #dce3eb;
+                            color:#132238;
+                        "
+                    >
+
+                        <div
+                            class="rounded-3 d-flex align-items-center justify-content-center"
+                            style="
+                                width:40px;
+                                height:40px;
+                                background:#edf4fb;
+                                color:#155fa8;
+                            "
+                        >
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+
+                        <div>
+                            <strong class="d-block">
+                                College Students
+                            </strong>
+
+                            <small class="text-muted">
+                                View registered students
+                            </small>
+                        </div>
+
+                        <i class="fa-solid fa-chevron-right ms-auto text-muted small"></i>
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'college_applications' %}"
+                        class="d-flex align-items-center gap-3 text-decoration-none p-3 rounded-3 mb-2"
+                        style="
+                            border:1px solid #dce3eb;
+                            color:#132238;
+                        "
+                    >
+
+                        <div
+                            class="rounded-3 d-flex align-items-center justify-content-center"
+                            style="
+                                width:40px;
+                                height:40px;
+                                background:#edf4fb;
+                                color:#155fa8;
+                            "
+                        >
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+
+                        <div>
+                            <strong class="d-block">
+                                Applications
+                            </strong>
+
+                            <small class="text-muted">
+                                View student applications
+                            </small>
+                        </div>
+
+                        <i class="fa-solid fa-chevron-right ms-auto text-muted small"></i>
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'college_approved_applications' %}"
+                        class="d-flex align-items-center gap-3 text-decoration-none p-3 rounded-3"
+                        style="
+                            border:1px solid #dce3eb;
+                            color:#132238;
+                        "
+                    >
+
+                        <div
+                            class="rounded-3 d-flex align-items-center justify-content-center"
+                            style="
+                                width:40px;
+                                height:40px;
+                                background:#eaf6f0;
+                                color:#17805b;
+                            "
+                        >
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <div>
+                            <strong class="d-block">
+                                Approved Applications
+                            </strong>
+
+                            <small class="text-muted">
+                                University approved applications
+                            </small>
+                        </div>
+
+                        <i class="fa-solid fa-chevron-right ms-auto text-muted small"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- APPLICATION SUMMARY -->
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white border-bottom py-3">
+
+                    <h6 class="fw-semibold mb-0">
+
+                        <i
+                            class="fa-solid fa-chart-column me-2"
+                            style="color:#155fa8;"
+                        ></i>
+
+                        Application Summary
+
+                    </h6>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-4">
+
+                            <div
+                                class="p-3 rounded-3"
+                                style="
+                                    background:#f8fafc;
+                                    border:1px solid #dce3eb;
+                                "
+                            >
+
+                                <small class="text-muted d-block">
+                                    Total Applications
+                                </small>
+
+                                <strong
+                                    class="fs-5"
+                                    style="color:#0a3f78;"
+                                >
+                                    {{ total_applications|default:0 }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <div
+                                class="p-3 rounded-3"
+                                style="
+                                    background:#eaf6f0;
+                                    border:1px solid #ccebdd;
+                                "
+                            >
+
+                                <small class="text-muted d-block">
+                                    Approved
+                                </small>
+
+                                <strong
+                                    class="fs-5"
+                                    style="color:#17805b;"
+                                >
+                                    {{ approved_applications|default:0 }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <div
+                                class="p-3 rounded-3"
+                                style="
+                                    background:#fff7e6;
+                                    border:1px solid #f3dfb3;
+                                "
+                            >
+
+                                <small class="text-muted d-block">
+                                    Pending
+                                </small>
+
+                                <strong
+                                    class="fs-5"
+                                    style="color:#b7791f;"
+                                >
+                                    {{ pending_applications|default:0 }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- COLLEGE STATUS -->
+
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white border-bottom py-3">
+
+                    <h6 class="fw-semibold mb-0">
+
+                        <i
+                            class="fa-solid fa-shield-halved me-2"
+                            style="color:#155fa8;"
+                        ></i>
+
+                        College Status
+
+                    </h6>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if college.is_approved %}
+
+                        <div
+                            class="p-3 rounded-3 d-flex align-items-center gap-3"
+                            style="
+                                background:#eaf6f0;
+                                border:1px solid #ccebdd;
+                            "
+                        >
+
+                            <div
+                                class="rounded-circle d-flex align-items-center justify-content-center"
+                                style="
+                                    width:42px;
+                                    height:42px;
+                                    background:#d7f1e4;
+                                    color:#17805b;
+                                "
+                            >
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+
+                            <div>
+
+                                <strong
+                                    class="d-block"
+                                    style="color:#17805b;"
+                                >
+                                    College Approved
+                                </strong>
+
+                                <small class="text-muted">
+                                    Your college is approved by
+                                    MM-Technical University.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {% else %}
+
+                        <div
+                            class="p-3 rounded-3 d-flex align-items-center gap-3"
+                            style="
+                                background:#fff7e6;
+                                border:1px solid #f3dfb3;
+                            "
+                        >
+
+                            <div
+                                class="rounded-circle d-flex align-items-center justify-content-center"
+                                style="
+                                    width:42px;
+                                    height:42px;
+                                    background:#fff0c9;
+                                    color:#b7791f;
+                                "
+                            >
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+
+                            <div>
+
+                                <strong
+                                    class="d-block"
+                                    style="color:#b7791f;"
+                                >
+                                    Approval Pending
+                                </strong>
+
+                                <small class="text-muted">
+                                    Your college approval is currently pending.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
