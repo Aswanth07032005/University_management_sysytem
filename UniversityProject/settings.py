@@ -300,8 +300,10 @@ AUTH_USER_MODEL = "UniversityApp.Register"
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-# AI chatbot
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+# # AI chatbot
 
+
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 # Primary key
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
